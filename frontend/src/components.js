@@ -7,13 +7,13 @@ import { locations, products, categories } from './data';
 // Header Component - identique pour les deux pages
 export const Header = () => {
   return (
-    <header className="bg-red-600 h-55 relative overflow-hidden shadow-md">
+    <header className="bg-red-600 relative overflow-hidden shadow-md" style={{ height: '219px' }}>
       {/* Logo */}
       <div className="absolute top-4 left-4 z-10">
-        <div className="bg-red-600 rounded-lg p-3">
-          <div className="text-white font-bold text-lg">
-            <div className="text-sm">BIG</div>
-            <div className="text-lg -mt-1">SMASH</div>
+        <div className="bg-red-700 rounded-lg p-3 shadow-lg">
+          <div className="text-white font-bold">
+            <div className="text-sm leading-none">BIG</div>
+            <div className="text-base leading-none -mt-0.5">SMASH</div>
           </div>
         </div>
       </div>
@@ -21,21 +21,21 @@ export const Header = () => {
       {/* Hero Content */}
       <div className="flex items-center justify-center h-full relative">
         {/* Couronne */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-6">
-          <svg width="60" height="40" viewBox="0 0 60 40" className="text-white">
-            <path d="M5 25 L15 15 L25 20 L35 15 L45 20 L55 15 L50 35 L10 35 Z" fill="currentColor" stroke="currentColor" strokeWidth="2"/>
-            <circle cx="15" cy="15" r="3" fill="currentColor"/>
-            <circle cx="25" cy="20" r="3" fill="currentColor"/>
-            <circle cx="35" cy="15" r="3" fill="currentColor"/>
-            <circle cx="45" cy="20" r="3" fill="currentColor"/>
+        <div className="absolute left-1/2 transform -translate-x-1/2 top-8">
+          <svg width="50" height="30" viewBox="0 0 50 30" className="text-white">
+            <path d="M5 20 L12 12 L20 16 L30 12 L38 16 L45 12 L42 28 L8 28 Z" fill="currentColor"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+            <circle cx="20" cy="16" r="2" fill="currentColor"/>
+            <circle cx="30" cy="12" r="2" fill="currentColor"/>
+            <circle cx="38" cy="16" r="2" fill="currentColor"/>
           </svg>
         </div>
         
         {/* Main Text */}
-        <div className="text-center text-white z-10 mt-8">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+        <div className="text-center text-white z-10 mt-12">
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight tracking-wide">
             THE BEST SMASH<br />
-            BURGER ARE MADE <span className="italic">HERE</span>
+            BURGER ARE MADE <span className="italic font-black">HERE</span>
           </h1>
         </div>
         
