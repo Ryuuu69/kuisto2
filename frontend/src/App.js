@@ -1,36 +1,33 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { Header, LocationCard, Sidebar, ProductCard, Footer, MobileSidebar } from './components';
+import { Header, LocationCard, SectionTitle, Sidebar, ProductCard, Footer, MobileSidebar } from './components';
 import { locations, products, categories } from './data';
 
-// Page Points de Vente
-const PointsDeVente = () => {
+/* --------------------------------------------------
+   4.  PAGE ACCUEIL  ("Points de vente")
+-------------------------------------------------- */
+const Home = () => {
   const navigate = useNavigate();
-  
-  const handleLocationClick = (locationId) => {
-    navigate('/produits');
-  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <Header />
-      
-      <main className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-8 text-black">NOS POINTS DE VENTE</h2>
-        
-        <div className="grid gap-6 max-w-4xl">
-          {locations.map((location) => (
-            <LocationCard 
-              key={location.id}
-              location={location} 
-              onClick={() => handleLocationClick(location.id)}
-            />
-          ))}
-        </div>
+
+      {/* container centré 1120 px */}
+      <main className="max-w-[1120px] mx-auto px-6 py-12">
+        <SectionTitle>NOS POINTS DE VENTE</SectionTitle>
+
+        {/* Carte Montpellier */}
+        <LocationCard
+          image="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=128&h=96&fit=crop&crop=center"
+          name="MONTPELLIER"
+          address="121 Av. de Palavas, 34000 Montpellier"
+          onClick={() => navigate('/produits')}
+        />
       </main>
-      
+
       <Footer />
-    </div>
+    </>
   );
 };
 
@@ -107,7 +104,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PointsDeVente />} />
+          <Route path="/" element={<Home />} />
           <Route path="/produits" element={<Produits />} />
         </Routes>
       </BrowserRouter>
