@@ -4,91 +4,118 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locations, products, categories } from './data';
 
-// Header Component - identique pour les deux pages
-export const Header = () => {
-  return (
-    <header className="bg-red-600 relative overflow-hidden shadow-md" style={{ height: '219px' }}>
-      {/* Logo */}
-      <div className="absolute top-4 left-4 z-10">
-        <div className="bg-red-700 rounded-lg p-3 shadow-lg">
-          <div className="text-white font-bold">
-            <div className="text-sm leading-none">BIG</div>
-            <div className="text-base leading-none -mt-0.5">SMASH</div>
-          </div>
+/* --------------------------------------------------
+   1.  HEADER + HERO (hauteur fixe 219 px, texte centré)
+-------------------------------------------------- */
+export const Header = () => (
+  <header className="bg-bigRed">
+    {/* barre logo 88 px */}
+    <div className="h-[88px] flex items-center px-4">
+      <div className="bg-red-700 rounded-lg p-3 shadow-lg">
+        <div className="text-white font-bold">
+          <div className="text-sm leading-none">BIG</div>
+          <div className="text-base leading-none -mt-0.5">SMASH</div>
         </div>
       </div>
-      
-      {/* Hero Content */}
-      <div className="flex items-center justify-center h-full relative">
-        {/* Couronne */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-8">
-          <svg width="50" height="30" viewBox="0 0 50 30" className="text-white">
-            <path d="M5 20 L12 12 L20 16 L30 12 L38 16 L45 12 L42 28 L8 28 Z" fill="currentColor"/>
-            <circle cx="12" cy="12" r="2" fill="currentColor"/>
-            <circle cx="20" cy="16" r="2" fill="currentColor"/>
-            <circle cx="30" cy="12" r="2" fill="currentColor"/>
-            <circle cx="38" cy="16" r="2" fill="currentColor"/>
-          </svg>
-        </div>
-        
-        {/* Main Text */}
-        <div className="text-center text-white z-10 mt-12">
-          <h1 className="text-3xl md:text-4xl font-bold leading-tight tracking-wide">
-            THE BEST SMASH<br />
-            BURGER ARE MADE <span className="italic font-black">HERE</span>
-          </h1>
-        </div>
-        
-        {/* Burger Image */}
-        <div className="absolute right-0 top-0 h-full w-1/3">
-          <img 
-            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center" 
-            alt="Big Smash Burger" 
-            className="h-full w-full object-cover"
-          />
-        </div>
-      </div>
-    </header>
-  );
-};
+    </div>
 
-// Location Card Component pour la page d'accueil
-export const LocationCard = ({ location, onClick }) => {
+    {/* hero : split rouge / photo */}
+    <div className="relative flex h-[219px]">
+      {/* côté gauche rouge avec texte centré */}
+      <div className="flex flex-1 bg-bigRed items-center justify-center">
+        <h1 className="font-montserrat font-extrabold text-white text-[32px] leading-[40px] text-center max-w-[340px]">
+          THE BEST SMASH <br /> BURGER ARE MADE <span className="italic">HERE</span>
+        </h1>
+      </div>
+
+      {/* côté droit : photo burger */}
+      <img
+        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center"
+        alt=""
+        className="flex-1 object-cover object-center"
+      />
+
+      {/* ombre fine 0 → 10 % */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-b from-transparent to-black/10" />
+    </div>
+  </header>
+);
+
+/* --------------------------------------------------
+   2.  SECTION  "NOS POINTS DE VENTE" (titre + filet)
+-------------------------------------------------- */
+export const SectionTitle = ({ children }) => (
+  <h2
+    className="
+      flex items-center gap-3 mb-6
+      font-montserrat font-medium text-[16px] leading-6 text-black
+    "
+  >
+    {children}
+    {/* ligne grise qui remplit l'espace restant */}
+    <span className="flex-1 h-px bg-gray-300" />
+  </h2>
+);
+
+/* --------------------------------------------------
+   3.  LOCATION CARD (flèche incrustée coin bas‑droit)
+-------------------------------------------------- */
+export const LocationCard = ({ image, name, address, onClick }) => {
+  const radius = 'rounded-[20px]';         // rayon global
+  const arrow = 44;                        // taille carré flèche
+
   return (
-    <div 
-      className="bg-white rounded-lg shadow-md p-4 flex items-center cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-200 relative group"
+    <div
       onClick={onClick}
+      className={`
+        relative flex items-center gap-4 p-6 bg-white
+        shadow-md hover:shadow-lg hover:-translate-y-[2px]
+        cursor-pointer transition
+        ${radius} rounded-br-none              /* on coupe le coin bas‑droit */
+      `}
     >
-      {/* Image */}
-      <div className="w-32 h-24 flex-shrink-0 mr-4">
-        <img 
-          src={location.image} 
-          alt={location.name}
-          className="w-full h-full object-cover rounded-md"
-        />
-      </div>
-      
-      {/* Contenu */}
-      <div className="flex-1">
-        <h3 className="font-normal text-sm leading-4 text-black mb-1" style={{fontFamily: 'Montserrat'}}>
-          {location.name}
-        </h3>
-        <p className="font-normal text-sm leading-5 text-gray-500 mb-1" style={{fontFamily: 'Montserrat'}}>
-          {location.address}
+      {/* vignette */}
+      <img
+        src={image}
+        alt=""
+        className="w-[128px] h-[96px] object-cover object-center rounded-md shrink-0"
+      />
+
+      {/* texte */}
+      <div>
+        <p className="font-montserrat text-[14px] leading-[16px] text-black">
+          {name}
         </p>
-        {location.hasClickCollect && (
-          <p className="font-normal text-sm leading-5 text-green-600" style={{fontFamily: 'Montserrat'}}>
-            ✓ Click & Collect
-          </p>
-        )}
+        <p className="font-montserrat text-[14px] leading-[21px] text-[#808080]">
+          {address}
+        </p>
+        <p className="font-montserrat text-[14px] leading-[21px] text-[#008000]">
+          ✓ Click & Collect
+        </p>
       </div>
-      
-      {/* Arrow Button */}
-      <div className="absolute top-4 right-4 w-10 h-10 bg-black rounded-full flex items-center justify-center">
-        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+
+      {/* carré flèche épousant l'angle */}
+      <button
+        aria-label="Voir"
+        className={`
+          absolute bottom-0 right-0
+          w-[${arrow}px] h-[${arrow}px]
+          grid place-content-center bg-black text-white
+          ${radius} rounded-tl-none rounded-tr-none rounded-bl-none
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black
+        `}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
-      </div>
+      </button>
     </div>
   );
 };
@@ -104,7 +131,7 @@ export const Sidebar = ({ activeCategory, onCategoryChange }) => {
             onClick={() => onCategoryChange(category)}
             className={`w-full text-left py-3 px-4 text-sm font-semibold transition-colors ${
               activeCategory === category
-                ? 'bg-red-600 text-white rounded-full'
+                ? 'bg-bigRed text-white rounded-full'
                 : 'text-gray-700 hover:bg-gray-100 rounded-full'
             }`}
           >
@@ -138,17 +165,17 @@ export const ProductCard = ({ product }) => {
       {/* Content */}
       <div className="p-4">
         {/* Name */}
-        <h3 className="font-normal text-sm text-black mb-2 line-clamp-2" style={{fontFamily: 'Montserrat'}}>
+        <h3 className="font-montserrat font-normal text-sm text-black mb-2 line-clamp-2">
           {product.name}
         </h3>
         
         {/* Description */}
-        <p className="font-normal text-xs text-gray-500 mb-3 line-clamp-3" style={{fontFamily: 'Montserrat'}}>
+        <p className="font-montserrat font-normal text-xs text-gray-500 mb-3 line-clamp-3">
           {product.description}
         </p>
         
         {/* Price */}
-        <p className="font-bold text-sm text-black mb-4" style={{fontFamily: 'Montserrat'}}>
+        <p className="font-montserrat font-bold text-sm text-black mb-4">
           À partir de {product.price.toFixed(2).replace('.', ',')}€
         </p>
         
@@ -187,28 +214,21 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-// Footer Component
+// Footer Component - SANS la barre de confidentialité et avec hover inversé
 export const Footer = () => {
   return (
     <footer className="bg-gray-800 py-4">
-      <div className="container mx-auto px-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 flex justify-center">
         <div className="flex space-x-4">
-          <button className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <button className="w-12 h-12 bg-bigRed hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
           </button>
-          <button className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <button className="w-12 h-12 bg-bigRed hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
-          </button>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <p className="text-white text-sm">En continuant, vous acceptez notre politique de confidentialité.</p>
-          <button className="bg-red-600 text-white px-6 py-2 rounded">
-            Accepter
           </button>
         </div>
       </div>
@@ -246,7 +266,7 @@ export const MobileSidebar = ({ isOpen, onClose, activeCategory, onCategoryChang
               }}
               className={`w-full text-left py-3 px-4 text-sm font-semibold transition-colors ${
                 activeCategory === category
-                  ? 'bg-red-600 text-white rounded-full'
+                  ? 'bg-bigRed text-white rounded-full'
                   : 'text-gray-700 hover:bg-gray-100 rounded-full'
               }`}
             >
