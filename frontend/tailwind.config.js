@@ -6,16 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: { 
+        bigRed: '#DC2626' 
+      },
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif'],
-      },
-      colors: {
-        'red': {
-          600: '#dc2626',
-        }
-      },
-      height: {
-        '55': '219px', // Height du header selon les specs
+        montserrat: ['Montserrat', 'sans-serif'],
       },
       spacing: {
         '55': '219px',
