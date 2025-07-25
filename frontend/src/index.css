@@ -16,6 +16,61 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Carte Points de Vente --- */
+.store-card {
+  position: relative;
+  border-radius: 28px;
+  background: #fff;
+  overflow: hidden;          /* cache le coin noir hors cadre */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.store-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+/* --- Coin flèche --- */
+.card-arrow {
+  position: absolute;
+  right: 0; 
+  bottom: 0;
+  width: 74px; 
+  height: 74px;          /* même taille que l'original */
+  background: #000;
+  border-top-left-radius: 28px;      /* même rayon que la carte   */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .3s ease, transform .3s ease;
+  text-decoration: none;
+}
+
+.card-arrow .icon {
+  width: 26px; 
+  height: 26px;
+  stroke: #fff;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+/* Hover optionnel */
+.store-card:hover .card-arrow { 
+  background: #E30613; 
+}
+.store-card:hover .card-arrow .icon { 
+  transform: translateX(4px); 
+}
+
 /* Utilities pour line-clamp */
 @layer utilities {
   .line-clamp-2 {
