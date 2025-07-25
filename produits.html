@@ -1,227 +1,584 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BigSmash – Produits Montpellier</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSmash - Produits Montpellier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .bg-bigRed { background-color: #DC2626; }
+        
+        /* ———————————————————————————
+           VARIABLES GÉNÉRALES
+        ——————————————————————————— */
+        :root {
+            /* hauteurs & espacements */
+            --header-h: 219px;     /* Bannière haute */
+            --sidebar-w: 210px;    /* Largeur menu gauche */
+            --menu-gap-top: 52px;  /* Espace bannière → 1er item */
+            --menu-item-h: 22px;   /* Hauteur d'un item de menu */
+            --corner-size: 56px;   /* Carré noir "+" des cartes */
+            --corner-size: 36px;   /* Carré noir "+" des cartes */
 
-<!-- Tailwind + Montserrat -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+            /* couleurs */
+            --red: #E30613;
+            --grey-text: #808080;
+            --grey-line: #d0d0d0;
 
-<style>
-/* ———————————————————  VARIABLES  ——————————————————— */
-:root{
-  /* dimensions fixes */
-  --header-h:219px;       /* hauteur bannière */
-  --sidebar-w:210px;      /* largeur menu */
-  --menu-gap-top:52px;    /* espace bannière → 1er item */
-  --menu-item-h:22px;     /* hauteur item */
-  --corner-size:36px;     /* coin noir “+” compact */
+            /* radius généraux */
+            --radius-btn: 18px;
+            --card-radius: 26px;
+        }
 
-  /* couleurs & radius */
-  --red:#E30613;
-  --grey-text:#808080;
-  --grey-line:#d0d0d0;
-  --radius-btn:18px;
-  --card-radius:26px;
-}
+        /* ———————————————————————————
+           STICKY HEADER
+        ——————————————————————————— */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-/* ———————————————————  RESET FIXE  ——————————————————— */
-html,body{height:100%;margin:0;}
-body{font-family:"Montserrat",sans-serif;}
+        /* Adjust body padding to prevent content overlap */
+        .main-content {
+            padding-top: 0;
+        }
 
-/* ———————————————————  BANDEAU FIXE  ——————————————————— */
-.top-banner{
-  position:fixed;top:0;left:0;width:100%;
-  height:var(--header-h);
-  background:#DC2626;
-  z-index:1000;
-}
-body{padding-top:var(--header-h);}     /* évite le chevauchement */
+        /* ———————————————————————————
+           MENU LATÉRAL
+        ——————————————————————————— */
+        .side-bar {
+            width: var(--sidebar-w);
+            padding-top: var(--menu-gap-top);
+            position: sticky;
+            top: calc(var(--header-h) + 88px); /* Header height + logo bar */
+            height: calc(100vh - var(--header-h) - 88px);
+            overflow-y: auto;
+            box-shadow: none !important;   /* plus de trait vertical */
+        }
+        .menu-link {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 14px; 
+            line-height: 18px;
+            height: var(--menu-item-h);
+            display: block; 
+            text-align: center;
+            border-radius: var(--radius-btn);
+            color: #000; 
+            background: transparent; 
+            border: 2px solid transparent;
+            transition: .25s;
+        }
+        .menu-link:hover,
+        .menu-link:focus {
+            background: var(--red); 
+            color: #fff;
+        }
+        .menu-link.active {
+            background: var(--red); 
+            color: #fff;
+        }
 
-/* bannière interne (logo + hero) inchangée */
-.logo-bar{height:88px;display:flex;align-items:center;padding:0 16px;}
-.hero{display:flex;height:100%;}
+        /* ———————————————————————————
+           TITRES DE SECTION
+        ——————————————————————————— */
+        .section-title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 16px; 
+            line-height: 24px;
+            text-transform: uppercase;
+            margin: 0 0 32px;
+            display: flex; 
+            align-items: center; 
+            gap: 14px;
+            color: #000;
+        }
+        .section-title::after {
+            content: ""; 
+            flex: 1; 
+            height: 1px; 
+            background: var(--grey-line);
+        }
 
-/* ———————————————————  MENU GAUCHE FIXE  ——————————————————— */
-.side-bar{
-  position:fixed;top:var(--header-h);left:0;
-  width:var(--sidebar-w);
-  height:calc(100vh - var(--header-h));
-  background:#fff;
-  display:flex;flex-direction:column;
-  padding-top:var(--menu-gap-top);
-  overflow-y:auto;
-}
-.menu-link{
-  font-weight:600;font-size:14px;line-height:18px;
-  height:var(--menu-item-h);text-align:center;
-  border-radius:var(--radius-btn);
-  color:#000;background:transparent;border:2px solid transparent;
-  transition:.25s;display:block;margin-bottom:8px;
-}
-.menu-link:hover,
-.menu-link:focus{background:var(--red);color:#fff;}
-.menu-link.active{background:var(--red);color:#fff;}
+        /* ————————————— LAYOUT PRODUITS ————————————— */
+        /* Chaque groupe de cartes (ex. section BURGERS) */
+        .products-row {
+            display: flex;
+            flex-wrap: wrap;           /* retour à la ligne automatique */
+            gap: 32px;                 /* espace entre les cartes */
+        }
+        /* Product card styles */
+        .product-card-container {
+            --thumb-size: 120px;
+            --bg-card: #fff;
+            --bg-thumb: #f3f3f3;
+            --bg-corner: #000;
+        }
 
-/* ———————————————————  ZONE DÉFILANTE  ——————————————————— */
-.main-area{
-  position:fixed;
-  top:var(--header-h);
-  left:var(--sidebar-w);
-  width:calc(100vw - var(--sidebar-w));
-  height:calc(100vh - var(--header-h));
-  overflow-y:auto;overflow-x:hidden;
-  padding:24px 32px;scroll-behavior:smooth;
-}
+        .product-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 22px calc(var(--corner-size) + 22px) 22px 22px;
+            background: var(--bg-card);
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,.07);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex: 0 0 360px;           /* 360px de large pour 3 côte à côte */
+            max-width: 100%;
+        }
 
-/* ———————————————————  SECTIONS + CARDS  ——————————————————— */
-.section-title{
-  font-weight:400;font-size:16px;line-height:24px;
-  text-transform:uppercase;color:#000;
-  display:flex;align-items:center;gap:14px;margin:0 0 32px;
-}
-.section-title::after{content:"";flex:1;height:1px;background:var(--grey-line);}
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,.12);
+        }
 
-.products-row{display:flex;flex-wrap:wrap;gap:32px;}
-.product-card{
-  position:relative;display:flex;gap:20px;
-  padding:22px calc(var(--corner-size) + 22px) 22px 22px;
-  background:#fff;border-radius:var(--card-radius);
-  box-shadow:0 4px 12px rgba(0,0,0,.07);flex:0 0 360px;
-  transition:transform .2s,box-shadow .2s;
-}
-.product-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.12);}
-.thumb{width:120px;height:120px;background:#f3f3f3;border-radius:16px;flex-shrink:0;overflow:hidden;}
-.thumb img{width:100%;height:100%;object-fit:cover;}
-.title{font-weight:400;font-size:11px;line-height:13px;color:#000;text-transform:uppercase;margin:0 0 4px;}
-.desc{font-style:italic;font-weight:600;font-size:10px;line-height:11px;color:var(--grey-text);margin:0;}
-.price{margin-top:14px;}
-.price .label{font-style:italic;font-weight:600;font-size:10px;line-height:15px;}
-.price .value{font-weight:700;font-size:16px;line-height:24px;}
+        .thumb {
+            flex-shrink: 0;
+            width: var(--thumb-size);
+            height: var(--thumb-size);
+            background: var(--bg-thumb);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.add{
-  position:absolute;right:0;bottom:0;
-  width:var(--corner-size);height:var(--corner-size);
-  background:#000;border:none;border-top-left-radius:var(--card-radius);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:background .3s;
-}
-.add .ico{width:20px;height:20px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;}
-.product-card:hover .add{background:var(--red);}
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
 
-/* ———————————————————  FOOTER ICÔNES  ——————————————————— */
-.menu-footer{margin-top:auto;padding:0 0 24px 24px;display:flex;gap:14px;}
-.menu-icon{
-  width:56px;height:56px;border-radius:50%;background:var(--red);
-  display:flex;align-items:center;justify-content:center;
-  transition:background .25s;
-}
-.menu-icon .ico{width:26px;height:26px;stroke:#fff;stroke-width:2.5;fill:none;}
-.menu-icon:hover{background:#fff;}.menu-icon:hover .ico{stroke:var(--red);}
+        .info { flex: 1; }
 
-/* ———————————————————  RESPONSIVE  ——————————————————— */
-@media(max-width:600px){
-  .thumb{width:90px;height:90px;}
-  .product-card{flex-direction:column;align-items:flex-start;padding:22px 22px calc(var(--corner-size)+22px);}
-  .side-bar{display:none;}     /* sidebar masquée mobile ; tu peux adapter */
-}
-</style>
+        .title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 11px; 
+            line-height: 13px;
+            color: #000; 
+            text-transform: uppercase;
+            margin: 0 0 4px;
+        }
+
+        .desc {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px; 
+            line-height: 11px;
+            color: var(--grey-text);
+            margin: 0;
+            display: block;
+            overflow: visible;
+            white-space: normal;
+        }
+
+        /* ————————————— TYPO PRIX ————————————— */
+        /* Texte "À partir de" */
+        .price .label {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 15px;
+            color: #000;
+        }
+
+        /* Montant */
+        .price .value {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+        .price {
+            margin: 14px 0 0;
+        }
+
+        .add {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: var(--corner-size);
+            height: var(--corner-size);
+            background: var(--bg-corner);
+            border: none;
+            border-top-left-radius: var(--card-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .3s ease;
+        }
+
+        .add .ico {
+            width: 20px;
+            height: 20px;
+            stroke: #fff;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .product-card:hover .add {
+            background: var(--red);
+        }
+
+        @media (max-width: 600px) {
+            .product-card-container {
+                --thumb-size: 90px;
+            }
+            .product-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 22px;
+                padding-bottom: calc(var(--corner-size) + 22px);
+                flex: 1 1 100%;
+            }
+        }
+    </style>
 </head>
-
-<body class="bg-gray-50">
-
-<!-- ----------------  BANDEAU FIXE  ---------------- -->
-<header class="top-banner">
-
-  <!--  logo  -->
-  <div class="logo-bar">
-    <div class="bg-red-700 rounded-lg p-3 shadow-lg">
-      <div class="text-white font-bold leading-none">
-        <div class="text-sm">BIG</div>
-        <div class="text-base -mt-0.5">SMASH</div>
-      </div>
-    </div>
-  </div>
-
-  <!--  hero  -->
-  <div class="hero">
-    <div class="flex-1 flex items-center justify-center">
-      <h1 class="font-extrabold text-white text-[32px] leading-[40px] text-center max-w-[340px]">
-        THE BEST SMASH <br> BURGER ARE MADE <span class="italic">HERE</span>
-      </h1>
-    </div>
-    <img class="flex-1 object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center" alt="Burger">
-  </div>
-</header>
-
-<!-- ----------------  MENU GAUCHE  ---------------- -->
-<aside class="side-bar">
-  <nav class="px-4">
-    <button class="menu-link category-btn active" onclick="setActiveCategory('Nouveautés')">Nouveautés</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Big Salades')">Big Salades</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Big Burgers')">Big Burgers</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Menus Burger')">Menus Burger</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Extras')">Extras</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Boissons')">Boissons</button>
-    <button class="menu-link category-btn" onclick="setActiveCategory('Desserts')">Desserts</button>
-  </nav>
-
-  <!-- icônes bas‑gauche -->
-  <div class="menu-footer">
-    <a href="index.html" class="menu-icon" aria-label="Accueil">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v10a2 2 0 0 1-2 2h-4V13H9v8H5a2 2 0 0 1-2-2z"/></svg>
-    </a>
-    <a href="compte.html" class="menu-icon" aria-label="Mon compte">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
-    </a>
-  </div>
-</aside>
-
-<!-- ----------------  CONTENU DÉFILANT  ---------------- -->
-<main class="main-area">
-
-  <h2 id="categoryTitle" class="section-title">NOUVEAUTÉS</h2>
-  <div id="productsGrid" class="products-row"></div>
-
-</main>
-
-<!-- ----------------  SCRIPT PRODUITS  ---------------- -->
-<script>
-const products=[/* … même tableau que le tien … */];
-let currentCategory='Nouveautés';
-
-function setActiveCategory(category){
-  currentCategory=category;
-  document.getElementById('categoryTitle').textContent=category.toUpperCase();
-  // bouton actif
-  document.querySelectorAll('.category-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===category));
-  renderProducts();
-}
-
-function renderProducts(){
-  const list=products.filter(p=>p.category===currentCategory);
-  document.getElementById('productsGrid').innerHTML=list.map(p=>`
-    <div class="product-card">
-      <div class="thumb"><img src="${p.image}" alt="${p.name}"></div>
-      <div class="info">
-        <h3 class="title">${p.name}</h3>
-        <p class="desc">${p.description}</p>
-        <div class="price">
-          <span class="label">À partir de</span>
-          <span class="value">${p.price.toFixed(2).replace('.',',')}€</span>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-bigRed sticky-header">
+        <!-- Logo bar -->
+        <div class="h-[88px] flex items-center px-4">
+            <div class="bg-red-700 rounded-lg p-3 shadow-lg">
+                <div class="text-white font-bold">
+                    <div class="text-sm leading-none">BIG</div>
+                    <div class="text-base leading-none -mt-0.5">SMASH</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <button class="add" onclick="alert('${p.name} ajouté !')">
-        <svg class="ico" viewBox="0 0 24 24">
-          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-      </button>
+
+        <!-- Hero section -->
+        <div class="relative flex h-[219px]">
+            <!-- Left side with text -->
+            <div class="flex flex-1 bg-bigRed items-center justify-center">
+                <h1 class="font-montserrat font-extrabold text-white text-[32px] leading-[40px] text-center max-w-[340px]">
+                    THE BEST SMASH <br /> BURGER ARE MADE <span class="italic">HERE</span>
+                </h1>
+            </div>
+
+            <!-- Right side with burger image -->
+            <img
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center"
+                alt="Burger"
+                class="flex-1 object-cover object-center"
+            />
+
+            <!-- Subtle shadow -->
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-b from-transparent to-black/10"></div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Desktop Sidebar -->
+        <div class="hidden md:block side-bar bg-white">
+            <div class="px-4">
+                <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
+                    Nouveautés
+                </button>
+                <button onclick="setActiveCategory('Big Salades')" class="category-btn menu-link w-full mb-2">
+                    Big Salades
+                </button>
+                <button onclick="setActiveCategory('Big Burgers')" class="category-btn menu-link w-full mb-2">
+                    Big Burgers
+                </button>
+                <button onclick="setActiveCategory('Menus Burger')" class="category-btn menu-link w-full mb-2">
+                    Menus Burger
+                </button>
+                <button onclick="setActiveCategory('Extras')" class="category-btn menu-link w-full mb-2">
+                    Extras
+                </button>
+                <button onclick="setActiveCategory('Boissons')" class="category-btn menu-link w-full mb-2">
+                    Boissons
+                </button>
+                <button onclick="setActiveCategory('Desserts')" class="category-btn menu-link w-full mb-2">
+                    Desserts
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobileSidebar" class="fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black bg-opacity-50" onclick="closeMobileSidebar()"></div>
+            <div class="absolute left-0 top-0 h-full w-64 bg-white shadow-lg">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold">Catégories</h2>
+                        <button onclick="closeMobileSidebar()" class="w-8 h-8 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <button onclick="setActiveCategory('Nouveautés'); closeMobileSidebar();" class="mobile-category-btn menu-link active w-full mb-2">
+                        Nouveautés
+                    </button>
+                    <button onclick="setActiveCategory('Big Salades'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Big Salades
+                    </button>
+                    <button onclick="setActiveCategory('Big Burgers'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Big Burgers
+                    </button>
+                    <button onclick="setActiveCategory('Menus Burger'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Menus Burger
+                    </button>
+                    <button onclick="setActiveCategory('Extras'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Extras
+                    </button>
+                    <button onclick="setActiveCategory('Boissons'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Boissons
+                    </button>
+                    <button onclick="setActiveCategory('Desserts'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                        Desserts
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 main-content">
+            <!-- Mobile Header -->
+            <div class="md:hidden p-4 bg-white border-b">
+                <div class="flex items-center justify-between">
+                    <button onclick="openMobileSidebar()" class="w-8 h-8 flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <h1 class="text-lg font-semibold">Montpellier</h1>
+                    <div></div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="p-4 md:p-6">
+                <h2 id="categoryTitle" class="section-title">
+                    NOUVEAUTÉS
+                </h2>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="product-card-container products-row">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
     </div>
-  `).join('');
-}
-renderProducts();
-</script>
+
+    <!-- Footer icons -->
+    <div class="fixed bottom-4 left-4 z-50">
+        <div class="flex space-x-3">
+            <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+            </button>
+            <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            // Nouveautés
+            {
+                id: 1,
+                category: 'Nouveautés',
+                name: 'BIG SALADES',
+                description: 'Big Caesar, Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan.',
+                price: 9.90,
+                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 2,
+                category: 'Nouveautés', 
+                name: 'THÉ & LIMONADE',
+                description: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre',
+                price: 2.90,
+                image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 3,
+                category: 'Nouveautés',
+                name: 'PISTACHIO',
+                description: 'Milkshake au Sundae 7.4 kg de châtaib',
+                price: 3.95,
+                image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 4,
+                category: 'Nouveautés',
+                name: 'MENU BIG CHEESE',
+                description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar',
+                price: 11.90,
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 5,
+                category: 'Nouveautés',
+                name: 'MENU SURF & TURF',
+                description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
+                price: 11.90,
+                image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 6,
+                category: 'Nouveautés',
+                name: 'TACO SMASH',
+                description: 'Choisissez deux Taco (classique ou épicé)',
+                price: 7.90,
+                image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center'
+            },
+            // Big Burgers
+            {
+                id: 7,
+                category: 'Big Burgers',
+                name: 'BIG CHEESE',
+                description: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons',
+                price: 8.90,
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 8,
+                category: 'Big Burgers',
+                name: 'SURF & TURF',
+                description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
+                price: 8.90,
+                image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
+            },
+            {
+                id: 9,
+                category: 'Big Burgers',
+                name: 'BIG SMASH',
+                description: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade',
+                price: 6.90,
+                image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center'
+            },
+            // Big Salades
+            {
+                id: 10,
+                category: 'Big Salades',
+                name: 'BIG CAESAR',
+                description: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan',
+                price: 8.90,
+                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
+            },
+            // Menus Burger
+            {
+                id: 11,
+                category: 'Menus Burger',
+                name: 'MENU BIG CHEESE',
+                description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
+                price: 11.90,
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
+            },
+            // Extras
+            {
+                id: 12,
+                category: 'Extras',
+                name: 'FRITES MAISON',
+                description: 'Frites fraîches coupées maison',
+                price: 3.50,
+                image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center'
+            },
+            // Boissons
+            {
+                id: 13,
+                category: 'Boissons',
+                name: 'COCA-COLA 33CL',
+                description: 'Boisson gazeuse rafraîchissante',
+                price: 2.90,
+                image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
+            },
+            // Desserts
+            {
+                id: 14,
+                category: 'Desserts',
+                name: 'MILKSHAKE VANILLE',
+                description: 'Milkshake onctueux à la vanille',
+                price: 4.50,
+                image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
+            }
+        ];
+
+        let currentCategory = 'Nouveautés';
+
+        function setActiveCategory(category) {
+            currentCategory = category;
+            document.getElementById('categoryTitle').textContent = category.toUpperCase();
+            
+            // Update sidebar buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.textContent.trim() === category) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const filteredProducts = products.filter(product => product.category === currentCategory);
+            const grid = document.getElementById('productsGrid');
+            
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="thumb">
+                        <img src="${product.image}" alt="${product.name}" />
+                    </div>
+                    <div class="info">
+                        <h3 class="title">${product.name}</h3>
+                        <p class="desc">${product.description}</p>
+                        <div class="price">
+                            <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
+                        </div>
+                    </div>
+                    <button class="add" onclick="addToCart(${product.id})">
+                        <svg class="ico" viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            alert(`${product.name} ajouté au panier !`);
+        }
+
+        function openMobileSidebar() {
+            document.getElementById('mobileSidebar').classList.remove('hidden');
+        }
+
+        function closeMobileSidebar() {
+            document.getElementById('mobileSidebar').classList.add('hidden');
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
 </body>
 </html>
