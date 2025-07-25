@@ -71,6 +71,8 @@
             background: transparent; 
             border: 2px solid transparent;
             transition: .25s;
+            cursor: pointer;
+            text-decoration: none;
         }
         .menu-link:hover,
         .menu-link:focus {
@@ -96,6 +98,7 @@
             align-items: center; 
             gap: 14px;
             color: #000;
+            scroll-margin-top: calc(var(--header-h) + 88px + 20px); /* Offset for fixed header */
         }
         .section-title::after {
             content: ""; 
@@ -246,6 +249,24 @@
                 flex: 1 1 100%;
             }
         }
+
+        /* ———————————————————————————
+           SMOOTH SCROLLING
+        ——————————————————————————— */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ———————————————————————————
+           SECTION SPACING
+        ——————————————————————————— */
+        .product-section {
+            margin-bottom: 60px;
+        }
+
+        .product-section:last-child {
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -286,27 +307,27 @@
         <!-- Desktop Sidebar -->
         <div class="hidden md:block side-bar bg-white">
             <div class="px-4">
-                <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
+                <a href="#nouveautes" class="category-btn menu-link active w-full mb-2" data-category="Nouveautés">
                     Nouveautés
-                </button>
-                <button onclick="setActiveCategory('Big Salades')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#big-salades" class="category-btn menu-link w-full mb-2" data-category="Big Salades">
                     Big Salades
-                </button>
-                <button onclick="setActiveCategory('Big Burgers')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#big-burgers" class="category-btn menu-link w-full mb-2" data-category="Big Burgers">
                     Big Burgers
-                </button>
-                <button onclick="setActiveCategory('Menus Burger')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#menus-burger" class="category-btn menu-link w-full mb-2" data-category="Menus Burger">
                     Menus Burger
-                </button>
-                <button onclick="setActiveCategory('Extras')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#extras" class="category-btn menu-link w-full mb-2" data-category="Extras">
                     Extras
-                </button>
-                <button onclick="setActiveCategory('Boissons')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#boissons" class="category-btn menu-link w-full mb-2" data-category="Boissons">
                     Boissons
-                </button>
-                <button onclick="setActiveCategory('Desserts')" class="category-btn menu-link w-full mb-2">
+                </a>
+                <a href="#desserts" class="category-btn menu-link w-full mb-2" data-category="Desserts">
                     Desserts
-                </button>
+                </a>
             </div>
         </div>
 
@@ -324,27 +345,27 @@
                         </button>
                     </div>
                     
-                    <button onclick="setActiveCategory('Nouveautés'); closeMobileSidebar();" class="mobile-category-btn menu-link active w-full mb-2">
+                    <a href="#nouveautes" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link active w-full mb-2" data-category="Nouveautés">
                         Nouveautés
-                    </button>
-                    <button onclick="setActiveCategory('Big Salades'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#big-salades" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Big Salades">
                         Big Salades
-                    </button>
-                    <button onclick="setActiveCategory('Big Burgers'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#big-burgers" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Big Burgers">
                         Big Burgers
-                    </button>
-                    <button onclick="setActiveCategory('Menus Burger'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#menus-burger" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Menus Burger">
                         Menus Burger
-                    </button>
-                    <button onclick="setActiveCategory('Extras'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#extras" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Extras">
                         Extras
-                    </button>
-                    <button onclick="setActiveCategory('Boissons'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#boissons" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Boissons">
                         Boissons
-                    </button>
-                    <button onclick="setActiveCategory('Desserts'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
+                    </a>
+                    <a href="#desserts" onclick="closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2" data-category="Desserts">
                         Desserts
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -366,13 +387,60 @@
 
             <!-- Products Section -->
             <div class="p-4 md:p-6">
-                <h2 id="categoryTitle" class="section-title">
-                    NOUVEAUTÉS
-                </h2>
+                <!-- Nouveautés Section -->
+                <div id="nouveautes" class="product-section">
+                    <h2 class="section-title">NOUVEAUTÉS</h2>
+                    <div class="product-card-container products-row" data-category="Nouveautés">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
 
-                <!-- Products Grid -->
-                <div id="productsGrid" class="product-card-container products-row">
-                    <!-- Products will be populated by JavaScript -->
+                <!-- Big Salades Section -->
+                <div id="big-salades" class="product-section">
+                    <h2 class="section-title">BIG SALADES</h2>
+                    <div class="product-card-container products-row" data-category="Big Salades">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Big Burgers Section -->
+                <div id="big-burgers" class="product-section">
+                    <h2 class="section-title">BIG BURGERS</h2>
+                    <div class="product-card-container products-row" data-category="Big Burgers">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Menus Burger Section -->
+                <div id="menus-burger" class="product-section">
+                    <h2 class="section-title">MENUS BURGER</h2>
+                    <div class="product-card-container products-row" data-category="Menus Burger">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Extras Section -->
+                <div id="extras" class="product-section">
+                    <h2 class="section-title">EXTRAS</h2>
+                    <div class="product-card-container products-row" data-category="Extras">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Boissons Section -->
+                <div id="boissons" class="product-section">
+                    <h2 class="section-title">BOISSONS</h2>
+                    <div class="product-card-container products-row" data-category="Boissons">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Desserts Section -->
+                <div id="desserts" class="product-section">
+                    <h2 class="section-title">DESSERTS</h2>
+                    <div class="product-card-container products-row" data-category="Desserts">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -518,31 +586,93 @@
             }
         ];
 
-        let currentCategory = 'Nouveautés';
-
-        function setActiveCategory(category) {
-            currentCategory = category;
-            document.getElementById('categoryTitle').textContent = category.toUpperCase();
+        // Render all products in their respective sections
+        function renderAllProducts() {
+            const categories = ['Nouveautés', 'Big Salades', 'Big Burgers', 'Menus Burger', 'Extras', 'Boissons', 'Desserts'];
             
-            // Update sidebar buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                if (btn.textContent.trim() === category) {
-                    btn.classList.add('active');
+            categories.forEach(category => {
+                const filteredProducts = products.filter(product => product.category === category);
+                const grid = document.querySelector(`[data-category="${category}"]`);
+                
+                if (grid && filteredProducts.length > 0) {
+                    grid.innerHTML = filteredProducts.map(product => `
+                        <div class="product-card">
+                            <div class="thumb">
+                                <img src="${product.image}" alt="${product.name}" />
+                            </div>
+                            <div class="info">
+                                <h3 class="title">${product.name}</h3>
+                                <p class="desc">${product.description}</p>
+                                <div class="price">
+                                    <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
+                                </div>
+                            </div>
+                            <button class="add" onclick="addToCart(${product.id})">
+                                <svg class="ico" viewBox="0 0 24 24">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    `).join('');
+                } else if (grid) {
+                    grid.innerHTML = '<p class="text-gray-500 text-center py-8">Aucun produit disponible dans cette catégorie.</p>';
                 }
             });
-            
-            renderProducts();
         }
 
-        function renderProducts() {
-            const filteredProducts = products.filter(product => product.category === currentCategory);
-            const grid = document.getElementById('productsGrid');
+        // Intersection Observer for scroll-based navigation highlighting
+        function setupScrollNavigation() {
+            const sections = document.querySelectorAll('.product-section');
+            const navLinks = document.querySelectorAll('.menu-link');
             
-            grid.innerHTML = filteredProducts.map(product => `
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -70% 0px', // Trigger when section is 20% from top
+                threshold: 0
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        
+                        // Remove active class from all nav links
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        
+                        // Add active class to corresponding nav links
+                        const activeLinks = document.querySelectorAll(`[href="#${sectionId}"]`);
+                        activeLinks.forEach(link => link.classList.add('active'));
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Smooth scroll to section when clicking nav links
+        function setupSmoothScrolling() {
+            const navLinks = document.querySelectorAll('.menu-link[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Legacy function for product card rendering (kept for compatibility)
+        function renderProductCard(product) {
+            return `
                 <div class="product-card">
                     <div class="thumb">
                         <img src="${product.image}" alt="${product.name}" />
@@ -561,7 +691,7 @@
                         </svg>
                     </button>
                 </div>
-            `).join('');
+            `;
         }
 
         function addToCart(productId) {
@@ -577,8 +707,12 @@
             document.getElementById('mobileSidebar').classList.add('hidden');
         }
 
-        // Initialize
-        renderProducts();
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAllProducts();
+            setupScrollNavigation();
+            setupSmoothScrolling();
+        });
     </script>
 </body>
 </html>
