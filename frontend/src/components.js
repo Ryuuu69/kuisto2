@@ -197,25 +197,23 @@ export const ProductCard = ({ product }) => {
   );
 };
 
-// Footer Component - SANS la barre de confidentialité et avec hover inversé
+// Footer Component - Icônes à gauche sans barre de fond, avec effet hover inversé
 export const Footer = () => {
   return (
-    <footer className="bg-gray-800 py-4">
-      <div className="container mx-auto px-4 flex justify-center">
-        <div className="flex space-x-4">
-          <button className="w-12 h-12 bg-bigRed hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-          </button>
-          <button className="w-12 h-12 bg-bigRed hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
-          </button>
-        </div>
+    <div className="fixed bottom-4 left-4 z-50">
+      <div className="flex space-x-3">
+        <button className="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+        </button>
+        <button className="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </button>
       </div>
-    </footer>
+    </div>
   );
 };
 
