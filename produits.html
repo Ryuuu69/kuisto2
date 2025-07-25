@@ -5,22 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BigSmash - Produits Montpellier</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .bg-bigRed { background-color: #DC2626; }
         
-        /* Product card styles */
+        /* ———————————————————————————
+           VARIABLES GÉNÉRALES
+        ——————————————————————————— */
         :root {
+            /* hauteurs & espacements */
+            --header-h: 219px;     /* Bannière haute */
+            --sidebar-w: 210px;    /* Largeur menu gauche */
+            --menu-gap-top: 52px;  /* Espace bannière → 1er item */
+            --menu-item-h: 22px;   /* Hauteur d'un item de menu */
+            --corner-size: 78px;   /* Carré noir "+" des cartes */
+
+            /* couleurs */
+            --red: #E30613;
+            --grey-text: #808080;
+            --grey-line: #d0d0d0;
+
+            /* radius généraux */
+            --radius-btn: 18px;
             --card-radius: 26px;
+        }
+
+        /* ———————————————————————————
+           MENU LATÉRAL
+        ——————————————————————————— */
+        .side-bar {
+            width: var(--sidebar-w);
+            padding-top: var(--menu-gap-top);
+        }
+        .menu-link {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 14px; 
+            line-height: 18px;
+            height: var(--menu-item-h);
+            display: block; 
+            text-align: center;
+            border-radius: var(--radius-btn);
+            color: #000; 
+            background: transparent; 
+            border: 2px solid transparent;
+            transition: .25s;
+        }
+        .menu-link:hover,
+        .menu-link:focus {
+            background: var(--red); 
+            color: #000;
+        }
+        .menu-link.active {
+            background: var(--red); 
+            color: #000;
+        }
+
+        /* ———————————————————————————
+           TITRES DE SECTION
+        ——————————————————————————— */
+        .section-title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 16px; 
+            line-height: 24px;
+            text-transform: uppercase;
+            margin: 0 0 32px;
+            display: flex; 
+            align-items: center; 
+            gap: 14px;
+            color: #000;
+        }
+        .section-title::after {
+            content: ""; 
+            flex: 1; 
+            height: 1px; 
+            background: var(--grey-line);
+        }
+
+        /* Product card styles */
+        .product-card-container {
             --thumb-size: 120px;
-            --corner-size: 78px;
             --bg-card: #fff;
             --bg-thumb: #f3f3f3;
             --bg-corner: #000;
-            --c-title: #000;
-            --c-desc: #666;
-            --c-price: #000;
         }
 
         .product-card {
@@ -62,19 +131,23 @@
         .info { flex: 1; }
 
         .title {
-            margin: 0 0 4px;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: .02em;
-            color: var(--c-title);
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 11px; 
+            line-height: 13px;
+            color: #000; 
             text-transform: uppercase;
+            margin: 0 0 4px;
         }
 
         .desc {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px; 
+            line-height: 11px;
+            color: var(--grey-text);
             margin: 0;
-            font-size: .85rem;
-            line-height: 1.25rem;
-            color: var(--c-desc);
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -84,7 +157,7 @@
         .price {
             margin: 14px 0 0;
             font-size: .9rem;
-            color: var(--c-price);
+            color: #000;
         }
 
         .price strong {
@@ -118,14 +191,12 @@
         }
 
         .product-card:hover .add {
-            background: #E30613;
+            background: var(--red);
         }
 
         @media (max-width: 600px) {
-            :root {
+            .product-card-container {
                 --thumb-size: 90px;
-                --corner-size: 60px;
-                --card-radius: 20px;
             }
             .product-card {
                 flex-direction: column;
@@ -172,27 +243,27 @@
 
     <div class="flex">
         <!-- Desktop Sidebar -->
-        <div class="hidden md:block w-64 bg-white border-r border-gray-200 h-screen sticky top-0">
-            <div class="p-4">
-                <button onclick="setActiveCategory('Nouveautés')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors bg-bigRed text-white rounded-full">
+        <div class="hidden md:block side-bar bg-white border-r border-gray-200 h-screen sticky top-0">
+            <div class="px-4">
+                <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
                     Nouveautés
                 </button>
-                <button onclick="setActiveCategory('Big Salades')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Big Salades')" class="category-btn menu-link w-full mb-2">
                     Big Salades
                 </button>
-                <button onclick="setActiveCategory('Big Burgers')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Big Burgers')" class="category-btn menu-link w-full mb-2">
                     Big Burgers
                 </button>
-                <button onclick="setActiveCategory('Menus Burger')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Menus Burger')" class="category-btn menu-link w-full mb-2">
                     Menus Burger
                 </button>
-                <button onclick="setActiveCategory('Extras')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Extras')" class="category-btn menu-link w-full mb-2">
                     Extras
                 </button>
-                <button onclick="setActiveCategory('Boissons')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Boissons')" class="category-btn menu-link w-full mb-2">
                     Boissons
                 </button>
-                <button onclick="setActiveCategory('Desserts')" class="category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                <button onclick="setActiveCategory('Desserts')" class="category-btn menu-link w-full mb-2">
                     Desserts
                 </button>
             </div>
@@ -212,25 +283,25 @@
                         </button>
                     </div>
                     
-                    <button onclick="setActiveCategory('Nouveautés'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors bg-bigRed text-white rounded-full">
+                    <button onclick="setActiveCategory('Nouveautés'); closeMobileSidebar();" class="mobile-category-btn menu-link active w-full mb-2">
                         Nouveautés
                     </button>
-                    <button onclick="setActiveCategory('Big Salades'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Big Salades'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Big Salades
                     </button>
-                    <button onclick="setActiveCategory('Big Burgers'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Big Burgers'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Big Burgers
                     </button>
-                    <button onclick="setActiveCategory('Menus Burger'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Menus Burger'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Menus Burger
                     </button>
-                    <button onclick="setActiveCategory('Extras'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Extras'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Extras
                     </button>
-                    <button onclick="setActiveCategory('Boissons'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Boissons'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Boissons
                     </button>
-                    <button onclick="setActiveCategory('Desserts'); closeMobileSidebar();" class="mobile-category-btn w-full text-left py-3 px-4 text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-100 rounded-full">
+                    <button onclick="setActiveCategory('Desserts'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
                         Desserts
                     </button>
                 </div>
@@ -254,12 +325,12 @@
 
             <!-- Products Section -->
             <div class="p-4 md:p-6">
-                <h2 id="categoryTitle" class="text-2xl font-bold mb-6 text-black uppercase">
+                <h2 id="categoryTitle" class="section-title">
                     NOUVEAUTÉS
                 </h2>
 
                 <!-- Products Grid -->
-                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div id="productsGrid" class="product-card-container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <!-- Products will be populated by JavaScript -->
                 </div>
             </div>
@@ -413,13 +484,13 @@
             document.getElementById('categoryTitle').textContent = category.toUpperCase();
             
             // Update sidebar buttons
-            document.querySelectorAll('.category-btn, .mobile-category-btn').forEach(btn => {
-                btn.className = btn.className.replace('bg-bigRed text-white', 'text-gray-700 hover:bg-gray-100');
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
             
-            document.querySelectorAll('.category-btn, .mobile-category-btn').forEach(btn => {
+            document.querySelectorAll('.category-btn').forEach(btn => {
                 if (btn.textContent.trim() === category) {
-                    btn.className = btn.className.replace('text-gray-700 hover:bg-gray-100', 'bg-bigRed text-white');
+                    btn.classList.add('active');
                 }
             });
             
