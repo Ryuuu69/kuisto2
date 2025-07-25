@@ -19,7 +19,6 @@
             --sidebar-w: 210px;    /* Largeur menu gauche */
             --menu-gap-top: 52px;  /* Espace bannière → 1er item */
             --menu-item-h: 22px;   /* Hauteur d'un item de menu */
-            --corner-size: 56px;   /* Carré noir "+" des cartes */
             --corner-size: 36px;   /* Carré noir "+" des cartes */
 
             /* couleurs */
@@ -33,31 +32,54 @@
         }
 
         /* ———————————————————————————
-           STICKY HEADER
+           FIXED LAYOUT SYSTEM
         ——————————————————————————— */
-        .sticky-header {
-            position: sticky;
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent body scroll */
+            height: 100vh;
+        }
+
+        /* Fixed top banner */
+        .top-banner {
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-h);
             z-index: 100;
         }
 
-        /* Adjust body padding to prevent content overlap */
-        .main-content {
-            padding-top: 0;
+        /* Fixed left sidebar */
+        .side-bar {
+            position: fixed;
+            top: var(--header-h);
+            left: 0;
+            width: var(--sidebar-w);
+            height: calc(100vh - var(--header-h));
+            background: white;
+            z-index: 50;
+            overflow-y: auto;
+            padding-top: var(--menu-gap-top);
+            box-shadow: none !important;
+        }
+
+        /* Scrollable main content area */
+        .scroll-area {
+            position: fixed;
+            top: var(--header-h);
+            left: var(--sidebar-w);
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            background: #f9fafb;
         }
 
         /* ———————————————————————————
            MENU LATÉRAL
         ——————————————————————————— */
-        .side-bar {
-            width: var(--sidebar-w);
-            padding-top: var(--menu-gap-top);
-            position: sticky;
-            top: calc(var(--header-h) + 88px); /* Header height + logo bar */
-            height: calc(100vh - var(--header-h) - 88px);
-            overflow-y: auto;
-            box-shadow: none !important;   /* plus de trait vertical */
-        }
         .menu-link {
             font-family: "Montserrat", sans-serif;
             font-weight: 600;
@@ -250,7 +272,7 @@
 </head>
 <body class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="bg-bigRed sticky-header">
+    <header class="bg-bigRed top-banner">
         <!-- Logo bar -->
         <div class="h-[88px] flex items-center px-4">
             <div class="bg-red-700 rounded-lg p-3 shadow-lg">
@@ -282,101 +304,47 @@
         </div>
     </header>
 
-    <div class="flex">
-        <!-- Desktop Sidebar -->
-        <div class="hidden md:block side-bar bg-white">
-            <div class="px-4">
-                <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
-                    Nouveautés
-                </button>
-                <button onclick="setActiveCategory('Big Salades')" class="category-btn menu-link w-full mb-2">
-                    Big Salades
-                </button>
-                <button onclick="setActiveCategory('Big Burgers')" class="category-btn menu-link w-full mb-2">
-                    Big Burgers
-                </button>
-                <button onclick="setActiveCategory('Menus Burger')" class="category-btn menu-link w-full mb-2">
-                    Menus Burger
-                </button>
-                <button onclick="setActiveCategory('Extras')" class="category-btn menu-link w-full mb-2">
-                    Extras
-                </button>
-                <button onclick="setActiveCategory('Boissons')" class="category-btn menu-link w-full mb-2">
-                    Boissons
-                </button>
-                <button onclick="setActiveCategory('Desserts')" class="category-btn menu-link w-full mb-2">
-                    Desserts
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Sidebar Overlay -->
-        <div id="mobileSidebar" class="fixed inset-0 z-50 hidden">
-            <div class="absolute inset-0 bg-black bg-opacity-50" onclick="closeMobileSidebar()"></div>
-            <div class="absolute left-0 top-0 h-full w-64 bg-white shadow-lg">
-                <div class="p-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-semibold">Catégories</h2>
-                        <button onclick="closeMobileSidebar()" class="w-8 h-8 flex items-center justify-center">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <button onclick="setActiveCategory('Nouveautés'); closeMobileSidebar();" class="mobile-category-btn menu-link active w-full mb-2">
-                        Nouveautés
-                    </button>
-                    <button onclick="setActiveCategory('Big Salades'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Big Salades
-                    </button>
-                    <button onclick="setActiveCategory('Big Burgers'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Big Burgers
-                    </button>
-                    <button onclick="setActiveCategory('Menus Burger'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Menus Burger
-                    </button>
-                    <button onclick="setActiveCategory('Extras'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Extras
-                    </button>
-                    <button onclick="setActiveCategory('Boissons'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Boissons
-                    </button>
-                    <button onclick="setActiveCategory('Desserts'); closeMobileSidebar();" class="mobile-category-btn menu-link w-full mb-2">
-                        Desserts
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 main-content">
-            <!-- Mobile Header -->
-            <div class="md:hidden p-4 bg-white border-b">
-                <div class="flex items-center justify-between">
-                    <button onclick="openMobileSidebar()" class="w-8 h-8 flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                    <h1 class="text-lg font-semibold">Montpellier</h1>
-                    <div></div>
-                </div>
-            </div>
-
-            <!-- Products Section -->
-            <div class="p-4 md:p-6">
-                <h2 id="categoryTitle" class="section-title">
-                    NOUVEAUTÉS
-                </h2>
-
-                <!-- Products Grid -->
-                <div id="productsGrid" class="product-card-container products-row">
-                    <!-- Products will be populated by JavaScript -->
-                </div>
-            </div>
+    <!-- Fixed Left Sidebar -->
+    <div class="side-bar">
+        <div class="px-4">
+            <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
+                Nouveautés
+            </button>
+            <button onclick="setActiveCategory('Big Salades')" class="category-btn menu-link w-full mb-2">
+                Big Salades
+            </button>
+            <button onclick="setActiveCategory('Big Burgers')" class="category-btn menu-link w-full mb-2">
+                Big Burgers
+            </button>
+            <button onclick="setActiveCategory('Menus Burger')" class="category-btn menu-link w-full mb-2">
+                Menus Burger
+            </button>
+            <button onclick="setActiveCategory('Extras')" class="category-btn menu-link w-full mb-2">
+                Extras
+            </button>
+            <button onclick="setActiveCategory('Boissons')" class="category-btn menu-link w-full mb-2">
+                Boissons
+            </button>
+            <button onclick="setActiveCategory('Desserts')" class="category-btn menu-link w-full mb-2">
+                Desserts
+            </button>
         </div>
     </div>
+
+    <!-- Scrollable Main Content Area -->
+    <main class="scroll-area">
+        <!-- Products Section -->
+        <div class="p-4 md:p-6">
+            <h2 id="categoryTitle" class="section-title">
+                NOUVEAUTÉS
+            </h2>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="product-card-container products-row">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
 
     <!-- Footer icons -->
     <div class="fixed bottom-4 left-4 z-50">
