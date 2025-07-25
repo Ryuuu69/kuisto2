@@ -55,6 +55,7 @@
             top: calc(var(--header-h) + 88px); /* Header height + logo bar */
             height: calc(100vh - var(--header-h) - 88px);
             overflow-y: auto;
+            box-shadow: none !important;   /* plus de trait vertical */
         }
         .menu-link {
             font-family: "Montserrat", sans-serif;
@@ -73,11 +74,11 @@
         .menu-link:hover,
         .menu-link:focus {
             background: var(--red); 
-            color: #000;
+            color: #fff;
         }
         .menu-link.active {
             background: var(--red); 
-            color: #000;
+            color: #fff;
         }
 
         /* ———————————————————————————
@@ -102,6 +103,13 @@
             background: var(--grey-line);
         }
 
+        /* ————————————— LAYOUT PRODUITS ————————————— */
+        /* Chaque groupe de cartes (ex. section BURGERS) */
+        .products-row {
+            display: flex;
+            flex-wrap: wrap;           /* retour à la ligne automatique */
+            gap: 32px;                 /* espace entre les cartes */
+        }
         /* Product card styles */
         .product-card-container {
             --thumb-size: 120px;
@@ -121,6 +129,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,.07);
             overflow: hidden;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex: 0 0 410px;           /* 410px de large puis s'aligne "à la file" */
+            max-width: 100%;
         }
 
         .product-card:hover {
@@ -172,15 +182,27 @@
             overflow: hidden;
         }
 
-        .price {
-            margin: 14px 0 0;
-            font-size: .9rem;
+        /* ————————————— TYPO PRIX ————————————— */
+        /* Texte "À partir de" */
+        .price .label {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 15px;
             color: #000;
         }
 
-        .price strong {
-            font-size: 1.4rem;
+        /* Montant */
+        .price .value {
+            font-family: "Montserrat", sans-serif;
             font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+        .price {
+            margin: 14px 0 0;
         }
 
         .add {
@@ -221,6 +243,7 @@
                 align-items: flex-start;
                 padding: 22px;
                 padding-bottom: calc(var(--corner-size) + 22px);
+                flex: 1 1 100%;
             }
         }
     </style>
@@ -261,7 +284,7 @@
 
     <div class="flex">
         <!-- Desktop Sidebar -->
-        <div class="hidden md:block side-bar bg-white border-r border-gray-200">
+        <div class="hidden md:block side-bar bg-white">
             <div class="px-4">
                 <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
                     Nouveautés
@@ -348,7 +371,7 @@
                 </h2>
 
                 <!-- Products Grid -->
-                <div id="productsGrid" class="product-card-container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div id="productsGrid" class="product-card-container products-row">
                     <!-- Products will be populated by JavaScript -->
                 </div>
             </div>
@@ -527,7 +550,9 @@
                     <div class="info">
                         <h3 class="title">${product.name}</h3>
                         <p class="desc">${product.description}</p>
-                        <div class="price">À partir de <strong>${product.price.toFixed(2).replace('.', ',')}€</strong></div>
+                        <div class="price">
+                            <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
+                        </div>
                     </div>
                     <button class="add" onclick="addToCart(${product.id})">
                         <svg class="ico" viewBox="0 0 24 24">
