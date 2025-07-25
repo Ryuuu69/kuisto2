@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSmash - Points de vente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .bg-bigRed { background-color: #DC2626; }
+        
+        /* Store card styles */
+        .store-card {
+            position: relative;
+            border-radius: 28px;
+            background: #fff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .store-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .card-arrow {
+            position: absolute;
+            right: 0; 
+            bottom: 0;
+            width: 74px; 
+            height: 74px;
+            background: #000;
+            border-top-left-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .3s ease, transform .3s ease;
+            text-decoration: none;
+        }
+
+        .card-arrow .icon {
+            width: 26px; 
+            height: 26px;
+            stroke: #fff;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2.5;
+        }
+
+        .store-card:hover .card-arrow { 
+            background: #E30613; 
+        }
+        
+        .store-card:hover .card-arrow .icon { 
+            transform: translateX(4px); 
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-bigRed">
+        <!-- Logo bar -->
+        <div class="h-[88px] flex items-center px-4">
+            <div class="bg-red-700 rounded-lg p-3 shadow-lg">
+                <div class="text-white font-bold">
+                    <div class="text-sm leading-none">BIG</div>
+                    <div class="text-base leading-none -mt-0.5">SMASH</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero section -->
+        <div class="relative flex h-[219px]">
+            <!-- Left side with text -->
+            <div class="flex flex-1 bg-bigRed items-center justify-center">
+                <h1 class="font-montserrat font-extrabold text-white text-[32px] leading-[40px] text-center max-w-[340px]">
+                    THE BEST SMASH <br /> BURGER ARE MADE <span class="italic">HERE</span>
+                </h1>
+            </div>
+
+            <!-- Right side with burger image -->
+            <img
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center"
+                alt="Burger"
+                class="flex-1 object-cover object-center"
+            />
+
+            <!-- Subtle shadow -->
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-b from-transparent to-black/10"></div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="max-w-[1120px] mx-auto px-6 py-12">
+        <!-- Section title -->
+        <h2 class="flex items-center gap-3 mb-6 font-montserrat font-medium text-[16px] leading-6 text-black">
+            NOS POINTS DE VENTE
+            <span class="flex-1 h-px bg-gray-300"></span>
+        </h2>
+
+        <!-- Location card -->
+        <div class="store-card" onclick="window.location.href='produits.html'">
+            <!-- Image thumbnail -->
+            <img
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=128&h=96&fit=crop&crop=center"
+                alt="Restaurant Montpellier"
+                class="w-[128px] h-[96px] object-cover object-center rounded-md shrink-0"
+            />
+
+            <!-- Text content -->
+            <div>
+                <p class="font-montserrat text-[14px] leading-[16px] text-black">
+                    MONTPELLIER
+                </p>
+                <p class="font-montserrat text-[14px] leading-[21px] text-[#808080]">
+                    121 Av. de Palavas, 34000 Montpellier
+                </p>
+                <p class="font-montserrat text-[14px] leading-[21px] text-[#008000]">
+                    ✓ Click & Collect
+                </p>
+            </div>
+
+            <!-- Arrow corner -->
+            <a href="produits.html" 
+               class="card-arrow"
+               aria-label="Accéder à la fiche du restaurant"
+               onclick="event.stopPropagation();">
+                <svg viewBox="0 0 24 24" class="icon">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer icons -->
+    <div class="fixed bottom-4 left-4 z-50">
+        <div class="flex space-x-3">
+            <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+            </button>
+            <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</body>
+</html>
