@@ -19,7 +19,7 @@
             --sidebar-w: 210px;    /* Largeur menu gauche */
             --menu-gap-top: 52px;  /* Espace bannière → 1er item */
             --menu-item-h: 22px;   /* Hauteur d'un item de menu */
-            --corner-size: 78px;   /* Carré noir "+" des cartes */
+            --corner-size: 56px;   /* Carré noir "+" des cartes */
 
             /* couleurs */
             --red: #E30613;
@@ -32,11 +32,29 @@
         }
 
         /* ———————————————————————————
+           STICKY HEADER
+        ——————————————————————————— */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Adjust body padding to prevent content overlap */
+        .main-content {
+            padding-top: 0;
+        }
+
+        /* ———————————————————————————
            MENU LATÉRAL
         ——————————————————————————— */
         .side-bar {
             width: var(--sidebar-w);
             padding-top: var(--menu-gap-top);
+            position: sticky;
+            top: calc(var(--header-h) + 88px); /* Header height + logo bar */
+            height: calc(100vh - var(--header-h) - 88px);
+            overflow-y: auto;
         }
         .menu-link {
             font-family: "Montserrat", sans-serif;
@@ -182,8 +200,8 @@
         }
 
         .add .ico {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             stroke: #fff;
             stroke-width: 2.5;
             fill: none;
@@ -209,7 +227,7 @@
 </head>
 <body class="min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="bg-bigRed">
+    <header class="bg-bigRed sticky-header">
         <!-- Logo bar -->
         <div class="h-[88px] flex items-center px-4">
             <div class="bg-red-700 rounded-lg p-3 shadow-lg">
@@ -243,7 +261,7 @@
 
     <div class="flex">
         <!-- Desktop Sidebar -->
-        <div class="hidden md:block side-bar bg-white border-r border-gray-200 h-screen sticky top-0">
+        <div class="hidden md:block side-bar bg-white border-r border-gray-200">
             <div class="px-4">
                 <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
                     Nouveautés
@@ -309,7 +327,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1">
+        <div class="flex-1 main-content">
             <!-- Mobile Header -->
             <div class="md:hidden p-4 bg-white border-b">
                 <div class="flex items-center justify-between">
