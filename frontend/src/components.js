@@ -61,18 +61,10 @@ export const SectionTitle = ({ children }) => (
    3.  LOCATION CARD (flèche incrustée coin bas‑droit)
 -------------------------------------------------- */
 export const LocationCard = ({ image, name, address, onClick }) => {
-  const radius = 'rounded-[20px]';         // rayon global
-  const arrow = 44;                        // taille carré flèche
-
   return (
     <div
+      className="store-card"
       onClick={onClick}
-      className={`
-        relative flex items-center gap-4 p-6 bg-white
-        shadow-md hover:shadow-lg hover:-translate-y-[2px]
-        cursor-pointer transition
-        ${radius} rounded-br-none              /* on coupe le coin bas‑droit */
-      `}
     >
       {/* vignette */}
       <img
@@ -94,28 +86,19 @@ export const LocationCard = ({ image, name, address, onClick }) => {
         </p>
       </div>
 
-      {/* carré flèche épousant l'angle */}
-      <button
-        aria-label="Voir"
-        className={`
-          absolute bottom-0 right-0
-          w-[${arrow}px] h-[${arrow}px]
-          grid place-content-center bg-black text-white
-          ${radius} rounded-tl-none rounded-tr-none rounded-bl-none
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black
-        `}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      {/* Coin cliquable avec flèche */}
+      <a href="#"
+         className="card-arrow"
+         aria-label="Accéder à la fiche du restaurant"
+         onClick={(e) => {
+           e.preventDefault();
+           onClick();
+         }}>
+        <svg viewBox="0 0 24 24" className="icon">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
         </svg>
-      </button>
+      </a>
     </div>
   );
 };
