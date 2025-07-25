@@ -19,7 +19,7 @@
             --sidebar-w: 210px;    /* Largeur menu gauche */
             --menu-gap-top: 52px;  /* Espace bannière → 1er item */
             --menu-item-h: 22px;   /* Hauteur d'un item de menu */
-            --corner-size: 36px;   /* Carré noir "+" des cartes */
+            --corner-size: 56px;   /* Carré noir "+" des cartes */
 
             /* couleurs */
             --red: #E30613;
@@ -49,37 +49,14 @@
            MENU LATÉRAL
         ——————————————————————————— */
         .side-bar {
-            position: fixed;
-            top: calc(var(--header-h) + 88px); /* Header height + logo bar */
-            left: 0;
             width: var(--sidebar-w);
-            height: calc(100vh - var(--header-h) - 88px);
-            display: flex;
-            flex-direction: column;
-            background: #fff;
             padding-top: var(--menu-gap-top);
-            z-index: 999;
+            position: sticky;
+            top: calc(var(--header-h) + 88px); /* Header height + logo bar */
+            height: calc(100vh - var(--header-h) - 88px);
+            overflow-y: auto;
             box-shadow: none !important;   /* plus de trait vertical */
         }
-        
-        /* —— Zone menu scrollable —— */
-        .side-menu {
-            flex: 1 1 auto;              /* occupe tout l'espace restant */
-            overflow-y: auto;             /* défilement vertical */
-            overflow-x: hidden;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            scroll-behavior: smooth;      /* défilement doux */
-        }
-        
-        /* —— Masquer la scrollbar sur mobile (optionnel) —— */
-        @media (max-width: 480px) {
-            .side-menu { scrollbar-width: none; }            /* Firefox */
-            .side-menu::-webkit-scrollbar { display: none; } /* WebKit  */
-        }
-        
         .menu-link {
             font-family: "Montserrat", sans-serif;
             font-weight: 600;
@@ -199,9 +176,10 @@
             line-height: 11px;
             color: var(--grey-text);
             margin: 0;
-            display: block;
-            overflow: visible;
-            white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         /* ————————————— TYPO PRIX ————————————— */
@@ -244,8 +222,8 @@
         }
 
         .add .ico {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             stroke: #fff;
             stroke-width: 2.5;
             fill: none;
@@ -307,7 +285,7 @@
     <div class="flex">
         <!-- Desktop Sidebar -->
         <div class="hidden md:block side-bar bg-white">
-            <div class="side-menu">
+            <div class="px-4">
                 <button onclick="setActiveCategory('Nouveautés')" class="category-btn menu-link active w-full mb-2">
                     Nouveautés
                 </button>
