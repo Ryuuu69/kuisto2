@@ -21,10 +21,10 @@
             --card-min: 340px;      /* largeur minimale d'une carte produit */
             
             /* Variables pour le composant carte produit */
-            --card-w: 370px;        /* largeur de la carte */
-            --card-h: 150px;        /* hauteur de la carte */
-            --thumb: 96px;          /* taille de l'image */
-            --btn: 48px;            /* taille du bouton + */
+            --card-w: 580px;        /* largeur de la carte */
+            --card-h: auto;         /* hauteur automatique */
+            --thumb: 140px;         /* taille de l'image */
+            --btn: 82px;            /* taille du bouton + */
             --gap: 22px;            /* espace entre cartes */
             
             --red: #E30613;
@@ -168,21 +168,23 @@
         /* Grille de cartes produits */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
             gap: var(--gap);
         }
 
-        /* ======================== COMPOSANT CARTE PRODUIT ================ */
+        /* ====== Carte entière ====== */
         .product-card {
             position: relative;
+            width: 580px;
+            padding: 1.8rem 2.2rem;
             display: flex;
+            gap: 1.5rem;
             align-items: center;
-            width: var(--card-w);
-            height: var(--card-h);
-            background: white;
+            background: #fff;
             border-radius: var(--card-radius);
-            box-shadow: 0 4px 12px rgba(0,0,0,.08);
-            overflow: hidden;
+            overflow: hidden;              /* coupe tout ce qui dépasse, quart‑de‑cercle y compris */
+            box-shadow: 0 4px 16px rgb(0 0 0 / 6%);
+            font-family: 'Montserrat', sans-serif;
             transition: all 0.3s ease;
         }
 
@@ -191,32 +193,37 @@
             box-shadow: 0 8px 24px rgba(0,0,0,.15);
         }
 
-        /* Image carrée à gauche */
+        /* ====== Image miniature ====== */
         .thumb {
-            flex: 0 0 var(--thumb);
-            width: var(--thumb);
-            height: var(--thumb);
-            margin-left: 26px;
-        }
-
-        .thumb img {
-            width: 100%;
-            height: 100%;
+            width: 140px;
+            height: 140px;
             object-fit: cover;
-            border-radius: 18px;
+            border-radius: 16px;
+            flex-shrink: 0;
         }
 
-        /* Bloc texte flexible */
+        /* ====== Zone texte ====== */
         .info {
             flex: 1;
-            padding: 0 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 8px;
         }
 
-        /* NOM DU PRODUIT */
+        .info h4 { 
+            margin: 0 0 .35rem 0; font-size: 1rem; 
+            text-transform: uppercase;
+        }
+
+        .info p {
+            margin: 0; color: #8b8b91; font-style: italic; 
+        }
+        
+        .price { 
+            margin-top: .8rem; font-weight: 700; font-size: 1.2rem; 
+        }
+
+        /* Anciens styles pour compatibilité */
         .product-name {
             font-weight: 400;
             font-size: 11px;
@@ -226,7 +233,6 @@
             text-transform: uppercase;
         }
 
-        /* DESCRIPTION */
         .desc {
             font-style: italic;
             font-weight: 600;
@@ -238,12 +244,6 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-
-        /* PRIX (bloc "À partir de ...") */
-        .price {
-            margin-top: 8px;
-            font-size: 0; /* réinitialise l'espace pour inline-blocks */
         }
 
         .price .from {
@@ -261,21 +261,52 @@
             color: #000;
         }
 
-        /* Bouton + en bas à droite */
+        /* Ancien style prix */
+        .old-price {
+            margin-top: 8px;
+            font-size: 0; /* réinitialise l'espace pour inline-blocks */
+        }
+
+        /* ====== Quart de cercle + ====== */
+        .corner-btn {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 82px;                   /* même largeur que hauteur -> cercle parfait */
+            height: 82px;
+            background: #000;
+            border-radius: 0 0 0 100%;     /* garde uniquement le quart inférieur‑droit */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .25s;
+            border: none;
+        }
+        .corner-btn:hover { background:#222; }
+
+        .corner-btn::before {
+            content:"+";
+            font-size: 2.1rem;
+            line-height: 1;
+            color:#fff;
+            user-select: none;
+        }
+
+        /* Ancien bouton pour compatibilité */
         .add-btn {
             position: absolute;
             bottom: 0;
             right: 0;
-            flex: 0 0 var(--btn);
-            width: var(--btn);
-            height: var(--btn);
+            width: 82px;
+            height: 82px;
             background: #000;
             color: white;
             border: none;
-            font-size: 1.8rem;
+            font-size: 2.1rem;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 0 0 0 var(--btn); /* coin rond en haut-gauche du carré du bouton */
+            border-radius: 0 0 0 100%;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -283,7 +314,7 @@
         }
 
         .add-btn:hover {
-            background: var(--red);
+            background: #222;
             transform: scale(1.05);
         }
 
@@ -343,7 +374,7 @@
         /* Mise à jour des anciens styles pour compatibilité */
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
             gap: var(--gap);
         }
 
@@ -581,18 +612,15 @@
         function createProductCard(product) {
             return `
                 <div class="product-card">
-                    <div class="thumb">
-                        <img src="${product.img}" alt="${product.name}">
-                    </div>
+                    <img class="thumb" src="${product.img}" alt="${product.name}">
+                    
                     <div class="info">
-                        <h3 class="product-name">${product.name}</h3>
+                        <h4>${product.name}</h4>
                         <p class="desc">${product.desc}</p>
-                        <span class="price">
-                            <span class="from">À partir de </span>
-                            <span class="value">${product.price}</span>
-                        </span>
+                        <p class="price">À partir de&nbsp;${product.price}</p>
                     </div>
-                    <button class="add-btn" aria-label="Ajouter au panier">+</button>
+                    
+                    <button class="corner-btn" aria-label="Ajouter au panier"></button>
                 </div>
             `;
         }
