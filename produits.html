@@ -17,8 +17,13 @@
             --hero-h: 219px;        /* hauteur du bandeau rouge */
             --side-w: 211px;        /* largeur du menu vertical */
             --gutter: 24px;         /* espacement latéral des produits */
-            --card-min: 360px;      /* largeur minimale d'une carte produit */
-            --corner-size: 36px; /* Carré noir "+" des cartes */
+            --card-min: 340px;      /* largeur minimale d'une carte produit */
+            
+            /* Variables pour le composant carte produit */
+            --card-h: 220px;        /* hauteur de la carte */
+            --thumb: 120px;         /* taille de l'image */
+            --btn: 64px;            /* taille du bouton + */
+            
             --red: #E30613;
             --grey-text: #808080;
             --grey-line: #d0d0d0;
@@ -157,54 +162,176 @@
         }
 
         /* ————————————— LAYOUT PRODUITS ————————————— */
-        /* Grille responsive pour les produits */
-        .products {
+        /* Grille de cartes produits */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
-            gap: 1.5rem;  /* espacement uniforme entre les cartes */
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
         }
 
+        /* ======================== COMPOSANT CARTE PRODUIT ================ */
         .product-card {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 20px;
-            padding: 22px calc(var(--corner-size) + 22px) 22px 22px;
-            background: #fff;
+            width: clamp(340px, 32vw, 488px);
+            height: var(--card-h);
+            background: white;
             border-radius: var(--card-radius);
-            box-shadow: 0 4px 12px rgba(0,0,0,.07);
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
             overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            width: 100%;  /* occupe toute la largeur de la cellule de grille */
+            transition: all 0.3s ease;
         }
 
         .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.15);
         }
 
+        /* Image carrée à gauche */
         .thumb {
+            width: var(--thumb);
+            height: var(--thumb);
+            margin-left: 26px;
             flex-shrink: 0;
-            width: 90px;   /* taille réduite pour un meilleur équilibre */
-            height: 90px;  /* images plus compactes */
-            background: #f3f3f3;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 16px;
+            border-radius: 18px;
         }
 
+        /* Bloc texte flexible */
         .info {
             flex: 1;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
         }
 
+        .info h3 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            color: #000;
+            margin: 0;
+        }
+
+        .info .desc {
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #6b6b6b;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .info .price {
+            font-family: "Montserrat", sans-serif;
+            font-size: 12px;
+            color: #000;
+        }
+
+        .info .price strong {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Bouton + en bas à droite */
+        .add-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: var(--btn);
+            height: var(--btn);
+            background: #000;
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 0 0 var(--btn);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-btn:hover {
+            background: var(--red);
+            transform: scale(1.05);
+        }
+
+        /* Boutons en bas à gauche - Desktop uniquement */
+        .desktop-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            
+            /* État par défaut : fond rouge, icône blanche */
+            background: var(--red);
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            /* Au hover : fond blanc, icône rouge */
+            background: white;
+            color: var(--red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+        }
+
+        /* Masquer sur mobile */
+        @media (max-width: 768px) {
+            .desktop-buttons {
+                display: none;
+            }
+            
+            .product-card {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        /* Mise à jour des anciens styles pour compatibilité */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        /* Styles pour les anciens éléments (si présents) */
         .title {
             font-family: "Montserrat", sans-serif;
             font-weight: 400;
@@ -228,10 +355,6 @@
             white-space: normal;
         }
 
-        .price {
-            margin: 14px 0 0;
-        }
-
         .price .label {
             font-family: "Montserrat", sans-serif;
             font-style: italic;
@@ -247,227 +370,6 @@
             font-size: 16px;
             line-height: 24px;
             color: #000;
-        }
-
-        .add {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: var(--corner-size);
-            height: var(--corner-size);
-            background: #000;
-            border: none;
-            border-top-left-radius: var(--card-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-        }
-
-        .add .ico {
-            width: 20px;
-            height: 20px;
-            stroke: #fff;
-            stroke-width: 2.5;
-            fill: none;
-            stroke-linecap: round;
-        }
-
-        .product-card:hover .add {
-            background: var(--red);
-        }
-
-        @media (max-width: 600px) {
-            .catalogue {
-                margin-left: 0;
-                padding-inline: 1rem;
-            }
-            
-            .side-nav {
-                display: none;
-            }
-            
-            .products {
-                grid-template-columns: 1fr;  /* une seule colonne sur mobile */
-            }
-            
-            .product-card {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 22px;
-                padding-bottom: calc(var(--corner-size) + 22px);
-            }
-            
-            .thumb {
-                width: 120px;  /* images plus grandes sur mobile */
-                height: 120px;
-            }
-        }
-
-        /* ———————————————————————————
-           TITRES DE SECTION
-        ——————————————————————————— */
-        .section-title {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 400;
-            font-size: 16px; 
-            line-height: 24px;
-            text-transform: uppercase;
-            margin: 0 0 32px;
-            display: flex; 
-            align-items: center; 
-            gap: 14px;
-            color: #000;
-        }
-        .section-title::after {
-            content: ""; 
-            flex: 1; 
-            height: 1px; 
-            background: var(--grey-line);
-        }
-
-        /* ————————————— LAYOUT PRODUITS ————————————— */
-        /* Chaque groupe de cartes (ex. section BURGERS) */
-        .products-row {
-            display: flex;
-            flex-wrap: wrap;           /* retour à la ligne automatique */
-            gap: 32px;                 /* espace entre les cartes */
-        }
-        /* Product card styles */
-        .product-card-container {
-            --thumb-size: 120px;
-            --bg-card: #fff;
-            --bg-thumb: #f3f3f3;
-            --bg-corner: #000;
-        }
-
-        .product-card {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 22px calc(var(--corner-size) + 22px) 22px 22px;
-            background: var(--bg-card);
-            border-radius: var(--card-radius);
-            box-shadow: 0 4px 12px rgba(0,0,0,.07);
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            flex: 0 0 360px;           /* 360px de large pour 3 côte à côte */
-            max-width: 100%;
-        }
-
-        .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,.12);
-        }
-
-        .thumb {
-            flex-shrink: 0;
-            width: var(--thumb-size);
-            height: var(--thumb-size);
-            background: var(--bg-thumb);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .info { flex: 1; }
-
-        .title {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 400;
-            font-size: 11px; 
-            line-height: 13px;
-            color: #000; 
-            text-transform: uppercase;
-            margin: 0 0 4px;
-        }
-
-        .desc {
-            font-family: "Montserrat", sans-serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 10px; 
-            line-height: 11px;
-            color: var(--grey-text);
-            margin: 0;
-            display: block;
-            overflow: visible;
-            white-space: normal;
-        }
-
-        /* ————————————— TYPO PRIX ————————————— */
-        /* Texte "À partir de" */
-        .price .label {
-            font-family: "Montserrat", sans-serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 10px;
-            line-height: 15px;
-            color: #000;
-        }
-
-        /* Montant */
-        .price .value {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 24px;
-            color: #000;
-        }
-        .price {
-            margin: 14px 0 0;
-        }
-
-        .add {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: var(--corner-size);
-            height: var(--corner-size);
-            background: var(--bg-corner);
-            border: none;
-            border-top-left-radius: var(--card-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .3s ease;
-        }
-
-        .add .ico {
-            width: 20px;
-            height: 20px;
-            stroke: #fff;
-            stroke-width: 2.5;
-            fill: none;
-            stroke-linecap: round;
-        }
-
-        .product-card:hover .add {
-            background: var(--red);
-        }
-
-        @media (max-width: 600px) {
-            .product-card-container {
-                --thumb-size: 90px;
-            }
-            .product-card {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 22px;
-                padding-bottom: calc(var(--corner-size) + 22px);
-                flex: 1 1 100%;
-            }
         }
     </style>
 </head>
@@ -495,7 +397,7 @@
         <!-- Section Nouveautés -->
         <section id="nouveautes" class="cat">
             <h2 class="section-title">NOUVEAUTÉS</h2>
-            <div class="products" id="nouveautes-products">
+            <div class="cards-grid" id="nouveautes-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -503,7 +405,7 @@
         <!-- Section Big Salades -->
         <section id="big-salades" class="cat">
             <h2 class="section-title">BIG SALADES</h2>
-            <div class="products" id="big-salades-products">
+            <div class="cards-grid" id="big-salades-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -511,7 +413,7 @@
         <!-- Section Big Burgers -->
         <section id="big-burgers" class="cat">
             <h2 class="section-title">BIG BURGERS</h2>
-            <div class="products" id="big-burgers-products">
+            <div class="cards-grid" id="big-burgers-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -519,7 +421,7 @@
         <!-- Section Menus Burger -->
         <section id="menus-burger" class="cat">
             <h2 class="section-title">MENUS BURGER</h2>
-            <div class="products" id="menus-burger-products">
+            <div class="cards-grid" id="menus-burger-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -527,7 +429,7 @@
         <!-- Section Extras -->
         <section id="extras" class="cat">
             <h2 class="section-title">EXTRAS</h2>
-            <div class="products" id="extras-products">
+            <div class="cards-grid" id="extras-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -535,7 +437,7 @@
         <!-- Section Boissons -->
         <section id="boissons" class="cat">
             <h2 class="section-title">BOISSONS</h2>
-            <div class="products" id="boissons-products">
+            <div class="cards-grid" id="boissons-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
@@ -543,14 +445,75 @@
         <!-- Section Desserts -->
         <section id="desserts" class="cat">
             <h2 class="section-title">DESSERTS</h2>
-            <div class="products" id="desserts-products">
+            <div class="cards-grid" id="desserts-products">
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
     </main>
 
-    <!-- Footer icons -->
-    <div class="fixed bottom-4 left-4 z-50">
+    <!-- Boutons Desktop en bas à gauche -->
+    <div class="desktop-buttons">
+        <button class="desktop-btn" title="Accueil">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </button>
+        <button class="desktop-btn" title="Mon compte">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Exemple de grille de cartes (pour démonstration) -->
+    <div style="display: none;">
+        <div class="cards-grid">
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center" alt="BIG SALADES">
+                </div>
+                <div class="info">
+                    <h3>BIG SALADES</h3>
+                    <p class="desc">Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan</p>
+                    <span class="price">À partir de <strong>9,90 €</strong></span>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center" alt="BIG CHEESE">
+                </div>
+                <div class="info">
+                    <h3>BIG CHEESE</h3>
+                    <p class="desc">Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar</p>
+                    <span class="price">À partir de <strong>11,90 €</strong></span>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anciens boutons (cachés, pour compatibilité) -->
+    <div style="display: none;">
+        <div class="fixed bottom-4 left-4 z-50">
+            <div class="flex space-x-3">
+                <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </button>
+                <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anciens boutons footer (pour compatibilité mobile) -->
+    <div class="fixed bottom-4 left-4 z-50 md:hidden">
         <div class="flex space-x-3">
             <button class="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -566,168 +529,61 @@
     </div>
 
     <script>
-        // Product data
-        const products = [
-            // Nouveautés
-            {
-                id: 1,
-                category: 'Nouveautés',
-                name: 'BIG SALADES',
-                description: 'Big Caesar, Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan.',
-                price: 9.90,
-                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 2,
-                category: 'Nouveautés', 
-                name: 'THÉ & LIMONADE',
-                description: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre',
-                price: 2.90,
-                image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 3,
-                category: 'Nouveautés',
-                name: 'PISTACHIO',
-                description: 'Milkshake au Sundae 7.4 kg de châtaib',
-                price: 3.95,
-                image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 4,
-                category: 'Nouveautés',
-                name: 'MENU BIG CHEESE',
-                description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar',
-                price: 11.90,
-                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 5,
-                category: 'Nouveautés',
-                name: 'MENU SURF & TURF',
-                description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
-                price: 11.90,
-                image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 6,
-                category: 'Nouveautés',
-                name: 'TACO SMASH',
-                description: 'Choisissez deux Taco (classique ou épicé)',
-                price: 7.90,
-                image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center'
-            },
-            // Big Burgers
-            {
-                id: 7,
-                category: 'Big Burgers',
-                name: 'BIG CHEESE',
-                description: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons',
-                price: 8.90,
-                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 8,
-                category: 'Big Burgers',
-                name: 'SURF & TURF',
-                description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
-                price: 8.90,
-                image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
-            },
-            {
-                id: 9,
-                category: 'Big Burgers',
-                name: 'BIG SMASH',
-                description: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade',
-                price: 6.90,
-                image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center'
-            },
-            // Big Salades
-            {
-                id: 10,
-                category: 'Big Salades',
-                name: 'BIG CAESAR',
-                description: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan',
-                price: 8.90,
-                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
-            },
-            // Menus Burger
-            {
-                id: 11,
-                category: 'Menus Burger',
-                name: 'MENU BIG CHEESE',
-                description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
-                price: 11.90,
-                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
-            },
-            // Extras
-            {
-                id: 12,
-                category: 'Extras',
-                name: 'FRITES MAISON',
-                description: 'Frites fraîches coupées maison',
-                price: 3.50,
-                image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center'
-            },
-            // Boissons
-            {
-                id: 13,
-                category: 'Boissons',
-                name: 'COCA-COLA 33CL',
-                description: 'Boisson gazeuse rafraîchissante',
-                price: 2.90,
-                image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
-            },
-            // Desserts
-            {
-                id: 14,
-                category: 'Desserts',
-                name: 'MILKSHAKE VANILLE',
-                description: 'Milkshake onctueux à la vanille',
-                price: 4.50,
-                image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
-            }
-        ];
+        // Product data - structure simplifiée pour le nouveau composant
+        const products = {
+            'nouveautes': [
+                { name: 'BIG SALADES', desc: 'Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '9,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'THÉ & LIMONADE', desc: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' },
+                { name: 'PISTACHIO', desc: 'Milkshake au Sundae 7.4 kg de châtaib', price: '3,95 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' },
+                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'MENU SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
+                { name: 'TACO SMASH', desc: 'Choisissez deux Taco (classique ou épicé)', price: '7,90 €', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'big-salades': [
+                { name: 'BIG CAESAR', desc: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '8,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'big-burgers': [
+                { name: 'BIG CHEESE', desc: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons', price: '8,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '8,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
+                { name: 'BIG SMASH', desc: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade', price: '6,90 €', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'menus-burger': [
+                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'extras': [
+                { name: 'FRITES MAISON', desc: 'Frites fraîches coupées maison', price: '3,50 €', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'boissons': [
+                { name: 'COCA-COLA 33CL', desc: 'Boisson gazeuse rafraîchissante', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'desserts': [
+                { name: 'MILKSHAKE VANILLE', desc: 'Milkshake onctueux à la vanille', price: '4,50 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' }
+            ]
+        };
 
-        let currentCategory = 'Nouveautés';
+        // Fonction pour générer le HTML d'une carte produit
+        function createProductCard(product) {
+            return `
+                <div class="product-card">
+                    <div class="thumb">
+                        <img src="${product.img}" alt="${product.name}">
+                    </div>
+                    <div class="info">
+                        <h3>${product.name}</h3>
+                        <p class="desc">${product.desc}</p>
+                        <span class="price">À partir de <strong>${product.price}</strong></span>
+                    </div>
+                    <button class="add-btn">+</button>
+                </div>
+            `;
+        }
 
-        // Fonction pour afficher tous les produits dans leurs sections respectives
+        // Fonction pour afficher tous les produits
         function renderAllProducts() {
-            // Grouper les produits par catégorie
-            const productsByCategory = {};
-            products.forEach(product => {
-                if (!productsByCategory[product.category]) {
-                    productsByCategory[product.category] = [];
-                }
-                productsByCategory[product.category].push(product);
-            });
-            
-            // Afficher chaque catégorie
-            Object.keys(productsByCategory).forEach(category => {
-                const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
-                const container = document.getElementById(`${sectionId}-products`);
-                
+            Object.keys(products).forEach(categoryKey => {
+                const container = document.getElementById(`${categoryKey}-products`);
                 if (container) {
-                    container.innerHTML = productsByCategory[category].map(product => `
-                        <div class="product-card">
-                            <div class="thumb">
-                                <img src="${product.image}" alt="${product.name}" />
-                            </div>
-                            <div class="info">
-                                <h3 class="title">${product.name}</h3>
-                                <p class="desc">${product.description}</p>
-                                <div class="price">
-                                    <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
-                                </div>
-                            </div>
-                            <button class="add" onclick="addToCart(${product.id})">
-                                <svg class="ico" viewBox="0 0 24 24">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    `).join('');
+                    container.innerHTML = products[categoryKey].map(createProductCard).join('');
                 }
             });
         }
@@ -750,11 +606,6 @@
             if (section) {
                 section.scrollIntoView({ behavior: 'smooth' });
             }
-        }
-
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            alert(`${product.name} ajouté au panier !`);
         }
 
         // Initialize
