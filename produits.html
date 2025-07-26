@@ -14,8 +14,10 @@
            VARIABLES GÉNÉRALES
         ——————————————————————————— */
         :root {
-            --hero-h: 219px;    /* hauteur du bandeau rouge */
-            --side-w: 211px;    /* largeur du menu vertical */
+            --hero-h: 219px;        /* hauteur du bandeau rouge */
+            --side-w: 211px;        /* largeur du menu vertical */
+            --gutter: 24px;         /* espacement latéral des produits */
+            --card-min: 360px;      /* largeur minimale d'une carte produit */
             --corner-size: 36px; /* Carré noir "+" des cartes */
             --red: #E30613;
             --grey-text: #808080;
@@ -104,14 +106,31 @@
         }
 
         /* --- ZONE QUI DÉFILE --- */
-        .menu-scroll {
+        .catalogue {
             position: relative;
-            margin-left: var(--side-w);
-            padding-top: calc(var(--hero-h) + 2rem);
+            margin-left: var(--side-w);     /* laisse place au menu fixe */
+            padding-top: calc(var(--hero-h) + 1rem);  /* évite le hero */
+            padding-inline: var(--gutter);  /* marges latérales */
             height: 100%;
             overflow-y: auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
+        }
+
+        /* ———————————————————————————
+           SECTIONS DE CATÉGORIES
+        ——————————————————————————— */
+        .cat {
+            padding-block: 2.5rem 1rem;
+            scroll-margin-top: calc(var(--hero-h) + 0.5rem);  /* pour les ancres */
+        }
+        
+        .cat + .cat {
+            border-top: 1px solid #efefef;  /* séparation fine entre sections */
+        }
+        
+        .cat h2 {
+            margin: 0 0 1.5rem;
+            font-size: 1.6rem;
+            font-weight: 600;
         }
 
         /* ———————————————————————————
@@ -138,10 +157,11 @@
         }
 
         /* ————————————— LAYOUT PRODUITS ————————————— */
-        .products-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 32px;
+        /* Grille responsive pour les produits */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
+            gap: 1.5rem;  /* espacement uniforme entre les cartes */
         }
 
         .product-card {
@@ -155,8 +175,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,.07);
             overflow: hidden;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            flex: 0 0 360px;
-            max-width: 100%;
+            width: 100%;  /* occupe toute la largeur de la cellule de grille */
         }
 
         .product-card:hover {
@@ -166,8 +185,8 @@
 
         .thumb {
             flex-shrink: 0;
-            width: 120px;
-            height: 120px;
+            width: 90px;   /* taille réduite pour un meilleur équilibre */
+            height: 90px;  /* images plus compactes */
             background: #f3f3f3;
             border-radius: 16px;
             display: flex;
@@ -260,14 +279,17 @@
         }
 
         @media (max-width: 600px) {
-            .menu-scroll {
+            .catalogue {
                 margin-left: 0;
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding-inline: 1rem;
             }
             
             .side-nav {
                 display: none;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;  /* une seule colonne sur mobile */
             }
             
             .product-card {
@@ -275,7 +297,11 @@
                 align-items: flex-start;
                 padding: 22px;
                 padding-bottom: calc(var(--corner-size) + 22px);
-                flex: 1 1 100%;
+            }
+            
+            .thumb {
+                width: 120px;  /* images plus grandes sur mobile */
+                height: 120px;
             }
         }
 
@@ -465,11 +491,62 @@
     </nav>
 
     <!-- CONTENU QUI DÉFILE -->
-    <main class="menu-scroll">
-        <h2 id="categoryTitle" class="section-title">NOUVEAUTÉS</h2>
-        <div id="productsGrid" class="products-row">
-            <!-- Products will be populated by JavaScript -->
-        </div>
+    <main class="catalogue">
+        <!-- Section Nouveautés -->
+        <section id="nouveautes" class="cat">
+            <h2 class="section-title">NOUVEAUTÉS</h2>
+            <div class="products" id="nouveautes-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Big Salades -->
+        <section id="big-salades" class="cat">
+            <h2 class="section-title">BIG SALADES</h2>
+            <div class="products" id="big-salades-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Big Burgers -->
+        <section id="big-burgers" class="cat">
+            <h2 class="section-title">BIG BURGERS</h2>
+            <div class="products" id="big-burgers-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Menus Burger -->
+        <section id="menus-burger" class="cat">
+            <h2 class="section-title">MENUS BURGER</h2>
+            <div class="products" id="menus-burger-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Extras -->
+        <section id="extras" class="cat">
+            <h2 class="section-title">EXTRAS</h2>
+            <div class="products" id="extras-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Boissons -->
+        <section id="boissons" class="cat">
+            <h2 class="section-title">BOISSONS</h2>
+            <div class="products" id="boissons-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section Desserts -->
+        <section id="desserts" class="cat">
+            <h2 class="section-title">DESSERTS</h2>
+            <div class="products" id="desserts-products">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer icons -->
@@ -614,11 +691,49 @@
 
         let currentCategory = 'Nouveautés';
 
-        function setActiveCategory(category) {
-            currentCategory = category;
-            document.getElementById('categoryTitle').textContent = category.toUpperCase();
+        // Fonction pour afficher tous les produits dans leurs sections respectives
+        function renderAllProducts() {
+            // Grouper les produits par catégorie
+            const productsByCategory = {};
+            products.forEach(product => {
+                if (!productsByCategory[product.category]) {
+                    productsByCategory[product.category] = [];
+                }
+                productsByCategory[product.category].push(product);
+            });
             
-            // Update sidebar menu items
+            // Afficher chaque catégorie
+            Object.keys(productsByCategory).forEach(category => {
+                const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
+                const container = document.getElementById(`${sectionId}-products`);
+                
+                if (container) {
+                    container.innerHTML = productsByCategory[category].map(product => `
+                        <div class="product-card">
+                            <div class="thumb">
+                                <img src="${product.image}" alt="${product.name}" />
+                            </div>
+                            <div class="info">
+                                <h3 class="title">${product.name}</h3>
+                                <p class="desc">${product.description}</p>
+                                <div class="price">
+                                    <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
+                                </div>
+                            </div>
+                            <button class="add" onclick="addToCart(${product.id})">
+                                <svg class="ico" viewBox="0 0 24 24">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
+        function setActiveCategory(category) {
+            // Mettre à jour l'état actif du menu
             document.querySelectorAll('.side-nav li').forEach(li => {
                 li.classList.remove('active');
             });
@@ -629,33 +744,12 @@
                 }
             });
             
-            renderProducts();
-        }
-
-        function renderProducts() {
-            const filteredProducts = products.filter(product => product.category === currentCategory);
-            const grid = document.getElementById('productsGrid');
-            
-            grid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card">
-                    <div class="thumb">
-                        <img src="${product.image}" alt="${product.name}" />
-                    </div>
-                    <div class="info">
-                        <h3 class="title">${product.name}</h3>
-                        <p class="desc">${product.description}</p>
-                        <div class="price">
-                            <span class="label">À partir de</span> <span class="value">${product.price.toFixed(2).replace('.', ',')}€</span>
-                        </div>
-                    </div>
-                    <button class="add" onclick="addToCart(${product.id})">
-                        <svg class="ico" viewBox="0 0 24 24">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                    </button>
-                </div>
-            `).join('');
+            // Faire défiler vers la section correspondante
+            const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function addToCart(productId) {
@@ -664,7 +758,7 @@
         }
 
         // Initialize
-        renderProducts();
+        renderAllProducts();
     </script>
 </body>
 </html>
