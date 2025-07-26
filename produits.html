@@ -20,9 +20,11 @@
             --card-min: 340px;      /* largeur minimale d'une carte produit */
             
             /* Variables pour le composant carte produit */
-            --card-h: 220px;        /* hauteur de la carte */
-            --thumb: 120px;         /* taille de l'image */
-            --btn: 64px;            /* taille du bouton + */
+            --card-w: 370px;        /* largeur de la carte */
+            --card-h: 150px;        /* hauteur de la carte */
+            --thumb: 96px;          /* taille de l'image */
+            --btn: 48px;            /* taille du bouton + */
+            --gap: 22px;            /* espace entre cartes */
             
             --red: #E30613;
             --grey-text: #808080;
@@ -47,6 +49,7 @@
             inset: 0 0 auto 0;
             height: var(--hero-h);
             background: #d81616;
+            box-shadow: 0 2px 6px rgba(0,0,0,.08); /* ombre légère */
             color: #fff;
             display: flex;
             align-items: center;
@@ -165,8 +168,8 @@
         /* Grille de cartes produits */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            gap: var(--gap);
         }
 
         /* ======================== COMPOSANT CARTE PRODUIT ================ */
@@ -174,7 +177,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            width: clamp(340px, 32vw, 488px);
+            width: var(--card-w);
             height: var(--card-h);
             background: white;
             border-radius: var(--card-radius);
@@ -190,10 +193,10 @@
 
         /* Image carrée à gauche */
         .thumb {
+            flex: 0 0 var(--thumb);
             width: var(--thumb);
             height: var(--thumb);
             margin-left: 26px;
-            flex-shrink: 0;
         }
 
         .thumb img {
@@ -251,6 +254,7 @@
             position: absolute;
             bottom: 0;
             right: 0;
+            flex: 0 0 var(--btn);
             width: var(--btn);
             height: var(--btn);
             background: #000;
@@ -259,7 +263,7 @@
             font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 0 0 0 var(--btn);
+            border-radius: 0 0 0 var(--btn); /* coin rond en haut-gauche du carré du bouton */
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -275,7 +279,7 @@
         .desktop-buttons {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: calc(var(--side-w) / 2 - 60px); /* centré avec le menu */
             display: flex;
             gap: 12px;
             z-index: 1000;
@@ -320,15 +324,15 @@
             
             .product-card {
                 width: 100%;
-                max-width: none;
+                max-width: var(--card-w);
             }
         }
 
         /* Mise à jour des anciens styles pour compatibilité */
         .products {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            gap: var(--gap);
         }
 
         /* Styles pour les anciens éléments (si présents) */
