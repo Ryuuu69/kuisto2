@@ -1,0 +1,44 @@
+ products:
+   name: Products
+   singular_name: Produit
+   fields:
+     title:
+       type: text
+     slug:
+       type: slug
+       uses: title
+     price:
+       type: float
+     image:
+       type: image
++    options:
++      type: repeater
++      label: "Groupes d’options"
++      fields:
++        .name:
++          type: text
++          label: "Intitulé du groupe"
++        .type:
++          type: select
++          label: "Type de contrôle"
++          values:
++            select: "Liste déroulante"
++            checkbox: "Cases à cocher"
++            radio: "Boutons radio"
++        .max:
++          type: integer
++          label: "Nombre max de choix"
++          default: 1
++        .choices:
++          type: repeater
++          label: "Choix"
++          fields:
++            ..label:
++              type: text
++              label: "Nom du choix"
++            ..price:
++              type: float
++              label: "Prix (€)"
++            ..image:
++              type: image
++              label: "Image"
