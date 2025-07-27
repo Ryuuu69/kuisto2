@@ -1,3 +1,5 @@
+import { Routes, Route } from 'react-router-dom';
+import Produits      from './Produits';
 import ProductDetail from './ProductDetail';
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
