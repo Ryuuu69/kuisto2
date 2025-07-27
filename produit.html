@@ -218,14 +218,14 @@
                                         ${this.product.name}
                                     </h1>
                                     <p class="text-white/90 text-lg mb-6">
-                                        ${this.product.desc}
+                                        ${this.product.description}
                                     </p>
                                     <div class="text-3xl font-bold text-white">
                                         Prix de base : ${this.product.price.toFixed(2).replace('.', ',')} €
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <img src="${this.product.img}" alt="${this.product.name}" 
+                                    <img src="${this.product.image}" alt="${this.product.name}" 
                                          class="w-full max-w-md mx-auto rounded-2xl shadow-2xl">
                                 </div>
                             </div>
@@ -266,7 +266,7 @@
                             <div class="grid md:grid-cols-2 gap-4">
                                 ${this.product.options.supplements.map((supplement, index) => `
                                     <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
-                                        <img src="${supplement.img}" alt="${supplement.name}" class="option-image">
+                                        <img src="${supplement.image}" alt="${supplement.name}" class="option-image">
                                         <div class="flex-1">
                                             <h4 class="font-semibold">${supplement.name}</h4>
                                             <p class="text-green-600 font-bold">+${supplement.price.toFixed(2).replace('.', ',')} €</p>
@@ -292,7 +292,7 @@
                                 ${this.product.options.drinks.map((drink, index) => `
                                     <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-red-300 transition-colors">
                                         <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
-                                        <img src="${drink.img}" alt="${drink.name}" class="option-image">
+                                        <img src="${drink.image}" alt="${drink.name}" class="option-image">
                                         <div class="flex-1">
                                             <h4 class="font-semibold">${drink.name}</h4>
                                             <p class="text-green-600 font-bold">
