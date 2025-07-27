@@ -8,9 +8,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-    "dev": "vite"
-    "dev": "cd frontend && npm start",
+    "eject": "react-scripts eject",
+    "dev": "cd frontend && npm start"
   },
   "devDependencies": {
     "serve": "^14.2.1",
