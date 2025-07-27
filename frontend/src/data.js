@@ -111,6 +111,7 @@ export const products = [
   {
     id: 11,
     category: 'Menus Burger',
+    slug: 'menu-big-cheese', // ← CE CHAMP EST INDISPENSABLE
     name: 'MENU BIG CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
