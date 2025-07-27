@@ -584,6 +584,9 @@
 
         // Fonction pour générer le HTML d'une carte produit
         function createProductCard(product, index) {
+            // Générer le slug à partir du nom du produit
+            const slug = makeSlug(product.name);
+            
             return `
                 <div class="product-card">
                     <div class="thumb">
@@ -597,9 +600,25 @@
                             <span class="value">${product.price}</span>
                         </span>
                     </div>
-                    <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${product.slug}')">+</button>
+                    <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
                 </div>
             `;
+        }
+
+        // Fonction pour générer un slug à partir du nom du produit
+        function makeSlug(name) {
+            return name.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[ç]/g, 'c')
+                .replace(/[&]/g, '-')
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9-]/g, '')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
         }
 
         // Fonction pour rediriger vers la page produit
