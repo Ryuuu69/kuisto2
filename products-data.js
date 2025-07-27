@@ -8,18 +8,18 @@ const products = [
     name: "BIG SALADES",
     slug: "big-salades", // généré automatiquement depuis le nom
     category: "Nouveautés",
-    desc: "Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
+    description: "Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
     price: 9.90,
-    img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
-        { name: "Cheddar", price: 1.00, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Avocat", price: 1.50, img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=100&h=100&fit=crop" }
+        { name: "Cheddar", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
+        { name: "Avocat", price: 1.50, image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=100&h=100&fit=crop" }
       ],
       drinks: [
-        { name: "Coca-Cola", price: 2.90, img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake Vanille", price: 4.50, img: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
-        { name: "Limonade", price: 2.50, img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
+        { name: "Coca-Cola", price: 2.90, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
+        { name: "Milkshake Vanille", price: 4.50, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
+        { name: "Limonade", price: 2.50, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
       ],
       remove: [
         { name: "Sans croutons", price: 0 },
@@ -33,19 +33,19 @@ const products = [
     name: "MENU BIG CHEESE",
     slug: "menu-big-cheese",
     category: "Nouveautés",
-    desc: "Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson",
+    description: "Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson",
     price: 11.90,
-    img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Steak supplémentaire", price: 2.50, img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" },
-        { name: "Bacon", price: 1.50, img: "https://images.unsplash.com/photo-1528607929212-2636ec44b957?w=100&h=100&fit=crop" }
+        { name: "Cheddar supplémentaire", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
+        { name: "Steak supplémentaire", price: 2.50, image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" },
+        { name: "Bacon", price: 1.50, image: "https://images.unsplash.com/photo-1528607929212-2636ec44b957?w=100&h=100&fit=crop" }
       ],
       drinks: [
-        { name: "Coca-Cola", price: 0, img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake (+2€)", price: 2.00, img: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
-        { name: "Limonade", price: 0, img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
+        { name: "Coca-Cola", price: 0, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
+        { name: "Milkshake (+2€)", price: 2.00, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
+        { name: "Limonade", price: 0, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
       ],
       remove: [
         { name: "Sans cheddar", price: 0 },
@@ -60,17 +60,17 @@ const products = [
     name: "BIG CHEESE",
     slug: "big-cheese",
     category: "Big Burgers",
-    desc: "Potato bun, double steak haché smashé, salade iceberg, pickles, oignons frais, double cheddar",
+    description: "Potato bun, double steak haché smashé, salade iceberg, pickles, oignons frais, double cheddar",
     price: 8.90,
-    img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Steak supplémentaire", price: 2.50, img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" }
+        { name: "Cheddar supplémentaire", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
+        { name: "Steak supplémentaire", price: 2.50, image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" }
       ],
       drinks: [
-        { name: "Coca-Cola", price: 2.90, img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake", price: 4.50, img: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" }
+        { name: "Coca-Cola", price: 2.90, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
+        { name: "Milkshake", price: 4.50, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" }
       ],
       remove: [
         { name: "Sans cheddar", price: 0 },
@@ -84,13 +84,13 @@ const products = [
     name: "FRITES MAISON",
     slug: "frites-maison",
     category: "Extras",
-    desc: "Frites fraîches coupées maison, cuites dans l'huile de tournesol",
+    description: "Frites fraîches coupées maison, cuites dans l'huile de tournesol",
     price: 3.50,
-    img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&h=400&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
-        { name: "Sauce cheddar", price: 0.50, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Sauce barbecue", price: 0.50, img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=100&h=100&fit=crop" }
+        { name: "Sauce cheddar", price: 0.50, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
+        { name: "Sauce barbecue", price: 0.50, image: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=100&h=100&fit=crop" }
       ]
     }
   }
