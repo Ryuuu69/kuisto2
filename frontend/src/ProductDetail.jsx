@@ -1,11 +1,11 @@
 import React, { useState }        from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { products }               from './data';  // ton tableau de produits
-
+import { useParams } from 'react-router-dom';
 export default function ProductDetail() {
-  const { id }   = useParams();                 // ← /produit/11  → id="11"
+  const { slug }   = useParams();                 // ← /produit/11  → id="11"
   const navigate = useNavigate();
-  const product  = products.find(p => p.id === +id);
+  const product  = products.find(p => p.slug === slug);
 
   if (!product) return <div className="p-8">Produit introuvable…</div>;
 
