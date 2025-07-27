@@ -146,49 +146,45 @@ export const products = [
     price: 4.50,
     image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
   }
-  // dans export const products = [
-{
-  id: 99,                                  // un ID unique
-  category: 'Menus Burger',
-  name: 'Big Cheese',
-  description: 'Potato bun, double cheddar, steak haché smashé, oignons frais, pickles, salade, sauce Big Smash. Servi avec frites et boisson.',
-  price: 11.90,
-  image: 'URL_ou_chemin_vers_ton_image',
-  options: [
-    {
-      name: 'Supplément',
-      type: 'checkbox',
-      max: 4,
-      choices: [
-        { label: 'Cheddar', price: 1.00, image: 'URL_cheddar' },
-        { label: 'Supplément steak', price: 2.50, image: 'URL_steak' },
-      ],
-    },
-    {
-      name: 'Retirer quelque chose',
-      type: 'checkbox',
-      max: 5,
-      choices: [
-        { label: 'Sans cheddar', price: 0.00, image: 'URL_sans_cheddar' },
-        { label: 'Sans oignons', price: 0.00, image: 'URL_sans_oignons' },
-        { label: 'Sans salade iceberg', price: 0.00, image: 'URL_sans_salade' },
-        { label: 'Sans sauce', price: 0.00, image: 'URL_sans_sauce' },
-        { label: 'Sans pickles', price: 0.00, image: 'URL_sans_pickles' },
-      ],
-    },
-    {
-      name: 'Boisson',
-      type: 'radio',
-      max: 1,
-      choices: [
-        { label: 'Milkshake', price: 2.00, image: 'URL_milkshake' },
-        { label: 'Limonade Lime Watermelon', price: 0.50, image: 'URL_lime' },
-        { label: 'Limonade Blue Mango Passion', price: 0.50, image: 'URL_blue' },
-        { label: 'Limonade Red Cherry', price: 0.50, image: 'URL_red' },
-        { label: 'Coca Cola', price: 1.00, image: 'URL_coca' },
-      ],
-    },
-  ],
-},
-// … les autres produits
+  {
+    id: 99,
+    category: 'Menus Burger',
+    name: 'MENU BIG CHEESE',
+    description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
+    price: 11.90,
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center',
+    options: [
+      {
+        name: 'Supplément',
+        type: 'checkbox',
+        max: 4,
+        choices: [
+          { label: 'Cheddar', price: 1.00, image: '/images/cheddar.jpg' },
+          { label: 'Steak extra', price: 2.50, image: '/images/steak.jpg' },
+        ],
+      },
+      {
+        name: 'Retirer quelque chose',
+        type: 'checkbox',
+        max: 5,
+        choices: [
+          { label: 'Sans cheddar', price: 0.00, image: '/images/sans-cheddar.jpg' },
+          { label: 'Sans oignons', price: 0.00, image: '/images/sans-oignons.jpg' },
+          { label: 'Sans salade iceberg', price: 0.00, image: '/images/sans-salade.jpg' },
+          { label: 'Sans sauce', price: 0.00, image: '/images/sans-sauce.jpg' },
+          { label: 'Sans pickles', price: 0.00, image: '/images/sans-pickles.jpg' },
+        ],
+      },
+      {
+        name: 'Boisson',
+        type: 'radio',
+        max: 1,
+        choices: [
+          { label: 'Milkshake', price: 2.00, image: '/images/milkshake.jpg' },
+          { label: 'Coca Cola', price: 1.00, image: '/images/coca.jpg' },
+          { label: 'Limonade', price: 0.50, image: '/images/limonade.jpg' },
+        ],
+      },
+    ],
+  },
 ];
