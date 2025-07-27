@@ -115,7 +115,16 @@ export const products = [
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
-  },
+  /* ← ajoute exactement ceci */
+   options: [
+     {
+       name: 'Supplément Cheddar',
+       type: 'checkbox',
+       max: 4,
+       choices: [ { label: 'Cheddar', price: 1.00, image: '/images/cheddar.jpg' } ]
+     }
+    ]
+   },
 
   // Extras
   {
