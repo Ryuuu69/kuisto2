@@ -15,7 +15,8 @@ export default function App() {
       <Routes>
         {/* Accueil (sélection de ville ou ProductList) */}
         <Route path="/" element={<Home />} />
-
+        <Route path="/" element={<ProductList />} />
+        <Route path="/big-cheese" element={<BigCheeseDetail />} />  {/* ← nouvelle route */}
         {/* Liste de tous les produits */}
         <Route path="/produits" element={<Produits />} />
 
