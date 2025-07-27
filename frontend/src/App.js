@@ -6,9 +6,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"           element={<ProductList />} />
+        <Route path="/"element={<ProductList />} />
         {/* UNE SEULE page détail, paramètre :id */}
-        <Route path="/produit/:id" element={<ProductDetail />} />
+        <Route path="/produit/:slug" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
   );
