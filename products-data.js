@@ -94,6 +94,25 @@ const products = [
       ]
     }
   }
+   id: 5,
+    name: "MENU VEGGIE",
+    slug: "menu-veggie",
+    category: "Nouveautés",
+    description: "Pain complet, steak végétal, salade, tomate, frites + boisson",
+    price: 10.90,
+    image: "img/menu-veggie.jpg",
+    options: {}
+  }, // <--- PAS DE VIRGULE APRÈS LE DERNIER OBJET
+  {
+    id: 6,
+    name: "COLA ZERO",
+    slug: "cola-zero",
+    category: "Boissons",
+    description: "Boisson gazeuse sans sucre",
+    price: 2.00,
+    image: "img/cola-zero.jpg",
+    options: {}
+  }
   
 ];
 
