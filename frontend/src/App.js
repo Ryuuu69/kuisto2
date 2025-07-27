@@ -104,12 +104,13 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/produit/:id" element={<ProductDetail />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/produits" element={<Produits />} />
-        </Routes>
-      </BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/produits" element={<Produits />} />
+    <Route path="/produit/:id" element={<ProductDetail />} />
+  </Routes>
+</BrowserRouter>
+
     </div>
   );
 }
