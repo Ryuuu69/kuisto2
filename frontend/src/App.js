@@ -1,3 +1,4 @@
+import ProductDetail from './ProductDetail';
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Header, LocationCard, SectionTitle, Sidebar, ProductCard, Footer, MobileSidebar } from './components';
@@ -104,6 +105,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/produit/:id" element={<ProductDetail />} />
           <Route path="/" element={<Home />} />
           <Route path="/produits" element={<Produits />} />
         </Routes>
