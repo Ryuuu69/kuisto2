@@ -389,6 +389,20 @@
     <!-- Scripts -->
     <script src="products-data.js"></script>
     <script>
+      function updateCartDisplay() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const bar = document.getElementById('cart-bar');
+  if (!bar) return;
+  if (cart.length === 0) {
+    bar.style.display = 'none';
+  } else {
+    const total = cart.reduce((sum, item) => sum + item.total, 0);
+    document.getElementById('cart-count').textContent = cart.length;
+    document.getElementById('cart-price').textContent = total.toFixed(2) + ' €';
+    bar.style.display = 'block';
+  }
+}
+
         /**
          * FICHE PRODUIT UNIVERSELLE - Big Smash
          * Gère l'affichage et la personnalisation de n'importe quel produit
