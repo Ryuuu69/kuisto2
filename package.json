@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "BigSmash static website",
   "scripts": {
-    "dev": "npx serve -l 3000 ."
+    "dev": "vite"
   },
   "devDependencies": {
     "serve": "^14.2.1",
