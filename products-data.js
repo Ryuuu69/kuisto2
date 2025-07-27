@@ -93,7 +93,7 @@ const products = [
         { name: "Sauce barbecue", price: 0.50, image: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=100&h=100&fit=crop" }
       ]
     }
-  }
+  },
   {
    id: 5,
     name: "MENU VEGGIE",
