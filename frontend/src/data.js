@@ -28,6 +28,7 @@ export const products = [
     name: 'BIG SALADES',
     description: 'Big Caesar, Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan.',
     price: 9.90,
+    slug: 'big-salades',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -36,6 +37,7 @@ export const products = [
     name: 'THÉ & LIMONADE',
     description: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre',
     price: 2.90,
+    slug: 'the-limonade',
     image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -44,6 +46,7 @@ export const products = [
     name: 'PISTACHIO',
     description: 'Milkshake au Sundae 7.4 kg de châtaib',
     price: 3.95,
+    slug: 'pistachio',
     image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -52,6 +55,7 @@ export const products = [
     name: 'MENU BIG CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar',
     price: 11.90,
+    slug: 'menu-big-cheese-nouveau',
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -60,6 +64,7 @@ export const products = [
     name: 'MENU SURF & TURF',
     description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
     price: 11.90,
+    slug: 'menu-surf-turf',
     image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -68,6 +73,7 @@ export const products = [
     name: 'TACO SMASH',
     description: 'Choisissez deux Taco (classique ou épicé)',
     price: 7.90,
+    slug: 'taco-smash',
     image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center'
   },
 
@@ -78,6 +84,7 @@ export const products = [
     name: 'BIG CHEESE',
     description: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons',
     price: 8.90,
+    slug: 'big-cheese',
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -86,6 +93,7 @@ export const products = [
     name: 'SURF & TURF',
     description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
     price: 8.90,
+    slug: 'surf-turf',
     image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -94,6 +102,7 @@ export const products = [
     name: 'BIG SMASH',
     description: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade',
     price: 6.90,
+    slug: 'big-smash',
     image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center'
   },
 
@@ -104,6 +113,7 @@ export const products = [
     name: 'BIG CAESAR',
     description: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan',
     price: 8.90,
+    slug: 'big-caesar',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
   },
 
@@ -111,7 +121,7 @@ export const products = [
   {
     id: 11,
     category: 'Menus Burger',
-    slug: 'menu-big-cheese', // ← CE CHAMP EST INDISPENSABLE
+    slug: 'menu-big-cheese',
     name: 'MENU BIG CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
@@ -124,7 +134,7 @@ export const products = [
     category: 'Extras',
     name: 'FRITES MAISON',
     description: 'Frites fraîches coupées maison',
-    slug: 'menu-big-cheese',               // ← 1 ligne à ajouter
+    slug: 'frites-maison',
     price: 3.50,
     image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center'
   },
@@ -135,6 +145,7 @@ export const products = [
     category: 'Boissons',
     name: 'COCA-COLA 33CL',
     description: 'Boisson gazeuse rafraîchissante',
+    slug: 'coca-cola-33cl',
     price: 2.90,
     image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center'
   },
@@ -145,9 +156,10 @@ export const products = [
     category: 'Desserts',
     name: 'MILKSHAKE VANILLE',
     description: 'Milkshake onctueux à la vanille',
+    slug: 'milkshake-vanille',
     price: 4.50,
     image: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center'
-  }
+  },
   {
     id: 99,
     category: 'Menus Burger',
@@ -155,6 +167,7 @@ export const products = [
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center',
+    slug: 'menu-big-cheese-options',
     options: [
       {
         name: 'Supplément',
