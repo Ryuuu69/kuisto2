@@ -1331,7 +1331,8 @@
         // ===== SYSTÈME DE PANIER ET MODALE =====
         
         // Variables globales
-        let cart = JSON.parse(localStorage.getItem('bigsmash-cart') || '[]');
+        // Récupération du panier depuis localStorage
+        cart = JSON.parse(localStorage.getItem('bigsmash-cart') || '[]');
         let allProducts = [];
         
         // Créer un tableau global de tous les produits avec index
@@ -1576,6 +1577,13 @@
         function openCart() {
             alert('Ouverture de la page panier (à implémenter)');
             console.log('Contenu du panier:', cart);
+        }
+
+        // ===== FILTRAGE DES CATÉGORIES =====
+        function filterCategory(category) {
+            // Cette fonction peut être implémentée pour filtrer les produits par catégorie
+            console.log('Filtrage par catégorie:', category);
+            // Pour l'instant, on ne fait que logger la catégorie sélectionnée
         }
         
         // Initialiser l'affichage du panier au chargement
