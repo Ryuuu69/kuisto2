@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
       return;
     }
     console.log('Navigating to product:', product.slug);
-    navigate(`/produit/${product.slug}`);
+    navigate(`${product.slug}`)
   };
 
   return (
