@@ -11,16 +11,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Page d'accueil */}
-        <Route path="/" element={<ProductList />} />
+        {/* Accueil (sélection de ville ou ProductList) */}
+        <Route path="/" element={<Home />} />
 
         {/* Liste de tous les produits */}
         <Route path="/produits" element={<Produits />} />
 
-        {/* Détail d'un produit générique */}
+        {/* Détail générique d’un produit */}
         <Route path="/produit/:id" element={<ProductDetail />} />
 
-        {/* Page dédiée Big Cheese (temporaire ou isolée) */}
+        {/* Page isolée Big Cheese (pour test ou page dédiée) */}
         <Route path="/big-cheese" element={<BigCheeseDetail />} />
       </Routes>
     </BrowserRouter>
