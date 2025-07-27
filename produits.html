@@ -578,7 +578,7 @@
         };
 
         // Fonction pour générer le HTML d'une carte produit
-        function createProductCard(product) {
+        function createProductCard(product, index) {
             return `
                 <div class="product-card">
                     <div class="thumb">
@@ -592,19 +592,22 @@
                             <span class="value">${product.price}</span>
                         </span>
                     </div>
-                    <!-- exemple dans la boucle de génération de produit -->
-<button class="open-modal-btn" data-index="0" style="position:absolute;top:10px;right:10px;">+</button>
-
+                    <button class="add-btn" onclick="openProductModal(this)" data-product-index="${index}">+</button>
                 </div>
             `;
         }
 
         // Fonction pour afficher tous les produits
         function renderAllProducts() {
+            let globalIndex = 0;
             Object.keys(products).forEach(categoryKey => {
                 const container = document.getElementById(`${categoryKey}-products`);
                 if (container) {
-                    container.innerHTML = products[categoryKey].map(createProductCard).join('');
+                    container.innerHTML = products[categoryKey].map((product, localIndex) => {
+                        const productWithGlobalIndex = createProductCard(product, globalIndex);
+                        globalIndex++;
+                        return productWithGlobalIndex;
+                    }).join('');
                 }
             });
         }
@@ -631,20 +634,286 @@
 
         // Initialize
         renderAllProducts();
+
+        // ===== SYSTÈME DE PANIER ET MODALE =====
+        
+        // Variables globales
+        let cart = JSON.parse(localStorage.getItem('bigsmash-cart') || '[]');
+        let allProducts = [];
+        
+        // Créer un tableau global de tous les produits avec index
+        function createGlobalProductsArray() {
+            allProducts = [];
+            Object.keys(products).forEach(categoryKey => {
+                products[categoryKey].forEach(product => {
+                    allProducts.push({
+                        ...product,
+                        category: categoryKey
+                    });
+                });
+            });
+        }
+        
+        // Initialiser le tableau global
+        createGlobalProductsArray();
+        
+        // Ouvrir la modale de personnalisation
+        function openProductModal(button) {
+            const productIndex = parseInt(button.getAttribute('data-product-index'));
+            const product = allProducts[productIndex];
+            
+            if (!product) return;
+            
+            // Construire le contenu de la modale
+            let modalContent = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <img src="${product.img}" alt="${product.name}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 16px; margin-bottom: 16px;">
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">${product.name}</h2>
+                    <p style="color: #666; margin-bottom: 16px; font-style: italic;">${product.desc}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #E30613;">Prix de base: ${product.price}</p>
+                </div>
+            `;
+            
+            // Ajouter les options si disponibles (exemple pour les menus)
+            if (product.name.includes('MENU')) {
+                modalContent += `
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Options du menu:</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                            <button class="option-btn" data-option="sans-pickles" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Sans pickles</button>
+                            <button class="option-btn" data-option="sans-oignons" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Sans oignons</button>
+                            <button class="option-btn" data-option="extra-cheddar" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Extra cheddar (+1€)</button>
+                            <button class="option-btn" data-option="extra-steak" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Extra steak (+2.5€)</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Ajouter la section boissons
+            modalContent += `
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Boissons supplémentaires:</h3>
+                    <div id="drinks-section">
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Coca-Cola</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+2.90€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('coca', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="coca-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('coca', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Milkshake</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+4.50€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('milkshake', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="milkshake-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('milkshake', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Limonade</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+2.50€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('limonade', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="limonade-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('limonade', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="add-to-cart-btn" onclick="addToCart(${productIndex})" style="width: 100%; background: #E30613; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 16px;">
+                    Ajouter au panier - <span id="total-price">${product.price}</span>
+                </button>
+            `;
+            
+            // Injecter le contenu dans la modale
+            document.getElementById('modal-main').innerHTML = modalContent;
+            
+            // Réinitialiser les quantités de boissons
+            window.currentDrinks = { coca: 0, milkshake: 0, limonade: 0 };
+            window.currentOptions = [];
+            window.currentProductIndex = productIndex;
+            
+            // Afficher la modale
+            document.getElementById('custom-modal').style.display = 'flex';
+            
+            // Ajouter les event listeners pour les options
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    if (this.classList.contains('selected')) {
+                        this.style.background = '#E30613';
+                        this.style.color = 'white';
+                        this.style.borderColor = '#E30613';
+                    } else {
+                        this.style.background = 'white';
+                        this.style.color = 'black';
+                        this.style.borderColor = '#ddd';
+                    }
+                    updateTotalPrice();
+                });
+            });
+            
+            updateTotalPrice();
+        }
+        
+        // Changer la quantité d'une boisson
+        function changeDrinkQty(drinkType, delta) {
+            const currentQty = window.currentDrinks[drinkType];
+            const newQty = Math.max(0, Math.min(5, currentQty + delta));
+            window.currentDrinks[drinkType] = newQty;
+            document.getElementById(drinkType + '-qty').textContent = newQty;
+            updateTotalPrice();
+        }
+        
+        // Mettre à jour le prix total
+        function updateTotalPrice() {
+            const product = allProducts[window.currentProductIndex];
+            let basePrice = parseFloat(product.price.replace('€', '').replace(',', '.'));
+            
+            // Ajouter le prix des boissons
+            const drinkPrices = { coca: 2.90, milkshake: 4.50, limonade: 2.50 };
+            let drinksTotal = 0;
+            Object.keys(window.currentDrinks).forEach(drink => {
+                drinksTotal += window.currentDrinks[drink] * drinkPrices[drink];
+            });
+            
+            // Ajouter le prix des options sélectionnées
+            let optionsTotal = 0;
+            document.querySelectorAll('.option-btn.selected').forEach(btn => {
+                const option = btn.getAttribute('data-option');
+                if (option === 'extra-cheddar') optionsTotal += 1.00;
+                if (option === 'extra-steak') optionsTotal += 2.50;
+            });
+            
+            const total = basePrice + drinksTotal + optionsTotal;
+            document.getElementById('total-price').textContent = total.toFixed(2).replace('.', ',') + '€';
+        }
+        
+        // Fermer la modale
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = 'none';
+        }
+        
+        // Ajouter au panier
+        function addToCart(productIndex) {
+            const product = allProducts[productIndex];
+            
+            // Récupérer les options sélectionnées
+            const selectedOptions = [];
+            document.querySelectorAll('.option-btn.selected').forEach(btn => {
+                selectedOptions.push(btn.getAttribute('data-option'));
+            });
+            
+            // Créer l'objet article
+            const cartItem = {
+                id: Date.now() + Math.random(), // ID unique
+                productIndex: productIndex,
+                name: product.name,
+                basePrice: parseFloat(product.price.replace('€', '').replace(',', '.')),
+                image: product.img,
+                options: selectedOptions,
+                drinks: { ...window.currentDrinks },
+                totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('€', '').replace(',', '.'))
+            };
+            
+            // Ajouter au panier
+            cart.push(cartItem);
+            localStorage.setItem('bigsmash-cart', JSON.stringify(cart));
+            
+            // Fermer la modale
+            closeModal();
+            
+            // Afficher le toast
+            showToast();
+            
+            // Mettre à jour l'affichage du panier
+            updateCartDisplay();
+        }
+        
+        // Afficher le toast
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Mettre à jour l'affichage du panier sticky
+        function updateCartDisplay() {
+            const cartBar = document.getElementById('cart-bar');
+            const cartCount = document.getElementById('cart-count');
+            const cartPrice = document.getElementById('cart-price');
+            
+            if (cart.length === 0) {
+                cartBar.style.display = 'none';
+                return;
+            }
+            
+            const totalItems = cart.length;
+            const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            
+            cartCount.textContent = totalItems;
+            cartPrice.textContent = totalPrice.toFixed(2).replace('.', ',') + '€';
+            cartBar.style.display = 'block';
+        }
+        
+        // Ouvrir la page panier (placeholder)
+        function openCart() {
+            alert('Ouverture de la page panier (à implémenter)');
+            console.log('Contenu du panier:', cart);
+        }
+        
+        // Initialiser l'affichage du panier au chargement
+        updateCartDisplay();
+        
+        // Rendre les fonctions globales
+        window.openProductModal = openProductModal;
+        window.changeDrinkQty = changeDrinkQty;
+        window.closeModal = closeModal;
+        window.addToCart = addToCart;
+        window.openCart = openCart;
     </script>
-  <!-- MODALE DE PERSONNALISATION -->
-<div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
-  <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px #0002;">
-    <button onclick="closeModal()" style="position:absolute; top:0; right:0; background:#ea3d2f; color:#fff; border:0; border-bottom-left-radius:20px; width:48px; height:48px; font-size:2em; cursor:pointer;">&larr;</button>
-    
-    <div id="modal-main">
-      <!-- L'intérieur sera injecté en JS -->
+
+    <!-- MODALE DE PERSONNALISATION -->
+    <div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
+        <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
+            <button onclick="closeModal()" style="position:absolute; top:16px; right:16px; background:#E30613; color:#fff; border:0; border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">×</button>
+            
+            <div id="modal-main">
+                <!-- Le contenu sera injecté par JavaScript -->
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-  <div id="cart-bar" style="display:none;position:fixed;bottom:16px;right:16px;background:#222;color:#fff;border-radius:24px;padding:12px 24px;cursor:pointer;z-index:999;">
-  <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
-</div>
-<div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;">Ajouté au panier !</div>
+
+    <!-- PANIER STICKY -->
+    <div id="cart-bar" onclick="openCart()" style="display:none;position:fixed;bottom:16px;right:16px;background:#222;color:#fff;border-radius:24px;padding:12px 24px;cursor:pointer;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+        <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);">Ajouté au panier !</div>
+    
 </body>
 </html>
