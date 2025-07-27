@@ -6,7 +6,8 @@
     "dev": "npx serve -l 3000 ."
   },
   "devDependencies": {
-    "serve": "^14.2.1"
+    "serve": "^14.2.1",
+    "vite": "^7.0.6"
   },
   "main": "vite.config.js",
   "directories": {
