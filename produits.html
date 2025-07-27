@@ -939,79 +939,654 @@
         }
     </style>
     
-    <!-- Inclusion des données produits -->
-    <script src="products-data.js"></script>
-
     <script>
-        // Catégories disponibles
-        const categories = ["Tous", "Salades", "Menus", "Burgers", "Accompagnements"];
-        let currentCategory = "Tous";
+        // ===== DONNÉES PRODUITS ET CONFIGURATION =====
+        
+        // Configuration des boissons disponibles
+        const availableDrinks = [
+            { name: "Coca-Cola", price: 2.90, img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=60&h=60&fit=crop" },
+            { name: "Milkshake", price: 4.50, img: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=60&h=60&fit=crop" },
+            { name: "Limonade", price: 2.50, img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=60&h=60&fit=crop" }
+        ];
 
-        // Fonction pour filtrer les produits par catégorie
-        function filterProducts() {
-            const filteredProducts = currentCategory === "Tous" 
-                ? products 
-                : products.filter(product => product.category === currentCategory);
-            
-            renderProducts(filteredProducts);
-        }
+        // Configuration des options disponibles (pour les menus)
+        const availableOptions = [
+            { name: "Sans pickles", price: 0.00, img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=60&h=60&fit=crop" },
+            { name: "Sans oignons", price: 0.00, img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=60&h=60&fit=crop" },
+            { name: "Extra cheddar", price: 1.00, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=60&h=60&fit=crop" },
+            { name: "Extra steak", price: 2.50, img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=60&h=60&fit=crop" }
+        ];
 
-        // Fonction pour changer de catégorie
-        function changeCategory(category) {
-            currentCategory = category;
+        // ===== VARIABLES GLOBALES =====
+        let currentProduct = null;
+        let currentDrinks = {};
+        let currentOptions = [];
+        let cart = JSON.parse(localStorage.getItem('bigsmash-cart') || '[]');
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProductButtons();
+            updateCartDisplay();
             
-            // Mettre à jour l'interface
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
+            // Initialiser les quantités de boissons
+            availableDrinks.forEach(drink => {
+                currentDrinks[drink.name] = 0;
             });
-            
-            document.querySelector(`[data-category="${category}"]`).classList.add('active');
-            
-            filterProducts();
+        });
+
+        // ===== GESTION DES BOUTONS PRODUITS =====
+        function initializeProductButtons() {
+            // Attacher les événements à tous les boutons .add-btn existants
+            document.querySelectorAll('.add-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const productIndex = this.getAttribute('data-product-index');
+                    if (productIndex !== null) {
+                        openProductModal(parseInt(productIndex));
+                    }
+                });
+            });
         }
 
-        // Fonction pour générer le HTML d'un produit
-        function generateProductHTML(product, index) {
+        // ===== GESTION DE LA MODALE =====
+        function openProductModal(productIndex) {
+            // Récupérer le produit depuis le tableau global allProducts
+            if (!allProducts || !allProducts[productIndex]) {
+                console.error('Produit non trouvé:', productIndex);
+                return;
+            }
+
+            currentProduct = allProducts[productIndex];
+            
+            // Réinitialiser les sélections
+            availableDrinks.forEach(drink => {
+                currentDrinks[drink.name] = 0;
+            });
+            currentOptions = [];
+
+            // Remplir les informations du produit
+            document.getElementById('modal-product-image').src = currentProduct.img || '';
+            document.getElementById('modal-product-image').alt = currentProduct.name;
+            document.getElementById('modal-product-name').textContent = currentProduct.name;
+            document.getElementById('modal-product-desc').textContent = currentProduct.desc;
+            document.getElementById('modal-product-price').textContent = `Prix de base: ${formatPrice(currentProduct.price)}`;
+
+            // Générer la grille des boissons
+            generateDrinksGrid();
+            
+            // Générer les options si c'est un menu
+            if (currentProduct.name.toLowerCase().includes('menu')) {
+                generateOptionsGrid();
+                document.getElementById('options-section').style.display = 'block';
+            } else {
+                document.getElementById('options-section').style.display = 'none';
+            }
+
+            // Mettre à jour le prix total
+            updateTotalPrice();
+
+            // Afficher la modale
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').style.display = 'none';
+            currentProduct = null;
+        }
+
+        // ===== GÉNÉRATION DES GRILLES =====
+        function generateDrinksGrid() {
+            const grid = document.getElementById('drinks-grid');
+            grid.innerHTML = '';
+
+            availableDrinks.forEach(drink => {
+                const card = document.createElement('div');
+                card.className = 'drink-card';
+                card.innerHTML = `
+                    <img src="${drink.img}" alt="${drink.name}" class="drink-image" onerror="this.className='drink-image placeholder'; this.innerHTML='🥤';">
+                    <div class="drink-name">${drink.name}</div>
+                    <div class="drink-price">+${formatPrice(drink.price)}</div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="changeDrinkQuantity('${drink.name}', -1)">−</button>
+                        <span class="qty-display" id="qty-${drink.name.replace(/\s+/g, '-')}">${currentDrinks[drink.name]}</span>
+                        <button class="qty-btn" onclick="changeDrinkQuantity('${drink.name}', 1)">+</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function generateOptionsGrid() {
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+
+            availableOptions.forEach((option, index) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.onclick = () => toggleOption(index);
+                card.innerHTML = `
+                    <img src="${option.img}" alt="${option.name}" class="option-image" onerror="this.className='option-image placeholder'; this.innerHTML='🍔';">
+                    <div class="option-name">${option.name}</div>
+                    <div class="option-price">${option.price > 0 ? '+' + formatPrice(option.price) : 'Gratuit'}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== GESTION DES QUANTITÉS ET OPTIONS =====
+        function changeDrinkQuantity(drinkName, delta) {
+            const currentQty = currentDrinks[drinkName];
+            const newQty = Math.max(0, Math.min(5, currentQty + delta));
+            
+            currentDrinks[drinkName] = newQty;
+            
+            // Mettre à jour l'affichage
+            const displayElement = document.getElementById(`qty-${drinkName.replace(/\s+/g, '-')}`);
+            if (displayElement) {
+                displayElement.textContent = newQty;
+            }
+            
+            updateTotalPrice();
+        }
+
+        function toggleOption(optionIndex) {
+            const optionCards = document.querySelectorAll('.option-card');
+            const card = optionCards[optionIndex];
+            
+            if (currentOptions.includes(optionIndex)) {
+                // Désélectionner
+                currentOptions = currentOptions.filter(i => i !== optionIndex);
+                card.classList.remove('selected');
+            } else {
+                // Sélectionner
+                currentOptions.push(optionIndex);
+                card.classList.add('selected');
+            }
+            
+            updateTotalPrice();
+        }
+
+        // ===== CALCUL DU PRIX TOTAL =====
+        function updateTotalPrice() {
+            if (!currentProduct) return;
+
+            let total = parseFloat(currentProduct.price.toString().replace('€', '').replace(',', '.'));
+
+            // Ajouter le prix des boissons
+            availableDrinks.forEach(drink => {
+                total += currentDrinks[drink.name] * drink.price;
+            });
+
+            // Ajouter le prix des options
+            currentOptions.forEach(optionIndex => {
+                total += availableOptions[optionIndex].price;
+            });
+
+            document.getElementById('total-price').textContent = formatPrice(total);
+        }
+
+        // ===== GESTION DU PANIER =====
+        function addToCart() {
+            if (!currentProduct) return;
+
+            // Créer l'objet article
+            const cartItem = {
+                id: Date.now() + Math.random(),
+                name: currentProduct.name,
+                image: currentProduct.img,
+                basePrice: parseFloat(currentProduct.price.toString().replace('€', '').replace(',', '.')),
+                drinks: { ...currentDrinks },
+                options: [...currentOptions],
+                totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('€', '').replace(',', '.'))
+            };
+
+            // Ajouter au panier
+            cart.push(cartItem);
+            localStorage.setItem('bigsmash-cart', JSON.stringify(cart));
+
+            // Fermer la modale
+            closeProductModal();
+
+            // Afficher le toast
+            showToast();
+
+            // Mettre à jour l'affichage du panier
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartSticky = document.getElementById('cart-sticky');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                cartSticky.style.display = 'none';
+                return;
+            }
+
+            const totalItems = cart.length;
+            const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = formatPrice(totalPrice);
+            cartSticky.style.display = 'flex';
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function openCart() {
+            // Placeholder pour ouvrir la page panier
+            console.log('Ouverture de la page panier:', cart);
+            alert('Redirection vers la page panier (à implémenter)');
+        }
+
+        // ===== UTILITAIRES =====
+        function formatPrice(price) {
+            if (typeof price === 'string') {
+                return price;
+            }
+            return price.toFixed(2).replace('.', ',') + '€';
+        }
+
+        // Fermer la modale en cliquant sur l'overlay
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'product-modal') {
+                closeProductModal();
+            }
+        });
+
+        // ===== RÉINITIALISATION POUR COMPATIBILITÉ =====
+        // Réattacher les événements si de nouveaux produits sont ajoutés dynamiquement
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // Element node
+                            const addButtons = node.querySelectorAll ? node.querySelectorAll('.add-btn') : [];
+                            addButtons.forEach(button => {
+                                if (!button.hasAttribute('data-modal-attached')) {
+                                    button.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        
+                                        const productIndex = this.getAttribute('data-product-index');
+                                        if (productIndex !== null) {
+                                            openProductModal(parseInt(productIndex));
+                                        }
+                                    });
+                                    button.setAttribute('data-modal-attached', 'true');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        // Observer les changements dans le DOM
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        // Product data - structure simplifiée pour le nouveau composant
+        const products = {
+            'nouveautes': [
+                { name: 'BIG SALADES', desc: 'Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '9,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'THÉ & LIMONADE', desc: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' },
+                { name: 'PISTACHIO', desc: 'Milkshake au Sundae 7.4 kg de châtaib', price: '3,95 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' },
+                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'MENU SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
+                { name: 'TACO SMASH', desc: 'Choisissez deux Taco (classique ou épicé)', price: '7,90 €', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'big-salades': [
+                { name: 'BIG CAESAR', desc: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '8,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'big-burgers': [
+                { name: 'BIG CHEESE', desc: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons', price: '8,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
+                { name: 'SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '8,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
+                { name: 'BIG SMASH', desc: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade', price: '6,90 €', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'menus-burger': [
+                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'extras': [
+                { name: 'FRITES MAISON', desc: 'Frites fraîches coupées maison', price: '3,50 €', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'boissons': [
+                { name: 'COCA-COLA 33CL', desc: 'Boisson gazeuse rafraîchissante', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' }
+            ],
+            'desserts': [
+                { name: 'MILKSHAKE VANILLE', desc: 'Milkshake onctueux à la vanille', price: '4,50 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' }
+            ]
+        };
+
+        // Fonction pour générer le HTML d'une carte produit
+        function createProductCard(product, index) {
             return `
                 <div class="product-card">
-                    <div class="img">
-                        <img src="${product.img}" alt="${product.name}" loading="lazy">
+                    <div class="thumb">
+                        <img src="${product.img}" alt="${product.name}">
                     </div>
-                    <div class="content">
-                        <div class="info">
-                            <h3 class="title">${product.name}</h3>
-                            <p class="desc">${product.desc}</p>
-                            <div class="price">
-                                <span class="label">À partir de</span>
-                                <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
-                            </div>
-                        </div>
-                        <div class="add">
-                            <button class="add-btn" onclick="window.location.href='produit.html?slug=${product.slug}'">
-                                <svg class="ico" viewBox="0 0 24 24">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
+                    <div class="info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="desc">${product.desc}</p>
+                        <span class="price">
+                            <span class="from">À partir de </span>
+                            <span class="value">${product.price}</span>
+                        </span>
                     </div>
+                    <button class="add-btn" onclick="openProductModal(this)" data-product-index="${index}">+</button>
                 </div>
             `;
         }
 
-        // Fonction pour afficher les produits
-        function renderProducts(productsToRender = products) {
-            const container = document.querySelector('.products');
-            if (!container) return;
-            
-            container.innerHTML = productsToRender
-                .map((product, index) => generateProductHTML(product, index))
-                .join('');
+        // Fonction pour afficher tous les produits
+        function renderAllProducts() {
+            let globalIndex = 0;
+            Object.keys(products).forEach(categoryKey => {
+                const container = document.getElementById(`${categoryKey}-products`);
+                if (container) {
+                    container.innerHTML = products[categoryKey].map((product, localIndex) => {
+                        const productWithGlobalIndex = createProductCard(product, globalIndex);
+                        globalIndex++;
+                        return productWithGlobalIndex;
+                    }).join('');
+                }
+            });
         }
 
-        // Initialisation
-        renderProducts();
+        function setActiveCategory(category) {
+            // Mettre à jour l'état actif du menu
+            document.querySelectorAll('.side-nav li').forEach(li => {
+                li.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.side-nav li').forEach(li => {
+                if (li.textContent.trim() === category) {
+                    li.classList.add('active');
+                }
+            });
+            
+            // Faire défiler vers la section correspondante
+            const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize
+        renderAllProducts();
+
+        // ===== SYSTÈME DE PANIER ET MODALE =====
+        
+        // Variables globales
+        let cart = JSON.parse(localStorage.getItem('bigsmash-cart') || '[]');
+        let allProducts = [];
+        
+        // Créer un tableau global de tous les produits avec index
+        function createGlobalProductsArray() {
+            allProducts = [];
+            Object.keys(products).forEach(categoryKey => {
+                products[categoryKey].forEach(product => {
+                    allProducts.push({
+                        ...product,
+                        category: categoryKey
+                    });
+                });
+            });
+        }
+        
+        // Initialiser le tableau global
+        createGlobalProductsArray();
+        
+        // Ouvrir la modale de personnalisation
+        function openProductModal(button) {
+            const productIndex = parseInt(button.getAttribute('data-product-index'));
+            const product = allProducts[productIndex];
+            
+            if (!product) return;
+            
+            // Construire le contenu de la modale
+            let modalContent = `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <img src="${product.img}" alt="${product.name}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 16px; margin-bottom: 16px;">
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">${product.name}</h2>
+                    <p style="color: #666; margin-bottom: 16px; font-style: italic;">${product.desc}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #E30613;">Prix de base: ${product.price}</p>
+                </div>
+            `;
+            
+            // Ajouter les options si disponibles (exemple pour les menus)
+            if (product.name.includes('MENU')) {
+                modalContent += `
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Options du menu:</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                            <button class="option-btn" data-option="sans-pickles" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Sans pickles</button>
+                            <button class="option-btn" data-option="sans-oignons" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Sans oignons</button>
+                            <button class="option-btn" data-option="extra-cheddar" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Extra cheddar (+1€)</button>
+                            <button class="option-btn" data-option="extra-steak" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-size: 12px;">Extra steak (+2.5€)</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Ajouter la section boissons
+            modalContent += `
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Boissons supplémentaires:</h3>
+                    <div id="drinks-section">
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Coca-Cola</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+2.90€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('coca', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="coca-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('coca', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Milkshake</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+4.50€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('milkshake', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="milkshake-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('milkshake', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="drink-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center;">
+                                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=50&h=50&fit=crop" style="width: 40px; height: 40px; border-radius: 6px; margin-right: 12px;">
+                                <div>
+                                    <p style="font-weight: bold; margin: 0;">Limonade</p>
+                                    <p style="color: #666; margin: 0; font-size: 12px;">+2.50€</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="changeDrinkQty('limonade', -1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">-</button>
+                                <span id="limonade-qty" style="min-width: 20px; text-align: center; font-weight: bold;">0</span>
+                                <button onclick="changeDrinkQty('limonade', 1)" style="width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 50%; background: white; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="add-to-cart-btn" onclick="addToCart(${productIndex})" style="width: 100%; background: #E30613; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 16px;">
+                    Ajouter au panier - <span id="total-price">${product.price}</span>
+                </button>
+            `;
+            
+            // Injecter le contenu dans la modale
+            document.getElementById('modal-main').innerHTML = modalContent;
+            
+            // Réinitialiser les quantités de boissons
+            window.currentDrinks = { coca: 0, milkshake: 0, limonade: 0 };
+            window.currentOptions = [];
+            window.currentProductIndex = productIndex;
+            
+            // Afficher la modale
+            document.getElementById('custom-modal').style.display = 'flex';
+            
+            // Ajouter les event listeners pour les options
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    if (this.classList.contains('selected')) {
+                        this.style.background = '#E30613';
+                        this.style.color = 'white';
+                        this.style.borderColor = '#E30613';
+                    } else {
+                        this.style.background = 'white';
+                        this.style.color = 'black';
+                        this.style.borderColor = '#ddd';
+                    }
+                    updateTotalPrice();
+                });
+            });
+            
+            updateTotalPrice();
+        }
+        
+        // Changer la quantité d'une boisson
+        function changeDrinkQty(drinkType, delta) {
+            const currentQty = window.currentDrinks[drinkType];
+            const newQty = Math.max(0, Math.min(5, currentQty + delta));
+            window.currentDrinks[drinkType] = newQty;
+            document.getElementById(drinkType + '-qty').textContent = newQty;
+            updateTotalPrice();
+        }
+        
+        // Mettre à jour le prix total
+        function updateTotalPrice() {
+            const product = allProducts[window.currentProductIndex];
+            let basePrice = parseFloat(product.price.replace('€', '').replace(',', '.'));
+            
+            // Ajouter le prix des boissons
+            const drinkPrices = { coca: 2.90, milkshake: 4.50, limonade: 2.50 };
+            let drinksTotal = 0;
+            Object.keys(window.currentDrinks).forEach(drink => {
+                drinksTotal += window.currentDrinks[drink] * drinkPrices[drink];
+            });
+            
+            // Ajouter le prix des options sélectionnées
+            let optionsTotal = 0;
+            document.querySelectorAll('.option-btn.selected').forEach(btn => {
+                const option = btn.getAttribute('data-option');
+                if (option === 'extra-cheddar') optionsTotal += 1.00;
+                if (option === 'extra-steak') optionsTotal += 2.50;
+            });
+            
+            const total = basePrice + drinksTotal + optionsTotal;
+            document.getElementById('total-price').textContent = total.toFixed(2).replace('.', ',') + '€';
+        }
+        
+        // Fermer la modale
+        function closeModal() {
+            document.getElementById('custom-modal').style.display = 'none';
+        }
+        
+        // Ajouter au panier
+        function addToCart(productIndex) {
+            const product = allProducts[productIndex];
+            
+            // Récupérer les options sélectionnées
+            const selectedOptions = [];
+            document.querySelectorAll('.option-btn.selected').forEach(btn => {
+                selectedOptions.push(btn.getAttribute('data-option'));
+            });
+            
+            // Créer l'objet article
+            const cartItem = {
+                id: Date.now() + Math.random(), // ID unique
+                productIndex: productIndex,
+                name: product.name,
+                basePrice: parseFloat(product.price.replace('€', '').replace(',', '.')),
+                image: product.img,
+                options: selectedOptions,
+                drinks: { ...window.currentDrinks },
+                totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('€', '').replace(',', '.'))
+            };
+            
+            // Ajouter au panier
+            cart.push(cartItem);
+            localStorage.setItem('bigsmash-cart', JSON.stringify(cart));
+            
+            // Fermer la modale
+            closeModal();
+            
+            // Afficher le toast
+            showToast();
+            
+            // Mettre à jour l'affichage du panier
+            updateCartDisplay();
+        }
+        
+        // Afficher le toast
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Mettre à jour l'affichage du panier sticky
+        function updateCartDisplay() {
+            const cartBar = document.getElementById('cart-bar');
+            const cartCount = document.getElementById('cart-count');
+            const cartPrice = document.getElementById('cart-price');
+            
+            if (cart.length === 0) {
+                cartBar.style.display = 'none';
+                return;
+            }
+            
+            const totalItems = cart.length;
+            const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            
+            cartCount.textContent = totalItems;
+            cartPrice.textContent = totalPrice.toFixed(2).replace('.', ',') + '€';
+            cartBar.style.display = 'block';
+        }
+        
+        // Ouvrir la page panier (placeholder)
+        function openCart() {
+            alert('Ouverture de la page panier (à implémenter)');
+            console.log('Contenu du panier:', cart);
+        }
+        
+        // Initialiser l'affichage du panier au chargement
         updateCartDisplay();
+        
+        // Rendre les fonctions globales
+        window.openProductModal = openProductModal;
+        window.changeDrinkQty = changeDrinkQty;
+        window.closeModal = closeModal;
+        window.addToCart = addToCart;
+        window.openCart = openCart;
     </script>
   <div id="custom-modal" style="display:none;">
   <div class="custom-modal-bg"></div>
