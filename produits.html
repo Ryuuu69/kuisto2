@@ -549,55 +549,26 @@
         </div>
     </div>
 
+    <!-- Include shared product data -->
+    <script src="products-data.js"></script>
     <script>
-        // Product data - structure simplifiée pour le nouveau composant
-        const products = {
-            'nouveautes': [
-                { name: 'BIG SALADES', desc: 'Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '9,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'THÉ & LIMONADE', desc: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' },
-                { name: 'PISTACHIO', desc: 'Milkshake au Sundae 7.4 kg de châtaib', price: '3,95 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' },
-                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'MENU SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
-                { name: 'TACO SMASH', desc: 'Choisissez deux Taco (classique ou épicé)', price: '7,90 €', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'big-salades': [
-                { name: 'BIG CAESAR', desc: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '8,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'big-burgers': [
-                { name: 'BIG CHEESE', desc: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons', price: '8,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '8,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
-                { name: 'BIG SMASH', desc: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade', price: '6,90 €', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'menus-burger': [
-                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'extras': [
-                { name: 'FRITES MAISON', desc: 'Frites fraîches coupées maison', price: '3,50 €', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'boissons': [
-                { name: 'COCA-COLA 33CL', desc: 'Boisson gazeuse rafraîchissante', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'desserts': [
-                { name: 'MILKSHAKE VANILLE', desc: 'Milkshake onctueux à la vanille', price: '4,50 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' }
-            ]
-        };
 
         // Fonction pour générer le HTML d'une carte produit
-        function createProductCard(product, index) {
-            // Générer le slug à partir du nom du produit
-            const slug = makeSlug(product.name);
+        function createProductCard(product) {
+            // Utiliser le slug déjà généré dans products-data.js
+            const slug = product.slug;
             
             return `
                 <div class="product-card">
                     <div class="thumb">
-                        <img src="${product.img}" alt="${product.name}">
+                        <img src="${product.image}" alt="${product.name}">
                     </div>
                     <div class="info">
                         <h3 class="product-name">${product.name}</h3>
-                        <p class="desc">${product.desc}</p>
+                        <p class="desc">${product.description}</p>
                         <span class="price">
                             <span class="from">À partir de </span>
-                            <span class="value">${product.price}</span>
+                            <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
                         </span>
                     </div>
                     <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
@@ -605,20 +576,14 @@
             `;
         }
 
-        // Fonction pour générer un slug à partir du nom du produit
-        function makeSlug(name) {
-            return name.toLowerCase()
-                .replace(/[àáâãäå]/g, 'a')
-                .replace(/[èéêë]/g, 'e')
-                .replace(/[ìíîï]/g, 'i')
-                .replace(/[òóôõö]/g, 'o')
-                .replace(/[ùúûü]/g, 'u')
-                .replace(/[ç]/g, 'c')
-                .replace(/[&]/g, '-')
+        // Fonction pour convertir une catégorie en ID de section
+        function getCategorySectionId(category) {
+            return category.toLowerCase()
                 .replace(/\s+/g, '-')
-                .replace(/[^a-z0-9-]/g, '')
-                .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '');
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/à/g, 'a')
+                .replace(/ç/g, 'c');
         }
 
         // Fonction pour rediriger vers la page produit
@@ -628,10 +593,26 @@
 
         // Fonction pour afficher tous les produits
         function renderAllProducts() {
-            Object.keys(products).forEach(categoryKey => {
-                const container = document.getElementById(`${categoryKey}-products`);
+            // Vider toutes les grilles de produits
+            const containers = [
+                'nouveautes-products', 'big-salades-products', 'big-burgers-products',
+                'menus-burger-products', 'extras-products', 'boissons-products', 'desserts-products'
+            ];
+            
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
                 if (container) {
-                    container.innerHTML = products[categoryKey].map((product, index) => createProductCard(product, index)).join('');
+                    container.innerHTML = '';
+                }
+            });
+            
+            // Remplir les grilles avec les produits de products-data.js
+            products.forEach(product => {
+                const sectionId = getCategorySectionId(product.category) + '-products';
+                const container = document.getElementById(sectionId);
+                
+                if (container) {
+                    container.innerHTML += createProductCard(product);
                 }
             });
         }
