@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSmash - Produit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .bg-bigRed { background-color: #DC2626; }
+        
+        /* Variables CSS */
+        :root {
+            --red: #EA3D2F;
+            --dark: #191919;
+            --gray: #808080;
+            --light-gray: #f8f9fa;
+        }
+
+        /* Styles pour la page produit */
+        .product-hero {
+            background: linear-gradient(135deg, #DC2626 0%, #EA3D2F 100%);
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .quantity-btn:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, var(--dark) 0%, #333 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: sticky;
+            bottom: 20px;
+            z-index: 100;
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, var(--red) 0%, #ff4444 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(234, 61, 47, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-4px);
+        }
+
+        .option-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .option-card {
+                padding: 16px;
+            }
+        }
+
+        /* Animation pour les erreurs */
+        .error-message {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-montserrat">
+    <!-- Container principal -->
+    <div id="app">
+        <!-- Le contenu sera injecté ici par JavaScript -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="products-data.js"></script>
+    <script src="cart-system.js"></script>
+    <script>
+        class ProductPage {
+            constructor() {
+                this.product = null;
+                this.selectedOptions = {
+                    supplements: {},
+                    drink: null,
+                    remove: {}
+                };
+                this.quantity = 1;
+                this.init();
+            }
+
+            // Initialisation de la page
+            init() {
+                const slug = this.getSlugFromURL();
+                
+                if (!slug) {
+                    this.showError('Aucun produit spécifié dans l\'URL');
+                    return;
+                }
+
+                this.product = findProductBySlug(slug);
+                
+                if (!this.product) {
+                    this.showError(`Produit "${slug}" introuvable`);
+                    return;
+                }
+
+                this.render();
+                this.bindEvents();
+            }
+
+            // Récupérer le slug depuis l'URL
+            getSlugFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('slug');
+            }
+
+            // Afficher une erreur
+            showError(message) {
+                document.getElementById('app').innerHTML = `
+                    <div class="min-h-screen flex items-center justify-center">
+                        <div class="text-center error-message">
+                            <div class="text-6xl mb-4">😕</div>
+                            <h1 class="text-2xl font-bold text-gray-800 mb-4">Oups !</h1>
+                            <p class="text-gray-600 mb-6">${message}</p>
+                            <a href="produits.html" class="bg-bigRed text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                                Retour à la liste des produits
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Rendu de la page
+            render() {
+                document.title = `BigSmash - ${this.product.name}`;
+                
+                document.getElementById('app').innerHTML = `
+                    <!-- Hero Section -->
+                    <div class="product-hero min-h-[300px] relative">
+                        <div class="container mx-auto px-6 py-8">
+                            <a href="produits.html" class="back-btn mb-6">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                                Retour
+                            </a>
+                            
+                            <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div>
+                                    <span class="inline-block bg-white/20 text-white text-sm px-3 py-1 rounded-full mb-4">
+                                        ${this.product.category}
+                                    </span>
+                                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                                        ${this.product.name}
+                                    </h1>
+                                    <p class="text-white/90 text-lg mb-6">
+                                        ${this.product.desc}
+                                    </p>
+                                    <div class="text-3xl font-bold text-white">
+                                        Prix de base : ${this.product.price.toFixed(2).replace('.', ',')} €
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <img src="${this.product.img}" alt="${this.product.name}" 
+                                         class="w-full max-w-md mx-auto rounded-2xl shadow-2xl">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Options Section -->
+                    <div class="container mx-auto px-6 py-8">
+                        <!-- Quantité -->
+                        <div class="option-card p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4">Quantité</h3>
+                            <div class="flex items-center gap-4">
+                                <button class="quantity-btn" id="qty-minus">−</button>
+                                <span class="text-2xl font-bold w-12 text-center" id="quantity">${this.quantity}</span>
+                                <button class="quantity-btn" id="qty-plus">+</button>
+                            </div>
+                        </div>
+
+                        ${this.renderOptions()}
+
+                        <!-- Bouton d'ajout au panier -->
+                        <button class="add-to-cart-btn" id="add-to-cart">
+                            <span id="cart-btn-text">Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Rendu des options
+            renderOptions() {
+                let html = '';
+
+                // Suppléments
+                if (this.product.options?.supplements?.length > 0) {
+                    html += `
+                        <div class="option-card p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4">Suppléments</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                ${this.product.options.supplements.map((supplement, index) => `
+                                    <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
+                                        <img src="${supplement.img}" alt="${supplement.name}" class="option-image">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">${supplement.name}</h4>
+                                            <p class="text-green-600 font-bold">+${supplement.price.toFixed(2).replace('.', ',')} €</p>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button class="quantity-btn supplement-minus" data-index="${index}">−</button>
+                                            <span class="w-8 text-center font-bold supplement-qty" data-index="${index}">0</span>
+                                            <button class="quantity-btn supplement-plus" data-index="${index}">+</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Boissons
+                if (this.product.options?.drinks?.length > 0) {
+                    html += `
+                        <div class="option-card p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4">Choisir une boisson</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                ${this.product.options.drinks.map((drink, index) => `
+                                    <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-red-300 transition-colors">
+                                        <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
+                                        <img src="${drink.img}" alt="${drink.name}" class="option-image">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">${drink.name}</h4>
+                                            <p class="text-green-600 font-bold">
+                                                ${drink.price > 0 ? `+${drink.price.toFixed(2).replace('.', ',')} €` : 'Inclus'}
+                                            </p>
+                                        </div>
+                                        <div class="w-6 h-6 border-2 border-gray-300 rounded-full flex items-center justify-center drink-indicator">
+                                            <div class="w-3 h-3 bg-red-500 rounded-full hidden drink-dot"></div>
+                                        </div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Options à retirer
+                if (this.product.options?.remove?.length > 0) {
+                    html += `
+                        <div class="option-card p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4">Personnalisation</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                ${this.product.options.remove.map((item, index) => `
+                                    <label class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-red-300 transition-colors">
+                                        <input type="checkbox" class="remove-checkbox" data-index="${index}">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">${item.name}</h4>
+                                        </div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return html;
+            }
+
+            // Liaison des événements
+            bindEvents() {
+                // Quantité
+                document.getElementById('qty-minus')?.addEventListener('click', () => {
+                    if (this.quantity > 1) {
+                        this.quantity--;
+                        this.updateDisplay();
+                    }
+                });
+
+                document.getElementById('qty-plus')?.addEventListener('click', () => {
+                    this.quantity++;
+                    this.updateDisplay();
+                });
+
+                // Suppléments
+                document.querySelectorAll('.supplement-minus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const index = parseInt(btn.dataset.index);
+                        const current = this.selectedOptions.supplements[index] || 0;
+                        if (current > 0) {
+                            this.selectedOptions.supplements[index] = current - 1;
+                            this.updateDisplay();
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.supplement-plus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const index = parseInt(btn.dataset.index);
+                        const current = this.selectedOptions.supplements[index] || 0;
+                        this.selectedOptions.supplements[index] = current + 1;
+                        this.updateDisplay();
+                    });
+                });
+
+                // Boissons
+                document.querySelectorAll('.drink-radio').forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        if (radio.checked) {
+                            const index = parseInt(radio.value);
+                            this.selectedOptions.drink = this.product.options.drinks[index];
+                            this.updateDisplay();
+                        }
+                    });
+                });
+
+                // Options à retirer
+                document.querySelectorAll('.remove-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const index = parseInt(checkbox.dataset.index);
+                        this.selectedOptions.remove[index] = checkbox.checked;
+                    });
+                });
+
+                // Bouton d'ajout au panier
+                document.getElementById('add-to-cart')?.addEventListener('click', () => {
+                    this.addToCart();
+                });
+            }
+
+            // Mettre à jour l'affichage
+            updateDisplay() {
+                // Quantité
+                const qtyElement = document.getElementById('quantity');
+                if (qtyElement) qtyElement.textContent = this.quantity;
+
+                // Suppléments
+                Object.keys(this.selectedOptions.supplements).forEach(index => {
+                    const qtyElement = document.querySelector(`.supplement-qty[data-index="${index}"]`);
+                    if (qtyElement) {
+                        qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
+                    }
+                });
+
+                // Indicateurs de boisson
+                document.querySelectorAll('.drink-radio').forEach((radio, index) => {
+                    const indicator = radio.closest('label').querySelector('.drink-indicator');
+                    const dot = radio.closest('label').querySelector('.drink-dot');
+                    
+                    if (radio.checked) {
+                        indicator.classList.add('border-red-500');
+                        dot.classList.remove('hidden');
+                    } else {
+                        indicator.classList.remove('border-red-500');
+                        dot.classList.add('hidden');
+                    }
+                });
+
+                // Prix total
+                const total = this.calculateTotal();
+                const btnText = document.getElementById('cart-btn-text');
+                if (btnText) {
+                    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+                }
+            }
+
+            // Calculer le prix total
+            calculateTotal() {
+                let total = this.product.price * this.quantity;
+
+                // Ajouter les suppléments
+                Object.keys(this.selectedOptions.supplements).forEach(index => {
+                    const qty = this.selectedOptions.supplements[index] || 0;
+                    if (qty > 0) {
+                        const supplement = this.product.options.supplements[index];
+                        total += supplement.price * qty * this.quantity;
+                    }
+                });
+
+                // Ajouter la boisson
+                if (this.selectedOptions.drink && this.selectedOptions.drink.price > 0) {
+                    total += this.selectedOptions.drink.price * this.quantity;
+                }
+
+                return total;
+            }
+
+            // Ajouter au panier
+            addToCart() {
+                // Préparer les options pour le panier
+                const options = {
+                    supplements: {},
+                    drink: this.selectedOptions.drink,
+                    remove: this.selectedOptions.remove
+                };
+
+                // Formater les suppléments
+                Object.keys(this.selectedOptions.supplements).forEach(index => {
+                    const qty = this.selectedOptions.supplements[index];
+                    if (qty > 0) {
+                        const supplement = this.product.options.supplements[index];
+                        options.supplements[index] = {
+                            name: supplement.name,
+                            price: supplement.price,
+                            quantity: qty
+                        };
+                    }
+                });
+
+                // Ajouter au panier via le système global
+                if (window.cartSystem) {
+                    window.cartSystem.addToCart(this.product, this.quantity, options);
+                } else {
+                    console.error('Système de panier non disponible');
+                    alert('Erreur: Système de panier non disponible');
+                }
+            }
+        }
+
+        // Initialiser la page produit
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProductPage();
+        });
+    </script>
+</body>
+</html>

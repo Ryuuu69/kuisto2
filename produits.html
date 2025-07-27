@@ -597,9 +597,14 @@
                             <span class="value">${product.price}</span>
                         </span>
                     </div>
-                    <button class="add-btn-corner" aria-label="Voir les détails" data-product-index="${index}">+</button>
+                    <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${product.slug}')">+</button>
                 </div>
             `;
+        }
+
+        // Fonction pour rediriger vers la page produit
+        function goToProduct(slug) {
+            window.location.href = `produit.html?slug=${slug}`;
         }
 
         // Fonction pour afficher tous les produits
@@ -635,6 +640,10 @@
         // Initialize
         renderAllProducts();
     </script>
+    
+    <!-- Inclure les données produits et le système de panier -->
+    <script src="products-data.js"></script>
+    <script src="cart-system.js"></script>
   <!-- MODALE DE PERSONNALISATION -->
 <div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
   <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px #0002;">
