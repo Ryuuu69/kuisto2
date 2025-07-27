@@ -1,5 +1,7 @@
 {
+  
   "name": "bigsmash-static",
+  "homepage": ".",
   "version": "1.0.0",
   "description": "BigSmash static website",
   "scripts": {
