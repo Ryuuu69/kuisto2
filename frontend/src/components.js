@@ -1,5 +1,5 @@
 // Composants BigSmash - approche monolithique
-
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locations, products, categories } from './data';
@@ -128,6 +128,8 @@ export const Sidebar = ({ activeCategory, onCategoryChange }) => {
 
 // Product Card Component
 export const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (delta) => {
