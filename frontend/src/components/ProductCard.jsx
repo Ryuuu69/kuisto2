@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
           {/* Bouton + -> page détail */}
           <button
             onClick={handleProductClick}
-            className="w-11 h-11 bg-black hover:bg-red-600 rounded-full flex items-center justify-center transition-colors duration-200"
+            className="w-11 h-11 bg-black hover:bg-bigRed rounded-full flex items-center justify-center transition-colors duration-200"
             aria-label={`Voir les détails de ${product.name}`}
           >
             <svg 

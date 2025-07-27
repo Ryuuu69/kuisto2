@@ -579,6 +579,20 @@
 
         // Fonction pour générer le HTML d'une carte produit
         function createProductCard(product) {
+            // Générer un slug simple basé sur le nom du produit
+            const slug = product.name.toLowerCase()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[ç]/g, 'c')
+                .replace(/[&]/g, '-')
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9-]/g, '')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+
             return `
                 <div class="product-card">
                     <div class="thumb">
@@ -592,7 +606,7 @@
                             <span class="value">${product.price}</span>
                         </span>
                     </div>
-                    <button class="add-btn" aria-label="Ajouter au panier">+</button>
+                    <button class="add-btn" aria-label="Voir les détails" onclick="window.location.href='http://localhost:3000/produit/${slug}'">+</button>
                 </div>
             `;
         }
