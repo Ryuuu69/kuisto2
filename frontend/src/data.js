@@ -123,6 +123,7 @@ export const products = [
     category: 'Extras',
     name: 'FRITES MAISON',
     description: 'Frites fraîches coupées maison',
+    slug: 'menu-big-cheese',               // ← 1 ligne à ajouter
     price: 3.50,
     image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center'
   },
