@@ -47,6 +47,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<ProductList />} />
+        <Route path="/big-cheese" element={<BigCheeseDetail />} />
         <Route path="/produits" element={<Produits />} />
         <Route path="/" element={<Home />} />
         <Route path="/produits" element={<Produits />} />
