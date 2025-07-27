@@ -111,20 +111,12 @@ export const products = [
   {
     id: 11,
     category: 'Menus Burger',
+    slug: 'menu-big-cheese', // ← CE CHAMP EST INDISPENSABLE
     name: 'MENU BIG CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
-  /* ← ajoute exactement ceci */
-   options: [
-     {
-       name: 'Supplément Cheddar',
-       type: 'checkbox',
-       max: 4,
-       choices: [ { label: 'Cheddar', price: 1.00, image: '/images/cheddar.jpg' } ]
-     }
-    ]
-   },
+  },
 
   // Extras
   {
@@ -132,6 +124,7 @@ export const products = [
     category: 'Extras',
     name: 'FRITES MAISON',
     description: 'Frites fraîches coupées maison',
+    slug: 'menu-big-cheese',               // ← 1 ligne à ajouter
     price: 3.50,
     image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center'
   },
