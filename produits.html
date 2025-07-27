@@ -175,7 +175,7 @@
             background: white;
             border-radius: var(--card-radius);
             box-shadow: 0 4px 12px rgba(0,0,0,.08);
-            overflow: hidden;
+            overflow: visible;
             transition: all 0.3s ease;
         }
 
@@ -254,30 +254,35 @@
             color: #000;
         }
 
-        /* Bouton + en bas à droite */
-        .add-btn {
+        /* Bouton "+" en bas à droite, quart de cercle */
+        .add-btn-corner {
             position: absolute;
             bottom: 0;
             right: 0;
-            flex: 0 0 var(--btn);
-            width: var(--btn);
-            height: var(--btn);
-            background: #000;
-            color: white;
+            width: 54px;
+            height: 54px;
+            background: #191919;
+            color: #fff;
             border: none;
-            font-size: 1.8rem;
+            border-bottom-right-radius: 22px 44px;
+            border-top-left-radius: 44px 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+            font-size: 2.1em;
             font-weight: bold;
-            cursor: pointer;
-            border-radius: var(--card-radius) 0 0 0;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 16px #0002;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.13s, transform 0.11s;
+            padding-bottom: 6px;
         }
 
-        .add-btn:hover {
-            background: var(--red);
-            transform: scale(1.05);
+        .add-btn-corner:hover {
+            background: #EA3D2F;
+            transform: scale(1.08);
         }
 
         /* Boutons en bas à gauche - Desktop uniquement */
@@ -578,7 +583,7 @@
         };
 
         // Fonction pour générer le HTML d'une carte produit
-        function createProductCard(product) {
+        function createProductCard(product, index) {
             return `
                 <div class="product-card">
                     <div class="thumb">
@@ -592,9 +597,7 @@
                             <span class="value">${product.price}</span>
                         </span>
                     </div>
-                    <!-- exemple dans la boucle de génération de produit -->
-<button class="open-modal-btn" data-index="0" style="position:absolute;top:10px;right:10px;">+</button>
-
+                    <button class="add-btn-corner" aria-label="Voir les détails" data-product-index="${index}">+</button>
                 </div>
             `;
         }
@@ -604,7 +607,7 @@
             Object.keys(products).forEach(categoryKey => {
                 const container = document.getElementById(`${categoryKey}-products`);
                 if (container) {
-                    container.innerHTML = products[categoryKey].map(createProductCard).join('');
+                    container.innerHTML = products[categoryKey].map((product, index) => createProductCard(product, index)).join('');
                 }
             });
         }
