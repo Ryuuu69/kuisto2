@@ -2,7 +2,7 @@
 // Pour ajouter un produit, il suffit de compléter ce tableau
 
 // Tableau des catégories
-export const categories = [
+const categories = [
   'Nouveautés',
   'Big Salades', 
   'Big Burgers',
