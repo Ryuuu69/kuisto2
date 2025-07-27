@@ -544,25 +544,6 @@
         </div>
     </div>
 
-    <!-- MODALE DE PERSONNALISATION -->
-    <div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
-        <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
-            <button onclick="closeModal()" style="position:absolute; top:16px; right:16px; background:#E30613; color:#fff; border:0; border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">×</button>
-            
-            <div id="modal-main">
-                <!-- Le contenu sera injecté par JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- PANIER STICKY -->
-    <div id="cart-bar" onclick="openCart()" style="display:none;position:fixed;bottom:16px;right:16px;background:#222;color:#fff;border-radius:24px;padding:12px 24px;cursor:pointer;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-        <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
-    </div>
-
-    <!-- TOAST -->
-    <div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);">Ajouté au panier !</div>
-    
     <script>
         // Product data - structure simplifiée pour le nouveau composant
         const products = {
@@ -914,5 +895,25 @@
         window.addToCart = addToCart;
         window.openCart = openCart;
     </script>
+
+    <!-- MODALE DE PERSONNALISATION -->
+    <div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
+        <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px rgba(0,0,0,0.1); max-height:90vh; overflow-y:auto;">
+            <button onclick="closeModal()" style="position:absolute; top:16px; right:16px; background:#E30613; color:#fff; border:0; border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">×</button>
+            
+            <div id="modal-main">
+                <!-- Le contenu sera injecté par JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PANIER STICKY -->
+    <div id="cart-bar" onclick="openCart()" style="display:none;position:fixed;bottom:16px;right:16px;background:#222;color:#fff;border-radius:24px;padding:12px 24px;cursor:pointer;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+        <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,0.15);">Ajouté au panier !</div>
+    
 </body>
 </html>
