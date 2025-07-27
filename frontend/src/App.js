@@ -1,6 +1,8 @@
 // frontend/src/App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+  import BigCheeseDetail from './BigCheeseDetail';   // ← ligne à ajouter
+
 
 import Home           from './Home';            // ou ProductList si c'est ton composant d'accueil
 import Produits       from './Produits';        // ta page de listing
