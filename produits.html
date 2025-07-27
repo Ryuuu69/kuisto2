@@ -630,5 +630,15 @@
         // Initialize
         renderAllProducts();
     </script>
+  <!-- MODALE DE PERSONNALISATION -->
+<div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
+  <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px #0002;">
+    <button onclick="closeModal()" style="position:absolute; top:0; right:0; background:#ea3d2f; color:#fff; border:0; border-bottom-left-radius:20px; width:48px; height:48px; font-size:2em; cursor:pointer;">&larr;</button>
+    
+    <div id="modal-main">
+      <!-- L'intérieur sera injecté en JS -->
+    </div>
+  </div>
+</div>
 </body>
 </html>
