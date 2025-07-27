@@ -103,7 +103,7 @@ const products = [
     price: 10.90,
     image: "img/menu-veggie.jpg",
     options: {}
-   }, // <--- PAS DE VIRGULE APRÈS LE DERNIER OBJET
+   }, 
   {
     id: 6,
     name: "COLA ZERO",
