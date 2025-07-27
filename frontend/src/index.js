@@ -1,18 +1,11 @@
+// frontend/src/index.js
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import './index.css';
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-
-root.render(
-  <React.StrictMode>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-  </React.StrictMode>
-);
-
-
+// Ne monter React que si le div #react-detail-root est présent
+const container = document.getElementById('react-detail-root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
