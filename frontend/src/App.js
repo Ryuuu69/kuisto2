@@ -1,11 +1,24 @@
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Produits      from './Produits';
-import ProductDetail from './ProductDetail';
+import Home          from './Home';           // ta page d’accueil
+import Produits      from './Produits';       // ta liste de produits
+import ProductDetail from './ProductDetail';  // ton détail de produit
+import NotFound      from './NotFound'; 
+import { Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Header, LocationCard, SectionTitle, Sidebar, ProductCard, Footer, MobileSidebar } from './components';
 import { locations, products, categories } from './data';
-
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/produits" element={<Produits />} />
+      <Route path="/produit/:id" element={<ProductDetail />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
 /* --------------------------------------------------
    4.  PAGE ACCUEIL  ("Points de vente")
 -------------------------------------------------- */
