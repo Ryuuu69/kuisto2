@@ -31,6 +31,26 @@
             padding-top: 40px;
             padding-bottom: 200px; /* Place pour le bouton sticky */
         }
+         #cart-fab {
+  position: fixed;
+  left: 50%;
+  bottom: 80px;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+  background: #EA3D2F;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(234,61,47,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: box-shadow 0.2s, background 0.2s;
+  border: 6px solid #fff;
+}
    
 
         /* ===== BOUTON RETOUR ===== */
@@ -133,29 +153,7 @@
             text-align: center;
             margin-bottom: 24px;
         }
-     #cart-fab {
-       
- 
-
-  position: fixed;
-  left: 50%;
-  bottom: 80px;
-  transform: translateX(-50%);
-  width: 64px;
-  height: 64px;
-  background: #EA3D2F;
-  color: white;
-  border-radius: 50%;
-  box-shadow: 0 8px 32px rgba(234,61,47,0.3), 0 2px 8px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  cursor: pointer;
-  font-size: 2rem;
-  transition: box-shadow 0.2s, background 0.2s;
-  border: 6px solid #fff;
-}
+  
 
 #cart-fab .cart-icon.material-icons {
   font-size: 2.6rem;
