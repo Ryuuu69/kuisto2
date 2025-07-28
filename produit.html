@@ -815,8 +815,8 @@
                 this.selectedOptions = {
                     supplements: {},
                     drink: null,
-                    remove: {}
-                  accompaniments: {}
+                    remove: {},
+                
                 };
                 this.quantity = 1;
                 this.init();
@@ -946,103 +946,83 @@
             }
 
             // Rendu des options
-            renderOptions() {
-    let html = '';
+           
+renderOptions() {
+  let html = '';
 
-    // 1️⃣ Suppléments
-    if (this.product.options?.supplements?.length > 0) {
-        html += 
-            <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>>
-                <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
-                    ${this.product.options.supplements.map((supplement, index) => 
-                        <div class="bigsmash-option-card">
-                            <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
-                            <div class="bigsmash-option-name">${supplement.name}</div>
-                            <div class="bigsmash-option-price">+${supplement.price.toFixed(2).replace('.', ',')} €</div>
-                            <div class="bigsmash-option-controls">
-                                <button class="bigsmash-option-qty-btn supplement-minus" data-index="${index}">−</button>
-                                <span class="bigsmash-option-qty-display supplement-qty" data-index="${index}">0</span>
-                                <button class="bigsmash-option-qty-btn supplement-plus" data-index="${index}">+</button>
-                            </div>
-                        </div>
-                    ).join('')}
-                </div>
+  // 1️⃣ Suppléments
+  if (this.product.options?.supplements?.length > 0) {
+    html += `
+      <div class="bigsmash-options-section">
+        <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
+        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
+          ${this.product.options.supplements.map((supplement, index) => `
+            <div class="bigsmash-option-card">
+              <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
+              <div class="bigsmash-option-name">${supplement.name}</div>
+              <div class="bigsmash-option-price">+${supplement.price.toFixed(2).replace('.', ',')} €</div>
+              <div class="bigsmash-option-controls">
+                <button class="bigsmash-option-qty-btn supplement-minus" data-index="${index}">−</button>
+                <span class="bigsmash-option-qty-display supplement-qty" data-index="${index}">0</span>
+                <button class="bigsmash-option-qty-btn supplement-plus" data-index="${index}">+</button>
+              </div>
             </div>
-        ;
-    }
-
-    // 2️⃣ Personnalisation (remove)
-    if (this.product.options?.remove?.length > 0) {
-        html += 
-            <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
-                <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
-                    ${this.product.options.remove.map((item, index) => 
-                        <label class="bigsmash-option-card">
-                            <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
-                            <div class="bigsmash-radio-indicator bigsmash-checkbox-indicator">
-                                <div class="bigsmash-checkbox-check"></div>
-                            </div>
-                            <div class="bigsmash-option-name">${item.name}</div>
-                        </label>
-                    ).join('')}
-                </div>
-            </div>
-        ;
-    }
-              // 3️⃣ Accompagnements
-   if (
-    this.product.category === 'Menu Burger' &&
-    this.product.options?.accompaniments?.length > 0
-) {
-    html += 
-        <div class="bigsmash-options-section">
-            <h3 class="bigsmash-options-title">Accompagnements</h3>
-            <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.accompaniments.length}">
-                ${this.product.options.accompaniments.map((acc, idx) => 
-                    <div class="bigsmash-option-card">
-                        <img src="${acc.image}" alt="${acc.name}" class="bigsmash-option-image">
-                        <div class="bigsmash-option-name">${acc.name}</div>
-                        <div class="bigsmash-option-price">+${acc.price.toFixed(2).replace('.', ',')} €</div>
-                        <div class="bigsmash-option-controls">
-                            <button class="bigsmash-option-qty-btn accompaniment-minus" data-index="${idx}">−</button>
-                            <span class="bigsmash-option-qty-display accompaniment-qty" data-index="${idx}">0</span>
-                            <button class="bigsmash-option-qty-btn accompaniment-plus" data-index="${idx}">+</button>
-                        </div>
-                    </div>
-                ).join('')}
-            </div>
+          `).join('')}
         </div>
-    ;
+      </div>
+    `;
+  }
+
+  // 2️⃣ Personnalisation (remove)
+  if (this.product.options?.remove?.length > 0) {
+    html += `
+      <div class="bigsmash-options-section">
+        <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
+        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
+          ${this.product.options.remove.map((item, index) => `
+            <label class="bigsmash-option-card">
+              <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
+              <div class="bigsmash-checkbox-indicator">
+                <div class="bigsmash-checkbox-check"></div>
+              </div>
+              <div class="bigsmash-option-name">${item.name}</div>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // 3️⃣ Boissons
+  if (this.product.options?.drinks?.length > 0) {
+    html += `
+      <div class="bigsmash-options-section">
+        <h3 class="bigsmash-options-title">Choisis ta boisson</h3>
+        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.drinks.length}">
+          ${this.product.options.drinks.map((drink, index) => `
+            <label class="bigsmash-option-card">
+              <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
+              <img src="${drink.image}" alt="${drink.name}" class="bigsmash-option-image">
+              <div class="bigsmash-option-name">${drink.name}</div>
+              <div class="bigsmash-option-price">
+                ${drink.price > 0
+                  ? `+${drink.price.toFixed(2).replace('.', ',')} €`
+                  : 'Inclus'}
+              </div>
+              <div class="bigsmash-radio-indicator">
+                <div class="bigsmash-radio-dot"></div>
+              </div>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  return html;
 }
 
-    // 3️⃣ Boissons
-    if (this.product.options?.drinks?.length > 0) {
-        html += 
-            <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">Choisis ta boisson</h3>
-                <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.drinks.length}">
-                    ${this.product.options.drinks.map((drink, index) => 
-                        <label class="bigsmash-option-card">
-                            <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
-                            <img src="${drink.image}" alt="${drink.name}" class="bigsmash-option-image">
-                            <div class="bigsmash-option-name">${drink.name}</div>
-                            <div class="bigsmash-option-price">
-                                ${drink.price > 0 ? +${drink.price.toFixed(2).replace('.', ',')} € : 'Inclus'}
-                            </div>
-                            <div class="bigsmash-radio-indicator">
-                                <div class="bigsmash-radio-dot"></div>
-                            </div>
-                        </label>
-                    ).join('')}
-                </div>
-            </div>
-        ;
-    }
 
-    return html;
-}
 
             // Liaison des événements
             bindEvents() {
@@ -1053,25 +1033,7 @@
                         this.updateDisplay();
                     }
                 });
-              document.querySelectorAll('.accompaniment-minus').forEach(btn =>
-  btn.addEventListener('click', () => {
-    const idx = +btn.dataset.index;
-    const curr = this.selectedOptions.accompaniments[idx] || 0;
-    if (curr > 0) {
-      this.selectedOptions.accompaniments[idx] = curr - 1;
-      this.updateDisplay();
-    }
-  })
-);
-document.querySelectorAll('.accompaniment-plus').forEach(btn =>
-  btn.addEventListener('click', () => {
-    const idx = +btn.dataset.index;
-    const curr = this.selectedOptions.accompaniments[idx] || 0;
-    this.selectedOptions.accompaniment­­s[idx] = curr + 1;
-    this.updateDisplay();
-  })
-);
-
+              
                 document.getElementById('qty-plus')?.addEventListener('click', () => {
                     this.quantity++;
                     this.updateDisplay();
