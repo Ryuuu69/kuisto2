@@ -7,205 +7,247 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
     <style>
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .bg-bigRed { background-color: #E42B16; }
-        
         body {
+            background: #f5f6f7;
             font-family: 'Montserrat', sans-serif;
-            background-color: #f4f4f4;
-            color: #191919;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background-color: #fff;
-            border-radius: 32px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.13);
-            padding: 40px;
-        }
-        
-        .btn-primary {
-            background-color: #E42B16;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn-primary:hover {
-            background-color: #c22313;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-        }
-        
-        .btn-secondary {
-            background-color: #808080;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #666666;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-        }
-        
-        .item-row {
-            border-bottom: 1px solid #eee;
-            padding: 20px 0;
-            margin-bottom: 0;
-        }
-        
-        .item-row:last-child {
-            border-bottom: none;
-        }
-        
-        .item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            object-fit: cover;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .option-text {
-            font-size: 14px;
-            color: #808080;
-            margin-left: 16px;
-            font-style: italic;
-        }
-        
-        .total-section {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 24px;
-            margin-top: 32px;
-        }
-        
-        .empty-cart {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .empty-cart-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        /* Boutons desktop en bas à gauche */
-        .desktop-buttons {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            gap: 12px;
-            z-index: 1000;
         }
 
-        .desktop-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
+        .panier-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panier-card {
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.10);
+            padding: 42px 38px 36px 38px;
+            width: 540px;
+            max-width: 98vw;
+            margin: 50px auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .panier-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+        }
+
+        .panier-content {
+            width: 100%;
+        }
+
+        .panier-item {
+            display: flex;
+            align-items: center;
+            background: #fafbfc;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            padding: 12px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .panier-item-img {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            margin-right: 18px;
+            object-fit: cover;
+        }
+
+        .panier-item-details {
+            flex: 1;
+        }
+
+        .panier-item-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.12rem;
+            margin-bottom: 2px;
+            color: #1a1a1a;
+        }
+
+        .panier-item-desc {
+            font-size: 0.98rem;
+            color: #A3A3A3;
+            margin-bottom: 4px;
+        }
+
+        .panier-item-options {
+            font-size: 0.85rem;
+            color: #808080;
+            font-style: italic;
+        }
+
+        .panier-item-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-left: 12px;
+            min-width: 66px;
+            text-align: right;
+        }
+
+        .panier-item-qtybar {
+            display: flex;
+            align-items: center;
+            margin-left: 18px;
+            gap: 5px;
+        }
+
+        .panier-btn {
+            background: #EA3D2F;
+            color: #fff;
             border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.3rem;
             cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .panier-btn:hover {
+            background: #d32b1f;
+        }
+
+        .panier-qty {
+            display: inline-block;
+            min-width: 24px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+        }
+
+        .big-btn {
+            margin-top: 18px;
+            background: #EA3D2F;
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.18rem;
+            font-weight: 600;
+            padding: 20px 0;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 4px 24px rgba(234,61,47,0.12);
+            transition: background 0.2s;
+            letter-spacing: .02em;
+            cursor: pointer;
+        }
+
+        .big-btn:hover {
+            background: #d32b1f;
+        }
+
+        .big-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .panier-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #A3A3A3;
+        }
+
+        .panier-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .panier-empty h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .panier-empty p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .panier-empty-btn {
+            background: #EA3D2F;
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 24px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .panier-empty-btn:hover {
+            background: #d32b1f;
+        }
+
+        .panier-back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,.15);
-            
-            /* État par défaut : fond rouge, icône blanche */
-            background: #E42B16;
-            color: white;
         }
 
-        .desktop-btn:hover {
-            /* Au hover : fond blanc, icône rouge */
-            background: white;
-            color: #E42B16;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,.2);
-        }
-
-        .desktop-btn svg {
-            width: 24px;
-            height: 24px;
+        .panier-back-btn:hover {
+            background: #fff;
+            transform: translateX(-4px);
         }
     </style>
 </head>
 <body>
-    <!-- Header avec bannière -->
-    <header class="bg-white shadow-sm">
-        <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
-            <img 
-                src="images/banner.svg" 
-                alt="BigSmash Banner" 
-                class="w-full h-full object-cover"
-            />    
-        </div>
-    </header>
+    <!-- Bouton retour -->
+    <a href="produits.html" class="panier-back-btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Retour
+    </a>
 
-    <div class="container">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-bold">Mon Panier</h1>
-            <a href="produits.html" class="text-bigRed hover:underline font-semibold">
-                ← Continuer mes achats
-            </a>
-        </div>
-
-        <div id="cart-items-container">
-            <!-- Cart items will be rendered here by JavaScript -->
-            <div class="empty-cart" id="empty-cart-message">
-                <div class="empty-cart-icon">🛒</div>
-                <h2 class="text-2xl font-semibold mb-4 text-gray-600">Votre panier est vide</h2>
-                <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
-                <a href="produits.html" class="btn-primary">
-                    Voir nos produits
-                </a>
+    <div class="panier-wrapper">
+        <div class="panier-card">
+            <div class="panier-header">
+                <h2>Mon panier</h2>
             </div>
-        </div>
-
-        <div class="total-section" id="cart-summary" style="display: none;">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Total du panier</h2>
-                <span class="text-3xl font-bold text-bigRed" id="cart-total-price">0,00 €</span>
+            <div class="panier-content" id="panier-content">
+                <!-- Les articles du panier seront générés ici par JavaScript -->
             </div>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-between">
-                <button id="clear-cart-btn" class="btn-secondary">
-                    🗑️ Vider le panier
-                </button>
-                <button class="btn-primary text-lg px-8 py-4">
-                    🚀 Passer la commande
-                </button>
-            </div>
+            <button class="big-btn" id="validate-btn" style="display: none;">
+                VALIDER LE PANIER (0,00€)
+            </button>
         </div>
-    </div>
-
-    <!-- Boutons Desktop en bas à gauche -->
-    <div class="desktop-buttons">
-        <button class="desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-            </svg>
-        </button>
-        <button class="desktop-btn" title="Mon compte">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
-        </button>
     </div>
 
     <!-- Include shared product data -->
@@ -214,31 +256,35 @@
     <script src="cart-system.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const cartTotalPriceElement = document.getElementById('cart-total-price');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartSummary = document.getElementById('cart-summary');
-            const clearCartBtn = document.getElementById('clear-cart-btn');
+            const panierContent = document.getElementById('panier-content');
+            const validateBtn = document.getElementById('validate-btn');
 
             function renderCart() {
                 const cart = window.cartSystem.cart;
-                cartItemsContainer.innerHTML = '';
+                panierContent.innerHTML = '';
 
                 if (cart.length === 0) {
-                    emptyCartMessage.style.display = 'block';
-                    cartSummary.style.display = 'none';
+                    // Afficher le message panier vide
+                    panierContent.innerHTML = `
+                        <div class="panier-empty">
+                            <div class="panier-empty-icon">🛒</div>
+                            <h3>Votre panier est vide</h3>
+                            <p>Découvrez nos délicieux produits BigSmash</p>
+                            <a href="produits.html" class="panier-empty-btn">
+                                Voir nos produits
+                            </a>
+                        </div>
+                    `;
+                    validateBtn.style.display = 'none';
                 } else {
-                    emptyCartMessage.style.display = 'none';
-                    cartSummary.style.display = 'block';
-
-                    cart.forEach(item => {
+                    // Afficher les articles du panier
+                    cart.forEach((item, index) => {
                         // Trouver le produit original pour récupérer l'image
                         const originalProduct = findProductBySlug(item.slug);
-                        const productImage = originalProduct ? originalProduct.image : 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=80&h=80&fit=crop';
+                        const productImage = originalProduct ? originalProduct.image : 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=58&h=58&fit=crop';
 
-                        const itemDiv = document.createElement('div');
-                        itemDiv.className = 'item-row flex items-start gap-4';
-                        
+                        // Construire la description avec les options
+                        let description = originalProduct ? originalProduct.description : item.name;
                         let optionsHtml = '';
                         
                         // Suppléments
@@ -248,13 +294,13 @@
                                 .map(s => `${s.name} (x${s.quantity})`)
                                 .join(', ');
                             if (supplements) {
-                                optionsHtml += `<p class="option-text">+ ${supplements}</p>`;
+                                optionsHtml += `<div class="panier-item-options">+ ${supplements}</div>`;
                             }
                         }
                         
                         // Boisson
                         if (item.options.drink) {
-                            optionsHtml += `<p class="option-text">🥤 ${item.options.drink.name}</p>`;
+                            optionsHtml += `<div class="panier-item-options">🥤 ${item.options.drink.name}</div>`;
                         }
                         
                         // Éléments retirés
@@ -265,47 +311,71 @@
                                     .map(index => originalProduct.options.remove[index].name)
                                     .join(', ');
                                 if (removedItems) {
-                                    optionsHtml += `<p class="option-text">❌ Sans: ${removedItems}</p>`;
+                                    optionsHtml += `<div class="panier-item-options">❌ Sans: ${removedItems}</div>`;
                                 }
                             }
                         }
 
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'panier-item';
                         itemDiv.innerHTML = `
-                            <img src="${productImage}" alt="${item.name}" class="item-image">
-                            <div class="flex-1">
-                                <h3 class="text-lg font-semibold mb-2">${item.name}</h3>
-                                <p class="text-sm text-gray-600 mb-2">Quantité: ${item.quantity}</p>
+                            <img src="${productImage}" class="panier-item-img" alt="${item.name}" />
+                            <div class="panier-item-details">
+                                <div class="panier-item-title">${item.name}</div>
+                                <div class="panier-item-desc">${description.substring(0, 50)}${description.length > 50 ? '...' : ''}</div>
                                 ${optionsHtml}
                             </div>
-                            <div class="text-right">
-                                <span class="text-xl font-bold text-bigRed">${item.totalPrice.toFixed(2).replace('.', ',')} €</span>
-                                <p class="text-sm text-gray-500">${item.basePrice.toFixed(2).replace('.', ',')} € × ${item.quantity}</p>
+                            <div class="panier-item-price">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
+                            <div class="panier-item-qtybar">
+                                <button class="panier-btn remove" data-slug="${item.slug}">−</button>
+                                <span class="panier-qty">${item.quantity}</span>
+                                <button class="panier-btn add" data-slug="${item.slug}">+</button>
                             </div>
                         `;
-                        cartItemsContainer.appendChild(itemDiv);
+                        panierContent.appendChild(itemDiv);
                     });
-                }
 
-                cartTotalPriceElement.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + ' €';
+                    // Afficher le bouton de validation avec le prix total
+                    const totalPrice = window.cartSystem.getTotalPrice();
+                    validateBtn.textContent = `VALIDER LE PANIER (${totalPrice.toFixed(2).replace('.', ',')}€)`;
+                    validateBtn.style.display = 'block';
+                }
             }
 
-            // Initial render
-            renderCart();
-
-            // Event listener for clearing the cart
-            clearCartBtn.addEventListener('click', () => {
-                if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
-                    window.cartSystem.clearCart();
+            // Gestion des événements pour les boutons + et -
+            panierContent.addEventListener('click', (e) => {
+                if (e.target.classList.contains('panier-btn')) {
+                    const slug = e.target.dataset.slug;
+                    
+                    if (e.target.classList.contains('remove')) {
+                        window.cartSystem.decreaseQuantity(slug);
+                    } else if (e.target.classList.contains('add')) {
+                        window.cartSystem.increaseQuantity(slug);
+                    }
+                    
                     renderCart();
                 }
             });
 
-            // Listen for storage changes to update cart display if changed in another tab
+            // Gestion du bouton de validation
+            validateBtn.addEventListener('click', () => {
+                alert('Fonctionnalité de commande à implémenter !');
+            });
+
+            // Rendu initial
+            renderCart();
+
+            // Écouter les changements du panier depuis d'autres onglets
             window.addEventListener('storage', (e) => {
                 if (e.key === 'bigsmash_cart') {
                     window.cartSystem.cart = window.cartSystem.loadCart();
                     renderCart();
                 }
+            });
+
+            // Écouter les changements du panier depuis la même page
+            window.addEventListener('cartUpdated', () => {
+                renderCart();
             });
         });
     </script>
