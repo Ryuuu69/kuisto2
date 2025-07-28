@@ -77,7 +77,7 @@ class CartSystem {
 
   // Calculer le prix d'un article avec ses options
   calculateItemPrice(product, quantity, options) {
-    let price = product.basePrice * quantity;
+    let price = product.price * quantity;
     
     // Ajouter le prix des suppléments
     if (options.supplements) {
@@ -143,7 +143,7 @@ class CartSystem {
     `;
 
     cartBar.addEventListener('click', () => {
-      this.showCartModal();
+      window.location.href = 'panier.html';
     });
 
     cartBar.addEventListener('mouseenter', () => {

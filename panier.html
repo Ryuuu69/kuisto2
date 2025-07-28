@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigSmash - Mon Panier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .bg-bigRed { background-color: #E42B16; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            color: #191919;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+            padding: 40px;
+        }
+        
+        .btn-primary {
+            background-color: #E42B16;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c22313;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background-color: #808080;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #666666;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        
+        .item-row {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            margin-bottom: 0;
+        }
+        
+        .item-row:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .option-text {
+            font-size: 14px;
+            color: #808080;
+            margin-left: 16px;
+            font-style: italic;
+        }
+        
+        .total-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-cart-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        /* Boutons desktop en bas à gauche */
+        .desktop-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            
+            /* État par défaut : fond rouge, icône blanche */
+            background: #E42B16;
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            /* Au hover : fond blanc, icône rouge */
+            background: white;
+            color: #E42B16;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header avec bannière -->
+    <header class="bg-white shadow-sm">
+        <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
+            <img 
+                src="images/banner.svg" 
+                alt="BigSmash Banner" 
+                class="w-full h-full object-cover"
+            />    
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold">Mon Panier</h1>
+            <a href="produits.html" class="text-bigRed hover:underline font-semibold">
+                ← Continuer mes achats
+            </a>
+        </div>
+
+        <div id="cart-items-container">
+            <!-- Cart items will be rendered here by JavaScript -->
+            <div class="empty-cart" id="empty-cart-message">
+                <div class="empty-cart-icon">🛒</div>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-600">Votre panier est vide</h2>
+                <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
+                <a href="produits.html" class="btn-primary">
+                    Voir nos produits
+                </a>
+            </div>
+        </div>
+
+        <div class="total-section" id="cart-summary" style="display: none;">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Total du panier</h2>
+                <span class="text-3xl font-bold text-bigRed" id="cart-total-price">0,00 €</span>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-between">
+                <button id="clear-cart-btn" class="btn-secondary">
+                    🗑️ Vider le panier
+                </button>
+                <button class="btn-primary text-lg px-8 py-4">
+                    🚀 Passer la commande
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boutons Desktop en bas à gauche -->
+    <div class="desktop-buttons">
+        <button class="desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </button>
+        <button class="desktop-btn" title="Mon compte">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Include shared product data -->
+    <script src="products-data.js"></script>
+    <!-- Include the cart system -->
+    <script src="cart-system.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartTotalPriceElement = document.getElementById('cart-total-price');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const cartSummary = document.getElementById('cart-summary');
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+
+            function renderCart() {
+                const cart = window.cartSystem.cart;
+                cartItemsContainer.innerHTML = '';
+
+                if (cart.length === 0) {
+                    emptyCartMessage.style.display = 'block';
+                    cartSummary.style.display = 'none';
+                } else {
+                    emptyCartMessage.style.display = 'none';
+                    cartSummary.style.display = 'block';
+
+                    cart.forEach(item => {
+                        // Trouver le produit original pour récupérer l'image
+                        const originalProduct = findProductBySlug(item.slug);
+                        const productImage = originalProduct ? originalProduct.image : 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=80&h=80&fit=crop';
+
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'item-row flex items-start gap-4';
+                        
+                        let optionsHtml = '';
+                        
+                        // Suppléments
+                        if (item.options.supplements && Object.keys(item.options.supplements).length > 0) {
+                            const supplements = Object.values(item.options.supplements)
+                                .filter(s => s.quantity > 0)
+                                .map(s => `${s.name} (x${s.quantity})`)
+                                .join(', ');
+                            if (supplements) {
+                                optionsHtml += `<p class="option-text">+ ${supplements}</p>`;
+                            }
+                        }
+                        
+                        // Boisson
+                        if (item.options.drink) {
+                            optionsHtml += `<p class="option-text">🥤 ${item.options.drink.name}</p>`;
+                        }
+                        
+                        // Éléments retirés
+                        if (item.options.remove && Object.keys(item.options.remove).some(key => item.options.remove[key])) {
+                            if (originalProduct && originalProduct.options && originalProduct.options.remove) {
+                                const removedItems = Object.keys(item.options.remove)
+                                    .filter(key => item.options.remove[key])
+                                    .map(index => originalProduct.options.remove[index].name)
+                                    .join(', ');
+                                if (removedItems) {
+                                    optionsHtml += `<p class="option-text">❌ Sans: ${removedItems}</p>`;
+                                }
+                            }
+                        }
+
+                        itemDiv.innerHTML = `
+                            <img src="${productImage}" alt="${item.name}" class="item-image">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold mb-2">${item.name}</h3>
+                                <p class="text-sm text-gray-600 mb-2">Quantité: ${item.quantity}</p>
+                                ${optionsHtml}
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xl font-bold text-bigRed">${item.totalPrice.toFixed(2).replace('.', ',')} €</span>
+                                <p class="text-sm text-gray-500">${item.basePrice.toFixed(2).replace('.', ',')} € × ${item.quantity}</p>
+                            </div>
+                        `;
+                        cartItemsContainer.appendChild(itemDiv);
+                    });
+                }
+
+                cartTotalPriceElement.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + ' €';
+            }
+
+            // Initial render
+            renderCart();
+
+            // Event listener for clearing the cart
+            clearCartBtn.addEventListener('click', () => {
+                if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+                    window.cartSystem.clearCart();
+                    renderCart();
+                }
+            });
+
+            // Listen for storage changes to update cart display if changed in another tab
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'bigsmash_cart') {
+                    window.cartSystem.cart = window.cartSystem.loadCart();
+                    renderCart();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
