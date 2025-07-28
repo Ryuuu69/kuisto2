@@ -988,7 +988,8 @@
   }
 
   // 3. calculer le total de cet ajout
-  const total = this.calculateTotal().toFixed(2).replace('.', ',');
+  const addedAmount = (this.calculateTotal() - this.product.price * this.quantity).toFixed(2)...
+
 
   // 4. créer et afficher la pastille en bas-centre
   const badge = document.createElement('div');
