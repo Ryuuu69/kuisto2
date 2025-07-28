@@ -895,84 +895,75 @@
 
             // Rendu de la page
             render() {
-                document.title = `BigSmash - ${this.product.name}`;
-                
-                document.getElementById('app').innerHTML = `
-                    <!-- Fond grisé -->
-                    <div class="bigsmash-page-container">
-                        <!-- Bouton retour -->
-                        <div class="bigsmash-back-button-container">
-                            <a href="produits.html" class="bigsmash-back-btn">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                </svg>
-                                Retour
-                            </a>
-                        </div>
+  document.title = `BigSmash - ${this.product.name}`;
 
-                        <!-- Carte produit principale -->
-                        <div class="bigsmash-product-card">
-                            <!-- Image du produit -->
-                            <div class="bigsmash-product-image-container">
-                                <img src="${this.product.image}" alt="${this.product.name}" class="bigsmash-product-image">
-                            </div>
+  document.getElementById('app').innerHTML = `
+    <!-- Fond grisé -->
+    <div class="bigsmash-page-container">
+      <!-- Carte produit -->
+      <div class="bigsmash-product-card" style="position: relative;">
+        <!-- Bouton retour en haut‑droite de la carte -->
+        <div class="bigsmash-back-button-container">
+          <a href="produits.html" class="bigsmash-back-btn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </a>
+        </div>
 
-                                <!-- Catégorie -->
-                                <span class="bigsmash-product-category">${this.product.category}</span>
-                                
-                                <!-- Titre -->
-                                <h1 class="bigsmash-product-title">${this.product.name}</h1>
-                                
-                                <!-- Description -->
-                                <p class="bigsmash-product-description">${this.product.description}</p>
-                                
-                                <!-- Prix -->
-                                <div class="bigsmash-product-price">
-                                    ${this.product.price.toFixed(2).replace('.', ',')} €
-                                </div>
+        <!-- Image du produit -->
+        <div class="bigsmash-product-image-container">
+          <img src="${this.product.image}" alt="${this.product.name}" class="bigsmash-product-image">
+        </div>
 
-                                <!-- Quantité -->
-                                <div class="bigsmash-quantity-container">
-                                    <button class="bigsmash-qty-btn" id="qty-minus">−</button>
-                                    <span class="bigsmash-quantity-display" id="quantity">${this.quantity}</span>
-                                    <button class="bigsmash-qty-btn" id="qty-plus">+</button>
-                                </div>
+        <!-- Catégorie, titre, description, prix, quantité -->
+        <span class="bigsmash-product-category">${this.product.category}</span>
+        <h1 class="bigsmash-product-title">${this.product.name}</h1>
+        <p class="bigsmash-product-description">${this.product.description}</p>
+        <div class="bigsmash-product-price">
+          ${this.product.price.toFixed(2).replace('.', ',')} €
+        </div>
+        <div class="bigsmash-quantity-container">
+          <button class="bigsmash-qty-btn" id="qty-minus">−</button>
+          <span class="bigsmash-quantity-display" id="quantity">${this.quantity}</span>
+          <button class="bigsmash-qty-btn" id="qty-plus">+</button>
+        </div>
 
-                                ${this.renderOptions()}
-                        </div>
+        <!-- Options produits -->
+        ${this.renderOptions()}
+      </div>
 
-                        <!-- Zone sticky en bas (fond blanc translucide) -->
-<div class="bigsmash-cart-container">
-  <!-- Compteur centré au‑dessus du bouton -->
-  <div class="bigsmash-sticky-qty-controls">
-    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
-    <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
-    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
-  </div>
-  <!-- Bouton rouge centré -->
-  <button class="bigsmash-main-add-btn" id="add-to-cart">
-    <span id="cart-btn-text">
-      Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
-    </span>
-  </button>
-</div>
+      <!-- Zone sticky en bas -->
+      <div class="bigsmash-cart-container">
+        <div class="bigsmash-sticky-qty-controls">
+          <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
+          <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
+          <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
+        </div>
+        <button class="bigsmash-main-add-btn" id="add-to-cart">
+          <span id="cart-btn-text">
+            Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
+          </span>
+        </button>
+      </div>
 
+      <!-- Icônes flottantes -->
+      <div class="bigsmash-desktop-buttons">
+        <button class="bigsmash-desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+        </button>
+        <button class="bigsmash-desktop-btn" title="Mon compte">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4zM6 18v2h12v-2c0-2.66-5.33-4-6-4s-6 1.34-6 4z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  `;  // ← Ne pas oublier ce backtick et le point‑virgule
+}
 
-                    <!-- Icônes flottantes (toujours visibles) -->
-                    <div class="bigsmash-desktop-buttons">
-                        <button class="bigsmash-desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
-                            <svg fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                            </svg>
-                        </button>
-                        <button class="bigsmash-desktop-btn" title="Mon compte">
-                            <svg fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                        </button>
-                    </div>
-                `;
-            }
 
             // Rendu des options
            
