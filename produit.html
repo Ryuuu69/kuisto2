@@ -610,86 +610,25 @@
             transform: translateY(-2px);
             box-shadow: var(--bigsmash-shadow);
         }
-      .bigsmash-cart-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  padding: 12px 0;
-  background: rgba(255,255,255,0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  z-index: 2000;
-}
-
-/* Masquer l’ancien */
-.bigsmash-add-to-cart-btn {
-  display: none !important;
-}
-
-/* Ajuster le compteur */
-.bigsmash-cart-container .bigsmash-sticky-qty-controls {
-  margin-bottom: 12px;
-}
-
-/* ===== CONTAINER STICKY CENTRÉ SOUS LA FICHE ===== */
+/* ===== ZONE STICKY EN BAS, 490px DE CHAQUE CÔTÉ, 500×125px ===== */
 .bigsmash-cart-container {
   position: fixed;
-  bottom: 32px;           /* distance du bas de l'écran */
-  left: 490px;            /* 490px à partir du bord gauche */
-  right: 490px;           /* 490px à partir du bord droit */
-  padding: 0 0 12px;      /* un petit padding dessous */
-  background: rgba(255,255,255,0.85);
-  display: flex;
-  flex-direction: column; /* empile compteur au-dessus */
-  align-items: center;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  z-index: 2000;
-}
-
-/* ===== CONTROLES QUANTITÉ (au-dessus du bouton) ===== */
-.bigsmash-cart-container .bigsmash-sticky-qty-controls {
-  margin-bottom: 16px;
-}
-
-
-/* ===== ESPACEMENT DU COMPTEUR ===== */
-.bigsmash-cart-container .bigsmash-sticky-qty-controls {
-  margin-bottom: 16px;
-}
-
-.bigsmash-cart-container {
-  position: fixed;
-  bottom: 0px;                  /* à 32px du bas de l’écran */
-  left: 490px;                   /* à 490px du bord gauche */
-  right: 490px;                  /* à 490px du bord droit */
-  height: 125px;                 /* hauteur fixe */
+  bottom: 32px;                       /* 32px du bas */
+  left: 490px;                        /* 490px du bord gauche */
+  right: 490px;                       /* 490px du bord droit */
+  height: 125px;                      /* hauteur fixe */
   background: rgba(255,255,255,0.85); /* blanc translucide */
-  border-radius: var(--bigsmash-radius); /* coins arrondis */
-  
+  border-radius: var(--bigsmash-radius);  /* coins arrondis */
   display: flex;
-  flex-direction: column;        /* compteur au‑dessus du bouton */
-  align-items: center;           /* centrer horizontalement le contenu */
-  justify-content: center;       /* centrer verticalement le contenu */
-  gap: 8px;                      /* espace entre compteur et bouton */
-  
+  flex-direction: column;             /* compteur au-dessus du bouton */
+  align-items: center;                /* centré horizontalement */
+  justify-content: center;            /* centré verticalement */
+  gap: 8px;                           /* espace entre compteur et bouton */
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
   z-index: 2000;
-}
-adding: 0;                                           /* plus besoin de padding interne */
-  transform: none;                                      /* retire tout translateX précédent */
-}
-
-
-/* ===== ESPACEMENT DU COMPTEUR (au-dessus) ===== */
-.bigsmash-cart-container .bigsmash-sticky-qty-controls {
-  /* plus besoin de margin-bottom, la propriété space-between gère l’espacement */
 }
 
 /* ===== BOUTON “Ajouter au panier” (270×40) ===== */
-/* (on garde ton code existant) */
 .bigsmash-cart-container .bigsmash-main-add-btn {
   width: 270px;
   height: 40px;
@@ -697,7 +636,7 @@ adding: 0;                                           /* plus besoin de padding i
   border: 2px solid var(--bigsmash-white);
   border-radius: 20px;
   color: var(--bigsmash-white);
-  font-family: 'Montserrat', sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 700;
   font-size: 18px;
   display: flex;
