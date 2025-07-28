@@ -797,7 +797,11 @@
                                 <!-- Description -->
                                 <p class="bigsmash-product-description">${this.product.description}</p>
                                 
-                               
+                                <!-- Prix -->
+                                <div class="bigsmash-product-price">
+                                    ${this.product.price.toFixed(2).replace('.', ',')} €
+                                </div>
+
                                 <!-- Quantité -->
                                 <div class="bigsmash-quantity-container">
                                     <button class="bigsmash-qty-btn" id="qty-minus">−</button>
