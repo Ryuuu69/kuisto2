@@ -55,6 +55,44 @@ const products = [
       ]
     }
   },
+  accompaniments: [
+      {
+        name:  "Frites nature",
+        price: 0.00,
+        image: "img/frites-nature.jpg"
+      },
+      {
+        name:  "Frites épicées",
+        price: 0.50,
+        image: "img/frites-epicees.jpg"
+      },
+      {
+        name:  "Frites cheddar",
+        price: 1.00,
+        image: "img/frites-cheddar.jpg"
+      },
+      {
+        name:  "Frites cheddar bacon",
+        price: 2.00,
+        image: "img/frites-cheddar-bacon.jpg"
+      },
+      {
+        name:  "Pops nature",
+        price: 0.50,
+        image: "img/pops-nature.jpg"
+      },
+      {
+        name:  "Pops cheddar",
+        price: 1.50,
+        image: "img/pops-cheddar.jpg"
+      },
+      {
+        name:  "Pops cheddar bacon",
+        price: 2.50,
+        image: "img/pops-cheddar-bacon.jpg"
+      }
+    ],
+
   {
     id: 3,
     name: "BIG CHEESE",
