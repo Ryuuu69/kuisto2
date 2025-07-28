@@ -179,7 +179,7 @@ class CartSystem {
   }
 
   // Afficher un toast de confirmation
-  showToast(message) {
+
     // Supprimer l'ancien toast s'il existe
     const existingToast = document.getElementById('cart-toast');
     if (existingToast) {
