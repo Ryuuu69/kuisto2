@@ -2,5 +2,5 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  publicDir: 'images'    // maintenant Vite servira ton dossier images comme dossier public
+  publicDir: '.'    // maintenant Vite servira tous les fichiers du projet comme assets publics
 })
