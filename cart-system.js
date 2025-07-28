@@ -223,6 +223,5 @@ let cartSystem;
 document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
   window.cartSystem = cartSystem;
-});
- window.CartSystem = CartSystem;
+});window.CartSystem = CartSystem;
 }
