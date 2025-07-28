@@ -220,6 +220,15 @@
             transform: translateY(-2px);
             box-shadow: var(--bigsmash-shadow-hover);
         }
+      /* Assure-toi que tes contrôles d’accompagnement ont le même style */
+.accompaniment-minus,
+.accompaniment-plus {
+  /* héritent déjà de .bigsmash-option-qty-btn, pas besoin de redéfinir */
+}
+.accompaniment-qty {
+  /* héritent de .bigsmash-option-qty-display */
+}
+
 
         .bigsmash-option-card.selected {
             background: rgba(234, 61, 47, 0.05);
