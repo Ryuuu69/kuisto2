@@ -628,6 +628,34 @@
   z-index: 2000;
   padding: 0;
 }
+      .bigsmash-add-badge {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bigsmash-red);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 3000;
+  animation: badge-slide-up 1s ease-out forwards;
+}
+
+.bigsmash-add-badge-price {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@keyframes badge-slide-up {
+  from { opacity: 0; transform: translate(-50%, 40px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
 
 /* ==== CERCLÉS "–" et "+" ==== */
 .bigsmash-cart-container .bigsmash-sticky-qty-btn {
@@ -659,34 +687,7 @@
   min-width: 24px;
   text-align: center;
 }
-      .bigsmash-add-badge {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bigsmash-red);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 3000;
-  animation: badge-slide-up 1s ease-out forwards;
-}
-
-.bigsmash-add-badge-price {
-  font-family: Montserrat, sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-@keyframes badge-slide-up {
-  from { opacity: 0; transform: translate(-50%, 40px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
-}
-
+ 
 
 /* ==== BOUTON "Ajouter au panier" ==== */
 .bigsmash-cart-container .bigsmash-main-add-btn {
