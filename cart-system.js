@@ -72,7 +72,7 @@ class CartSystem {
     }
 
     this.saveCart();
-    this.showToast(`${product.name} ajouté au panier !`);
+    
   }
 
   // Calculer le prix d'un article avec ses options
