@@ -565,8 +565,8 @@
   box-shadow: var(--bigsmash-shadow);              /* ombre sous la bannière */
   border-bottom-left-radius: var(--bigsmash-radius);  /* arrondi bas gauche */
   border-bottom-right-radius: var(--bigsmash-radius); /* arrondi bas droite */
-  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l'ombre */
-  position: relative;                                /* pour garantir que l'ombre s'affiche bien */
+  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l’ombre */
+  position: relative;                                /* pour garantir que l’ombre s’affiche bien */
   z-index: 10;
 }
 .banner-img {
@@ -574,7 +574,7 @@
   width: 100%;
   height: 219px;       /* ajuste à la hauteur exacte souhaitée */
   object-fit: cover;
-  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l'image si besoin */
+  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l’image si besoin */
   border-bottom-right-radius: var(--bigsmash-radius-small);
 }
         .bigsmash-error-title {
@@ -629,7 +629,7 @@
   padding: 0;
 }
 
-/* ==== CERCLÉS "–" et "+" ==== */
+/* ==== CERCLÉS “–” et “+” ==== */
 .bigsmash-cart-container .bigsmash-sticky-qty-btn {
   width: 32px;                /* réduit de 44 → 32 */
   height: 32px;               /* réduit de 44 → 32 */
@@ -660,7 +660,7 @@
   text-align: center;
 }
 
-/* ==== BOUTON "Ajouter au panier" ==== */
+/* ==== BOUTON “Ajouter au panier” ==== */
 .bigsmash-cart-container .bigsmash-main-add-btn {
   width: 270px;
   height: 40px;
@@ -686,7 +686,7 @@
 }
 
 
-/* ===== CACHER L'ANCIEN CONTAINER ===== */
+/* ===== CACHER L’ANCIEN CONTAINER ===== */
 .bigsmash-add-to-cart-btn {
   display: none !important;
 }
@@ -745,7 +745,7 @@
   margin-bottom: 4px;
 }
 
-/* Nom de l'option */
+/* Nom de l’option */
 .bigsmash-option-name {
   font-family: Montserrat, sans-serif;
   font-weight: 400;
@@ -756,7 +756,7 @@
   margin-bottom: 2px;
 }
 
-/* Prix de l'option payante */
+/* Prix de l’option payante */
 .bigsmash-option-price {
   font-family: Montserrat, sans-serif;
   font-weight: 600;
@@ -807,6 +807,7 @@
 
     <!-- Scripts -->
     <script src="products-data.js"></script>
+    <script src="cart-system.js"></script>
     <script>
         class ProductPage {
             constructor() {
@@ -849,7 +850,7 @@
 
             // Afficher une erreur
             showError(message) {
-                document.getElementById('app').innerHTML = `
+                document.getElementById('app').innerHTML = 
                     <div class="bigsmash-error-container">
                         <div class="bigsmash-error-content">
                             <div class="bigsmash-error-emoji">😕</div>
@@ -860,14 +861,14 @@
                             </a>
                         </div>
                     </div>
-                `;
+                ;
             }
 
             // Rendu de la page
             render() {
-                document.title = `BigSmash - ${this.product.name}`;
+                document.title = BigSmash - ${this.product.name};
                 
-                document.getElementById('app').innerHTML = `
+                document.getElementById('app').innerHTML = 
                     <!-- Fond grisé -->
                     <div class="bigsmash-page-container">
                         <!-- Bouton retour -->
@@ -941,7 +942,7 @@
                             </svg>
                         </button>
                     </div>
-                `;
+                ;
             }
 
             // Rendu des options
@@ -953,13 +954,13 @@ renderOptions() {
   if (this.product.options?.supplements?.length > 0) {
     html += `
       <div class="bigsmash-options-section">
-        <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
+        <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
         <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
           ${this.product.options.supplements.map((supplement, index) => `
             <div class="bigsmash-option-card">
               <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
               <div class="bigsmash-option-name">${supplement.name}</div>
-              <div class="bigsmash-option-price">+${supplement.price.toFixed(2).replace('.', ',')} €</div>
+              <div class="bigsmash-option-price">+${supplement.price.toFixed(2).replace('.', ',')} €</div>
               <div class="bigsmash-option-controls">
                 <button class="bigsmash-option-qty-btn supplement-minus" data-index="${index}">−</button>
                 <span class="bigsmash-option-qty-display supplement-qty" data-index="${index}">0</span>
@@ -976,7 +977,7 @@ renderOptions() {
   if (this.product.options?.remove?.length > 0) {
     html += `
       <div class="bigsmash-options-section">
-        <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
+        <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
         <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
           ${this.product.options.remove.map((item, index) => `
             <label class="bigsmash-option-card">
@@ -1005,7 +1006,7 @@ renderOptions() {
               <div class="bigsmash-option-name">${drink.name}</div>
               <div class="bigsmash-option-price">
                 ${drink.price > 0
-                  ? `+${drink.price.toFixed(2).replace('.', ',')} €`
+                  ? `+${drink.price.toFixed(2).replace('.', ',')} €`
                   : 'Inclus'}
               </div>
               <div class="bigsmash-radio-indicator">
@@ -1108,7 +1109,7 @@ renderOptions() {
 
                 // Suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qtyElement = document.querySelector(`.supplement-qty[data-index="${index}"]`);
+                    const qtyElement = document.querySelector(.supplement-qty[data-index="${index}"]);
                     if (qtyElement) {
                         qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
                     }
@@ -1140,7 +1141,7 @@ renderOptions() {
                 const total = this.calculateTotal();
                 const btnText = document.getElementById('cart-btn-text');
                 if (btnText) {
-                    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+                    btnText.textContent = Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €;
                 }
             }
 
@@ -1189,20 +1190,18 @@ renderOptions() {
 
                 // Ajouter au panier via le système global
                 if (window.cartSystem) {
-        window.cartSystem.addToCart(this.product, this.quantity, options);
-        window.location.href = 'produits.html'; // Redirection après ajout
-    } else {
-        console.error('Système de panier non disponible');
-        alert('Erreur: Système de panier non disponible');
-    }
-}
+                    window.cartSystem.addToCart(this.product, this.quantity, options);
+                } else {
+                    console.error('Système de panier non disponible');
+                    alert('Erreur: Système de panier non disponible');
+                }
+            }
+        }
 
         // Initialiser la page produit
         document.addEventListener('DOMContentLoaded', () => {
             new ProductPage();
         });
     </script>
-  <script src="cart-system.js"></script>
-
 </body>
 </html>

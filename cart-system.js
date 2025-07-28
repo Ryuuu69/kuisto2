@@ -1,17 +1,16 @@
-if (window.CartSystem) {
-  // Si déjà déclaré, on ne fait rien
-} else {
-  class CartSystem {
-    constructor() {
-      this.cart = this.loadCart();
-      this.init();
-    }
+// cart-system.js - Système de panier partagé (à inclure sur toutes les pages)
+
+class CartSystem {
+  constructor() {
+    this.cart = this.loadCart();
+    this.init();
+  }
 
   // Initialisation du système
   init() {
     this.createCartBar();
     this.updateCartDisplay();
-
+    
     // Écouter les changements de localStorage depuis d'autres onglets
     window.addEventListener('storage', (e) => {
       if (e.key === 'bigsmash_cart') {
@@ -42,113 +41,140 @@ if (window.CartSystem) {
     }
   }
 
+  // Ajouter un produit au panier
+  addToCart(product, quantity = 1, options = {}) {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      basePrice: product.price,
+      quantity: quantity,
+      options: options,
+      totalPrice: this.calculateItemPrice(product, quantity, options),
+      addedAt: new Date().toISOString()
+    };
+
+    // Vérifier si le même produit avec les mêmes options existe déjà
+    const existingIndex = this.cart.findIndex(item => 
+      item.id === product.id && 
+      JSON.stringify(item.options) === JSON.stringify(options)
+    );
+
+    if (existingIndex > -1) {
+      this.cart[existingIndex].quantity += quantity;
+      this.cart[existingIndex].totalPrice = this.calculateItemPrice(
+        product, 
+        this.cart[existingIndex].quantity, 
+        options
+      );
+    } else {
+      this.cart.push(cartItem);
+    }
+
+    this.saveCart();
+    this.showToast(`${product.name} ajouté au panier !`);
+  }
+
   // Calculer le prix d'un article avec ses options
   calculateItemPrice(product, quantity, options) {
-    let price = parseFloat(product.price || product.prix || 0);
-
+    let price = product.basePrice * quantity;
+    
     // Ajouter le prix des suppléments
     if (options.supplements) {
       Object.values(options.supplements).forEach(supplement => {
         if (supplement.quantity > 0) {
-          price += supplement.price * supplement.quantity;
+          price += supplement.price * supplement.quantity * quantity;
         }
       });
     }
 
     // Ajouter le prix de la boisson
     if (options.drink && options.drink.price > 0) {
-      price += options.drink.price;
+      price += options.drink.price * quantity;
     }
 
-    // Multiplier par la quantité totale
-    return price * quantity;
-  }
-
-  // Ajouter un produit au panier
-  addToCart(product, quantity, options) {
-    // 1. Chercher si même produit + options existe déjà
-    const existingIndex = this.cart.findIndex(item =>
-      item.id === (product.slug || product.id) &&
-      JSON.stringify(item.supplements) === JSON.stringify(options.supplements || {}) &&
-      JSON.stringify(item.drink) === JSON.stringify(options.drink || null) &&
-      JSON.stringify(item.remove) === JSON.stringify(options.remove || null)
-    );
-
-    // 2. Calcul du prix total pour cette ligne
-    const lineTotal = this.calculateItemPrice(product, quantity, options);
-
-    if (existingIndex > -1) {
-      // Déjà présent, on incrémente la quantité et le total
-      this.cart[existingIndex].quantity += quantity;
-      this.cart[existingIndex].lineTotal += lineTotal;
-    } else {
-      // Nouveau, on ajoute la ligne au panier
-      const cartItem = {
-        id: product.slug || product.id,
-        name: product.name || product.nom,
-        basePrice: parseFloat(product.price || product.prix || 0),
-        supplements: options.supplements || {},
-        drink: options.drink || null,
-        remove: options.remove || null,
-        quantity: quantity,
-        lineTotal: lineTotal
-      };
-      this.cart.push(cartItem);
-    }
-
-    this.saveCart();
-    this.showToast(`${product.name || product.nom} ajouté au panier !`);
+    return price;
   }
 
   // Obtenir le nombre total d'articles
   getTotalItems() {
-    return this.cart.reduce((total, item) => total + (item.quantity || 1), 0);
+    return this.cart.reduce((total, item) => total + item.quantity, 0);
   }
 
   // Obtenir le prix total
   getTotalPrice() {
-    return this.cart.reduce((total, item) => total + (item.lineTotal || 0), 0);
+    return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
 
   // Créer la barre de panier sticky
   createCartBar() {
-    if (document.getElementById('cart-icon-bar')) return;
+    if (document.getElementById('cart-bar')) return; // Éviter les doublons
+
     const cartBar = document.createElement('div');
-    cartBar.id = 'cart-icon-bar';
-    cartBar.style.cssText = `
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        z-index: 9999;
-        background: #E42B16;
-        border-radius: 9999px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-        padding: 14px 22px;
-        color: #fff;
-        font-weight: 600;
-        font-size: 20px;
-        cursor: pointer;
-        display: none;
-        transition: all 0.25s;
-    `;
+    cartBar.id = 'cart-bar';
+    cartBar.className = 'cart-bar';
     cartBar.innerHTML = `
-      🛒 <span id="cart-count"></span> • <span id="cart-subtotal"></span>€
+      <div class="cart-content">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-text">
+          <span id="cart-count">0</span> article(s) — 
+          <span id="cart-price">0,00 €</span>
+        </span>
+      </div>
     `;
-    cartBar.onclick = function() {
-        window.location.href = 'panier.html';
-    };
+
+    // Styles inline pour éviter les conflits
+    cartBar.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #191919;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+    `;
+
+    cartBar.addEventListener('click', () => {
+      this.showCartModal();
+    });
+
+    cartBar.addEventListener('mouseenter', () => {
+      cartBar.style.background = '#EA3D2F';
+      cartBar.style.transform = 'translateY(-2px)';
+    });
+
+    cartBar.addEventListener('mouseleave', () => {
+      cartBar.style.background = '#191919';
+      cartBar.style.transform = 'translateY(0)';
+    });
+
     document.body.appendChild(cartBar);
   }
 
-  // Mettre à jour l'affichage du panier sticky en bas à droite
+  // Mettre à jour l'affichage du panier
   updateCartDisplay() {
-    const cartBar = document.getElementById('cart-icon-bar');
-    if (!cartBar) return;
-    const count = this.getTotalItems();
-    const subtotal = this.getTotalPrice();
-    document.getElementById('cart-count').textContent = count;
-    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2).replace('.', ',');
-    cartBar.style.display = count > 0 ? 'block' : 'none';
+    const cartBar = document.getElementById('cart-bar');
+    const cartCount = document.getElementById('cart-count');
+    const cartPrice = document.getElementById('cart-price');
+
+    if (!cartBar || !cartCount || !cartPrice) return;
+
+    const totalItems = this.getTotalItems();
+    const totalPrice = this.getTotalPrice();
+
+    cartCount.textContent = totalItems;
+    cartPrice.textContent = totalPrice.toFixed(2).replace('.', ',') + ' €';
+
+    // Afficher/masquer la barre selon le contenu du panier
+    cartBar.style.display = totalItems > 0 ? 'block' : 'none';
   }
 
   // Afficher un toast de confirmation
@@ -211,18 +237,15 @@ if (window.CartSystem) {
     alert(`Panier: ${this.getTotalItems()} article(s) - ${this.getTotalPrice().toFixed(2)} €\n\nFonctionnalité de panier détaillé à implémenter selon vos besoins.`);
   }
 
-   // Vider le panier
+  // Vider le panier
   clearCart() {
     this.cart = [];
     this.saveCart();
   }
-} // <--- Fin de la classe
+}
 
 // Initialiser le système de panier automatiquement
 let cartSystem;
 document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
-  window.cartSystem = cartSystem;
 });
-window.CartSystem = CartSystem; // <--- PAS D'ESPACE, PAS DE POINT, PAS DE VIRGULE, RIEN
-} // <--- Fin du else
