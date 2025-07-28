@@ -178,7 +178,7 @@ class CartSystem {
     cartBar.style.display = totalItems > 0 ? 'block' : 'none';
   }
 
-  // Afficher un toast de confirmation
+  
   
     // Supprimer l'ancien toast s'il existe
     const existingToast = document.getElementById('cart-toast');
