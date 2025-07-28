@@ -10,7 +10,7 @@ class CartSystem {
   init() {
     this.createCartBar();
     this.updateCartDisplay();
-    
+
     // Écouter les changements de localStorage depuis d'autres onglets
     window.addEventListener('storage', (e) => {
       if (e.key === 'bigsmash_cart') {
@@ -41,96 +41,72 @@ class CartSystem {
     }
   }
 
-  // Ajouter un produit au panier
-  addToCart(product, quantity, options) {
-    // Calcul du prix de base
-    let basePrice = parseFloat(product.price || product.prix || 0);
-    // Prix suppléments
-    let supplementsTotal = 0;
-    if (options.supplements) {
-        Object.values(options.supplements).forEach(supp => {
-            supplementsTotal += supp.price * (supp.quantity || 1);
-        });
-    }
-    // Prix boisson
-    let drinkTotal = 0;
-    if (options.drink && options.drink.price) {
-        drinkTotal = parseFloat(options.drink.price);
-    }
-
-    // Prix de la ligne complète (base + suppléments + boisson) x quantité
-    let lineTotal = (basePrice + supplementsTotal + drinkTotal) * quantity;
-
-    // Structure à stocker dans le panier
-    const cartItem = {
-        id: product.slug || product.id,
-        name: product.name || product.nom,
-        basePrice: basePrice,
-        supplements: options.supplements || {},
-        drink: options.drink || null,
-        remove: options.remove || null,
-        quantity: quantity,
-        lineTotal: lineTotal
-    };
-
-    // Ajout au panier (ajoute à this.cart, puis sauvegarde dans localStorage)
-    this.cart = this.cart || [];
-    this.cart.push(cartItem);
-    this.saveCart();
-    this.updateCartDisplay();
-}
-
-
-    // Vérifier si le même produit avec les mêmes options existe déjà
-    const existingIndex = this.cart.findIndex(item => 
-      item.id === product.id && 
-      JSON.stringify(item.options) === JSON.stringify(options)
-    );
-
-    if (existingIndex > -1) {
-      this.cart[existingIndex].quantity += quantity;
-      this.cart[existingIndex].totalPrice = this.calculateItemPrice(
-        product, 
-        this.cart[existingIndex].quantity, 
-        options
-      );
-    } else {
-      this.cart.push(cartItem);
-    }
-
-    this.saveCart();
-    this.showToast(`${product.name} ajouté au panier !`);
-  }
-
   // Calculer le prix d'un article avec ses options
   calculateItemPrice(product, quantity, options) {
-    let price = product.basePrice * quantity;
-    
+    let price = parseFloat(product.price || product.prix || 0);
+
     // Ajouter le prix des suppléments
     if (options.supplements) {
       Object.values(options.supplements).forEach(supplement => {
         if (supplement.quantity > 0) {
-          price += supplement.price * supplement.quantity * quantity;
+          price += supplement.price * supplement.quantity;
         }
       });
     }
 
     // Ajouter le prix de la boisson
     if (options.drink && options.drink.price > 0) {
-      price += options.drink.price * quantity;
+      price += options.drink.price;
     }
 
-    return price;
+    // Multiplier par la quantité totale
+    return price * quantity;
+  }
+
+  // Ajouter un produit au panier
+  addToCart(product, quantity, options) {
+    // 1. Chercher si même produit + options existe déjà
+    const existingIndex = this.cart.findIndex(item =>
+      item.id === (product.slug || product.id) &&
+      JSON.stringify(item.supplements) === JSON.stringify(options.supplements || {}) &&
+      JSON.stringify(item.drink) === JSON.stringify(options.drink || null) &&
+      JSON.stringify(item.remove) === JSON.stringify(options.remove || null)
+    );
+
+    // 2. Calcul du prix total pour cette ligne
+    const lineTotal = this.calculateItemPrice(product, quantity, options);
+
+    if (existingIndex > -1) {
+      // Déjà présent, on incrémente la quantité et le total
+      this.cart[existingIndex].quantity += quantity;
+      this.cart[existingIndex].lineTotal += lineTotal;
+    } else {
+      // Nouveau, on ajoute la ligne au panier
+      const cartItem = {
+        id: product.slug || product.id,
+        name: product.name || product.nom,
+        basePrice: parseFloat(product.price || product.prix || 0),
+        supplements: options.supplements || {},
+        drink: options.drink || null,
+        remove: options.remove || null,
+        quantity: quantity,
+        lineTotal: lineTotal
+      };
+      this.cart.push(cartItem);
+    }
+
+    this.saveCart();
+    this.showToast(`${product.name || product.nom} ajouté au panier !`);
   }
 
   // Obtenir le nombre total d'articles
   getTotalItems() {
-    return this.cart.reduce((total, item) => total + item.quantity, 0);
+    return this.cart.reduce((total, item) => total + (item.quantity || 1), 0);
   }
 
   // Obtenir le prix total
   getTotalPrice() {
-    return this.cart.reduce((total, item) => total + item.totalPrice, 0);
+    return this.cart.reduce((total, item) => total + (item.lineTotal || 0), 0);
   }
 
   // Créer la barre de panier sticky
@@ -161,36 +137,17 @@ class CartSystem {
         window.location.href = 'panier.html';
     };
     document.body.appendChild(cartBar);
-}
-updateCartDisplay() {
+  }
+
+  // Mettre à jour l'affichage du panier sticky en bas à droite
+  updateCartDisplay() {
     const cartBar = document.getElementById('cart-icon-bar');
     if (!cartBar) return;
-    // Total articles
-    const count = this.cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
-    // Sous-total €
-    const subtotal = this.cart.reduce((sum, item) => sum + (item.lineTotal || 0), 0);
+    const count = this.getTotalItems();
+    const subtotal = this.getTotalPrice();
     document.getElementById('cart-count').textContent = count;
-    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2).replace('.', ',');
     cartBar.style.display = count > 0 ? 'block' : 'none';
-}
-
-
-  // Mettre à jour l'affichage du panier
-  updateCartDisplay() {
-    const cartBar = document.getElementById('cart-bar');
-    const cartCount = document.getElementById('cart-count');
-    const cartPrice = document.getElementById('cart-price');
-
-    if (!cartBar || !cartCount || !cartPrice) return;
-
-    const totalItems = this.getTotalItems();
-    const totalPrice = this.getTotalPrice();
-
-    cartCount.textContent = totalItems;
-    cartPrice.textContent = totalPrice.toFixed(2).replace('.', ',') + ' €';
-
-    // Afficher/masquer la barre selon le contenu du panier
-    cartBar.style.display = totalItems > 0 ? 'block' : 'none';
   }
 
   // Afficher un toast de confirmation
