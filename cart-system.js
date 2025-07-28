@@ -1,4 +1,9 @@
 // cart-system.js - Système de panier partagé (à inclure sur toutes les pages)
+if (window.CartSystem) {
+  // Si déjà déclaré, on ne fait rien
+} else {
+  // (tout ton code existant ici)
+}
 
 class CartSystem {
   constructor() {
