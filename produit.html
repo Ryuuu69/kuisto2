@@ -694,33 +694,34 @@
   display: none !important;
 }
     
-/* Grille de base sans margin auto */
 .bigsmash-options-grid {
   display: grid;
   grid-template-columns: repeat(4, 150px);
   grid-auto-rows: 150px;
   column-gap: 11px;
   row-gap: 11px;
-  /* on enlève margin auto ou width:max-content */
+  /* on enlève tout centering précédent */
 }
 
-/* 4 cartes côte à côte → 86px de marge à gauche et à droite */
+/* 4 cartes → 86px de marge latérale */
 .bigsmash-options-grid--count-4 {
   margin: 0 86px;
 }
 
-/* 3 cartes → 166px de chaque côté */
+/* 3 cartes → 166px de marge latérale */
 .bigsmash-options-grid--count-3 {
   margin: 0 166px;
-  /* on garde toujours 11px de gap entre chaque carte */
 }
 
-/* 2 cartes → 246px de chaque côté */
+/* 2 cartes → 246px de marge latérale */
 .bigsmash-options-grid--count-2 {
   margin: 0 246px;
 }
 
-/* (éventuellement 1 carte → 336px de chaque côté, mais tu n’en as pas besoin ici) */
+/* 1 carte → 336px de marge latérale (si jamais) */
+.bigsmash-options-grid--count-1 {
+  margin: 0 336px;
+}
 
 /* Cartes individuelles */
 .bigsmash-option-card {
