@@ -824,8 +824,8 @@
                 this.selectedOptions = {
                     supplements: {},
                     drink: null,
-                    remove: {},
-                  accompaniments: {}
+                    remove: {}
+                
                 };
                 this.quantity = 1;
                 this.init();
@@ -1000,31 +1000,7 @@
             </div>
         `;
     }
-              // 3️⃣ Accompagnements
-   if (
-    this.product.category === 'Menu Burger' &&
-    this.product.options?.accompaniments?.length > 0
-) {
-    html += `
-        <div class="bigsmash-options-section">
-            <h3 class="bigsmash-options-title">Accompagnements</h3>
-            <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.accompaniments.length}">
-                ${this.product.options.accompaniments.map((acc, idx) => `
-                    <div class="bigsmash-option-card">
-                        <img src="${acc.image}" alt="${acc.name}" class="bigsmash-option-image">
-                        <div class="bigsmash-option-name">${acc.name}</div>
-                        <div class="bigsmash-option-price">+${acc.price.toFixed(2).replace('.', ',')} €</div>
-                        <div class="bigsmash-option-controls">
-                            <button class="bigsmash-option-qty-btn accompaniment-minus" data-index="${idx}">−</button>
-                            <span class="bigsmash-option-qty-display accompaniment-qty" data-index="${idx}">0</span>
-                            <button class="bigsmash-option-qty-btn accompaniment-plus" data-index="${idx}">+</button>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-}
+              
 
     // 3️⃣ Boissons
     if (this.product.options?.drinks?.length > 0) {
