@@ -1190,18 +1190,20 @@ renderOptions() {
 
                 // Ajouter au panier via le système global
                 if (window.cartSystem) {
-                    window.cartSystem.addToCart(this.product, this.quantity, options);
-                } else {
-                    console.error('Système de panier non disponible');
-                    alert('Erreur: Système de panier non disponible');
-                }
-            }
-        }
+        window.cartSystem.addToCart(this.product, this.quantity, options);
+        window.location.href = 'produits.html'; // Redirection après ajout
+    } else {
+        console.error('Système de panier non disponible');
+        alert('Erreur: Système de panier non disponible');
+    }
+}
 
         // Initialiser la page produit
         document.addEventListener('DOMContentLoaded', () => {
             new ProductPage();
         });
     </script>
+  <script src="cart-system.js"></script>
+
 </body>
 </html>
