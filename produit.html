@@ -675,7 +675,32 @@
   margin-bottom: 16px;
 }
 
+/* ===== CONTAINER STICKY FIXE 500×125 CENTRÉ ===== */
+.bigsmash-cart-container {
+  position: fixed;
+  bottom: 32px;                 /* 32px du bas */
+  left: 50%;                    /* centre horizontal */
+  transform: translateX(-50%);  /* ramène le conteneur au centre exact */
+  width: 500px;                 /* largeur fixe */
+  height: 125px;                /* hauteur fixe */
+  background: rgba(255,255,255,0.85); /* blanc translucide */
+  display: flex;
+  flex-direction: column;       /* empile le compteur et le bouton */
+  align-items: center;          /* centre horizontalement le contenu */
+  justify-content: space-between; /* compteur en haut, bouton en bas */
+  padding: 12px 0;              /* espace interne haut/bas */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  border-radius: var(--bigsmash-radius);
+  z-index: 2000;
+}
+
+/* ===== ESPACEMENT DU COMPTEUR (au-dessus) ===== */
+.bigsmash-cart-container .bigsmash-sticky-qty-controls {
+  /* plus besoin de margin-bottom, la propriété space-between gère l’espacement */
+}
+
 /* ===== BOUTON “Ajouter au panier” (270×40) ===== */
+/* (on garde ton code existant) */
 .bigsmash-cart-container .bigsmash-main-add-btn {
   width: 270px;
   height: 40px;
