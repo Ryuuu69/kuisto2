@@ -178,7 +178,7 @@ class CartSystem {
 
     // Afficher/masquer la barre selon le contenu du panier
     cartBar.style.display = totalItems > 0 ? 'block' : 'none';
-  }
+     }
 
   
      
@@ -190,6 +190,7 @@ class CartSystem {
     this.cart = [];
     this.saveCart();
   }
+}
 
 // Initialiser le système de panier automatiquement et le rendre globalement accessible
 window.cartSystem = new CartSystem();
