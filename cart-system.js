@@ -132,6 +132,11 @@ class CartSystem {
       </div>
     `;
     function updateCartFab() {
+        if (window.location.pathname.includes('produit.html')) {
+    const cartFab = document.getElementById('cart-fab');
+    if (cartFab) cartFab.style.display = 'none';
+    return;
+  }
   const cartFab = document.getElementById('cart-fab');
   const badge = document.getElementById('cart-fab-price');
   if (!cartFab || !badge) return;
