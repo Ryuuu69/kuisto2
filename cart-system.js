@@ -42,17 +42,44 @@ class CartSystem {
   }
 
   // Ajouter un produit au panier
-  addToCart(product, quantity = 1, options = {}) {
+  addToCart(product, quantity, options) {
+    // Calcul du prix de base
+    let basePrice = parseFloat(product.price || product.prix || 0);
+    // Prix suppléments
+    let supplementsTotal = 0;
+    if (options.supplements) {
+        Object.values(options.supplements).forEach(supp => {
+            supplementsTotal += supp.price * (supp.quantity || 1);
+        });
+    }
+    // Prix boisson
+    let drinkTotal = 0;
+    if (options.drink && options.drink.price) {
+        drinkTotal = parseFloat(options.drink.price);
+    }
+
+    // Prix de la ligne complète (base + suppléments + boisson) x quantité
+    let lineTotal = (basePrice + supplementsTotal + drinkTotal) * quantity;
+
+    // Structure à stocker dans le panier
     const cartItem = {
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      basePrice: product.price,
-      quantity: quantity,
-      options: options,
-      totalPrice: this.calculateItemPrice(product, quantity, options),
-      addedAt: new Date().toISOString()
+        id: product.slug || product.id,
+        name: product.name || product.nom,
+        basePrice: basePrice,
+        supplements: options.supplements || {},
+        drink: options.drink || null,
+        remove: options.remove || null,
+        quantity: quantity,
+        lineTotal: lineTotal
     };
+
+    // Ajout au panier (ajoute à this.cart, puis sauvegarde dans localStorage)
+    this.cart = this.cart || [];
+    this.cart.push(cartItem);
+    this.saveCart();
+    this.updateCartDisplay();
+}
+
 
     // Vérifier si le même produit avec les mêmes options existe déjà
     const existingIndex = this.cart.findIndex(item => 
