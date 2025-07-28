@@ -133,7 +133,7 @@
             text-align: center;
             margin-bottom: 24px;
         }
-      #cart-fab {
+     #cart-fab {
   position: fixed;
   left: 50%;
   bottom: 35px;
@@ -151,30 +151,37 @@
   cursor: pointer;
   font-size: 2rem;
   transition: box-shadow 0.2s, background 0.2s;
+  border: 6px solid #fff;
 }
-#cart-fab:hover {
-  background: #d52a1e;
-  box-shadow: 0 12px 40px rgba(234,61,47,0.4), 0 3px 12px rgba(0,0,0,0.18);
+
+#cart-fab .cart-icon.material-icons {
+  font-size: 2.6rem;
+  color: #fff;
+  /* Pour pointer vers la gauche (retournement horizontal) */
+  transform: scaleX(-1);
 }
-#cart-fab .cart-icon {
-  font-size: 2.1rem;
-}
-.cart-badge {
+
+#cart-fab .cart-badge {
   position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  color: #EA3D2F;
-  font-weight: bold;
-  font-size: 1.05rem;
-  border-radius: 16px;
-  min-width: 44px;
-  text-align: center;
-  padding: 4px 0 3px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  right: -60px; /* décaler à droite du bouton, ajuste si besoin */
+  top: 50%;
+  transform: translateY(-50%);
+  background: #191919;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 18px;
+  min-width: 54px;
+  height: 36px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   pointer-events: none;
+  border: 2px solid #fff;
 }
+
 
 
         /* ===== CONTRÔLES QUANTITÉ ===== */
