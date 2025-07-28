@@ -952,7 +952,7 @@
     if (this.product.options?.supplements?.length > 0) {
         html += `
             <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">Suppléments</h3>
+                <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>>
                 <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
                     ${this.product.options.supplements.map((supplement, index) => `
                         <div class="bigsmash-option-card">
@@ -975,7 +975,7 @@
     if (this.product.options?.remove?.length > 0) {
         html += `
             <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">Personnalisation</h3>
+                <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
                 <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
                     ${this.product.options.remove.map((item, index) => `
                         <label class="bigsmash-option-card">
@@ -995,7 +995,7 @@
     if (this.product.options?.drinks?.length > 0) {
         html += `
             <div class="bigsmash-options-section">
-                <h3 class="bigsmash-options-title">Choisir une boisson</h3>
+                <h3 class="bigsmash-options-title">Choisis ta boisson</h3>
                 <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.drinks.length}">
                     ${this.product.options.drinks.map((drink, index) => `
                         <label class="bigsmash-option-card">
