@@ -35,11 +35,12 @@
 
         /* ===== BOUTON RETOUR ===== */
         .bigsmash-back-button-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-        }
+  position: absolute;
+  top: 16px;       /* ajustez si nécessaire */
+  right: 16px;     /* ajustez si nécessaire */
+  z-index: 1001;
+  /* on enlève left et tout ce qui fixe la position globale */
+}
 
         .bigsmash-back-btn {
             background: rgba(255,255,255,0.9);
@@ -66,6 +67,7 @@
         /* ===== CARTE PRODUIT PRINCIPALE ===== */
         .bigsmash-product-card {
   margin: 30px auto 0;
+  position: relative;
   width: calc(100vw - 680px);
   max-width: 900px;
 
@@ -873,13 +875,12 @@
                     <div class="bigsmash-page-container">
                         <!-- Bouton retour -->
                         <div class="bigsmash-back-button-container">
-                            <a href="produits.html" class="bigsmash-back-btn">
-                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                                </svg>
-                                Retour
-                            </a>
-                        </div>
+   <a href="produits.html" class="bigsmash-back-btn">
+     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+     </svg>
+   </a>
+ </div>
 
                         <!-- Carte produit principale -->
                         <div class="bigsmash-product-card">
