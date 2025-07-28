@@ -555,7 +555,19 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
-
+         /* ===== HEADER IMAGE BANNIÈRE ===== */
+.main-header {
+  width: 100vw;
+  background: var(--bigsmash-white);
+  box-shadow: var(--bigsmash-shadow);
+  overflow: hidden;
+}
+.banner-img {
+  display: block;
+  width: 100%;
+  height: 200px;        /* même hauteur que sur produits.html */
+  object-fit: cover;    /* remplit bien le conteneur */
+}
         .bigsmash-error-title {
             font-size: 24px;
             font-weight: 700;
@@ -593,7 +605,7 @@
 </head>
 <body class="bg-gray-50 font-montserrat">
   <header class="main-header">
-  <img src="chemin/vers/ton-banner.svg" alt="Banner BigSmash" class="banner-img">
+  <img src="/home/project/images/banner.svg" alt="Banner BigSmash" class="banner-img">
 </header>
 
     <!-- Container principal -->
