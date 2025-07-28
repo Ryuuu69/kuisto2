@@ -127,6 +127,30 @@ class CartSystem {
         </span>
       </div>
     `;
+    function updateCartFab() {
+  const cartFab = document.getElementById('cart-fab');
+  const badge = document.getElementById('cart-fab-price');
+  if (!cartFab || !badge) return;
+
+  // Utilise le panier global
+  const cart = (window.cartSystem && window.cartSystem.cart) || [];
+  const total = cart.reduce((acc, item) => acc + (item.totalPrice || 0), 0);
+
+  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
+  cartFab.style.display = total > 0 ? 'flex' : 'none';
+}
+
+// Clique sur le bouton = va sur panier.html
+document.addEventListener('DOMContentLoaded', function() {
+  const cartFab = document.getElementById('cart-fab');
+  if (cartFab) {
+    cartFab.onclick = function() {
+      window.location.href = 'panier.html';
+    };
+    updateCartFab();
+  }
+});
+
 
     // Styles inline pour éviter les conflits
     cartBar.style.cssText = `
