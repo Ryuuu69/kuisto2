@@ -135,56 +135,45 @@ class CartSystem {
 
   // Créer la barre de panier sticky
   createCartBar() {
-    if (document.getElementById('cart-bar')) return; // Éviter les doublons
-
+    if (document.getElementById('cart-icon-bar')) return;
     const cartBar = document.createElement('div');
-    cartBar.id = 'cart-bar';
-    cartBar.className = 'cart-bar';
-    cartBar.innerHTML = `
-      <div class="cart-content">
-        <span class="cart-icon">🛒</span>
-        <span class="cart-text">
-          <span id="cart-count">0</span> article(s) — 
-          <span id="cart-price">0,00 €</span>
-        </span>
-      </div>
-    `;
-
-    // Styles inline pour éviter les conflits
+    cartBar.id = 'cart-icon-bar';
     cartBar.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #191919;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      transition: all 0.3s ease;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      display: none;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        background: #E42B16;
+        border-radius: 9999px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+        padding: 14px 22px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+        transition: all 0.25s;
     `;
-
-    cartBar.addEventListener('click', () => {
-      this.showCartModal();
-    });
-
-    cartBar.addEventListener('mouseenter', () => {
-      cartBar.style.background = '#EA3D2F';
-      cartBar.style.transform = 'translateY(-2px)';
-    });
-
-    cartBar.addEventListener('mouseleave', () => {
-      cartBar.style.background = '#191919';
-      cartBar.style.transform = 'translateY(0)';
-    });
-
+    cartBar.innerHTML = `
+      🛒 <span id="cart-count"></span> • <span id="cart-subtotal"></span>€
+    `;
+    cartBar.onclick = function() {
+        window.location.href = 'panier.html';
+    };
     document.body.appendChild(cartBar);
-  }
+}
+updateCartDisplay() {
+    const cartBar = document.getElementById('cart-icon-bar');
+    if (!cartBar) return;
+    // Total articles
+    const count = this.cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+    // Sous-total €
+    const subtotal = this.cart.reduce((sum, item) => sum + (item.lineTotal || 0), 0);
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
+    cartBar.style.display = count > 0 ? 'block' : 'none';
+}
+
 
   // Mettre à jour l'affichage du panier
   updateCartDisplay() {
