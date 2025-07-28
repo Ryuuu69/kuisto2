@@ -752,31 +752,11 @@
     
 .bigsmash-options-grid {
   display: grid;
-  grid-template-columns: repeat(4, 150px);
-  grid-auto-rows: 150px;
-  column-gap: 11px;
-  row-gap: 11px;
-  /* on enlève tout centering précédent */
-}
-
-/* 4 cartes → 86px de marge latérale */
-.bigsmash-options-grid--count-4 {
-  margin: 0 86px;
-}
-
-/* 3 cartes → 166px de marge latérale */
-.bigsmash-options-grid--count-3 {
-  margin: 0 166px;
-}
-
-/* 2 cartes → 246px de marge latérale */
-.bigsmash-options-grid--count-2 {
-  margin: 0 246px;
-}
-
-/* 1 carte → 336px de marge latérale (si jamais) */
-.bigsmash-options-grid--count-1 {
-  margin: 0 336px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* Cartes individuelles */
@@ -1011,7 +991,7 @@ renderOptions() {
     html += `
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
-        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
+        <div class="bigsmash-options-grid">
           ${this.product.options.supplements.map((supplement, index) => `
             <div class="bigsmash-option-card">
               <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
@@ -1034,7 +1014,7 @@ renderOptions() {
     html += `
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
-        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
+        <div class="bigsmash-options-grid">
           ${this.product.options.remove.map((item, index) => `
             <label class="bigsmash-option-card">
               <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
@@ -1054,7 +1034,7 @@ renderOptions() {
     html += `
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">Choisis ta boisson</h3>
-        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.drinks.length}">
+        <div class="bigsmash-options-grid">
           ${this.product.options.drinks.map((drink, index) => `
             <label class="bigsmash-option-card">
               <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
