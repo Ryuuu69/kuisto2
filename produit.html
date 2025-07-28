@@ -133,6 +133,49 @@
             text-align: center;
             margin-bottom: 24px;
         }
+      #cart-fab {
+  position: fixed;
+  left: 50%;
+  bottom: 35px;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 64px;
+  background: #EA3D2F;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(234,61,47,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+#cart-fab:hover {
+  background: #d52a1e;
+  box-shadow: 0 12px 40px rgba(234,61,47,0.4), 0 3px 12px rgba(0,0,0,0.18);
+}
+#cart-fab .cart-icon {
+  font-size: 2.1rem;
+}
+.cart-badge {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  color: #EA3D2F;
+  font-weight: bold;
+  font-size: 1.05rem;
+  border-radius: 16px;
+  min-width: 44px;
+  text-align: center;
+  padding: 4px 0 3px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+
 
         /* ===== CONTRÔLES QUANTITÉ ===== */
         .bigsmash-quantity-container {
