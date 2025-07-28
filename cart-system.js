@@ -244,8 +244,5 @@ class CartSystem {
   }
 }
 
-// Initialiser le système de panier automatiquement
-let cartSystem;
-document.addEventListener('DOMContentLoaded', () => {
-  cartSystem = new CartSystem();
-});
+// Initialiser le système de panier automatiquement et le rendre globalement accessible
+window.cartSystem = new CartSystem();
