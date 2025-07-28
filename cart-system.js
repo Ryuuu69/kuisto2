@@ -82,28 +82,6 @@ class CartSystem {
   // Calculer le prix d'un article avec ses options
   calculateItemPrice(product, quantity, options) {
     let price = product.price * quantity;
-    function updateCartFab() {
-  const cartFab = document.getElementById('cart-fab');
-  const badge = document.getElementById('cart-fab-price');
-  if (!cartFab || !badge) return;
-
-  const cart = (window.cartSystem && window.cartSystem.cart) || [];
-  const total = cart.reduce((acc, item) => acc + (item.totalPrice || 0), 0);
-
-  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
-  cartFab.style.display = total > 0 ? 'flex' : 'none';
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  const cartFab = document.getElementById('cart-fab');
-  if (cartFab) {
-    cartFab.onclick = function() {
-      window.location.href = 'panier.html';
-    };
-    updateCartFab();
-  }
-});
-
     
     // Ajouter le prix des suppléments
     if (options.supplements) {
