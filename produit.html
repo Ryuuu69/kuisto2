@@ -693,6 +693,80 @@
       .bigsmash-quantity-container {
   display: none !important;
 }
+      /* Grille d'options : 4 colonnes max, gap 11px */
+.bigsmash-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 11px 11px; /* vertical et horizontal */
+  justify-content: center;
+}
+
+/* Cartes individuelles */
+.bigsmash-option-card {
+  width: 150px;
+  height: 150px;
+  background: var(--bigsmash-white);
+  border-radius: var(--bigsmash-radius-small);
+  box-shadow: var(--bigsmash-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+}
+
+/* Image dans la carte */
+.bigsmash-option-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 4px;
+}
+
+/* Nom de l’option */
+.bigsmash-option-name {
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--bigsmash-dark);
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+/* Prix de l’option payante */
+.bigsmash-option-price {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--bigsmash-red);
+  text-align: center;
+  margin-bottom: auto;
+}
+
+/* Contrôles – 0 + */
+.bigsmash-option-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bigsmash-option-qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bigsmash-red);
+  color: #000000;
+  font-size: 11px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
 
 
 
