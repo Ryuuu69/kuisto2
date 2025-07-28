@@ -161,7 +161,7 @@ class CartSystem {
   }
 
   // Mettre à jour l'affichage du panier
-  updateCartDisplay() {
+   updateCartDisplay() {
     const cartBar = document.getElementById('cart-bar');
     const cartCount = document.getElementById('cart-count');
     const cartPrice = document.getElementById('cart-price');
@@ -179,7 +179,7 @@ class CartSystem {
   }
 
   // Afficher un toast de confirmation
-
+  showToast(message) {
     // Supprimer l'ancien toast s'il existe
     const existingToast = document.getElementById('cart-toast');
     if (existingToast) {
@@ -189,7 +189,7 @@ class CartSystem {
     const toast = document.createElement('div');
     toast.id = 'cart-toast';
     toast.textContent = message;
-    toast.style.cssText = `
+    toast.style.cssText = 
       position: fixed;
       bottom: 100px;
       right: 20px;
@@ -203,13 +203,13 @@ class CartSystem {
       font-weight: 600;
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       animation: slideInUp 0.3s ease;
-    `;
+    ;
 
     // Ajouter l'animation CSS
     if (!document.getElementById('toast-styles')) {
       const style = document.createElement('style');
       style.id = 'toast-styles';
-      style.textContent = `
+      style.textContent = 
         @keyframes slideInUp {
           from {
             transform: translateY(100%);
@@ -220,7 +220,7 @@ class CartSystem {
             opacity: 1;
           }
         }
-      `;
+      ;
       document.head.appendChild(style);
     }
 
@@ -235,7 +235,7 @@ class CartSystem {
 
   // Afficher la modale du panier (optionnel)
   showCartModal() {
-    alert(`Panier: ${this.getTotalItems()} article(s) - ${this.getTotalPrice().toFixed(2)} €\n\nFonctionnalité de panier détaillé à implémenter selon vos besoins.`);
+    alert(Panier: ${this.getTotalItems()} article(s) - ${this.getTotalPrice().toFixed(2)} €\n\nFonctionnalité de panier détaillé à implémenter selon vos besoins.);
   }
 
   // Vider le panier
