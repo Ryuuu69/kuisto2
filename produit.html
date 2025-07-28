@@ -1109,7 +1109,7 @@ renderOptions() {
 
                 // Suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qtyElement = document.querySelector(`.supplement-qty[data-index="${index}"]`);
+                    const qtyElement = document.querySelector(.supplement-qty[data-index="${index}"]);
                     if (qtyElement) {
                         qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
                     }
@@ -1141,7 +1141,7 @@ renderOptions() {
                 const total = this.calculateTotal();
                 const btnText = document.getElementById('cart-btn-text');
                 if (btnText) {
-                    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+                    btnText.textContent = Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €;
                 }
             }
 
