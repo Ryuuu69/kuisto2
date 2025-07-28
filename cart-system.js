@@ -167,6 +167,39 @@ class CartSystem {
     const cartBar = document.getElementById('cart-bar');
     const cartCount = document.getElementById('cart-count');
     const cartPrice = document.getElementById('cart-price');
+     function updateCartFab() {
+  const cartFab = document.getElementById('cart-fab');
+  const badge = document.getElementById('cart-fab-price');
+  if (!cartFab || !badge) return;
+
+  // Utilise le panier global de ton CartSystem
+  const cart = (window.cartSystem && window.cartSystem.cart) || [];
+  const total = cart.reduce((acc, item) => acc + (item.totalPrice || 0), 0);
+
+  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
+
+  // Affiche le bouton seulement si le panier n’est pas vide
+  cartFab.style.display = total > 0 ? 'flex' : 'none';
+}
+
+// Redirige vers le panier au clic
+document.getElementById('cart-fab').onclick = function() {
+  window.location.href = 'panier.html';
+};
+
+// Met à jour le bouton panier au chargement de la page
+document.addEventListener('DOMContentLoaded', updateCartFab);
+
+// Mets à jour aussi le bouton après chaque ajout/suppression au panier
+// Ajoute ce call dans saveCart() ou updateCartDisplay() de ta classe CartSystem :
+if (window.cartSystem) {
+  const oldSaveCart = window.cartSystem.saveCart.bind(window.cartSystem);
+  window.cartSystem.saveCart = function() {
+    oldSaveCart();
+    updateCartFab();
+  }
+}
+
 
     if (!cartBar || !cartCount || !cartPrice) return;
 
