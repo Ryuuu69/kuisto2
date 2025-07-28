@@ -146,14 +146,21 @@ class CartSystem {
 
 // Clique sur le bouton = va sur panier.html
 document.addEventListener('DOMContentLoaded', function() {
+  // Vérifier qu’on N’EST PAS sur produit.html
+  if (window.location.pathname.includes('produit.html')) {
+    // Cache le FAB s’il existe
+    const cartFab = document.getElementById('cart-fab');
+    if (cartFab) cartFab.style.display = 'none';
+    return; // N’exécute rien d’autre
+  }
+  // Le reste du code ici (affichage FAB si panier > 0)
   const cartFab = document.getElementById('cart-fab');
   if (cartFab) {
-    cartFab.onclick = function() {
-      window.location.href = 'panier.html';
-    };
+    cartFab.onclick = function() { window.location.href = 'panier.html'; };
     updateCartFab();
   }
 });
+
 
 
     // Styles inline pour éviter les conflits
