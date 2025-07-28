@@ -1062,24 +1062,7 @@
                         this.updateDisplay();
                     }
                 });
-              document.querySelectorAll('.accompaniment-minus').forEach(btn =>
-  btn.addEventListener('click', () => {
-    const idx = +btn.dataset.index;
-    const curr = this.selectedOptions.accompaniments[idx] || 0;
-    if (curr > 0) {
-      this.selectedOptions.accompaniments[idx] = curr - 1;
-      this.updateDisplay();
-    }
-  })
-);
-document.querySelectorAll('.accompaniment-plus').forEach(btn =>
-  btn.addEventListener('click', () => {
-    const idx = +btn.dataset.index;
-    const curr = this.selectedOptions.accompaniments[idx] || 0;
-     this.selectedOptions.accompaniments[idx] = curr + 1; 
-    this.updateDisplay();
-  })
-);
+              
 
                 document.getElementById('qty-plus')?.addEventListener('click', () => {
                     this.quantity++;
@@ -1119,17 +1102,8 @@ document.querySelectorAll('.accompaniment-plus').forEach(btn =>
                         this.updateDisplay();
                     });
                 });
-              // Accompagnements
-document.querySelectorAll('.accompaniment-minus').forEach(btn =>
-  btn.addEventListener('click', () => {
-    const idx = +btn.dataset.index;
-    const curr = this.selectedOptions.accompaniments[idx] || 0;
-    if (curr > 0) {
-      this.selectedOptions.accompaniments[idx] = curr - 1;
-      this.updateDisplay();
-    }
-  })
-);
+             
+  
 document.querySelectorAll('.accompaniment-plus').forEach(btn =>
   btn.addEventListener('click', () => {
     const idx = +btn.dataset.index;
@@ -1180,11 +1154,7 @@ document.querySelectorAll('.accompaniment-plus').forEach(btn =>
                         qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
                     }
                 });
-              // Accompagnements
-Object.keys(this.selectedOptions.accompaniments).forEach(i => {
-  const el = document.querySelector(`.accompaniment-qty[data-index="${i}"]`);
-  if (el) el.textContent = this.selectedOptions.accompaniments[i] || 0;
-});
+              
 
 
                 // Indicateurs de boisson
@@ -1234,13 +1204,7 @@ Object.keys(this.selectedOptions.accompaniments).forEach(i => {
                 if (this.selectedOptions.drink && this.selectedOptions.drink.price > 0) {
                     total += this.selectedOptions.drink.price * this.quantity;
                 }
-              // Ajouter les accompagnements
-Object.entries(this.selectedOptions.accompaniments).forEach(([i, qty]) => {
-  if (qty > 0) {
-    const acc = this.product.options.accompaniments[i];
-    total += acc.price * qty * this.quantity;
-  }
-});
+             
 
 
                 return total;
