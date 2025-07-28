@@ -692,7 +692,26 @@
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
   border-radius: var(--bigsmash-radius);                /* coins arrondis */
   z-index: 2000;
-  padding: 0;                                           /* plus besoin de padding interne */
+  p/* ===== CONTAINER STICKY À 490px DES BORDS ===== */
+.bigsmash-cart-container {
+  position: fixed;
+  bottom: 0px;                  /* à 32px du bas de l’écran */
+  left: 490px;                   /* à 490px du bord gauche */
+  right: 490px;                  /* à 490px du bord droit */
+  height: 125px;                 /* hauteur fixe */
+  background: rgba(255,255,255,0.85); /* blanc translucide */
+  border-radius: var(--bigsmash-radius); /* coins arrondis */
+  
+  display: flex;
+  flex-direction: column;        /* compteur au‑dessus du bouton */
+  align-items: center;           /* centrer horizontalement le contenu */
+  justify-content: center;       /* centrer verticalement le contenu */
+  gap: 8px;                      /* espace entre compteur et bouton */
+  
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  z-index: 2000;
+}
+adding: 0;                                           /* plus besoin de padding interne */
   transform: none;                                      /* retire tout translateX précédent */
 }
 
