@@ -41,7 +41,11 @@ class CartSystem {
     } catch (e) {
       console.error('Erreur lors de la sauvegarde du panier:', e);
     }
+    updateCartFab();
+
   }
+
+
 
   // Ajouter un produit au panier
   addToCart(product, quantity = 1, options = {}) {
