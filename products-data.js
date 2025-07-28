@@ -51,37 +51,37 @@ const products = [
       {
         name:  "Frites nature",
         price: 0.00,
-        image: "images/frites-nature.jpg"
+        image: "img/frites-nature.jpg"
       },
       {
         name:  "Frites épicées",
         price: 0.50,
-        image: "images/frites-epicees.jpg"
+        image: "img/frites-epicees.jpg"
       },
       {
         name:  "Frites cheddar",
         price: 1.00,
-        image: "images/frites-cheddar.jpg"
+        image: "img/frites-cheddar.jpg"
       },
       {
         name:  "Frites cheddar bacon",
         price: 2.00,
-        image: "images/frites-cheddar-bacon.jpg"
+        image: "img/frites-cheddar-bacon.jpg"
       },
       {
         name:  "Pops nature",
         price: 0.50,
-        image: "images/pops-nature.jpg"
+        image: "img/pops-nature.jpg"
       },
       {
         name:  "Pops cheddar",
         price: 1.50,
-        image: "images/pops-cheddar.jpg"
+        image: "img/pops-cheddar.jpg"
       },
       {
         name:  "Pops cheddar bacon",
         price: 2.50,
-        image: "images/pops-cheddar-bacon.jpg"
+        image: "img/pops-cheddar-bacon.jpg"
       }
     ],
       remove: [
@@ -141,7 +141,7 @@ const products = [
     category: "Nouveautés",
     description: "Pain complet, steak végétal, salade, tomate, frites + boisson",
     price: 10.90,
-    image: "images/menu-veggie.jpg",
+    image: "img/menu-veggie.jpg",
     options: {}
    }, 
   {
@@ -151,7 +151,7 @@ const products = [
     category: "Boissons",
     description: "Boisson gazeuse sans sucre",
     price: 2.00,
-    image: "images/cola-zero.jpg",
+    image: "img/cola-zero.jpg",
     options: {}
   }
   
