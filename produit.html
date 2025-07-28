@@ -35,12 +35,11 @@
 
         /* ===== BOUTON RETOUR ===== */
         .bigsmash-back-button-container {
-  position: absolute;
-  top: 16px;       /* ajustez si nécessaire */
-  right: 16px;     /* ajustez si nécessaire */
-  z-index: 1001;
-  /* on enlève left et tout ce qui fixe la position globale */
-}
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
 
         .bigsmash-back-btn {
             background: rgba(255,255,255,0.9);
@@ -67,7 +66,6 @@
         /* ===== CARTE PRODUIT PRINCIPALE ===== */
         .bigsmash-product-card {
   margin: 30px auto 0;
-  position: relative;
   width: calc(100vw - 680px);
   max-width: 900px;
 
@@ -852,7 +850,7 @@
 
             // Afficher une erreur
             showError(message) {
-                document.getElementById('app').innerHTML = `
+                document.getElementById('app').innerHTML = 
                     <div class="bigsmash-error-container">
                         <div class="bigsmash-error-content">
                             <div class="bigsmash-error-emoji">😕</div>
@@ -863,35 +861,25 @@
                             </a>
                         </div>
                     </div>
-                `;
+                ;
             }
 
             // Rendu de la page
             render() {
                 document.title = `BigSmash - ${this.product.name}`;
                 
-                // Extrait de render()
-document.getElementById('app').innerHTML = `
-  <div class="bigsmash-page-container">
-    <div class="bigsmash-product-card">
-      <!-- ← bouton RETOUR ici -->
-      <div class="bigsmash-back-button-container">
-        <a href="produits.html" class="bigsmash-back-btn">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- puis tout le reste de la carte -->
-      <div class="bigsmash-product-image-container">…</div>
-      <span class="bigsmash-product-category">…</span>
-      <!-- etc… -->
-    </div>
-    <!-- zone sticky & icônes flottantes -->
-  </div>
-`;
-
+                document.getElementById('app').innerHTML = `
+                    <!-- Fond grisé -->
+                    <div class="bigsmash-page-container">
+                        <!-- Bouton retour -->
+                        <div class="bigsmash-back-button-container">
+                            <a href="produits.html" class="bigsmash-back-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                                Retour
+                            </a>
+                        </div>
 
                         <!-- Carte produit principale -->
                         <div class="bigsmash-product-card">
@@ -1121,7 +1109,7 @@ renderOptions() {
 
                 // Suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qtyElement = document.querySelector(`.supplement-qty[data-index="${index}"]`);
+                    const qtyElement = document.querySelector(.supplement-qty[data-index="${index}"]);
                     if (qtyElement) {
                         qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
                     }
@@ -1153,7 +1141,7 @@ renderOptions() {
                 const total = this.calculateTotal();
                 const btnText = document.getElementById('cart-btn-text');
                 if (btnText) {
-                    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+                    btnText.textContent = Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €;
                 }
             }
 
