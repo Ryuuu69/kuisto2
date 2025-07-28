@@ -175,7 +175,7 @@
             background: white;
             border-radius: var(--card-radius);
             box-shadow: 0 4px 12px rgba(0,0,0,.08);
-            overflow: hidden;
+            overflow: visible;
             transition: all 0.3s ease;
         }
 
@@ -254,30 +254,35 @@
             color: #000;
         }
 
-        /* Bouton + en bas à droite */
-        .add-btn {
+        /* Bouton "+" en bas à droite, quart de cercle */
+        .add-btn-corner {
             position: absolute;
             bottom: 0;
             right: 0;
-            flex: 0 0 var(--btn);
-            width: var(--btn);
-            height: var(--btn);
-            background: #000;
-            color: white;
+            width: 54px;
+            height: 54px;
+            background: #191919;
+            color: #fff;
             border: none;
-            font-size: 1.8rem;
+            border-bottom-right-radius: 22px 44px;
+            border-top-left-radius: 44px 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+            font-size: 2.1em;
             font-weight: bold;
-            cursor: pointer;
-            border-radius: var(--card-radius) 0 0 0;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 16px #0002;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.13s, transform 0.11s;
+            padding-bottom: 6px;
         }
 
-        .add-btn:hover {
-            background: var(--red);
-            transform: scale(1.05);
+        .add-btn-corner:hover {
+            background: #EA3D2F;
+            transform: scale(1.08);
         }
 
         /* Boutons en bas à gauche - Desktop uniquement */
@@ -544,79 +549,70 @@
         </div>
     </div>
 
+    <!-- Include shared product data -->
+    <script src="products-data.js"></script>
     <script>
-        // Product data - structure simplifiée pour le nouveau composant
-        const products = {
-            'nouveautes': [
-                { name: 'BIG SALADES', desc: 'Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '9,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'THÉ & LIMONADE', desc: 'Thé Blanc Natural, thé blanc purée d\'ananas d\'Orée, abricot, sans sucre', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' },
-                { name: 'PISTACHIO', desc: 'Milkshake au Sundae 7.4 kg de châtaib', price: '3,95 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' },
-                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'MENU SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '11,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
-                { name: 'TACO SMASH', desc: 'Choisissez deux Taco (classique ou épicé)', price: '7,90 €', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'big-salades': [
-                { name: 'BIG CAESAR', desc: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan', price: '8,90 €', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'big-burgers': [
-                { name: 'BIG CHEESE', desc: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons', price: '8,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' },
-                { name: 'SURF & TURF', desc: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar', price: '8,90 €', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=300&fit=crop&crop=center' },
-                { name: 'BIG SMASH', desc: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade', price: '6,90 €', img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'menus-burger': [
-                { name: 'MENU BIG CHEESE', desc: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson', price: '11,90 €', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'extras': [
-                { name: 'FRITES MAISON', desc: 'Frites fraîches coupées maison', price: '3,50 €', img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'boissons': [
-                { name: 'COCA-COLA 33CL', desc: 'Boisson gazeuse rafraîchissante', price: '2,90 €', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=300&fit=crop&crop=center' }
-            ],
-            'desserts': [
-                { name: 'MILKSHAKE VANILLE', desc: 'Milkshake onctueux à la vanille', price: '4,50 €', img: 'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=300&h=300&fit=crop&crop=center' }
-            ]
-        };
 
         // Fonction pour générer le HTML d'une carte produit
         function createProductCard(product) {
-            // Générer un slug simple basé sur le nom du produit
-            const slug = product.name.toLowerCase()
-                .replace(/[àáâãäå]/g, 'a')
-                .replace(/[èéêë]/g, 'e')
-                .replace(/[ìíîï]/g, 'i')
-                .replace(/[òóôõö]/g, 'o')
-                .replace(/[ùúûü]/g, 'u')
-                .replace(/[ç]/g, 'c')
-                .replace(/[&]/g, '-')
-                .replace(/\s+/g, '-')
-                .replace(/[^a-z0-9-]/g, '')
-                .replace(/-+/g, '-')
-                .replace(/^-|-$/g, '');
-
+            // Utiliser le slug déjà généré dans products-data.js
+            const slug = product.slug;
+            
             return `
                 <div class="product-card">
                     <div class="thumb">
-                        <img src="${product.img}" alt="${product.name}">
+                        <img src="${product.image}" alt="${product.name}">
                     </div>
                     <div class="info">
                         <h3 class="product-name">${product.name}</h3>
-                        <p class="desc">${product.desc}</p>
+                        <p class="desc">${product.description}</p>
                         <span class="price">
                             <span class="from">À partir de </span>
-                            <span class="value">${product.price}</span>
+                            <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
                         </span>
                     </div>
-                    <button class="add-btn" aria-label="Voir les détails" onclick="window.location.href='http://localhost:3000/produit/${slug}'">+</button>
+                    <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
                 </div>
             `;
         }
 
+        // Fonction pour convertir une catégorie en ID de section
+        function getCategorySectionId(category) {
+            return category.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/à/g, 'a')
+                .replace(/ç/g, 'c');
+        }
+
+        // Fonction pour rediriger vers la page produit
+        function goToProduct(slug) {
+            window.location.href = `produit.html?slug=${slug}`;
+        }
+
         // Fonction pour afficher tous les produits
         function renderAllProducts() {
-            Object.keys(products).forEach(categoryKey => {
-                const container = document.getElementById(`${categoryKey}-products`);
+            // Vider toutes les grilles de produits
+            const containers = [
+                'nouveautes-products', 'big-salades-products', 'big-burgers-products',
+                'menus-burger-products', 'extras-products', 'boissons-products', 'desserts-products'
+            ];
+            
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
                 if (container) {
-                    container.innerHTML = products[categoryKey].map(createProductCard).join('');
+                    container.innerHTML = '';
+                }
+            });
+            
+            // Remplir les grilles avec les produits de products-data.js
+            products.forEach(product => {
+                const sectionId = getCategorySectionId(product.category) + '-products';
+                const container = document.getElementById(sectionId);
+                
+                if (container) {
+                    container.innerHTML += createProductCard(product);
                 }
             });
         }
@@ -644,10 +640,22 @@
         // Initialize
         renderAllProducts();
     </script>
-  <!-- Point de montage React pour la fiche produit -->
- <div id="react-detail-root" style="display:none;"></div>
-
- <!-- Bundle React (build de votre app frontend) -->
- <script src="/static/js/main.js" defer></script>
+    
+    <!-- Inclure les données produits et le système de panier -->
+    <script src="cart-system.js"></script>
+  <!-- MODALE DE PERSONNALISATION -->
+<div id="custom-modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); align-items:center; justify-content:center;">
+  <div id="modal-content" style="background:white; border-radius:28px; padding:32px 24px; width:90vw; max-width:500px; margin:auto; position:relative; box-shadow:0 6px 30px #0002;">
+    <button onclick="closeModal()" style="position:absolute; top:0; right:0; background:#ea3d2f; color:#fff; border:0; border-bottom-left-radius:20px; width:48px; height:48px; font-size:2em; cursor:pointer;">&larr;</button>
+    
+    <div id="modal-main">
+      <!-- L'intérieur sera injecté en JS -->
+    </div>
+  </div>
+</div>
+  <div id="cart-bar" style="display:none;position:fixed;bottom:16px;right:16px;background:#222;color:#fff;border-radius:24px;padding:12px 24px;cursor:pointer;z-index:999;">
+  <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
+</div>
+<div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;">Ajouté au panier !</div>
 </body>
 </html>
