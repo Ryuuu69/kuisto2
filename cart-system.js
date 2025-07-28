@@ -186,57 +186,7 @@ class CartSystem {
       existingToast.remove();
     }
 
-    const toast = document.createElement('div');
-    toast.id = 'cart-toast';
-    toast.textContent = message;
-    toast.style.cssText = 
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      background: #28a745;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      z-index: 1001;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      animation: slideInUp 0.3s ease;
-    ;
-
-    // Ajouter l'animation CSS
-    if (!document.getElementById('toast-styles')) {
-      const style = document.createElement('style');
-      style.id = 'toast-styles';
-      style.textContent = 
-        @keyframes slideInUp {
-          from {
-            transform: translateY(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-      ;
-      document.head.appendChild(style);
-    }
-
-    document.body.appendChild(toast);
-
-    // Supprimer le toast après 3 secondes
-    setTimeout(() => {
-      toast.style.animation = 'slideInUp 0.3s ease reverse';
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  }
-
-  // Afficher la modale du panier (optionnel)
-  showCartModal() {
-    alert(Panier: ${this.getTotalItems()} article(s) - ${this.getTotalPrice().toFixed(2)} €\n\nFonctionnalité de panier détaillé à implémenter selon vos besoins.);
-  }
+   
 
   // Vider le panier
   clearCart() {
