@@ -3,8 +3,6 @@ if (window.CartSystem) {
   // Si déjà déclaré, on ne fait rien
 } else {
   // (tout ton code existant ici)
-}
-
 class CartSystem {
   constructor() {
     this.cart = this.loadCart();
@@ -228,3 +226,5 @@ document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
   window.cartSystem = cartSystem;
 });
+ window.CartSystem = CartSystem;
+}
