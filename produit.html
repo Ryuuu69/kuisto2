@@ -12,7 +12,7 @@
             --bigsmash-red: #E42B16;
             --bigsmash-dark: #191919;
             --bigsmash-gray: #808080;
-            --bigsmash-light-gray: #F5F5F5;
+            --bigsmash-light-gray: #f4f4f4;
             --bigsmash-white: #FFFFFF;
             --bigsmash-shadow: 0 4px 16px rgba(0,0,0,0.07);
             --bigsmash-shadow-hover: 0 8px 32px rgba(0,0,0,0.13);
@@ -26,19 +26,15 @@
 
         /* ===== FOND DE PAGE GRISÉ (MODAL-LIKE) ===== */
         .bigsmash-page-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.06);
-            z-index: 1000;
-            overflow: hidden;
+            min-height: 100vh;
+            background: var(--bigsmash-light-gray);
+            padding-top: 40px;
+            padding-bottom: 200px; /* Place pour le bouton sticky */
         }
 
         /* ===== BOUTON RETOUR ===== */
         .bigsmash-back-button-container {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1001;
@@ -68,20 +64,13 @@
 
         /* ===== CARTE PRODUIT PRINCIPALE ===== */
         .bigsmash-product-card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90vw;
-            max-width: 1100px;
-            max-height: 85vh;
+            width: 900px;
+            max-width: 900px;
+            margin: 0 auto;
             background: var(--bigsmash-white);
             border-radius: var(--bigsmash-radius);
             box-shadow: var(--bigsmash-shadow-hover);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            margin: 40px auto;
             padding: 32px;
         }
 
@@ -89,9 +78,6 @@
         .bigsmash-product-image-container {
             width: 770px;
             height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin: 0 auto 24px auto;
         }
 
@@ -101,22 +87,6 @@
             object-fit: cover;
             border-radius: var(--bigsmash-radius-small);
             box-shadow: var(--bigsmash-shadow);
-        }
-
-        /* ===== ZONE DÉFILANTE (SANS SCROLLBAR VISIBLE) ===== */
-        .bigsmash-product-info-scrollable {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0;
-            padding-bottom: 160px; /* Place pour le bouton sticky plus grand */
-            
-            /* MASQUER LA SCROLLBAR */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-        }
-
-        .bigsmash-product-info-scrollable::-webkit-scrollbar {
-            display: none; /* Chrome/Safari/Opera */
         }
 
         /* ===== TITRES ET TEXTES ===== */
@@ -133,8 +103,8 @@
         }
 
         .bigsmash-product-title {
-            font-size: 24px;
             font-weight: 700;
+            font-size: 24px;
             line-height: 36px;
             color: var(--bigsmash-dark);
             margin-bottom: 12px;
@@ -142,18 +112,18 @@
         }
 
         .bigsmash-product-description {
-            font-size: 18px;
             font-weight: 400;
+            font-size: 18px;
             line-height: 27px;
-            color: var(--bigsmash-gray);
+            color: var(--bigsmash-dark);
             margin-bottom: 20px;
             text-align: center;
         }
 
         .bigsmash-product-price {
-            font-size: 15px;
-            font-weight: 600;
             font-style: italic;
+            font-weight: 600;
+            font-size: 15px;
             line-height: 16px;
             color: var(--bigsmash-dark);
             text-align: center;
@@ -229,10 +199,9 @@
             width: 150px;
             height: 150px;
             background: var(--bigsmash-white);
-            border: 2px solid #e5e7eb;
+            border: none;
             border-radius: var(--bigsmash-radius-small);
-            padding: 10px;
-            text-align: center;
+            padding: 12px;
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: var(--bigsmash-shadow);
@@ -240,16 +209,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
+            text-align: center;
         }
 
         .bigsmash-option-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--bigsmash-shadow-hover);
-            border-color: var(--bigsmash-red);
         }
 
         .bigsmash-option-card.selected {
-            border-color: var(--bigsmash-red);
             background: rgba(234, 61, 47, 0.05);
         }
 
@@ -262,20 +230,22 @@
         }
 
         .bigsmash-option-name {
-            font-size: 16px;
             font-weight: 400;
+            font-size: 16px;
             line-height: 24px;
             color: var(--bigsmash-dark);
-            margin-bottom: 4px;
+            margin: 8px 0 4px 0;
+            text-align: center;
         }
 
         .bigsmash-option-price {
-            font-size: 15px;
-            font-weight: 600;
             font-style: italic;
+            font-weight: 600;
+            font-size: 15px;
             line-height: 16px;
             color: var(--bigsmash-red);
             margin-bottom: 8px;
+            text-align: center;
         }
 
         /* ===== CONTRÔLES OPTIONS ===== */
@@ -299,7 +269,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .bigsmash-option-qty-btn:hover {
@@ -357,7 +327,7 @@
             opacity: 1;
         }
 
-        /* ===== BOUTON AJOUTER AU PANIER (STICKY) ===== */
+        /* ===== CARTE STICKY AJOUTER AU PANIER ===== */
         .bigsmash-add-to-cart-btn {
             position: fixed;
             left: 50%;
@@ -365,27 +335,76 @@
             transform: translateX(-50%);
             width: 500px;
             height: 126px;
-            background: linear-gradient(135deg, var(--bigsmash-red) 0%, #ff4444 100%);
-            color: var(--bigsmash-white);
+            background: var(--bigsmash-red);
             border: none;
             border-radius: 63px;
-            font-size: 24px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
             box-shadow: var(--bigsmash-shadow-hover);
             display: flex;
             align-items: center;
-            justify-content: center;
-            
-            /* STICKY/FIXED - Ne bouge jamais même en scrollant */
+            justify-content: space-around;
+            padding: 0 20px;
             z-index: 2000;
         }
 
-        .bigsmash-add-to-cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(234, 61, 47, 0.4);
+        /* ===== CONTRÔLES QUANTITÉ DANS LA CARTE STICKY ===== */
+        .bigsmash-sticky-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .bigsmash-sticky-qty-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--bigsmash-white);
+            background: transparent;
+            color: var(--bigsmash-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .bigsmash-sticky-qty-btn:hover {
+            background: var(--bigsmash-white);
+            color: var(--bigsmash-red);
+            transform: scale(1.05);
+        }
+
+        .bigsmash-sticky-qty-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--bigsmash-white);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* ===== BOUTON PRINCIPAL AJOUTER AU PANIER ===== */
+        .bigsmash-main-add-btn {
+            width: 270px;
+            height: 40px;
+            background: var(--bigsmash-red);
+            border: 2px solid var(--bigsmash-white);
+            border-radius: 20px;
+            color: var(--bigsmash-white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bigsmash-main-add-btn:hover {
+            background: var(--bigsmash-white);
+            color: var(--bigsmash-red);
+            transform: scale(1.02);
         }
 
         /* ===== ICÔNES FLOTTANTES (TOUJOURS VISIBLES) ===== */
@@ -431,9 +450,8 @@
         /* ===== RESPONSIVE MOBILE ===== */
         @media (max-width: 1100px) {
             .bigsmash-product-card {
-                margin-left: 24px;
-                margin-right: 24px;
                 width: calc(100vw - 48px);
+                margin: 0 24px;
             }
 
             .bigsmash-product-image-container {
@@ -442,11 +460,15 @@
             }
 
             .bigsmash-add-to-cart-btn {
-                width: 96vw;
-                left: 2vw;
+                width: calc(100vw - 32px);
+                left: 16px;
                 transform: none;
-                min-width: 220px;
-                font-size: 18px;
+                padding: 0 16px;
+            }
+
+            .bigsmash-main-add-btn {
+                width: 200px;
+                font-size: 16px;
             }
 
             .bigsmash-option-card {
@@ -472,18 +494,34 @@
 
         @media (max-width: 700px) {
             .bigsmash-product-card {
+                width: 100vw;
                 margin: 0;
                 border-radius: 0;
-                padding: 0 0 120px 0;
+                padding: 24px 16px 120px 16px;
                 width: 100vw;
             }
 
             .bigsmash-add-to-cart-btn {
-                width: 96vw;
-                left: 2vw;
-                min-width: 180px;
-                font-size: 16px;
+                width: calc(100vw - 16px);
+                left: 8px;
                 height: 80px;
+                border-radius: 40px;
+            }
+
+            .bigsmash-main-add-btn {
+                width: 180px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .bigsmash-sticky-qty-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+
+            .bigsmash-sticky-qty-display {
+                font-size: 24px;
                 border-radius: 40px;
             }
         }
@@ -621,7 +659,7 @@
                 document.title = `BigSmash - ${this.product.name}`;
                 
                 document.getElementById('app').innerHTML = `
-                    <!-- Fond grisé modal-like -->
+                    <!-- Fond grisé -->
                     <div class="bigsmash-page-container">
                         <!-- Bouton retour -->
                         <div class="bigsmash-back-button-container">
@@ -640,8 +678,6 @@
                                 <img src="${this.product.image}" alt="${this.product.name}" class="bigsmash-product-image">
                             </div>
 
-                            <!-- Zone défilante (sans scrollbar visible) -->
-                            <div class="bigsmash-product-info-scrollable">
                                 <!-- Catégorie -->
                                 <span class="bigsmash-product-category">${this.product.category}</span>
                                 
@@ -664,10 +700,16 @@
                                 </div>
 
                                 ${this.renderOptions()}
-                            </div>
+                        </div>
 
-                            <!-- Bouton d'ajout au panier (sticky) -->
-                            <button class="bigsmash-add-to-cart-btn" id="add-to-cart">
+                        <!-- Carte sticky avec contrôles quantité et bouton ajouter -->
+                        <div class="bigsmash-add-to-cart-btn">
+                            <div class="bigsmash-sticky-qty-controls">
+                                <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
+                                <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
+                                <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
+                            </div>
+                            <button class="bigsmash-main-add-btn" id="add-to-cart">
                                 <span id="cart-btn-text">Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €</span>
                             </button>
                         </div>
@@ -778,6 +820,19 @@
                     this.updateDisplay();
                 });
 
+                // Quantité sticky
+                document.getElementById('sticky-qty-minus')?.addEventListener('click', () => {
+                    if (this.quantity > 1) {
+                        this.quantity--;
+                        this.updateDisplay();
+                    }
+                });
+
+                document.getElementById('sticky-qty-plus')?.addEventListener('click', () => {
+                    this.quantity++;
+                    this.updateDisplay();
+                });
+
                 // Suppléments
                 document.querySelectorAll('.supplement-minus').forEach(btn => {
                     btn.addEventListener('click', () => {
@@ -829,7 +884,9 @@
             updateDisplay() {
                 // Quantité
                 const qtyElement = document.getElementById('quantity');
+                const stickyQtyElement = document.getElementById('sticky-quantity');
                 if (qtyElement) qtyElement.textContent = this.quantity;
+                if (stickyQtyElement) stickyQtyElement.textContent = this.quantity;
 
                 // Suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
