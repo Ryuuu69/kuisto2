@@ -657,5 +657,11 @@
   <span id="cart-count"></span> article(s) — <span id="cart-price"></span>
 </div>
 <div id="toast" style="position:fixed;bottom:80px;right:16px;background:#29d;padding:12px 24px;color:#fff;border-radius:8px;display:none;z-index:1000;">Ajouté au panier !</div>
+  <script src="cart-system.js"></script>
+<script>
+window.onload = function() {
+    window.cartSystem = window.cartSystem || new CartSystem();
+}
+</script>
 </body>
 </html>
