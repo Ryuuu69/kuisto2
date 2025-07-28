@@ -145,7 +145,8 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-[#f5f6f7]">
+
     <!-- Header avec bannière -->
     <header class="bg-white shadow-sm">
         <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
@@ -157,42 +158,50 @@
         </div>
     </header>
 
-    <div class="container">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-3xl font-bold">Mon Panier</h1>
-            <a href="produits.html" class="text-bigRed hover:underline font-semibold">
-                ← Continuer mes achats
-            </a>
-        </div>
-
-        <div id="cart-items-container">
-            <!-- Cart items will be rendered here by JavaScript -->
-            <div class="empty-cart" id="empty-cart-message">
-                <div class="empty-cart-icon">🛒</div>
-                <h2 class="text-2xl font-semibold mb-4 text-gray-600">Votre panier est vide</h2>
-                <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
-                <a href="produits.html" class="btn-primary">
-                    Voir nos produits
+    <!-- Panier centré -->
+    <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
+        <div class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[520px] mx-4 flex flex-col">
+            
+            <!-- Titre + retour -->
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-2xl sm:text-3xl font-bold font-montserrat">Mon Panier</h1>
+                <a href="produits.html" class="text-[#EA3D2F] hover:underline font-semibold">
+                    ← Continuer mes achats
                 </a>
             </div>
-        </div>
-
-        <div class="total-section" id="cart-summary" style="display: none;">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Total du panier</h2>
-                <span class="text-3xl font-bold text-bigRed" id="cart-total-price">0,00 €</span>
-            </div>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-between">
-                <button id="clear-cart-btn" class="btn-secondary">
-                    🗑️ Vider le panier
-                </button>
-                <button class="btn-primary text-lg px-8 py-4">
-                    🚀 Passer la commande
-                </button>
+            <!-- Liste des items du panier -->
+            <div id="cart-items-container" class="mb-6">
+                <!-- Cart items will be rendered here by JavaScript -->
+                <div class="empty-cart" id="empty-cart-message">
+                    <div class="empty-cart-icon text-4xl mb-3">🛒</div>
+                    <h2 class="text-xl font-semibold mb-2 text-gray-600">Votre panier est vide</h2>
+                    <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
+                    <a href="produits.html" class="btn-primary bg-[#EA3D2F] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#d32b1f]">
+                        Voir nos produits
+                    </a>
+                </div>
             </div>
+
+            <!-- Total et boutons -->
+            <div class="total-section" id="cart-summary" style="display: none;">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold font-montserrat">Total du panier</h2>
+                    <span class="text-2xl font-bold text-[#EA3D2F] font-montserrat" id="cart-total-price">0,00 €</span>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-between">
+                    <button id="clear-cart-btn" class="bg-gray-100 hover:bg-gray-200 text-[#EA3D2F] rounded-full font-bold px-6 py-3 font-montserrat text-base flex-1 shadow border border-gray-200">
+                        🗑️ Vider le panier
+                    </button>
+                    <button class="bg-[#EA3D2F] hover:bg-[#d32b1f] text-white rounded-full font-bold px-6 py-3 font-montserrat text-base flex-1 shadow transition-all" style="max-width: 260px;">
+                        🚀 Passer la commande
+                    </button>
+                </div>
+            </div>
+
         </div>
-    </div>
+    </main>
 
     <!-- Boutons Desktop en bas à gauche -->
     <div class="desktop-buttons">
@@ -208,106 +217,6 @@
         </button>
     </div>
 
-    <!-- Include shared product data -->
+    <!-- Tes scripts JS -->
     <script src="products-data.js"></script>
-    <!-- Include the cart system -->
-    <script src="cart-system.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const cartTotalPriceElement = document.getElementById('cart-total-price');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartSummary = document.getElementById('cart-summary');
-            const clearCartBtn = document.getElementById('clear-cart-btn');
-
-            function renderCart() {
-                const cart = window.cartSystem.cart;
-                cartItemsContainer.innerHTML = '';
-
-                if (cart.length === 0) {
-                    emptyCartMessage.style.display = 'block';
-                    cartSummary.style.display = 'none';
-                } else {
-                    emptyCartMessage.style.display = 'none';
-                    cartSummary.style.display = 'block';
-
-                    cart.forEach(item => {
-                        // Trouver le produit original pour récupérer l'image
-                        const originalProduct = findProductBySlug(item.slug);
-                        const productImage = originalProduct ? originalProduct.image : 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=80&h=80&fit=crop';
-
-                        const itemDiv = document.createElement('div');
-                        itemDiv.className = 'item-row flex items-start gap-4';
-                        
-                        let optionsHtml = '';
-                        
-                        // Suppléments
-                        if (item.options.supplements && Object.keys(item.options.supplements).length > 0) {
-                            const supplements = Object.values(item.options.supplements)
-                                .filter(s => s.quantity > 0)
-                                .map(s => `${s.name} (x${s.quantity})`)
-                                .join(', ');
-                            if (supplements) {
-                                optionsHtml += `<p class="option-text">+ ${supplements}</p>`;
-                            }
-                        }
-                        
-                        // Boisson
-                        if (item.options.drink) {
-                            optionsHtml += `<p class="option-text">🥤 ${item.options.drink.name}</p>`;
-                        }
-                        
-                        // Éléments retirés
-                        if (item.options.remove && Object.keys(item.options.remove).some(key => item.options.remove[key])) {
-                            if (originalProduct && originalProduct.options && originalProduct.options.remove) {
-                                const removedItems = Object.keys(item.options.remove)
-                                    .filter(key => item.options.remove[key])
-                                    .map(index => originalProduct.options.remove[index].name)
-                                    .join(', ');
-                                if (removedItems) {
-                                    optionsHtml += `<p class="option-text">❌ Sans: ${removedItems}</p>`;
-                                }
-                            }
-                        }
-
-                        itemDiv.innerHTML = `
-                            <img src="${productImage}" alt="${item.name}" class="item-image">
-                            <div class="flex-1">
-                                <h3 class="text-lg font-semibold mb-2">${item.name}</h3>
-                                <p class="text-sm text-gray-600 mb-2">Quantité: ${item.quantity}</p>
-                                ${optionsHtml}
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xl font-bold text-bigRed">${item.totalPrice.toFixed(2).replace('.', ',')} €</span>
-                                <p class="text-sm text-gray-500">${item.basePrice.toFixed(2).replace('.', ',')} € × ${item.quantity}</p>
-                            </div>
-                        `;
-                        cartItemsContainer.appendChild(itemDiv);
-                    });
-                }
-
-                cartTotalPriceElement.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + ' €';
-            }
-
-            // Initial render
-            renderCart();
-
-            // Event listener for clearing the cart
-            clearCartBtn.addEventListener('click', () => {
-                if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
-                    window.cartSystem.clearCart();
-                    renderCart();
-                }
-            });
-
-            // Listen for storage changes to update cart display if changed in another tab
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'bigsmash_cart') {
-                    window.cartSystem.cart = window.cartSystem.loadCart();
-                    renderCart();
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+    <script src="cart-system.
