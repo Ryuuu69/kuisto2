@@ -728,18 +728,22 @@
                                 ${this.renderOptions()}
                         </div>
 
-                        <!-- Carte sticky avec contrôles quantité et bouton ajouter -->
-                        <div class="bigsmash-add-to-cart-btn">
-                            <div class="bigsmash-sticky-qty-controls">
-                                <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
-                                <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
-                                <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
-                            </div>
-                            <button class="bigsmash-main-add-btn" id="add-to-cart">
-                                <span id="cart-btn-text">Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €</span>
-                            </button>
-                        </div>
-                    </div>
+                        <!-- Zone sticky en bas (fond blanc translucide) -->
+<div class="bigsmash-cart-container">
+  <!-- Compteur centré au‑dessus du bouton -->
+  <div class="bigsmash-sticky-qty-controls">
+    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
+    <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
+    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
+  </div>
+  <!-- Bouton rouge centré -->
+  <button class="bigsmash-main-add-btn" id="add-to-cart">
+    <span id="cart-btn-text">
+      Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
+    </span>
+  </button>
+</div>
+
 
                     <!-- Icônes flottantes (toujours visibles) -->
                     <div class="bigsmash-desktop-buttons">
