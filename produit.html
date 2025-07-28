@@ -1168,12 +1168,48 @@ renderOptions() {
 
             // Ajouter au panier
             addToCart() {
-                // Préparer les options pour le panier
-                const options = {
-                    supplements: {},
-                    drink: this.selectedOptions.drink,
-                    remove: this.selectedOptions.remove
-                };
+  // 1. préparer les options pour le panier (idem avant)
+  const options = {
+    supplements: {},
+    drink: this.selectedOptions.drink,
+    remove: this.selectedOptions.remove
+  };
+  Object.keys(this.selectedOptions.supplements).forEach(i => {
+    const qty = this.selectedOptions.supplements[i];
+    if (qty > 0) {
+      const s = this.product.options.supplements[i];
+      options.supplements[i] = { name: s.name, price: s.price, quantity: qty };
+    }
+  });
+
+  // 2. ajouter au panier
+  if (window.cartSystem) {
+    window.cartSystem.addToCart(this.product, this.quantity, options);
+  } else {
+    console.error('Panier non dispo');
+    alert('Erreur de panier');
+  }
+
+  // 3. calculer le total de cet ajout
+  const total = this.calculateTotal().toFixed(2).replace('.', ',');
+
+  // 4. créer et afficher la pastille en bas-centre
+  const badge = document.createElement('div');
+  badge.className = 'bigsmash-add-badge';
+  badge.innerHTML = `
+    <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+      <path d="M7 4h-2l-3 9v2.5h2l1.5 6h13l1.5-6h2v-2.5l-3-9h-2z"/>
+    </svg>
+    <span class="bigsmash-add-badge-price">+${total} €</span>
+  `;
+  document.body.appendChild(badge);
+
+  // 5. après 1.2s, lancer la redirection
+  setTimeout(() => {
+    window.location.href = 'produits.html';
+  }, 1200);
+}
+
 
                 // Formater les suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
