@@ -181,12 +181,7 @@ class CartSystem {
   }
 
   
-  
-    // Supprimer l'ancien toast s'il existe
-    const existingToast = document.getElementById('cart-toast');
-    if (existingToast) {
-      existingToast.remove();
-    }
+     
 
    
 
