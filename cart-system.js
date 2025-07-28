@@ -193,4 +193,7 @@ class CartSystem {
 }
 
 // Initialiser le système de panier automatiquement et le rendre globalement accessible
+const cartSystem = new CartSystem();
+cartSystem.init();
+window.cartSystem = cartSystem;
 window.cartSystem = new CartSystem();
