@@ -1026,42 +1026,30 @@ renderOptions() {
             // Liaison des événements
             bindEvents() {
                 // Quantité
-                const qtyMinus = document.getElementById('qty-minus');
-                if (qtyMinus) {
-                    qtyMinus.addEventListener('click', () => {
-                        if (this.quantity > 1) {
-                            this.quantity--;
-                            this.updateDisplay();
-                        }
-                    });
-                }
-              
-                const qtyPlus = document.getElementById('qty-plus');
-                if (qtyPlus) {
-                    qtyPlus.addEventListener('click', () => {
-                        this.quantity++;
+                document.getElementById('qty-minus')?.addEventListener('click', () => {
+                    if (this.quantity > 1) {
+                        this.quantity--;
                         this.updateDisplay();
-                    });
-                }
+                    }
+                });
+              
+                document.getElementById('qty-plus')?.addEventListener('click', () => {
+                    this.quantity++;
+                    this.updateDisplay();
+                });
 
                 // Quantité sticky
-                const stickyQtyMinus = document.getElementById('sticky-qty-minus');
-                if (stickyQtyMinus) {
-                    stickyQtyMinus.addEventListener('click', () => {
-                        if (this.quantity > 1) {
-                            this.quantity--;
-                            this.updateDisplay();
-                        }
-                    });
-                }
-
-                const stickyQtyPlus = document.getElementById('sticky-qty-plus');
-                if (stickyQtyPlus) {
-                    stickyQtyPlus.addEventListener('click', () => {
-                        this.quantity++;
+                document.getElementById('sticky-qty-minus')?.addEventListener('click', () => {
+                    if (this.quantity > 1) {
+                        this.quantity--;
                         this.updateDisplay();
-                    });
-                }
+                    }
+                });
+
+                document.getElementById('sticky-qty-plus')?.addEventListener('click', () => {
+                    this.quantity++;
+                    this.updateDisplay();
+                });
 
                 // Suppléments
                 document.querySelectorAll('.supplement-minus').forEach(btn => {
@@ -1105,12 +1093,9 @@ renderOptions() {
                 });
 
                 // Bouton d'ajout au panier
-                const addToCartBtn = document.getElementById('add-to-cart');
-                if (addToCartBtn) {
-                    addToCartBtn.addEventListener('click', () => {
-                        this.addToCart();
-                    });
-                }
+                document.getElementById('add-to-cart')?.addEventListener('click', () => {
+                    this.addToCart();
+                });
             }
 
             // Mettre à jour l'affichage

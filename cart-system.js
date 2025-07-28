@@ -224,5 +224,5 @@ document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
   window.cartSystem = cartSystem;
 });
-window.CartSystem = CartSystem;
+window.CartSystem = CartSystem; // <--- PAS D'ESPACE, PAS DE POINT, PAS DE VIRGULE, RIEN
 } // <--- Fin du else
