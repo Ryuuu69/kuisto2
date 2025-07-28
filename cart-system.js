@@ -211,17 +211,18 @@ if (window.CartSystem) {
     alert(`Panier: ${this.getTotalItems()} article(s) - ${this.getTotalPrice().toFixed(2)} €\n\nFonctionnalité de panier détaillé à implémenter selon vos besoins.`);
   }
 
-  // Vider le panier
+   // Vider le panier
   clearCart() {
     this.cart = [];
     this.saveCart();
   }
-}
+} // <--- Fin de la classe
 
 // Initialiser le système de panier automatiquement
 let cartSystem;
 document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
   window.cartSystem = cartSystem;
-});window.CartSystem = CartSystem;
-}
+});
+window.CartSystem = CartSystem; // <--- PAS D'ESPACE, PAS DE POINT, PAS DE VIRGULE, RIEN
+} // <--- Fin du else
