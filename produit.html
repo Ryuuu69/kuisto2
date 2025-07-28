@@ -1076,7 +1076,7 @@ document.querySelectorAll('.accompaniment-plus').forEach(btn =>
   btn.addEventListener('click', () => {
     const idx = +btn.dataset.index;
     const curr = this.selectedOptions.accompaniments[idx] || 0;
-    this.selectedOptions.accompaniment­­s[idx] = curr + 1;
+     this.selectedOptions.accompaniments[idx] = curr + 1; 
     this.updateDisplay();
   })
 );
