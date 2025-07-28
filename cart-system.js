@@ -226,4 +226,5 @@ class CartSystem {
 let cartSystem;
 document.addEventListener('DOMContentLoaded', () => {
   cartSystem = new CartSystem();
+  window.cartSystem = cartSystem;
 });
