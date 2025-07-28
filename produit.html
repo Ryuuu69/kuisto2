@@ -861,14 +861,14 @@
                             </a>
                         </div>
                     </div>
-                ;
+                `;
             }
 
             // Rendu de la page
             render() {
-                document.title = BigSmash - ${this.product.name};
+                document.title = `BigSmash - ${this.product.name}`;
                 
-                document.getElementById('app').innerHTML = 
+                document.getElementById('app').innerHTML = `
                     <!-- Fond grisé -->
                     <div class="bigsmash-page-container">
                         <!-- Bouton retour -->
