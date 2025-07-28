@@ -190,7 +190,6 @@ class CartSystem {
     this.cart = [];
     this.saveCart();
   }
-}
 
 // Initialiser le système de panier automatiquement et le rendre globalement accessible
 window.cartSystem = new CartSystem();
