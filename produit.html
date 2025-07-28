@@ -694,18 +694,33 @@
   display: none !important;
 }
     
-/* ===== GRILLE D’OPTIONS CENTRÉE (4×150px + 3×11px = 633px) ===== */
+/* Grille de base sans margin auto */
 .bigsmash-options-grid {
   display: grid;
   grid-template-columns: repeat(4, 150px);
   grid-auto-rows: 150px;
-  gap: 11px;           /* 11px entre lignes et colonnes */
-  
-  /* 1) largeur = contenu intrinsèque (4×150 + 3×11 = 633px) */
-  width: max-content;
-  /* 2) centrage horizontal dans la carte */
-  margin: 0 auto;
+  column-gap: 11px;
+  row-gap: 11px;
+  /* on enlève margin auto ou width:max-content */
 }
+
+/* 4 cartes côte à côte → 86px de marge à gauche et à droite */
+.bigsmash-options-grid--count-4 {
+  margin: 0 86px;
+}
+
+/* 3 cartes → 166px de chaque côté */
+.bigsmash-options-grid--count-3 {
+  margin: 0 166px;
+  /* on garde toujours 11px de gap entre chaque carte */
+}
+
+/* 2 cartes → 246px de chaque côté */
+.bigsmash-options-grid--count-2 {
+  margin: 0 246px;
+}
+
+/* (éventuellement 1 carte → 336px de chaque côté, mais tu n’en as pas besoin ici) */
 
 /* Cartes individuelles */
 .bigsmash-option-card {
