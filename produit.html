@@ -610,75 +610,79 @@
             transform: translateY(-2px);
             box-shadow: var(--bigsmash-shadow);
         }
-/* ===== ZONE STICKY EN BAS, 490px DES BORDS, 500×125px ===== */
+/* ==== ZONE STICKY (barre translucide) ==== */
 .bigsmash-cart-container {
   position: fixed;
-  bottom: 0px;                         /* 32px du bas */
-  left: 490px;                          /* 490px du bord gauche */
-  right: 490px;                         /* 490px du bord droit */
-  height: 125px;                        /* hauteur fixe */
-  background: rgba(255,255,255,0.85);   /* blanc translucide */
-  border-radius: var(--bigsmash-radius);/* coins arrondis */
+  bottom: 0;                  /* colle la barre au bas de l'écran */
+  left: 490px;
+  right: 490px;
+  height: 125px;
+  background: rgba(255,255,255,0.85);
+  border-radius: var(--bigsmash-radius);
   display: flex;
-  flex-direction: column;               /* empile verticalement */
-  align-items: center;                  /* centré horizontalement */
-  justify-content: flex-end;            /* pousse les éléments vers le bas */
-  gap: 8px;                             /* espace entre compteur et bouton */
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  z-index: 2000;
-  padding: 0;                           /* pas de padding interne */
-}
-
-/* ===== COMPTEUR juste au‑dessus du bouton ===== */
-.bigsmash-cart-container .bigsmash-sticky-qty-controls {
-  /* on conserve le markup existant, flex enfants déjà espacés par gap */
-}
-
-/* ===== BOUTON “Ajouter au panier” ===== */
-.bigsmash-cart-container .bigsmash-main-add-btn {
-  width: 270px;
-  height: 40px;
-  background: var(--bigsmash-red);   /* fond rouge */
-  border: 2px solid var(--bigsmash-white);
-  border-radius: 20px;
-
-  /* texte noir */
-  color: #000000;
-  font-family: Montserrat, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 20px;
-
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-}
-.bigsmash-cart-container .bigsmash-main-add-btn:hover {
-  background: var(--bigsmash-white);   /* fond blanc */
-  color: var(--bigsmash-red);          /* texte rouge */
-  transform: scale(1.02);
+  gap: 4px;                   /* espace réduit */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  z-index: 2000;
+  padding: 0;
 }
 
-/* ===== BOUTONS “–” et “+” ===== */
+/* ==== CERCLÉS “–” et “+” ==== */
 .bigsmash-cart-container .bigsmash-sticky-qty-btn {
-  width: 44px;
-  height: 44px;
+  width: 32px;                /* réduit de 44 → 32 */
+  height: 32px;               /* réduit de 44 → 32 */
   border-radius: 50%;
-  background: var(--bigsmash-red); /* cercle rouge */
-  color: #000000;                  /* icône noire */
-  font-size: 20px;
-  line-height: 20px;
+  background: var(--bigsmash-red);
+  color: #000000;             /* icône toujours noire */
+  font-size: 16px;            /* réduit de 20 → 16 */
+  line-height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease;
 }
 .bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
   transform: scale(1.05);
+}
+
+/* ==== COMPTEUR (NOMBRE) ==== */
+.bigsmash-cart-container .bigsmash-sticky-qty-display {
+  color: #000000;             /* nombre en noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  font-size: 16px;            /* taille réduite à 16px */
+  line-height: 20px;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ==== BOUTON “Ajouter au panier” ==== */
+.bigsmash-cart-container .bigsmash-main-add-btn {
+  width: 270px;
+  height: 40px;
+  background: var(--bigsmash-red);
+  border: 2px solid var(--bigsmash-white);
+  border-radius: 20px;
+  
+  color: #000000;             /* texte noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.bigsmash-cart-container .bigsmash-main-add-btn:hover {
+  background: var(--bigsmash-white);
+  color: var(--bigsmash-red);
+  transform: scale(1.02);
 }
 
 
