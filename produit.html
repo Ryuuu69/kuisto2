@@ -870,17 +870,28 @@
             render() {
                 document.title = `BigSmash - ${this.product.name}`;
                 
-                document.getElementById('app').innerHTML = `
-                    <!-- Fond grisé -->
-                    <div class="bigsmash-page-container">
-                        <!-- Bouton retour -->
-                        <div class="bigsmash-back-button-container">
-   <a href="produits.html" class="bigsmash-back-btn">
-     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-     </svg>
-   </a>
- </div>
+                // Extrait de render()
+document.getElementById('app').innerHTML = `
+  <div class="bigsmash-page-container">
+    <div class="bigsmash-product-card">
+      <!-- ← bouton RETOUR ici -->
+      <div class="bigsmash-back-button-container">
+        <a href="produits.html" class="bigsmash-back-btn">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- puis tout le reste de la carte -->
+      <div class="bigsmash-product-image-container">…</div>
+      <span class="bigsmash-product-category">…</span>
+      <!-- etc… -->
+    </div>
+    <!-- zone sticky & icônes flottantes -->
+  </div>
+`;
+
 
                         <!-- Carte produit principale -->
                         <div class="bigsmash-product-card">
