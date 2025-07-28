@@ -676,23 +676,26 @@
 }
 
 /* ===== CONTAINER STICKY FIXE 500×125 CENTRÉ ===== */
+./* ===== CONTAINER STICKY FIXE 500×125 CENTRÉ ===== */
 .bigsmash-cart-container {
   position: fixed;
-  bottom: 32px;                 /* 32px du bas */
-  left: 50%;                    /* centre horizontal */
-  transform: translateX(-50%);  /* ramène le conteneur au centre exact */
-  width: 500px;                 /* largeur fixe */
-  height: 125px;                /* hauteur fixe */
-  background: rgba(255,255,255,0.85); /* blanc translucide */
+  bottom: 32px;                                         /* 32px du bas */
+  left: calc((100vw - 500px) / 2);                      /* centre exact : (viewport width - 500px) / 2 */
+  width: 500px;                                         /* largeur fixe */
+  height: 125px;                                        /* hauteur fixe */
+  background: rgba(255,255,255,0.85);                   /* blanc translucide */
   display: flex;
-  flex-direction: column;       /* empile le compteur et le bouton */
-  align-items: center;          /* centre horizontalement le contenu */
-  justify-content: space-between; /* compteur en haut, bouton en bas */
-  padding: 12px 0;              /* espace interne haut/bas */
+  flex-direction: column;                               /* empile compteur puis bouton */
+  align-items: center;                                  /* centre horizontalement le contenu */
+  justify-content: center;                              /* centre verticalement */
+  gap: 8px;                                             /* espace entre compteur et bouton */
   box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  border-radius: var(--bigsmash-radius);
+  border-radius: var(--bigsmash-radius);                /* coins arrondis */
   z-index: 2000;
+  padding: 0;                                           /* plus besoin de padding interne */
+  transform: none;                                      /* retire tout translateX précédent */
 }
+
 
 /* ===== ESPACEMENT DU COMPTEUR (au-dessus) ===== */
 .bigsmash-cart-container .bigsmash-sticky-qty-controls {
