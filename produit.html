@@ -634,21 +634,21 @@
   /* on conserve le markup existant, flex enfants déjà espacés par gap */
 }
 
-/* ===== BOUTON “Ajouter au panier” (270×40), texte Montserrat 400 14px/21px ===== */
+/* ===== BOUTON “Ajouter au panier” ===== */
 .bigsmash-cart-container .bigsmash-main-add-btn {
   width: 270px;
   height: 40px;
-  background: var(--bigsmash-red);
+  background: var(--bigsmash-red);   /* fond rouge */
   border: 2px solid var(--bigsmash-white);
   border-radius: 20px;
-  color: var(--bigsmash-white);
 
-  /* <<< METTRE LA POLICE ET TAILLE DEMANDÉES >>> */
+  /* texte noir */
+  color: #000000;
   font-family: Montserrat, sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 21px;
+  font-size: 13px;
+  line-height: 20px;
 
   display: flex;
   align-items: center;
@@ -656,10 +656,31 @@
   transition: all 0.3s ease;
 }
 .bigsmash-cart-container .bigsmash-main-add-btn:hover {
-  background: var(--bigsmash-white);
-  color: var(--bigsmash-red);
+  background: var(--bigsmash-white);   /* fond blanc */
+  color: var(--bigsmash-red);          /* texte rouge */
   transform: scale(1.02);
 }
+
+/* ===== BOUTONS “–” et “+” ===== */
+.bigsmash-cart-container .bigsmash-sticky-qty-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bigsmash-red); /* cercle rouge */
+  color: #000000;                  /* icône noire */
+  font-size: 20px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
+  transform: scale(1.05);
+}
+
 
 /* ===== CACHER L’ANCIEN CONTAINER ===== */
 .bigsmash-add-to-cart-btn {
