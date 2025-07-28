@@ -105,6 +105,7 @@ class CartSystem {
   getTotalPrice() {
     return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
+window.location.href = "produits.html";
 
   // Créer la barre de panier sticky
   createCartBar() {
