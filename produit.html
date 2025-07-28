@@ -601,96 +601,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .bigsmash-error-btn:hover {
-            background: #d63384;
-            transform: translateY(-2px);
-            box-shadow: var(--bigsmash-shadow);
-        }
-/* ==== ZONE STICKY (barre translucide) ==== */
-.bigsmash-cart-container {
-  position: fixed;
-  bottom: 0;                  /* colle la barre au bas de l'écran */
-  left: 490px;
-  right: 490px;
-  height: 125px;
-  background: rgba(255,255,255,0.85);
-  border-radius: var(--bigsmash-radius);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;                   /* espace réduit */
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
-  z-index: 2000;
-  padding: 0;
-}
-      .bigsmash-add-badge {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bigsmash-red);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 3000;
-  animation: badge-slide-up 1s ease-out forwards;
-}
-
-.bigsmash-add-badge-price {
-  font-family: Montserrat, sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-@keyframes badge-slide-up {
-  from { opacity: 0; transform: translate(-50%, 40px); }
-  to   { opacity: 1; transform: translate(-50%, 0); }
-}
-
-
-/* ==== CERCLÉS "–" et "+" ==== */
-.bigsmash-cart-container .bigsmash-sticky-qty-btn {
-  width: 32px;                /* réduit de 44 → 32 */
-  height: 32px;               /* réduit de 44 → 32 */
-  border-radius: 50%;
-  background: var(--bigsmash-red);
-  color: #000000;             /* icône toujours noire */
-  font-size: 16px;            /* réduit de 20 → 16 */
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
-  transform: scale(1.05);
-}
-
-/* ==== COMPTEUR (NOMBRE) ==== */
-.bigsmash-cart-container .bigsmash-sticky-qty-display {
-  color: #000000;             /* nombre en noir */
-  font-family: Montserrat, sans-serif;
-  font-weight: 700;
-  font-size: 16px;            /* taille réduite à 16px */
-  line-height: 20px;
-  min-width: 24px;
-  text-align: center;
-}
- 
-
-/* ==== BOUTON "Ajouter au panier" ==== */
-.bigsmash-cart-container .bigsmash-main-add-btn {
+          ash-main-add-btn {
   width: 270px;
   height: 40px;
   background: var(--bigsmash-red);
@@ -895,119 +806,84 @@
 
             // Rendu de la page
             render() {
-  document.title = `BigSmash - ${this.product.name}`;
+                document.title = `BigSmash - ${this.product.name}`;
+                
+                document.getElementById('app').innerHTML = `
+                    <!-- Fond grisé -->
+                    <div class="bigsmash-page-container">
+                        <!-- Bouton retour -->
+                        <div class="bigsmash-back-button-container">
+                            <a href="produits.html" class="bigsmash-back-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                                Retour
+                            </a>
+                        </div>
 
-  document.getElementById('app').innerHTML = `
-    <!-- Fond grisé -->
-    <div class="bigsmash-page-container">
-      <!-- Carte produit -->
-      <div class="bigsmash-product-card" style="position: relative;">
-        <!-- Bouton retour en haut‑droite de la carte -->
-        <div class="bigsmash-back-button-container">
-          <a href="produits.html" class="bigsmash-back-btn">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </a>
-        </div>
+                        <!-- Carte produit principale -->
+                        <div class="bigsmash-product-card">
+                            <!-- Image du produit -->
+                            <div class="bigsmash-product-image-container">
+                                <img src="${this.product.image}" alt="${this.product.name}" class="bigsmash-product-image">
+                            </div>
 
-        <!-- Image du produit -->
-        <div class="bigsmash-product-image-container">
-          <img src="${this.product.image}" alt="${this.product.name}" class="bigsmash-product-image">
-        </div>
+                                <!-- Catégorie -->
+                                <span class="bigsmash-product-category">${this.product.category}</span>
+                                
+                                <!-- Titre -->
+                                <h1 class="bigsmash-product-title">${this.product.name}</h1>
+                                
+                                <!-- Description -->
+                                <p class="bigsmash-product-description">${this.product.description}</p>
+                                
+                                <!-- Prix -->
+                                <div class="bigsmash-product-price">
+                                    ${this.product.price.toFixed(2).replace('.', ',')} €
+                                </div>
 
-        <!-- Catégorie, titre, description, prix, quantité -->
-        <span class="bigsmash-product-category">${this.product.category}</span>
-        <h1 class="bigsmash-product-title">${this.product.name}</h1>
-        <p class="bigsmash-product-description">${this.product.description}</p>
-        <div class="bigsmash-product-price">
-          ${this.product.price.toFixed(2).replace('.', ',')} €
-        </div>
-        <div class="bigsmash-quantity-container">
-          <button class="bigsmash-qty-btn" id="qty-minus">−</button>
-          <span class="bigsmash-quantity-display" id="quantity">${this.quantity}</span>
-          <button class="bigsmash-qty-btn" id="qty-plus">+</button>
-        </div>
+                                <!-- Quantité -->
+                                <div class="bigsmash-quantity-container">
+                                    <button class="bigsmash-qty-btn" id="qty-minus">−</button>
+                                    <span class="bigsmash-quantity-display" id="quantity">${this.quantity}</span>
+                                    <button class="bigsmash-qty-btn" id="qty-plus">+</button>
+                                </div>
 
-        <!-- Options produits -->
-        ${this.renderOptions()}
-      </div>
+                                ${this.renderOptions()}
+                        </div>
 
-      <!-- Zone sticky en bas -->
-      <div class="bigsmash-cart-container">
-        <div class="bigsmash-sticky-qty-controls">
-          <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
-          <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
-          <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
-        </div>
-        <button class="bigsmash-main-add-btn" id="add-to-cart">
-          <span id="cart-btn-text">
-            Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
-          </span>
-        </button>
-      </div>
-
-      <!-- Icônes flottantes -->
-      <div class="bigsmash-desktop-buttons">
-        <button class="bigsmash-desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
-        </button>
-        <button class="bigsmash-desktop-btn" title="Mon compte">
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4zM6 18v2h12v-2c0-2.66-5.33-4-6-4s-6 1.34-6 4z"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  `;  // ← Ne pas oublier ce backtick et le point‑virgule
-}
-           // Ajouter au panier
-            addToCart() {
-  // 1. préparer les options pour le panier (idem avant)
-  const options = {
-    supplements: {},
-    drink: this.selectedOptions.drink,
-    remove: this.selectedOptions.remove
-  };
-  Object.keys(this.selectedOptions.supplements).forEach(i => {
-    const qty = this.selectedOptions.supplements[i];
-    if (qty > 0) {
-      const s = this.product.options.supplements[i];
-      options.supplements[i] = { name: s.name, price: s.price, quantity: qty };
-    }
-  });
-
-  // 2. ajouter au panier
-  if (window.cartSystem) {
-    window.cartSystem.addToCart(this.product, this.quantity, options);
-  } else {
-    console.error('Panier non dispo');
-    alert('Erreur de panier');
-  }
-
-  // 3. calculer le total de cet ajout
-  const addedAmount = (this.calculateTotal() - this.product.price * this.quantity).toFixed(2)...
+                        <!-- Zone sticky en bas (fond blanc translucide) -->
+<div class="bigsmash-cart-container">
+  <!-- Compteur centré au‑dessus du bouton -->
+  <div class="bigsmash-sticky-qty-controls">
+    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-minus">−</button>
+    <span class="bigsmash-sticky-qty-display" id="sticky-quantity">${this.quantity}</span>
+    <button class="bigsmash-sticky-qty-btn" id="sticky-qty-plus">+</button>
+  </div>
+  <!-- Bouton rouge centré -->
+  <button class="bigsmash-main-add-btn" id="add-to-cart">
+    <span id="cart-btn-text">
+      Ajouter au panier — ${this.calculateTotal().toFixed(2).replace('.', ',')} €
+    </span>
+  </button>
+</div>
 
 
-  // 4. créer et afficher la pastille en bas-centre
-  const badge = document.createElement('div');
-  badge.className = 'bigsmash-add-badge';
-  badge.innerHTML = `
-    <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
-      <path d="M7 4h-2l-3 9v2.5h2l1.5 6h13l1.5-6h2v-2.5l-3-9h-2z"/>
-    </svg>
-    <span class="bigsmash-add-badge-price">+${total} €</span>
-  `;
-  document.body.appendChild(badge);
-
-  // 5. après 1.2s, lancer la redirection
-  setTimeout(() => {
-    window.location.href = 'produits.html';
-  }, 1200);
-}
-
+                    <!-- Icônes flottantes (toujours visibles) -->
+                    <div class="bigsmash-desktop-buttons">
+                        <button class="bigsmash-desktop-btn" title="Accueil" onclick="window.location.href='index.html'">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            </svg>
+                        </button>
+                        <button class="bigsmash-desktop-btn" title="Mon compte">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            }
 
             // Rendu des options
            
@@ -1230,8 +1106,14 @@ renderOptions() {
                 return total;
             }
 
-           
-
+            // Ajouter au panier
+            addToCart() {
+                // Préparer les options pour le panier
+                const options = {
+                    supplements: {},
+                    drink: this.selectedOptions.drink,
+                    remove: this.selectedOptions.remove
+                };
 
                 // Formater les suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
