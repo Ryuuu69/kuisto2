@@ -369,6 +369,67 @@
             padding: 12px;
         }
 
+        /* Styles pour la barre de quantité du panier */
+        .cart-quantity-bar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            background: #EA3D2F;
+            border-top-left-radius: var(--card-radius);
+            padding: 8px 12px;
+            height: 54px;
+            min-width: 120px;
+            justify-content: space-between;
+            gap: 8px;
+            color: #fff;
+            font-weight: 700;
+            z-index: 4;
+        }
+
+        .cart-remove-btn,
+        .cart-plus-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.1em;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cart-remove-btn:hover,
+        .cart-plus-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-qty {
+            display: block;
+            min-width: 24px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .product-plus-btn {
+            background: #191919;
+            color: #fff;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .product-plus-btn:hover {
+            background: #EA3D2F;
+        }
+
         /* Masquer sur mobile */
         @media (max-width: 768px) {
             .desktop-buttons {
@@ -601,6 +662,35 @@
             // Utiliser le slug déjà généré dans products-data.js
             const slug = product.slug;
             
+            // Vérifier si le produit est dans le panier
+            const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
+            
+            // Générer le bouton d'action selon l'état du panier
+            let actionButton;
+            if (cartQuantity > 0) {
+                // Produit dans le panier : afficher la barre rouge
+                actionButton = `
+                    <div class="cart-quantity-bar">
+                        <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                            </svg>
+                        </button>
+                        <span class="cart-qty">${cartQuantity}</span>
+                        <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Produit pas dans le panier : afficher le bouton noir +
+                actionButton = `
+                    <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
+                `;
+            }
+            
             return `
                 <div class="product-card">
                     <div class="thumb">
@@ -614,7 +704,7 @@
                             <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
                         </span>
                     </div>
-                    <button class="add-btn-corner" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
+                    ${actionButton}
                 </div>
             `;
         }
@@ -682,6 +772,11 @@
 
         // Initialize
         renderAllProducts();
+        
+        // Écouter les changements du panier pour mettre à jour l'affichage
+        window.addEventListener('cartUpdated', () => {
+            renderAllProducts();
+        });
     </script>
     
     <!-- Inclure les données produits et le système de panier -->

@@ -129,8 +129,16 @@ export default function ProductDetail() {
                     unitPrice: product.price,
                     totalPrice: parseFloat(total)
                   });
-                  // Ici vous pourrez ajouter la logique d'ajout au panier
-                  alert(`${product.name} (x${qty}) ajouté au panier !`);
+                  // Utiliser le système de panier global
+                  if (window.cartSystem) {
+                    window.cartSystem.addToCart(product, qty, {
+                      supplements: {},
+                      drink: null,
+                      remove: {}
+                    });
+                  } else {
+                    alert(`${product.name} (x${qty}) ajouté au panier !`);
+                  }
                 }}
                 className="bg-bigRed hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-colors flex items-center space-x-2"
               >

@@ -36,6 +36,8 @@ class CartSystem {
     try {
       localStorage.setItem('bigsmash_cart', JSON.stringify(this.cart));
       this.updateCartDisplay();
+      // Notifier les autres parties de l'application du changement
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
     } catch (e) {
       console.error('Erreur lors de la sauvegarde du panier:', e);
     }
@@ -189,6 +191,50 @@ class CartSystem {
   clearCart() {
     this.cart = [];
     this.saveCart();
+  }
+
+  // Supprimer complètement un produit du panier
+  removeFromCart(productSlug) {
+    this.cart = this.cart.filter(item => item.slug !== productSlug);
+    this.saveCart();
+  }
+
+  // Diminuer la quantité d'un produit (ou le supprimer si quantité = 0)
+  decreaseQuantity(productSlug) {
+    const itemIndex = this.cart.findIndex(item => item.slug === productSlug);
+    if (itemIndex > -1) {
+      if (this.cart[itemIndex].quantity > 1) {
+        this.cart[itemIndex].quantity--;
+        this.cart[itemIndex].totalPrice = this.calculateItemPrice(
+          { price: this.cart[itemIndex].basePrice },
+          this.cart[itemIndex].quantity,
+          this.cart[itemIndex].options
+        );
+      } else {
+        this.cart.splice(itemIndex, 1);
+      }
+      this.saveCart();
+    }
+  }
+
+  // Augmenter la quantité d'un produit existant
+  increaseQuantity(productSlug) {
+    const itemIndex = this.cart.findIndex(item => item.slug === productSlug);
+    if (itemIndex > -1) {
+      this.cart[itemIndex].quantity++;
+      this.cart[itemIndex].totalPrice = this.calculateItemPrice(
+        { price: this.cart[itemIndex].basePrice },
+        this.cart[itemIndex].quantity,
+        this.cart[itemIndex].options
+      );
+      this.saveCart();
+    }
+  }
+
+  // Obtenir la quantité d'un produit dans le panier
+  getProductQuantity(productSlug) {
+    const item = this.cart.find(item => item.slug === productSlug);
+    return item ? item.quantity : 0;
   }
 }
 
