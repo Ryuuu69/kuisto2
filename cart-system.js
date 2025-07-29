@@ -78,7 +78,7 @@ class CartSystem {
     }
 
     this.saveCart();
-    window.location.href = "produits.html";
+  
 
     
   }
