@@ -6,7 +6,8 @@
     <title>BigSmash - Produit</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
-     /* ===== VARIABLES CSS BIGSMASH ===== */
+    <style>
+        /* ===== VARIABLES CSS BIGSMASH ===== */
         :root {
             --bigsmash-red: #E42B16;
             --bigsmash-dark: #191919;
@@ -768,7 +769,7 @@
                 this.product = findProductBySlug(slug);
                 
                 if (!this.product) {
-                    this.showError(Produit "${slug}" introuvable);
+                    this.showError(`Produit "${slug}" introuvable`);
                     return;
                 }
 
@@ -784,7 +785,7 @@
 
             // Afficher une erreur
             showError(message) {
-                document.getElementById('app').innerHTML = 
+                document.getElementById('app').innerHTML = `
                     <div class="bigsmash-error-container">
                         <div class="bigsmash-error-content">
                             <div class="bigsmash-error-emoji">😕</div>
@@ -795,10 +796,8 @@
                             </a>
                         </div>
                     </div>
-                ;
+                `;
             }
-
-
 
             // Rendu de la page
             render() {
@@ -954,6 +953,8 @@ renderOptions() {
       </div>
     `;
   }
+
+  return html;
 }
 
 
