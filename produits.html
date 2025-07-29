@@ -259,17 +259,17 @@
         .add-btn-corner {
     position: absolute;
     bottom: 0;
-    left: 0;   /* <-- Change 'right: 0' en 'left: 0' */
+    right: 0;
     width: 54px;
     height: 54px;
     background: #191919;
     color: #fff;
     border: none;
-    /* Arrondi maximum coin bas gauche */
-    border-bottom-left-radius: 100% 100%;
-    border-top-right-radius: 0;
+    /* Arrondi maximum coin bas droit */
+    border-bottom-right-radius: 100% 100%;
     border-top-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
     font-size: 2.1em;
     font-weight: bold;
     display: flex;
@@ -280,13 +280,13 @@
     z-index: 3;
     transition: background 0.13s, transform 0.11s;
     padding-bottom: 6px;
-    /* Légèrement dehors : */
-    transform: translate(-8px, 8px);
+    /* Légèrement dehors : */
+    transform: translate(8px, 8px);
 }
 
 .add-btn-corner:hover {
     background: #EA3D2F;
-    transform: scale(1.08) translate(-8px, 8px);
+    transform: scale(1.08) translate(8px, 8px);
 }
         /* Boutons en bas à gauche - Desktop uniquement */
         .desktop-buttons {
