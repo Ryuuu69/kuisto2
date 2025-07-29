@@ -7,207 +7,306 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
     <style>
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-.bg-bigRed { background-color: #E42B16; }
+        body {
+            background: #f5f6f7;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f5f6f7;
-    color: #191919;
-}
+        .panier-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px 20px;
+        }
 
-.container {
-    max-width: 520px;
-    margin: 48px auto;
-    background-color: #fff;
-    border-radius: 32px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
-    padding: 42px 38px 36px 38px;
-}
+        .panier-card {
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.10);
+            padding: 42px 38px 36px 38px;
+            width: 540px;
+            max-width: 98vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.btn-primary {
-    background-color: #E42B16;
-    color: white;
-    padding: 16px 0;
-    border-radius: 32px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.15rem;
-    letter-spacing: .01em;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: inline-block;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(228,43,22,0.11);
-    width: 100%;
-    max-width: 320px;
-}
-.btn-primary:hover {
-    background-color: #c22313;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(228,43,22,0.16);
-}
+        .panier-header {
+            width: 100%;
+            margin-bottom: 32px;
+        }
 
-.btn-secondary {
-    background-color: #808080;
-    color: white;
-    padding: 16px 0;
-    border-radius: 32px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    max-width: 320px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
-}
-.btn-secondary:hover {
-    background-color: #666666;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.13);
-}
+        .panier-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0 0 16px 0;
+        }
 
-.item-row {
-    border-bottom: 1px solid #eee;
-    padding: 20px 0;
-    margin-bottom: 0;
-    display: flex;
-    align-items: center;
-    gap: 22px;
-}
-.item-row:last-child {
-    border-bottom: none;
-}
+        .continue-shopping {
+            text-align: center;
+        }
 
-.item-image {
-    width: 74px;
-    height: 74px;
-    border-radius: 18px;
-    object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-}
+        .continue-shopping a {
+            color: #EA3D2F;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
 
-.option-text {
-    font-size: 13px;
-    color: #888;
-    margin-left: 6px;
-    font-style: italic;
-}
+        .continue-shopping a:hover {
+            text-decoration: underline;
+        }
 
-.empty-cart {
-    text-align: center;
-    padding: 54px 14px;
-}
+        .panier-content {
+            width: 100%;
+            margin-bottom: 24px;
+        }
 
-.empty-cart-icon {
-    font-size: 60px;
-    margin-bottom: 16px;
-    opacity: 0.42;
-}
+        .panier-item {
+            display: flex;
+            align-items: center;
+            background: #fafbfc;
+            border-radius: 24px;
+            margin-bottom: 16px;
+            padding: 12px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
 
-.total-section {
-    background: #fafbfc;
-    border-radius: 22px;
-    padding: 24px 20px;
-    margin-top: 26px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-}
+        .panier-item-img {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            margin-right: 18px;
+            object-fit: cover;
+        }
 
-.desktop-buttons {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    display: flex;
-    gap: 14px;
-    z-index: 1000;
-}
-.desktop-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,.14);
-    background: #E42B16;
-    color: #fff;
-}
-.desktop-btn:hover {
-    background: #fff;
-    color: #E42B16;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(0,0,0,.18);
-}
-.desktop-btn svg {
-    width: 24px;
-    height: 24px;
-}
+        .panier-item-details {
+            flex: 1;
+        }
+
+        .panier-item-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.12rem;
+            margin-bottom: 2px;
+        }
+
+        .panier-item-desc {
+            font-size: 0.85rem;
+            color: #A3A3A3;
+            margin-bottom: 4px;
+        }
+
+        .panier-item-options {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .panier-item-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.12rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-left: 12px;
+            min-width: 66px;
+            text-align: right;
+        }
+
+        .panier-item-qtybar {
+            display: flex;
+            align-items: center;
+            margin-left: 18px;
+            gap: 5px;
+        }
+
+        .panier-btn {
+            background: #EA3D2F;
+            color: #fff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .panier-btn:hover {
+            background: #d32b1f;
+        }
+
+        .panier-btn.remove {
+            font-size: 1rem;
+        }
+
+        .panier-qty {
+            display: inline-block;
+            min-width: 24px;
+            text-align: center;
+            font-size: 1.08rem;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .big-btn {
+            background: #EA3D2F;
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.18rem;
+            font-weight: 600;
+            padding: 20px 0;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 4px 24px rgba(234,61,47,0.12);
+            transition: background 0.2s;
+            letter-spacing: .02em;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .big-btn:hover {
+            background: #d32b1f;
+        }
+
+        .clear-btn {
+            background: #808080;
+            color: #fff;
+            border: none;
+            border-radius: 32px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 0;
+            width: 100%;
+            max-width: 100%;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .clear-btn:hover {
+            background: #666666;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-cart-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-cart h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .empty-cart p {
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        /* Desktop buttons */
+        .desktop-buttons {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            display: flex;
+            gap: 14px;
+            z-index: 1000;
+        }
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            background: #EA3D2F;
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            background: white;
+            color: #EA3D2F;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 24px;
+            height: 24px;
+        }
     </style>
-
 </head>
-<body class="bg-[#f5f6f7]">
-
+<body>
     <!-- Header avec bannière -->
     <header class="bg-white shadow-sm">
         <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
-            <img 
-                src="images/banner.svg" 
-                alt="BigSmash Banner" 
-                class="w-full h-full object-cover"
-            />    
+            <a href="index.html">
+                <img 
+                    src="images/banner.svg" 
+                    alt="BigSmash Banner" 
+                    class="w-full h-full object-cover cursor-pointer"
+                />
+            </a>
         </div>
     </header>
 
     <!-- Panier centré -->
-    <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
-        <div class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[520px] mx-4 flex flex-col">
+    <div class="panier-wrapper">
+        <div class="panier-card">
+            <div class="panier-header">
+                <h2>Mon panier</h2>
+                <div class="continue-shopping">
+                    <a href="produits.html">← Continuer mes achats</a>
+                </div>
+            </div>
             
-            <!-- Titre + retour -->
-            <div class="flex items-center justify-between mb-8">
-                <h1 class="text-2xl sm:text-3xl font-bold font-montserrat">Mon Panier</h1>
-                <a href="produits.html" class="text-[#EA3D2F] hover:underline font-semibold">
-                    ← Continuer mes achats
+            <div class="panier-content" id="panier-items-list">
+                <!-- Les articles du panier seront injectés ici par JavaScript -->
+            </div>
+
+            <!-- Message panier vide -->
+            <div class="empty-cart" id="empty-cart-message" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <h3>Votre panier est vide</h3>
+                <p>Découvrez nos délicieux produits BigSmash</p>
+                <a href="produits.html" class="big-btn" style="display: inline-block; text-decoration: none;">
+                    Voir nos produits
                 </a>
             </div>
-            
-            <!-- Liste des items du panier -->
-            <div id="cart-items-container" class="mb-6">
-                <!-- Cart items will be rendered here by JavaScript -->
-                <div class="empty-cart" id="empty-cart-message">
-                    <div class="empty-cart-icon text-4xl mb-3">🛒</div>
-                    <h2 class="text-xl font-semibold mb-2 text-gray-600">Votre panier est vide</h2>
-                    <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
-                    <a href="produits.html" class="btn-primary bg-[#EA3D2F] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#d32b1f]">
-                        Voir nos produits
-                    </a>
-                </div>
-            </div>
 
-            <!-- Total et boutons -->
-            <div class="total-section" id="cart-summary" style="display: none;">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold font-montserrat">Total du panier</h2>
-                    <span class="text-2xl font-bold text-[#EA3D2F] font-montserrat" id="cart-total-price">0,00 €</span>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-between">
-                    <button id="clear-cart-btn" class="bg-gray-100 hover:bg-gray-200 text-[#EA3D2F] rounded-full font-bold px-6 py-3 font-montserrat text-base flex-1 shadow border border-gray-200">
-                        🗑️ Vider le panier
-                    </button>
-                    <button class="bg-[#EA3D2F] hover:bg-[#d32b1f] text-white rounded-full font-bold px-6 py-3 font-montserrat text-base flex-1 shadow transition-all" style="max-width: 260px;">
-                        🚀 Passer la commande
-                    </button>
-                </div>
+            <!-- Boutons d'action -->
+            <div id="cart-actions" style="display: none; width: 100%;">
+                <button class="big-btn" id="validate-cart-btn">
+                    VALIDER LE PANIER (0,00€)
+                </button>
+                <button class="clear-btn" id="clear-cart-btn">
+                    🗑️ Vider le panier
+                </button>
             </div>
-
         </div>
-    </main>
+    </div>
 
     <!-- Boutons Desktop en bas à gauche -->
     <div class="desktop-buttons">
@@ -223,204 +322,175 @@ body {
         </button>
     </div>
 
-    <!-- Tes scripts JS -->
+    <!-- Scripts -->
     <script src="products-data.js"></script>
     <script src="cart-system.js"></script>
-  <script>
-<script>
-function renderOptions(options) {
-  let html = "";
-  if (!options || Object.keys(options).length === 0) return html;
-  if (options.supplements && Object.keys(options.supplements).length > 0) {
-    html += "<div><b>Suppléments :</b> ";
-    html += Object.values(options.supplements)
-      .map(sup => `${sup.name} ×${sup.quantity}`)
-      .join(", ");
-    html += "</div>";
-  }
-  if (options.drink && options.drink.name) {
-    html += `<div><b>Boisson :</b> ${options.drink.name}</div>`;
-  }
-  return html || "<div><i>aucune option</i></div>";
-}
+    <script>
+        // Fonction pour formater les options d'un produit
+        function formatProductOptions(options) {
+            if (!options || Object.keys(options).length === 0) {
+                return '';
+            }
 
-function renderCart() {
-  window.cartSystem.cart = window.cartSystem.loadCart();
-  const cart = window.cartSystem.cart || [];
-  const container = document.getElementById('cart-items-container');
-  const emptyMessage = document.getElementById('empty-cart-message');
-  const cartSummary = document.getElementById('cart-summary');
-  const cartTotal = document.getElementById('cart-total-price');
-  const clearCartBtn = document.getElementById('clear-cart-btn');
+            let optionsText = [];
 
-  container.innerHTML = "";
+            // Suppléments
+            if (options.supplements && Object.keys(options.supplements).length > 0) {
+                const supplements = Object.values(options.supplements)
+                    .filter(sup => sup.quantity > 0)
+                    .map(sup => `${sup.name} ×${sup.quantity}`)
+                    .join(', ');
+                if (supplements) {
+                    optionsText.push(`Suppléments: ${supplements}`);
+                }
+            }
 
-  if (!cart || cart.length === 0) {
-    if (emptyMessage) emptyMessage.style.display = "block";
-    if (cartSummary) cartSummary.style.display = "none";
-    return;
-  }
+            // Boisson
+            if (options.drink && options.drink.name) {
+                optionsText.push(`Boisson: ${options.drink.name}`);
+            }
 
-  if (emptyMessage) emptyMessage.style.display = "none";
-  if (cartSummary) cartSummary.style.display = "block";
+            // Éléments retirés
+            if (options.remove && Object.keys(options.remove).length > 0) {
+                const removed = Object.entries(options.remove)
+                    .filter(([key, value]) => value === true)
+                    .map(([key, value]) => {
+                        // Trouver le nom de l'option retirée
+                        const product = findProductBySlug(window.currentProductSlug);
+                        if (product && product.options && product.options.remove) {
+                            const removeOption = product.options.remove[parseInt(key)];
+                            return removeOption ? removeOption.name : `Option ${key}`;
+                        }
+                        return `Option ${key}`;
+                    })
+                    .join(', ');
+                if (removed) {
+                    optionsText.push(`Retiré: ${removed}`);
+                }
+            }
 
-  cart.forEach(item => {
-    const div = document.createElement('div');
-    div.className = "flex items-center justify-between border-b py-4";
-    div.innerHTML = `
-      <div>
-        <span class="font-bold">${item.name}</span>
-        <div class="text-sm text-gray-500">${renderOptions(item.options)}</div>
-        <div class="text-sm text-gray-500">Prix unitaire: ${item.basePrice.toFixed(2)} €</div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button class="bg-gray-200 px-2 rounded-full" data-action="decrease" data-slug="${item.slug}">-</button>
-        <span>${item.quantity}</span>
-        <button class="bg-gray-200 px-2 rounded-full" data-action="increase" data-slug="${item.slug}">+</button>
-      </div>
-      <div class="text-right min-w-[72px] font-bold">${item.totalPrice.toFixed(2)} €</div>
-      <button class="ml-2 text-red-500" data-action="remove" data-slug="${item.slug}">✕</button>
-    `;
-    container.appendChild(div);
-  });
+            return optionsText.join(' • ');
+        }
 
-  if (cartTotal) cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
-  if (clearCartBtn) {
-    clearCartBtn.onclick = function() {
-      window.cartSystem.clearCart();
-      renderCart();
-    };
-  }
+        // Fonction principale de rendu du panier
+        function renderCart() {
+            // Recharger le panier depuis le système
+            if (window.cartSystem) {
+                window.cartSystem.cart = window.cartSystem.loadCart();
+            }
 
-  // Boutons dynamiques : listeners JS
-  container.querySelectorAll('[data-action="increase"]').forEach(btn => {
-    btn.onclick = function() {
-      window.cartSystem.increaseQuantity(btn.dataset.slug);
-      renderCart();
-    };
-  });
-  container.querySelectorAll('[data-action="decrease"]').forEach(btn => {
-    btn.onclick = function() {
-      window.cartSystem.decreaseQuantity(btn.dataset.slug);
-      renderCart();
-    };
-  });
-  container.querySelectorAll('[data-action="remove"]').forEach(btn => {
-    btn.onclick = function() {
-      window.cartSystem.removeFromCart(btn.dataset.slug);
-      renderCart();
-    };
-  });
-}
+            const cart = window.cartSystem ? window.cartSystem.cart : [];
+            const itemsList = document.getElementById('panier-items-list');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            const cartActions = document.getElementById('cart-actions');
+            const validateBtn = document.getElementById('validate-cart-btn');
 
-document.addEventListener('DOMContentLoaded', renderCart);
-window.addEventListener('storage', function(event) {
-  if (event.key === 'bigsmash_cart') renderCart();
-});
-</script>
+            // Vider l'affichage actuel
+            itemsList.innerHTML = '';
 
-  
-<script>
-function renderOptions(options) {
-  let html = "";
-  if (!options || Object.keys(options).length === 0) return html;
-  if (options.supplements && Object.keys(options.supplements).length > 0) {
-    html += "<div><b>Suppléments :</b> ";
-    html += Object.values(options.supplements)
-      .map(sup => `${sup.name} ×${sup.quantity}`)
-      .join(", ");
-    html += "</div>";
-  }
-  if (options.drink && options.drink.name) {
-    html += `<div><b>Boisson :</b> ${options.drink.name}</div>`;
-  }
-  return html || "<div><i>aucune option</i></div>";
-}
+            // Si le panier est vide
+            if (!cart || cart.length === 0) {
+                emptyMessage.style.display = 'block';
+                cartActions.style.display = 'none';
+                return;
+            }
 
-function renderCart() {
-    window.cartSystem.cart = window.cartSystem.loadCart();
+            // Masquer le message vide et afficher les actions
+            emptyMessage.style.display = 'none';
+            cartActions.style.display = 'block';
 
-  const cart = window.cartSystem.cart || [];
-  const container = document.getElementById('cart-items-container');
-  const emptyMessage = document.getElementById('empty-cart-message');
-  const cartSummary = document.getElementById('cart-summary');
-  const cartTotal = document.getElementById('cart-total-price');
-  const clearCartBtn = document.getElementById('clear-cart-btn');
+            // Générer le HTML pour chaque article
+            cart.forEach((item, index) => {
+                const optionsText = formatProductOptions(item.options);
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'panier-item';
+                itemDiv.innerHTML = `
+                    <img src="${item.image || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'}" 
+                         class="panier-item-img" 
+                         alt="${item.name}" />
+                    <div class="panier-item-details">
+                        <div class="panier-item-title">${item.name}</div>
+                        <div class="panier-item-desc">Prix unitaire: ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
+                        ${optionsText ? `<div class="panier-item-options">${optionsText}</div>` : ''}
+                    </div>
+                    <div class="panier-item-price">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
+                    <div class="panier-item-qtybar">
+                        <button class="panier-btn remove" data-action="decrease" data-slug="${item.slug}">−</button>
+                        <span class="panier-qty">${item.quantity}</span>
+                        <button class="panier-btn add" data-action="increase" data-slug="${item.slug}">+</button>
+                        <button class="panier-btn remove" data-action="delete" data-slug="${item.slug}" style="margin-left: 8px;">✕</button>
+                    </div>
+                `;
+                itemsList.appendChild(itemDiv);
+            });
 
-  container.innerHTML = "";
+            // Mettre à jour le prix total
+            const totalPrice = window.cartSystem.getTotalPrice();
+            validateBtn.textContent = `VALIDER LE PANIER (${totalPrice.toFixed(2).replace('.', ',')}€)`;
 
-  if (!cart || cart.length === 0) {
-    if (emptyMessage) emptyMessage.style.display = "block";
-    if (cartSummary) cartSummary.style.display = "none";
-    return;
-  }
+            // Attacher les écouteurs d'événements (délégation d'événements)
+            attachEventListeners();
+        }
 
-  if (emptyMessage) emptyMessage.style.display = "none";
-  if (cartSummary) cartSummary.style.display = "block";
+        // Fonction pour attacher les écouteurs d'événements
+        function attachEventListeners() {
+            const itemsList = document.getElementById('panier-items-list');
+            const clearBtn = document.getElementById('clear-cart-btn');
 
-  cart.forEach(item => {
-    const div = document.createElement('div');
-    div.className = "flex items-center justify-between border-b py-4";
+            // Délégation d'événements pour les boutons des articles
+            itemsList.onclick = function(event) {
+                const button = event.target.closest('button[data-action]');
+                if (!button) return;
 
-    // Pour manipuler la quantité en direct, il faut stocker le slug/id
-    div.innerHTML = 
-      <div>
-        <span class="font-bold">${item.name}</span>
-        <div class="text-sm text-gray-500">${renderOptions(item.options)}</div>
-        <div class="text-sm text-gray-500">Prix unitaire: ${item.basePrice.toFixed(2)} €</div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button class="bg-gray-200 px-2 rounded-full" data-action="decrease" data-slug="${item.slug}">-</button>
-        <span>${item.quantity}</span>
-        <button class="bg-gray-200 px-2 rounded-full" data-action="increase" data-slug="${item.slug}">+</button>
-      </div>
-      <div class="text-right min-w-[72px] font-bold">${item.totalPrice.toFixed(2)} €</div>
-      <button class="ml-2 text-red-500" data-action="remove" data-slug="${item.slug}">✕</button>
-    ;
+                const action = button.dataset.action;
+                const slug = button.dataset.slug;
 
-    container.appendChild(div);
-  });
+                if (!window.cartSystem) return;
 
-  cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
+                switch (action) {
+                    case 'increase':
+                        window.cartSystem.increaseQuantity(slug);
+                        break;
+                    case 'decrease':
+                        window.cartSystem.decreaseQuantity(slug);
+                        break;
+                    case 'delete':
+                        window.cartSystem.removeFromCart(slug);
+                        break;
+                }
 
-  clearCartBtn.onclick = function() {
-    window.cartSystem.clearCart();
-    renderCart();
-  };
+                // Re-rendre le panier après modification
+                renderCart();
+            };
 
-  // Ajoute les event listeners sur les boutons
- container.querySelectorAll('[data-action="increase"]').forEach(btn => {
-    btn.addEventListener('click', function() {
-      window.cartSystem.increaseQuantity(btn.dataset.slug);
-      renderCart();
-    });
-  });
+            // Bouton vider le panier
+            if (clearBtn) {
+                clearBtn.onclick = function() {
+                    if (window.cartSystem && confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+                        window.cartSystem.clearCart();
+                        renderCart();
+                    }
+                };
+            }
+        }
 
-  container.querySelectorAll('[data-action="decrease"]').forEach(btn => {
-    btn.addEventListener('click', function() {
-      window.cartSystem.decreaseQuantity(btn.dataset.slug);
-      renderCart();
-    });
-  });
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCart();
+        });
 
-  container.querySelectorAll('[data-action="remove"]').forEach(btn => {
-    btn.addEventListener('click', function() {
-      window.cartSystem.removeFromCart(btn.dataset.slug);
-      renderCart();
-    });
-  });
-}
+        // Synchronisation avec les autres onglets
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'bigsmash_cart') {
+                renderCart();
+            }
+        });
 
-document.addEventListener('DOMContentLoaded', renderCart);
-    window.addEventListener('storage', function(event) {
-  if (event.key === 'bigsmash_cart') {
-    renderCart();
-  }
-});
-</script>
-
-
-    <!-- ... ton JS de rendu de panier ici ... -->
-     
- </body>
- </html>
+        // Écouter les changements du panier depuis d'autres parties de l'application
+        window.addEventListener('cartUpdated', function() {
+            renderCart();
+        });
+    </script>
+</body>
+</html>
