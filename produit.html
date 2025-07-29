@@ -31,26 +31,6 @@
             padding-top: 40px;
             padding-bottom: 200px; /* Place pour le bouton sticky */
         }
-         #cart-fab {
-  position: fixed;
-  left: 50%;
-  bottom: 80px;
-  transform: translateX(-50%);
-  width: 64px;
-  height: 64px;
-  background: #EA3D2F;
-  color: white;
-  border-radius: 50%;
-  box-shadow: 0 8px 32px rgba(234,61,47,0.3), 0 2px 8px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  cursor: pointer;
-  font-size: 2rem;
-  transition: box-shadow 0.2s, background 0.2s;
-  border: 6px solid #fff;
-}
    
 
         /* ===== BOUTON RETOUR ===== */
@@ -153,43 +133,6 @@
             text-align: center;
             margin-bottom: 24px;
         }
-  
-
-#cart-fab .cart-icon.material-icons {
-  font-size: 2.6rem;
-  color: #fff;
-  /* Pour pointer vers la gauche (retournement horizontal) */
-  transform: scaleX(-1);
-}
-
-#cart-fab .cart-badge {
-  position: absolute;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 6px;
-  line-height: 18px;
-  right: -60px; /* décaler à droite du bouton, ajuste si besoin */
-  top: 50%;
-  transform: translateY(-50%);
-  background: #191919;
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.8rem;
-  border-radius: 18px;
-  min-width: 54px;
-  height: 36px;
-  padding: 0 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  pointer-events: none;
-  border: 2px solid #fff;
-}
-      #cart-bar {
-  display: none !important;
-   
-
 
         /* ===== CONTRÔLES QUANTITÉ ===== */
         .bigsmash-quantity-container {
@@ -865,7 +808,6 @@
     <!-- Scripts -->
     <script src="products-data.js"></script>
     <script src="cart-system.js"></script>
-    <script src="product-detail.js"></script>
     <script>
         class ProductPage {
             constructor() {
@@ -1261,13 +1203,5 @@ renderOptions() {
             new ProductPage();
         });
     </script>
-  <div id="cart-fab" style="display:none; position:relative;">
-  <svg class="cart-svg" fill="currentColor" viewBox="0 0 24 24" width="38" height="38">
-    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.16 15H17c.83 0 1.54-.5 1.84-1.22l3.02-7.05a1 1 0 00-.93-1.38H6.21l-.94-2.14A1.003 1.003 0 004.25 2H2v2h2l3.6 7.59-1.35 2.44C5.52 14.37 6.1 15 7 15zm0-2l1.1-2h7.45l-2.76 5H7.16z"/>
-  </svg>
-  <span class="cart-badge" id="cart-fab-price">0,00€</span>
-</div>
-
-
 </body>
 </html>
