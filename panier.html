@@ -284,11 +284,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
   <script>
+<script>
 function renderOptions(options) {
   let html = "";
   if (!options || Object.keys(options).length === 0) return html;
-
-  // Suppléments
   if (options.supplements && Object.keys(options.supplements).length > 0) {
     html += "<div><b>Suppléments :</b> ";
     html += Object.values(options.supplements)
@@ -296,19 +295,14 @@ function renderOptions(options) {
       .join(", ");
     html += "</div>";
   }
-
-  // Boisson
   if (options.drink && options.drink.name) {
     html += `<div><b>Boisson :</b> ${options.drink.name}</div>`;
   }
-
   return html || "<div><i>aucune option</i></div>";
 }
 
-// Rend tout le panier
 function renderCart() {
-    window.cartSystem.cart = window.cartSystem.loadCart();
-
+  window.cartSystem.cart = window.cartSystem.loadCart();
   const cart = window.cartSystem.cart || [];
   const container = document.getElementById('cart-items-container');
   const emptyMessage = document.getElementById('empty-cart-message');
@@ -330,8 +324,6 @@ function renderCart() {
   cart.forEach(item => {
     const div = document.createElement('div');
     div.className = "flex items-center justify-between border-b py-4";
-
-    // Pour manipuler la quantité en direct, il faut stocker le slug/id
     div.innerHTML = `
       <div>
         <span class="font-bold">${item.name}</span>
@@ -346,45 +338,41 @@ function renderCart() {
       <div class="text-right min-w-[72px] font-bold">${item.totalPrice.toFixed(2)} €</div>
       <button class="ml-2 text-red-500" data-action="remove" data-slug="${item.slug}">✕</button>
     `;
-
     container.appendChild(div);
   });
 
-  cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
+  if (cartTotal) cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
+  if (clearCartBtn) {
+    clearCartBtn.onclick = function() {
+      window.cartSystem.clearCart();
+      renderCart();
+    };
+  }
 
-  clearCartBtn.onclick = function() {
-    window.cartSystem.clearCart();
-    renderCart();
-  };
-
-  // Ajoute les event listeners sur les boutons
- container.querySelectorAll('[data-action="increase"]').forEach(btn => {
-    btn.addEventListener('click', function() {
+  // Boutons dynamiques : listeners JS
+  container.querySelectorAll('[data-action="increase"]').forEach(btn => {
+    btn.onclick = function() {
       window.cartSystem.increaseQuantity(btn.dataset.slug);
       renderCart();
-    });
+    };
   });
-
   container.querySelectorAll('[data-action="decrease"]').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.onclick = function() {
       window.cartSystem.decreaseQuantity(btn.dataset.slug);
       renderCart();
-    });
+    };
   });
-
   container.querySelectorAll('[data-action="remove"]').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.onclick = function() {
       window.cartSystem.removeFromCart(btn.dataset.slug);
       renderCart();
-    });
+    };
   });
 }
 
 document.addEventListener('DOMContentLoaded', renderCart);
-    window.addEventListener('storage', function(event) {
-  if (event.key === 'bigsmash_cart') {
-    renderCart();
-  }
+window.addEventListener('storage', function(event) {
+  if (event.key === 'bigsmash_cart') renderCart();
 });
 </script>
 
