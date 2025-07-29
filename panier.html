@@ -317,13 +317,13 @@ function renderCart() {
   container.innerHTML = "";
 
   if (!cart || cart.length === 0) {
-    emptyMessage.style.display = "block";
-    cartSummary.style.display = "none";
+    if (emptyMessage) emptyMessage.style.display = "block";
+    if (cartSummary) cartSummary.style.display = "none";
     return;
   }
 
-  emptyMessage.style.display = "none";
-  cartSummary.style.display = "block";
+  if (emptyMessage) emptyMessage.style.display = "none";
+  if (cartSummary) cartSummary.style.display = "block";
 
   cart.forEach(item => {
     const div = document.createElement('div');
