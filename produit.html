@@ -1126,6 +1126,8 @@ renderOptions() {
                 // Ajouter au panier via le système global
                 if (window.cartSystem) {
                     window.cartSystem.addToCart(this.product, this.quantity, options);
+                    window.location.href = "produits.html";
+
                 } else {
                     console.error('Système de panier non disponible');
                     alert('Erreur: Système de panier non disponible');
