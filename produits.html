@@ -298,7 +298,7 @@
     #cart-fab {
   position: fixed;
   left: 50%;
-  bottom: 80px;
+  bottom: 30px;   /* espace de 30px sous l’icône */
   transform: translateX(-50%);
   width: 90px;
   height: 90px;
@@ -318,22 +318,22 @@
 /* Icône panier */
 #cart-fab .cart-svg {
   width: 48px;
-  height: 55px;
+  height: 48px;
   color: #fff;
 }
 
-/* Badge montant – rectangle arrondi, plus haut */
+/* Badge montant – rectangle arrondi, position relevée */
 #cart-fab .cart-badge {
   position: absolute;
-  right: -50px;      /* décale horizontalement */
-  top: -20px;        /* décale un peu plus haut */
+  right: -50px;
+  top: -20px;
   background: #191919;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.2;
-  border-radius: 6px;  /* petits bords arrondis */
+  border-radius: 6px;
   min-width: 40px;
   height: 24px;
   padding: 0 8px;
@@ -344,6 +344,7 @@
   pointer-events: none;
   border: 2px solid #fff;
 }
+
 
 
       #cart-bar {
