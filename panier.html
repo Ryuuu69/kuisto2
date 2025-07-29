@@ -323,34 +323,44 @@
         </button>
     </div>
 
-   <!-- Scripts -->
+ <!-- Scripts -->
 <script src="products-data.js"></script>
 <script src="cart-system.js"></script>
 <script>
-  // Formate les options d’un produit en “Suppléments : … • Boisson : …”
+  // Formate les options (suppléments, boisson, personnalisations)
   function formatProductOptions(options) {
-    if (!options || Object.keys(options).length === 0) return '';
+    if (!options) return '';
     const parts = [];
 
-    // Suppléments
+    // Steak uniquement
     if (options.supplements) {
-      const sup = Object.values(options.supplements)
-        .filter(s => s.quantity > 0)
-        .map(s => `${s.name} ×${s.quantity}`)
-        .join(', ');
-      if (sup) parts.push(`Suppléments : ${sup}`);
+      Object.values(options.supplements).forEach(sup => {
+        if (sup.name.toLowerCase() === 'steak' && sup.quantity > 0) {
+          parts.push(`Supplément steak`);
+        }
+      });
     }
 
     // Boisson
     if (options.drink && options.drink.name) {
-      parts.push(`Boisson : ${options.drink.name}`);
+      parts.push(`${options.drink.name}`);
+    }
+
+    // Personnalisations (retirés)
+    if (options.remove) {
+      Object.entries(options.remove)
+        .filter(([k,v]) => v === true)
+        .forEach(([k]) => {
+          // Affiche "Sans X" si la clé est compréhensible, sinon juste la clé
+          parts.push(k.startsWith('sans') ? k : `Sans ${k}`);
+        });
     }
 
     return parts.join(' • ');
   }
 
   function renderCart() {
-    // Toujours recharger le panier depuis le stockage
+    // Recharge le panier depuis le storage
     if (window.cartSystem) {
       window.cartSystem.cart = window.cartSystem.loadCart();
     }
@@ -360,10 +370,8 @@
     const validateBtn = document.getElementById('validate-cart-btn');
     const validateTotal = document.getElementById('cart-validate-total');
 
-    // Vide l’affichage actuel
     container.innerHTML = '';
 
-    // Si panier vide
     if (!cart || cart.length === 0) {
       if (emptyMessage) emptyMessage.style.display = 'block';
       if (validateBtn)   validateBtn.style.display   = 'none';
@@ -374,17 +382,18 @@
     if (emptyMessage) emptyMessage.style.display = 'none';
     if (validateBtn)   validateBtn.style.display   = 'block';
 
-    // Pour chaque item, on génère une ligne
     cart.forEach(item => {
-      // Etoile si 1 exemplaire, sinon moins
-      const decSymbol = item.quantity > 1 ? '−' : '*';
+      // Si 1 exemplaire, on affiche une croix ×, sinon un moins
+      const decSymbol = item.quantity > 1 ? '−' : '×';
 
       const div = document.createElement('div');
       div.className = 'flex items-center justify-between border-b py-4';
       div.innerHTML = `
         <div class="flex-1">
           <div class="font-medium">${item.name}</div>
-          ${formatProductOptions(item.options) ? `<div class="text-sm text-gray-500">${formatProductOptions(item.options)}</div>` : ''}
+          ${formatProductOptions(item.options) 
+            ? `<div class="text-sm text-gray-500">${formatProductOptions(item.options)}</div>` 
+            : ''}
           <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
         </div>
         <div class="flex items-center gap-2">
@@ -395,17 +404,16 @@
                   data-action="increase" data-slug="${item.slug}">+</button>
         </div>
         <div class="font-semibold w-24 text-right">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
-        <button class="ml-4 text-red-500" data-action="remove" data-slug="${item.slug}">✕</button>
       `;
       container.appendChild(div);
     });
 
-    // Mise à jour du total sur le bouton “Valider”
+    // Met à jour le total dans le bouton "Valider"
     if (validateTotal) {
       validateTotal.textContent = `(${window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',')}€)`;
     }
 
-    // Attache les écouteurs sur chaque bouton
+    // Attache les écouteurs pour + et −
     container.querySelectorAll('[data-action]').forEach(btn => {
       btn.onclick = () => {
         const action = btn.dataset.action;
@@ -413,7 +421,6 @@
         if (!window.cartSystem) return;
         if (action === 'increase') window.cartSystem.increaseQuantity(slug);
         if (action === 'decrease') window.cartSystem.decreaseQuantity(slug);
-        if (action === 'remove')   window.cartSystem.removeFromCart(slug);
         renderCart();
       };
     });
