@@ -83,7 +83,7 @@ body {
 
 /* Hover optionnel */
 .store-card:hover .card-arrow { 
-  background: #E30613; 
+  background: #F18701; 
 }
 .store-card:hover .card-arrow .icon { 
   transform: translateX(4px); 
@@ -180,7 +180,7 @@ body {
 }
 
 /* --- Effet hover (change le coin en rouge) --------------- */
-.product-card:hover .add{ background:#E30613; }
+.product-card:hover .add{ background:#F18701; }
 
 /* --- Responsive (mobile) --------------------------------- */
 @media (max-width:600px){

@@ -15,7 +15,7 @@ export default function ProductDetail() {
           <p className="text-gray-600 mb-6">Le produit que vous recherchez n'existe pas.</p>
           <button 
             onClick={() => navigate('/')}
-            className="bg-bigRed text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
+            className="bg-kuistoOrange text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors"
           >
             Retour à la liste
           </button>
@@ -34,7 +34,7 @@ export default function ProductDetail() {
         <div className="max-w-4xl mx-auto px-6 py-4">
           <button 
             onClick={() => navigate('/')} 
-            className="flex items-center text-bigRed hover:text-red-700 transition-colors font-medium"
+            className="flex items-center text-kuistoOrange hover:text-orange-700 transition-colors font-medium"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -59,7 +59,7 @@ export default function ProductDetail() {
           {/* Informations du produit */}
           <div className="p-8">
             <div className="mb-6">
-              <span className="inline-block bg-bigRed text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
+              <span className="inline-block bg-kuistoOrange text-white text-xs font-semibold px-3 py-1 rounded-full mb-3">
                 {product.category}
               </span>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
@@ -101,7 +101,7 @@ export default function ProductDetail() {
                 <div className="flex items-center space-x-3">
                   <button 
                     onClick={() => setQty(q => Math.max(1, q - 1))} 
-                    className="w-10 h-10 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-bigRed hover:text-bigRed transition-colors"
+                    className="w-10 h-10 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-kuistoOrange hover:text-kuistoOrange transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
@@ -110,7 +110,7 @@ export default function ProductDetail() {
                   <span className="text-xl font-semibold w-8 text-center">{qty}</span>
                   <button 
                     onClick={() => setQty(q => q + 1)} 
-                    className="w-10 h-10 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-bigRed hover:text-bigRed transition-colors"
+                    className="w-10 h-10 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-kuistoOrange hover:text-kuistoOrange transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -140,7 +140,7 @@ export default function ProductDetail() {
                     alert(`${product.name} (x${qty}) ajouté au panier !`);
                   }
                 }}
-                className="bg-bigRed hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-colors flex items-center space-x-2"
+                className="bg-kuistoOrange hover:bg-orange-700 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-colors flex items-center space-x-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 10-4 0v4.01" />
@@ -152,6 +152,5 @@ export default function ProductDetail() {
         </div>
       </main>
     </div>
-    </main>
   );
 }

@@ -38,7 +38,7 @@ export default function ProductList() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="md:hidden mb-6 bg-bigRed text-white px-4 py-2 rounded-lg"
+            className="md:hidden mb-6 bg-kuistoOrange text-white px-4 py-2 rounded-lg"
           >
             Catégories
           </button>

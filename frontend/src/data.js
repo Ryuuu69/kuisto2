@@ -2,8 +2,8 @@
 
 export const categories = [
   'Nouveautés',
-  'Big Salades', 
-  'Big Burgers',
+  'Kuisto Salades', 
+  'Kuisto Burgers',
   'Menus Burger',
   'Extras',
   'Boissons',
@@ -25,10 +25,10 @@ export const products = [
   {
     id: 1,
     category: 'Nouveautés',
-    name: 'BIG SALADES',
-    description: 'Big Caesar, Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan.',
+    name: 'KUISTO SALADES',
+    description: 'Kuisto Caesar, Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan.',
     price: 9.90,
-    slug: 'big-salades',
+    slug: 'kuisto-salades',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -52,10 +52,10 @@ export const products = [
   {
     id: 4,
     category: 'Nouveautés',
-    name: 'MENU BIG CHEESE',
+    name: 'MENU KUISTO CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar',
     price: 11.90,
-    slug: 'menu-big-cheese-nouveau',
+    slug: 'menu-kuisto-cheese-nouveau',
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
   },
   {
@@ -80,16 +80,16 @@ export const products = [
   // Big Burgers
   {
     id: 7,
-    category: 'Big Burgers',
-    name: 'BIG CHEESE',
+    category: 'Kuisto Burgers',
+    name: 'KUISTO CHEESE',
     description: 'Potato bun, double steak haché smashé, salade iceberg, pickles, oignons',
     price: 8.90,
-    slug: 'big-cheese',
+    slug: 'kuisto-cheese',
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
   },
   {
     id: 8,
-    category: 'Big Burgers',
+    category: 'Kuisto Burgers',
     name: 'SURF & TURF',
     description: 'Potato bun, steak haché smashé, crevettes panées, graine de sésame, cheddar',
     price: 8.90,
@@ -98,22 +98,22 @@ export const products = [
   },
   {
     id: 9,
-    category: 'Big Burgers',
-    name: 'BIG SMASH',
+    category: 'Kuisto Burgers',
+    name: 'KUISTO SMASH',
     description: 'Pain Burger, 2 steaks smashés, 2 tranches de cheddar, pickles, salade',
     price: 6.90,
-    slug: 'big-smash',
+    slug: 'kuisto-smash',
     image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=300&h=300&fit=crop&crop=center'
   },
 
   // Big Salades
   {
     id: 10,
-    category: 'Big Salades',
-    name: 'BIG CAESAR',
+    category: 'Kuisto Salades',
+    name: 'KUISTO CAESAR',
     description: 'Salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan',
     price: 8.90,
-    slug: 'big-caesar',
+    slug: 'kuisto-caesar',
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center'
   },
 
@@ -121,8 +121,8 @@ export const products = [
   {
     id: 11,
     category: 'Menus Burger',
-    slug: 'menu-big-cheese',
-    name: 'MENU BIG CHEESE',
+    slug: 'menu-kuisto-cheese',
+    name: 'MENU KUISTO CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center'
@@ -163,11 +163,11 @@ export const products = [
   {
     id: 99,
     category: 'Menus Burger',
-    name: 'MENU BIG CHEESE',
+    name: 'MENU KUISTO CHEESE',
     description: 'Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson',
     price: 11.90,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center',
-    slug: 'menu-big-cheese-options',
+    slug: 'menu-kuisto-cheese-options',
     options: [
       {
         name: 'Supplément',

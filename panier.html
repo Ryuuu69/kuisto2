@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BigSmash - Mon Panier</title>
+    <title>Kuisto - Mon Panier</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
     <style>
@@ -50,7 +50,7 @@
         }
 
         .continue-shopping a {
-            color: #EA3D2F;
+            color: #F18701;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
@@ -124,7 +124,7 @@
         }
 
         .panier-btn {
-            background: #EA3D2F;
+            background: #F18701;
             color: #fff;
             border: none;
             width: 32px;
@@ -142,7 +142,7 @@
   display: none !important;
 
         .panier-btn:hover {
-            background: #d32b1f;
+            background: #e07600;
         }
 
         .panier-btn.remove {
@@ -159,7 +159,7 @@
         }
 
         .big-btn {
-            background: #EA3D2F;
+            background: #F18701;
             color: #fff;
             border: none;
             border-radius: 32px;
@@ -177,7 +177,7 @@
         }
 
         .big-btn:hover {
-            background: #d32b1f;
+            background: #e07600;
         }
 
         .clear-btn {
@@ -243,13 +243,13 @@
             justify-content: center;
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0,0,0,.15);
-            background: #EA3D2F;
+            background: #F18701;
             color: white;
         }
 
         .desktop-btn:hover {
             background: white;
-            color: #EA3D2F;
+            color: #F18701;
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0,0,0,.2);
         }
@@ -267,7 +267,7 @@
             <a href="index.html">
                 <img 
                     src="images/banner.svg" 
-                    alt="BigSmash Banner" 
+                    alt="Kuisto Banner" 
                     class="w-full h-full object-cover cursor-pointer"
                 />
             </a>
@@ -283,7 +283,7 @@
     <div class="flex items-center justify-between mb-8 relative">
       <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Mon panier</h1>
       <a href="produits.html"
-         class="absolute -top-10 -right-7 bg-[#EA3D2F] text-white rounded-bl-[32px] rounded-tr-[32px]
+         class="absolute -top-10 -right-7 bg-[#F18701] text-white rounded-bl-[32px] rounded-tr-[32px]
             w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#d32b1f]">
         ←
       </a>
@@ -296,15 +296,15 @@
     <div class="empty-cart text-center" id="empty-cart-message" style="display: none;">
       <div class="empty-cart-icon text-4xl mb-3">🛒</div>
       <h3 class="text-xl font-semibold mb-2 text-gray-600">Votre panier est vide</h3>
-      <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
-      <a href="produits.html" class="bg-[#EA3D2F] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#d32b1f] inline-block">
+      <p class="text-gray-500 mb-6">Découvrez nos délicieux produits Kuisto</p>
+      <a href="produits.html" class="bg-[#F18701] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#e07600] inline-block">
         Voir nos produits
       </a>
     </div>
 
     <!-- Validation du panier -->
     <button id="validate-cart-btn"
-            class="mx-auto mt-8 w-full max-w-[400px] bg-[#EA3D2F] hover:bg-[#d32b1f] text-white text-lg font-bold rounded-full py-4 shadow transition-all">
+            class="mx-auto mt-8 w-full max-w-[400px] bg-[#F18701] hover:bg-[#e07600] text-white text-lg font-bold rounded-full py-4 shadow transition-all">
       VALIDER LE PANIER <span id="cart-validate-total">(0,00€)</span>
     </button>
   </div>
@@ -330,7 +330,7 @@
 <script src="products-data.js"></script>
 <script src="cart-system.js"></script>
 <script>
-// Formate les options d’un produit : suppléments, retraits et boisson
+// Formate les options d'un produit : suppléments, retraits et boisson
 function formatProductOptions(options, slug) {
   if (!options) return '';
   const parts = [];
@@ -348,7 +348,7 @@ function formatProductOptions(options, slug) {
       });
   }
 
-  // Retraits (« Sans … »)
+  // Retraits (« Sans … »)
   if (options.remove) {
     // Récupère la définition du produit pour trouver le nom des options retirées
     const productDef = typeof findProductBySlug === 'function'
@@ -375,7 +375,7 @@ function formatProductOptions(options, slug) {
     parts.push(options.drink.name);
   }
 
-  return parts.join(' – ');
+  return parts.join(' – ');
 }
 
 function renderCart() {
@@ -407,13 +407,13 @@ function renderCart() {
       <div class="flex-1">
         <div class="font-medium">${item.name}</div>
         ${optText ? `<div class="text-sm text-gray-500 italic">${optText}</div>` : ''}
-        <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
+        <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
       </div>
       <div class="flex items-center gap-2">
-        <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
+        <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
                 data-action="decrease" data-slug="${item.slug}">${decSym}</button>
         <span>${item.quantity}</span>
-        <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
+        <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
                 data-action="increase" data-slug="${item.slug}">+</button>
       </div>
       <div class="font-semibold w-24 text-right">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>

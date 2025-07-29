@@ -5,10 +5,10 @@ const products = [
   // Nouveautés
   {
     id: 1,
-    name: "BIG SALADES",
-    slug: "big-salades", // généré automatiquement depuis le nom
+    name: "KUISTO SALADES",
+    slug: "kuisto-salades", // généré automatiquement depuis le nom
     category: "Nouveautés",
-    description: "Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
+    description: "Kuisto Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
     price: 9.90,
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
     options: {
@@ -30,8 +30,8 @@ const products = [
   },
   {
     id: 2,
-    name: "MENU BIG CHEESE",
-    slug: "menu-big-cheese",
+    name: "MENU KUISTO CHEESE",
+    slug: "menu-kuisto-cheese",
     category: "Nouveautés",
     description: "Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson",
     price: 11.90,
@@ -97,9 +97,9 @@ const products = [
 
   {
     id: 3,
-    name: "BIG CHEESE",
-    slug: "big-cheese",
-    category: "Big Burgers",
+    name: "KUISTO CHEESE",
+    slug: "kuisto-cheese",
+    category: "Kuisto Burgers",
     description: "Potato bun, double steak haché smashé, salade iceberg, pickles, oignons frais, double cheddar",
     price: 8.90,
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",

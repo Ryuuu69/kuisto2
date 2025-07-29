@@ -8,22 +8,22 @@ import { categories }       from './data'; // seuls les "categories" sont utilis
    1. HEADER + HERO
 -------------------------------------------------- */
 export const Header = () => (
-  <header className="bg-bigRed">
-    {/* barre logo 88 px */}
+  <header className="bg-kuistoOrange">
+    {/* barre logo 88 px */}
     <div className="h-[88px] flex items-center px-4">
       <div className="bg-red-700 rounded-lg p-3 shadow-lg">
         <div className="text-white font-bold">
           <div className="text-sm leading-none">BIG</div>
-          <div className="text-base leading-none -mt-0.5">SMASH</div>
+          <div className="text-base leading-none -mt-0.5">KUISTO</div>
         </div>
       </div>
     </div>
 
-    {/* hero */}
+    {/* hero */}
     <div className="relative flex h-[219px]">
-      <div className="flex flex-1 bg-bigRed items-center justify-center">
+      <div className="flex flex-1 bg-kuistoOrange items-center justify-center">
         <h1 className="font-montserrat font-extrabold text-white text-[32px] leading-[40px] text-center max-w-[340px]">
-          THE BEST SMASH <br /> BURGER ARE MADE <span className="italic">HERE</span>
+          THE BEST KUISTO <br /> BURGER ARE MADE <span className="italic">HERE</span>
         </h1>
       </div>
 
@@ -39,7 +39,7 @@ export const Header = () => (
 );
 
 /* --------------------------------------------------
-   2. SECTION TITLE
+   2. SECTION TITLE
 -------------------------------------------------- */
 export const SectionTitle = ({ children }) => (
   <h2 className="flex items-center gap-3 mb-6 font-montserrat font-medium text-[16px] leading-6 text-black">
@@ -49,7 +49,7 @@ export const SectionTitle = ({ children }) => (
 );
 
 /* --------------------------------------------------
-   3. LOCATION CARD
+   3. LOCATION CARD
 -------------------------------------------------- */
 export const LocationCard = ({ image, name, address, onClick }) => (
   <div className="store-card" onClick={onClick}>
@@ -58,7 +58,7 @@ export const LocationCard = ({ image, name, address, onClick }) => (
     <div>
       <p className="font-montserrat text-[14px] leading-[16px] text-black">{name}</p>
       <p className="font-montserrat text-[14px] leading-[21px] text-[#808080]">{address}</p>
-      <p className="font-montserrat text-[14px] leading-[21px] text-[#008000]">✓ Click & Collect</p>
+      <p className="font-montserrat text-[14px] leading-[21px] text-[#008000]">✓ Click & Collect</p>
     </div>
 
     <a
@@ -89,7 +89,7 @@ export const Sidebar = ({ activeCategory, onCategoryChange }) => (
           key={cat}
           onClick={() => onCategoryChange(cat)}
           className={`w-full text-left py-3 px-4 text-sm font-semibold transition-colors ${
-  "${activeCategory === cat ? 'bg-bigRed text-white' : 'text-gray-700 hover:bg-gray-100'} rounded-full"}
+  "${activeCategory === cat ? 'bg-kuistoOrange text-white' : 'text-gray-700 hover:bg-gray-100'} rounded-full"}
         >
           {cat}
         </button>
@@ -99,7 +99,7 @@ export const Sidebar = ({ activeCategory, onCategoryChange }) => (
 );
 
 /* --------------------------------------------------
-   5. PRODUCT CARD
+   5. PRODUCT CARD
 -------------------------------------------------- */
 export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
@@ -116,7 +116,7 @@ export const ProductCard = ({ product }) => {
       <div className="p-4">
         <h3 className="font-montserrat text-sm text-black mb-2 line-clamp-2">{product.name}</h3>
         <p className="font-montserrat text-xs text-gray-500 mb-3 line-clamp-3">{product.description}</p>
-        <p className="font-montserrat font-bold text-sm text-black mb-4">À partir de {product.price.toFixed(2).replace('.', ',')}€</p>
+        <p className="font-montserrat font-bold text-sm text-black mb-4">À partir de {product.price.toFixed(2).replace('.', ',')}€</p>
 
         <div className="flex items-center justify-between">
           {/* contrôles quantité */}
@@ -133,7 +133,7 @@ export const ProductCard = ({ product }) => {
           {/* bouton + -> page détail générique */}
           <button
             onClick={() => {
-    console.log('CLICK', product.slug);   // ← 1 ligne de debug
+    console.log('CLICK', product.slug);   // ← 1 ligne de debug
     navigate(`/produit/${product.slug}`);
   }}
             className="w-11 h-11 bg-black rounded-full flex items-center justify-center"
@@ -157,7 +157,7 @@ export const Footer = () => (
       {['M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'].map((d, i) => (
         <button
           key={i}
-          className="w-12 h-12 bg-bigRed text-white hover:bg-white hover:text-bigRed rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg"
+          className="w-12 h-12 bg-kuistoOrange text-white hover:bg-white hover:text-kuistoOrange rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d={d} />
@@ -169,7 +169,7 @@ export const Footer = () => (
 );
 
 /* --------------------------------------------------
-   7. MOBILE SIDEBAR DRAWER
+   7. MOBILE SIDEBAR DRAWER
 -------------------------------------------------- */
 export const MobileSidebar = ({ isOpen, onClose, activeCategory, onCategoryChange }) => {
   if (!isOpen) return null;
@@ -189,7 +189,7 @@ export const MobileSidebar = ({ isOpen, onClose, activeCategory, onCategoryChang
               onClose();
             }}
             className={`w-full text-left py-3 px-4 text-sm font-semibold transition-colors ${
-  "${activeCategory === cat ? 'bg-bigRed text-white' : 'text-gray-700 hover:bg-gray-100'} rounded-full"}
+  "${activeCategory === cat ? 'bg-kuistoOrange text-white' : 'text-gray-700 hover:bg-gray-100'} rounded-full"}
           >
             {cat}
           </button>

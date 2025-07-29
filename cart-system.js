@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     cartBar.addEventListener('mouseenter', () => {
-      cartBar.style.background = '#EA3D2F';
+      cartBar.style.background = '#F18701';
       cartBar.style.transform = 'translateY(-2px)';
     });
 
