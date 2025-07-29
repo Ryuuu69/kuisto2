@@ -256,37 +256,35 @@
         }
 
         /* Bouton "+" en bas à droite, quart de cercle */
-        .add-btn-corner {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 54px;
-    height: 54px;
-    background: #191919;
-    color: #fff;
-    border: none;
-    /* Arrondi maximum coin bas droit */
-    border-bottom-right-radius: 100% 100%;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
-    font-size: 2.1em;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 16px #0002;
-    cursor: pointer;
-    z-index: 3;
-    transition: background 0.13s, transform 0.11s;
-    padding-bottom: 6px;
-   
-}
+         .add-btn-corner {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 54px;
+            height: 54px;
+            background: #191919;
+            color: #fff;
+            border: none;
+            border-bottom-right-radius: 22px 44px;
+            border-top-left-radius: 44px 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+            font-size: 2.1em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 16px #0002;
+            cursor: pointer;
+            z-index: 3;
+            transition: background 0.13s, transform 0.11s;
+            padding-bottom: 6px;
+        }
 
-.add-btn-corner:hover {
-    background: #EA3D2F;
-    transform: scale(1.08) translate(8px, 8px);
-}
+        .add-btn-corner:hover {
+            background: #EA3D2F;
+            transform: scale(1.08);
+        }
         /* Boutons en bas à gauche - Desktop uniquement */
         .desktop-buttons {
             position: fixed;
