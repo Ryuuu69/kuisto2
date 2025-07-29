@@ -381,6 +381,11 @@ function renderCart() {
 }
 
 document.addEventListener('DOMContentLoaded', renderCart);
+    window.addEventListener('storage', function(event) {
+  if (event.key === 'bigsmash_cart') {
+    renderCart();
+  }
+});
 </script>
 
 
