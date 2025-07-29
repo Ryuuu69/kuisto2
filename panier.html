@@ -358,25 +358,25 @@ function renderCart() {
   };
 
   // Ajoute les event listeners sur les boutons
-  container.querySelectorAll('[data-action="increase"]').forEach(btn => {
-    btn.onclick = function() {
+ container.querySelectorAll('[data-action="increase"]').forEach(btn => {
+    btn.addEventListener('click', function() {
       window.cartSystem.increaseQuantity(btn.dataset.slug);
       renderCart();
-    }
+    });
   });
 
   container.querySelectorAll('[data-action="decrease"]').forEach(btn => {
-    btn.onclick = function() {
+    btn.addEventListener('click', function() {
       window.cartSystem.decreaseQuantity(btn.dataset.slug);
       renderCart();
-    }
+    });
   });
 
   container.querySelectorAll('[data-action="remove"]').forEach(btn => {
-    btn.onclick = function() {
+    btn.addEventListener('click', function() {
       window.cartSystem.removeFromCart(btn.dataset.slug);
       renderCart();
-    }
+    });
   });
 }
 
