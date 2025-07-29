@@ -327,106 +327,108 @@
 <script src="products-data.js"></script>
 <script src="cart-system.js"></script>
 <script>
-  // Formate les options (suppléments, boisson, personnalisations)
-  function formatProductOptions(options) {
-    if (!options) return '';
-    const parts = [];
+// Formate les options pour n’afficher que les noms, séparés par " – "
+function formatProductOptions(options) {
+  if (!options) return '';
+  const parts = [];
 
-    // Steak uniquement
-    if (options.supplements) {
-      Object.values(options.supplements).forEach(sup => {
-        if (sup.name.toLowerCase() === 'steak' && sup.quantity > 0) {
-          parts.push(`Supplément steak`);
+  // Supplements (sauf steak)
+  if (options.supplements) {
+    Object.values(options.supplements)
+      .filter(s => s.quantity > 0)
+      .forEach(s => {
+        if (s.name.toLowerCase() === 'steak') {
+          parts.push('Supplément steak');
+        } else {
+          parts.push(s.name);
         }
       });
-    }
-
-    // Boisson
-    if (options.drink && options.drink.name) {
-      parts.push(`${options.drink.name}`);
-    }
-
-    // Personnalisations (retirés)
-    if (options.remove) {
-      Object.entries(options.remove)
-        .filter(([k,v]) => v === true)
-        .forEach(([k]) => {
-          // Affiche "Sans X" si la clé est compréhensible, sinon juste la clé
-          parts.push(k.startsWith('sans') ? k : `Sans ${k}`);
-        });
-    }
-
-    return parts.join(' • ');
   }
 
-  function renderCart() {
-    // Recharge le panier depuis le storage
-    if (window.cartSystem) {
-      window.cartSystem.cart = window.cartSystem.loadCart();
-    }
-    const cart = window.cartSystem ? window.cartSystem.cart : [];
-    const container = document.getElementById('cart-items-container');
-    const emptyMessage = document.getElementById('empty-cart-message');
-    const validateBtn = document.getElementById('validate-cart-btn');
-    const validateTotal = document.getElementById('cart-validate-total');
-
-    container.innerHTML = '';
-
-    if (!cart || cart.length === 0) {
-      if (emptyMessage) emptyMessage.style.display = 'block';
-      if (validateBtn)   validateBtn.style.display   = 'none';
-      return;
-    }
-
-    // Panier non vide
-    if (emptyMessage) emptyMessage.style.display = 'none';
-    if (validateBtn)   validateBtn.style.display   = 'block';
-
-    cart.forEach(item => {
-      // Si 1 exemplaire, on affiche une croix ×, sinon un moins
-      const decSymbol = item.quantity > 1 ? '−' : '×';
-
-      const div = document.createElement('div');
-      div.className = 'flex items-center justify-between border-b py-4';
-      div.innerHTML = `
-        <div class="flex-1">
-          <div class="font-medium">${item.name}</div>
-          ${formatProductOptions(item.options) 
-            ? `<div class="text-sm text-gray-500">${formatProductOptions(item.options)}</div>` 
-            : ''}
-          <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
-                  data-action="decrease" data-slug="${item.slug}">${decSymbol}</button>
-          <span>${item.quantity}</span>
-          <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
-                  data-action="increase" data-slug="${item.slug}">+</button>
-        </div>
-        <div class="font-semibold w-24 text-right">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
-      `;
-      container.appendChild(div);
-    });
-
-    // Met à jour le total dans le bouton "Valider"
-    if (validateTotal) {
-      validateTotal.textContent = `(${window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',')}€)`;
-    }
-
-    // Attache les écouteurs pour + et −
-    container.querySelectorAll('[data-action]').forEach(btn => {
-      btn.onclick = () => {
-        const action = btn.dataset.action;
-        const slug   = btn.dataset.slug;
-        if (!window.cartSystem) return;
-        if (action === 'increase') window.cartSystem.increaseQuantity(slug);
-        if (action === 'decrease') window.cartSystem.decreaseQuantity(slug);
-        renderCart();
-      };
-    });
+  // Retraits ("Sans …")
+  if (options.remove) {
+    Object.entries(options.remove)
+      .filter(([_, v]) => v === true)
+      .forEach(([key]) => {
+        // key = nom de l’option retirée, ex: 'oignons'
+        parts.push(`Sans ${key}`);
+      });
   }
 
-  document.addEventListener('DOMContentLoaded', renderCart);
-  window.addEventListener('storage',   e => { if (e.key === 'bigsmash_cart') renderCart(); });
-  window.addEventListener('cartUpdated', renderCart);
+  // Boisson en dernier
+  if (options.drink && options.drink.name) {
+    parts.push(options.drink.name);
+  }
+
+  return parts.join(' – ');
+}
+
+function renderCart() {
+  // Recharge le panier
+  if (window.cartSystem) {
+    window.cartSystem.cart = window.cartSystem.loadCart();
+  }
+  const cart = window.cartSystem ? window.cartSystem.cart : [];
+  const container = document.getElementById('cart-items-container');
+  const emptyMessage = document.getElementById('empty-cart-message');
+  const validateBtn = document.getElementById('validate-cart-btn');
+  const validateTotal = document.getElementById('cart-validate-total');
+
+  container.innerHTML = '';
+
+  if (!cart || cart.length === 0) {
+    if (emptyMessage) emptyMessage.style.display = 'block';
+    if (validateBtn)   validateBtn.style.display   = 'none';
+    return;
+  }
+
+  if (emptyMessage) emptyMessage.style.display = 'none';
+  if (validateBtn)   validateBtn.style.display   = 'block';
+
+  cart.forEach(item => {
+    const optText = formatProductOptions(item.options);
+    // Etoile → vraie croix si quantité ==1, sinon '-'
+    const decSym = item.quantity > 1 ? '−' : '×';
+
+    const row = document.createElement('div');
+    row.className = 'flex items-center justify-between border-b py-4';
+    row.innerHTML = `
+      <div class="flex-1">
+        <div class="font-medium">${item.name}</div>
+        ${optText ? `<div class="text-sm text-gray-500 italic">${optText}</div>` : ''}
+        <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
+                data-action="decrease" data-slug="${item.slug}">${decSym}</button>
+        <span>${item.quantity}</span>
+        <button class="px-2 py-1 rounded-full bg-[#EA3D2F] text-white"
+                data-action="increase" data-slug="${item.slug}">+</button>
+      </div>
+      <div class="font-semibold w-24 text-right">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
+    `;
+    container.appendChild(row);
+  });
+
+  // Met à jour le total du bouton
+  if (validateTotal) {
+    validateTotal.textContent = `(${window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',')}€)`;
+  }
+
+  // Liste les boutons + et −
+  container.querySelectorAll('[data-action]').forEach(btn => {
+    btn.onclick = () => {
+      const action = btn.dataset.action;
+      const slug   = btn.dataset.slug;
+      if (!window.cartSystem) return;
+      if (action === 'increase') window.cartSystem.increaseQuantity(slug);
+      if (action === 'decrease') window.cartSystem.decreaseQuantity(slug);
+      renderCart();
+    };
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+window.addEventListener('storage', e => { if (e.key === 'bigsmash_cart') renderCart(); });
+window.addEventListener('cartUpdated', renderCart);
 </script>
