@@ -874,12 +874,14 @@
                 document.title = `BigSmash - ${this.product.name}`;
                 
                 document.getElementById('app').innerHTML = `
-                      <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20 bg-[#f5f6f7]">
-      <div class="relative bg-white rounded-[32px] shadow-lg p-8 w-full max-w-[720px] mx-[322px]">
+                     <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20 bg-[#f5f6f7]">
+      <div class="relative overflow-visible bg-white rounded-[32px] shadow-lg p-8 w-full max-w-[720px] mx-[322px]">
         
-        <!-- Bouton retour, calé en haut‑droit du card -->
+        <!-- Bouton retour, calé en haut‑droit du card et débordant -->
         <a href="produits.html"
-           class="absolute top-4 right-4 bg-[#EA3D2F] text-white rounded-bl-[32px] rounded-tr-[32px] p-3 text-2xl hover:bg-[#d32b1f]">
+           class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2
+                  bg-[#EA3D2F] text-white rounded-bl-[32px] rounded-tr-[32px]
+                  w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#d32b1f]">
           ←
         </a>
 
