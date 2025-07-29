@@ -258,18 +258,17 @@
         /* Bouton "+" en bas à droite, quart de cercle */
         .add-btn-corner {
     position: absolute;
+    left: 0;
     bottom: 0;
-    right: 0;
-    width: 54px;
-    height: 54px;
+    width: 70px;     /* Ajuste selon la taille de ta carte */
+    height: 70px;
     background: #191919;
     color: #fff;
     border: none;
-    /* Arrondi maximum coin bas droit */
-    border-bottom-right-radius: 100% 100%;
+    border-bottom-left-radius: 70px; /* Quart de cercle parfait */
     border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
     font-size: 2.1em;
     font-weight: bold;
     display: flex;
@@ -279,14 +278,11 @@
     cursor: pointer;
     z-index: 3;
     transition: background 0.13s, transform 0.11s;
-    padding-bottom: 6px;
-    /* Légèrement dehors : */
-    transform: translate(8px, 8px);
+    padding-bottom: 0;
+    padding-right: 0;
 }
-
 .add-btn-corner:hover {
     background: #EA3D2F;
-    transform: scale(1.08) translate(8px, 8px);
 }
 
         /* Boutons en bas à gauche - Desktop uniquement */
