@@ -227,63 +227,6 @@ body {
     <script src="products-data.js"></script>
     <script src="cart-system.js"></script>
   <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // 1. Récupère le panier
-  const cart = window.cartSystem.cart || [];
-  const container = document.getElementById('cart-items-container');
-  const emptyMessage = document.getElementById('empty-cart-message');
-  const cartSummary = document.getElementById('cart-summary');
-  const cartTotal = document.getElementById('cart-total-price');
-  const clearCartBtn = document.getElementById('clear-cart-btn');
-
-  container.innerHTML = ""; // On vide avant de remplir
-
-  if (!cart || cart.length === 0) {
-    // Panier vide => affiche le message d'accueil
-    emptyMessage.style.display = "block";
-    cartSummary.style.display = "none";
-    return;
-  }
-
-  // Panier NON vide => on affiche les items et le total
-  emptyMessage.style.display = "none";
-  cartSummary.style.display = "block";
-
-  cart.forEach(item => {
-    const div = document.createElement('div');
-    div.className = "flex items-center justify-between border-b py-4";
-
-    div.innerHTML = `
-      <div>
-        <span class="font-bold">${item.name}</span>
-        <div class="text-sm text-gray-500">
-          ${Object.keys(item.options).length > 0 ? "Options: " + JSON.stringify(item.options) : ""}
-        </div>
-        <div class="text-sm text-gray-500">Prix unitaire: ${item.basePrice.toFixed(2)} €</div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="window.cartSystem.decreaseQuantity('${item.slug}');location.reload()" class="bg-gray-200 px-2 rounded-full">-</button>
-        <span>${item.quantity}</span>
-        <button onclick="window.cartSystem.increaseQuantity('${item.slug}');location.reload()" class="bg-gray-200 px-2 rounded-full">+</button>
-      </div>
-      <div class="text-right min-w-[72px] font-bold">${item.totalPrice.toFixed(2)} €</div>
-      <button onclick="window.cartSystem.removeFromCart('${item.slug}');location.reload()" class="ml-2 text-red-500">✕</button>
-    `;
-
-    container.appendChild(div);
-  });
-
-  // Met à jour le total
-  cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
-
-  // Vider le panier
-  clearCartBtn.onclick = function() {
-    window.cartSystem.clearCart();
-    location.reload();
-  };
-});
-</script>
-  <script>
 <script>
 function renderOptions(options) {
   let html = "";
@@ -373,6 +316,106 @@ function renderCart() {
 document.addEventListener('DOMContentLoaded', renderCart);
 window.addEventListener('storage', function(event) {
   if (event.key === 'bigsmash_cart') renderCart();
+});
+</script>
+
+  
+<script>
+function renderOptions(options) {
+  let html = "";
+  if (!options || Object.keys(options).length === 0) return html;
+  if (options.supplements && Object.keys(options.supplements).length > 0) {
+    html += "<div><b>Suppléments :</b> ";
+    html += Object.values(options.supplements)
+      .map(sup => `${sup.name} ×${sup.quantity}`)
+      .join(", ");
+    html += "</div>";
+  }
+  if (options.drink && options.drink.name) {
+    html += `<div><b>Boisson :</b> ${options.drink.name}</div>`;
+  }
+  return html || "<div><i>aucune option</i></div>";
+}
+
+function renderCart() {
+    window.cartSystem.cart = window.cartSystem.loadCart();
+
+  const cart = window.cartSystem.cart || [];
+  const container = document.getElementById('cart-items-container');
+  const emptyMessage = document.getElementById('empty-cart-message');
+  const cartSummary = document.getElementById('cart-summary');
+  const cartTotal = document.getElementById('cart-total-price');
+  const clearCartBtn = document.getElementById('clear-cart-btn');
+
+  container.innerHTML = "";
+
+  if (!cart || cart.length === 0) {
+    if (emptyMessage) emptyMessage.style.display = "block";
+    if (cartSummary) cartSummary.style.display = "none";
+    return;
+  }
+
+  if (emptyMessage) emptyMessage.style.display = "none";
+  if (cartSummary) cartSummary.style.display = "block";
+
+  cart.forEach(item => {
+    const div = document.createElement('div');
+    div.className = "flex items-center justify-between border-b py-4";
+
+    // Pour manipuler la quantité en direct, il faut stocker le slug/id
+    div.innerHTML = 
+      <div>
+        <span class="font-bold">${item.name}</span>
+        <div class="text-sm text-gray-500">${renderOptions(item.options)}</div>
+        <div class="text-sm text-gray-500">Prix unitaire: ${item.basePrice.toFixed(2)} €</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="bg-gray-200 px-2 rounded-full" data-action="decrease" data-slug="${item.slug}">-</button>
+        <span>${item.quantity}</span>
+        <button class="bg-gray-200 px-2 rounded-full" data-action="increase" data-slug="${item.slug}">+</button>
+      </div>
+      <div class="text-right min-w-[72px] font-bold">${item.totalPrice.toFixed(2)} €</div>
+      <button class="ml-2 text-red-500" data-action="remove" data-slug="${item.slug}">✕</button>
+    ;
+
+    container.appendChild(div);
+  });
+
+  cartTotal.textContent = window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',') + " €";
+
+  clearCartBtn.onclick = function() {
+    window.cartSystem.clearCart();
+    renderCart();
+  };
+
+  // Ajoute les event listeners sur les boutons
+ container.querySelectorAll('[data-action="increase"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      window.cartSystem.increaseQuantity(btn.dataset.slug);
+      renderCart();
+    });
+  });
+
+  container.querySelectorAll('[data-action="decrease"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      window.cartSystem.decreaseQuantity(btn.dataset.slug);
+      renderCart();
+    });
+  });
+
+  container.querySelectorAll('[data-action="remove"]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      window.cartSystem.removeFromCart(btn.dataset.slug);
+      renderCart();
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+    window.addEventListener('storage', function(event) {
+  if (event.key === 'bigsmash_cart') {
+    renderCart();
+  }
 });
 </script>
 
