@@ -272,16 +272,40 @@
         </div>
     </header>
 
-    <!-- Panier centré -->
-    <div class="panier-wrapper">
-        <div class="panier-card">
-            <div class="panier-header">
-                <h2>Mon panier</h2>
-                <div class="continue-shopping">
-                    <a href="produits.html">← Continuer mes achats</a>
-                </div>
-            </div>
-            
+   <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
+  <div id="cart-card"
+       class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[720px] mx-[322px] flex flex-col relative">
+
+    <!-- Titre + retour -->
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Mon panier</h1>
+      <a href="produits.html"
+         class="absolute right-0 top-0 bg-[#EA3D2F] text-white rounded-bl-[32px] rounded-tr-[32px] p-4 text-2xl hover:bg-[#d32b1f]">
+        ←
+      </a>
+    </div>
+
+    <!-- Liste produits -->
+    <div id="cart-items-container" class="divide-y"></div>
+
+    <!-- Message panier vide -->
+    <div class="empty-cart" id="empty-cart-message" style="display: none;">
+      <div class="empty-cart-icon text-4xl mb-3">🛒</div>
+      <h3 class="text-xl font-semibold mb-2 text-gray-600">Votre panier est vide</h3>
+      <p class="text-gray-500 mb-6">Découvrez nos délicieux produits BigSmash</p>
+      <a href="produits.html" class="big-btn bg-[#EA3D2F] text-white px-7 py-2 rounded-full font-montserrat font-bold shadow hover:bg-[#d32b1f]" style="display: inline-block; text-decoration: none;">
+        Voir nos produits
+      </a>
+    </div>
+
+    <!-- Validation du panier -->
+    <button id="validate-cart-btn"
+            class="mx-auto mt-8 w-full max-w-[400px] bg-[#EA3D2F] hover:bg-[#d32b1f] text-white text-lg font-bold rounded-full py-4 shadow transition-all">
+      VALIDER LE PANIER <span id="cart-validate-total">(0,00€)</span>
+    </button>
+  </div>
+</main>
+
             <div class="panier-content" id="panier-items-list">
                 <!-- Les articles du panier seront injectés ici par JavaScript -->
             </div>
