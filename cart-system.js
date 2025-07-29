@@ -279,6 +279,5 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 // Initialiser le système de panier automatiquement et le rendre globalement accessible
-const cartSystem = new CartSystem();
-cartSystem.init();
+
 window.cartSystem = new CartSystem();
