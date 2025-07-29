@@ -64,6 +64,76 @@
         }
 
         /* ===== CARTE PRODUIT PRINCIPALE ===== */
+        .bigsmash-product-card {
+  margin: 30px auto 0;
+  width: calc(100vw - 680px);
+  max-width: 900px;
+
+  /* garde bien les autres styles : */
+  background: var(--bigsmash-white);
+  border-radius: var(--bigsmash-radius);
+  box-shadow: var(--bigsmash-shadow-hover);
+  padding: 32px;
+
+
+        }
+
+        /* ===== IMAGE PRODUIT ===== */
+        .bigsmash-product-image-container {
+            width: 770px;
+            height: 250px;
+            margin: 0 auto 24px auto;
+        }
+
+        .bigsmash-product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--bigsmash-radius-small);
+            box-shadow: var(--bigsmash-shadow);
+        }
+
+        /* ===== TITRES ET TEXTES ===== */
+        .bigsmash-product-category {
+            display: inline-block;
+            background: var(--bigsmash-red);
+            color: var(--bigsmash-white);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .bigsmash-product-title {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 36px;
+            color: var(--bigsmash-dark);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .bigsmash-product-description {
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 27px;
+            color: var(--bigsmash-dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bigsmash-product-price {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 16px;
+            color: var(--bigsmash-dark);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
         /* ===== CONTRÔLES QUANTITÉ ===== */
         .bigsmash-quantity-container {
             display: flex;
@@ -718,11 +788,6 @@
   border: none;
   cursor: pointer;
 }
-      /* Cacher la cart-bar uniquement sur produit.html */
-#cart-bar {
-    display: none !important;
-}
-
 
 
 
@@ -804,11 +869,16 @@
                 document.title = `BigSmash - ${this.product.name}`;
                 
                 document.getElementById('app').innerHTML = `
-               main style="min-height: 100vh; background: #f4f4f4;">
-  <div style="max-width: 900px; margin: 48px auto 0 auto; position:relative;">
-    <!-- Flèche retour -->
-    <a href="produits.html" class="bigsmash-back-btn" title="Retour">←</a>
-
+                    <!-- Fond grisé -->
+                    <div class="bigsmash-page-container">
+                        <!-- Bouton retour -->
+                        <div class="bigsmash-back-button-container">
+                            <a href="produits.html" class="bigsmash-back-btn">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                                Retour
+                            </a>
                         </div>
 
                         <!-- Carte produit principale -->
@@ -1121,8 +1191,6 @@ renderOptions() {
                 // Ajouter au panier via le système global
                 if (window.cartSystem) {
                     window.cartSystem.addToCart(this.product, this.quantity, options);
-                    window.location.href = "produits.html";
-
                 } else {
                     console.error('Système de panier non disponible');
                     alert('Erreur: Système de panier non disponible');
