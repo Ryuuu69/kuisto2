@@ -327,12 +327,12 @@
 <script src="products-data.js"></script>
 <script src="cart-system.js"></script>
 <script>
-// Formate les options pour n’afficher que les noms, séparés par " – "
-function formatProductOptions(options) {
+// Formate les options d’un produit : suppléments, retraits et boisson
+function formatProductOptions(options, slug) {
   if (!options) return '';
   const parts = [];
 
-  // Supplements (sauf steak)
+  // Supplément steak + autres suppléments (nom seuls)
   if (options.supplements) {
     Object.values(options.supplements)
       .filter(s => s.quantity > 0)
@@ -345,13 +345,25 @@ function formatProductOptions(options) {
       });
   }
 
-  // Retraits ("Sans …")
+  // Retraits (« Sans … »)
   if (options.remove) {
+    // Récupère la définition du produit pour trouver le nom des options retirées
+    const productDef = typeof findProductBySlug === 'function'
+                       ? findProductBySlug(slug)
+                       : null;
+    const removeDefs = productDef && productDef.options && productDef.options.remove
+                       ? productDef.options.remove
+                       : null;
+
     Object.entries(options.remove)
       .filter(([_, v]) => v === true)
       .forEach(([key]) => {
-        // key = nom de l’option retirée, ex: 'oignons'
-        parts.push(`Sans ${key}`);
+        let name = key;
+        if (removeDefs) {
+          const idx = parseInt(key, 10);
+          name = removeDefs[idx]?.name || key;
+        }
+        parts.push(`Sans ${name}`);
       });
   }
 
@@ -364,7 +376,6 @@ function formatProductOptions(options) {
 }
 
 function renderCart() {
-  // Recharge le panier
   if (window.cartSystem) {
     window.cartSystem.cart = window.cartSystem.loadCart();
   }
@@ -373,7 +384,6 @@ function renderCart() {
   const emptyMessage = document.getElementById('empty-cart-message');
   const validateBtn = document.getElementById('validate-cart-btn');
   const validateTotal = document.getElementById('cart-validate-total');
-
   container.innerHTML = '';
 
   if (!cart || cart.length === 0) {
@@ -381,13 +391,11 @@ function renderCart() {
     if (validateBtn)   validateBtn.style.display   = 'none';
     return;
   }
-
   if (emptyMessage) emptyMessage.style.display = 'none';
   if (validateBtn)   validateBtn.style.display   = 'block';
 
   cart.forEach(item => {
-    const optText = formatProductOptions(item.options);
-    // Etoile → vraie croix si quantité ==1, sinon '-'
+    const optText = formatProductOptions(item.options, item.slug);
     const decSym = item.quantity > 1 ? '−' : '×';
 
     const row = document.createElement('div');
@@ -410,12 +418,10 @@ function renderCart() {
     container.appendChild(row);
   });
 
-  // Met à jour le total du bouton
   if (validateTotal) {
     validateTotal.textContent = `(${window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',')}€)`;
   }
 
-  // Liste les boutons + et −
   container.querySelectorAll('[data-action]').forEach(btn => {
     btn.onclick = () => {
       const action = btn.dataset.action;
