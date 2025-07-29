@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BigSmash - Produits Montpellier</title>
+    <title>Kuisto - Produits Montpellier</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
     <style>
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .bg-bigRed { background-color: #DC2626; }
+        .bg-kuistoOrange { background-color: #F18701; }
         
         /* ———————————————————————————
            VARIABLES GÉNÉRALES
@@ -28,6 +28,7 @@
             --gap: 22px;            /* espace entre cartes */
             
             --red: #E30613;
+            --kuisto-orange: #F18701;
             --grey-text: #808080;
             --grey-line: #d0d0d0;
             --card-radius: 26px;
@@ -103,7 +104,7 @@
         
         .side-nav li:hover,
         .side-nav li.active {
-            background: var(--red);
+            background: var(--kuisto-orange);
             color: #fff;
         }
 
@@ -298,13 +299,13 @@
     #cart-fab {
   position: fixed;
   left: 50%;
-  bottom: 122px;   /* espace de 30px sous l’icône */
+  bottom: 122px;   /* espace de 30px sous l'icône */
   transform: translateX(-50%);
   width: 90px;
   height: 90px;
-  background: #EA3D2F;
+  background: #F18701;
   border-radius: 50%;
-  box-shadow: 0 8px 32px rgba(234,61,47,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 32px rgba(241,135,1,0.3), 0 2px 8px rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -391,7 +392,7 @@
             right: 0;
             display: flex;
             align-items: center;
-            background: #EA3D2F;
+            background: #F18701;
             border-top-left-radius: var(--card-radius);
             padding: 8px 12px;
             height: 54px;
@@ -442,7 +443,7 @@
         }
 
         .product-plus-btn:hover {
-            background: #EA3D2F;
+            background: #F18701;
         }
 
         /* Masquer sur mobile */
@@ -512,7 +513,7 @@
   <a href="index.html" class="block">
     <img
       src="images/banner.svg"
-      alt="BigSmash Banner"
+      alt="Kuisto Banner"
       class="w-full h-auto cursor-pointer"
     />
   </a>
@@ -635,7 +636,7 @@
       </svg>
     </button>
 
-    <!-- Mon compte (pour l’instant redirige vers index.html) -->
+    <!-- Mon compte (pour l'instant redirige vers index.html) -->
     <button
       onclick="window.location.href='index.html'"
       title="Mon compte"
@@ -787,7 +788,7 @@
   <button
     onclick="window.location.href='index.html'"
     title="Accueil"
-    class="w-12 h-12 bg-[#EA3D2F] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#EA3D2F]">
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
       <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
     </svg>
@@ -797,7 +798,7 @@
   <button
     onclick="window.location.href='index.html'"
     title="Mon compte"
-    class="w-12 h-12 bg-[#EA3D2F] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#EA3D2F]">
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
     </svg>
