@@ -173,7 +173,90 @@ const products = [
     price: 2.00,
     image: "img/cola-zero.jpg",
     options: {}
+  },
+  {
+  id: 9,
+  name: "MENU SMASH BURGER",
+  slug: "smash-burger",
+  category: "menus-burgers",
+  description: "Burger smash avec frites, boisson au choix et suppléments possibles.",
+  price: 9.90,
+  image: "img/smash-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
+    ],
+    remove: [
+      { name: "Sans oignons", price: 0 },
+      { name: "Sans sauce", price: 0 }
+    ],
+    side: [
+      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
+      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
+    ],
+    drinks: [
+      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
+      { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
+      { name: "Eau", price: 0, image: "img/eau.jpg" }
+    ]
   }
+},
+{
+  id: 10,
+  name: "MENU GOLDEN",
+  slug: "golden-menu",
+  category: "menus-burgers",
+  description: "Golden burger avec frites, boisson, supplément possible.",
+  price: 11.50,
+  image: "img/golden-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Œuf", price: 1.00, image: "img/egg.jpg" }
+    ],
+    remove: [
+      { name: "Sans cornichons", price: 0 },
+      { name: "Sans salade", price: 0 }
+    ],
+    side: [
+      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
+      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
+    ],
+    drinks: [
+      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
+      { name: "Sprite", price: 0, image: "img/sprite.jpg" }
+    ]
+  }
+},
+   {
+  id: 11,
+  name: "MENU SIGNATURE BURGER",
+  slug: "signature-burger",
+  category: "menus-burgers",
+  description: "Burger smash avec frites, boisson au choix et suppléments possibles.",
+  price: 9.90,
+  image: "img/smash-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
+    ],
+    remove: [
+      { name: "Sans oignons", price: 0 },
+      { name: "Sans sauce", price: 0 }
+    ],
+    side: [
+      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
+      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
+    ],
+    drinks: [
+      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
+      { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
+      { name: "Eau", price: 0, image: "img/eau.jpg" }
+    ]
+  }
+}
 
   
 ];
