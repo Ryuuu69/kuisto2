@@ -822,6 +822,8 @@
                     supplements: {},
                     drink: null,
                     remove: {},
+                      size: null, // <---- ajoute ceci si pas déjà présent
+
                 
                 };
                 this.quantity = 1;
@@ -1115,6 +1117,17 @@ if (this.product.options?.sizes?.length > 0) {
                         }
                     });
                 });
+              // Tailles pour sides (radio group)
+document.querySelectorAll('.size-radio').forEach(radio => {
+    radio.addEventListener('change', () => {
+        if (radio.checked) {
+            const index = parseInt(radio.value);
+            this.selectedOptions.size = this.product.options.sizes[index];
+            this.updateDisplay();
+        }
+    });
+});
+
 
                 // Options à retirer
                 document.querySelectorAll('.remove-checkbox').forEach(checkbox => {
@@ -1159,6 +1172,20 @@ if (this.product.options?.sizes?.length > 0) {
                         card.classList.remove('selected');
                     }
                 });
+              // Indicateurs de taille pour sides
+document.querySelectorAll('.size-radio').forEach((radio, index) => {
+    const card = radio.closest('.bigsmash-option-card');
+    if (radio.checked) {
+        card.classList.add('selected');
+        // Met à jour la sélection JS aussi, au cas où
+        if (this.product.options?.sizes?.length > 0) {
+            this.selectedOptions.size = this.product.options.sizes[index];
+        }
+    } else {
+        card.classList.remove('selected');
+    }
+});
+
 
                 // Indicateurs de personnalisation
                 document.querySelectorAll('.remove-checkbox').forEach((checkbox, index) => {
