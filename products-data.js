@@ -5,11 +5,11 @@ const products = [
   // Nouveautés
   {
     id: 1,
-    name: "KUISTO SALADES",
-    slug: "kuisto-salades", // généré automatiquement depuis le nom
-    category: "Nouveautés",
-    description: "Kuisto Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
-    price: 9.90,
+    name: "TACOS CLASSIQUE",
+    slug: "tacos-classique", // généré automatiquement depuis le nom
+    category: "Tacos",
+    description: "Tacos Classique : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
+    price: 5.50,
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
@@ -30,11 +30,11 @@ const products = [
   },
   {
     id: 2,
-    name: "MENU KUISTO CHEESE",
-    slug: "menu-kuisto-cheese",
-    category: "Nouveautés",
+    name: "SPICY TACOS",
+    slug: "spicy-tacos",
+    category: "Tacos",
     description: "Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson",
-    price: 11.90,
+    price: 5.50,
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
     options: {
       supplements: [
@@ -97,9 +97,9 @@ const products = [
 
   {
     id: 3,
-    name: "KUISTO CHEESE",
-    slug: "kuisto-cheese",
-    category: "Kuisto Burgers",
+    name: "TACOS VÉGÉTARIEN",
+    slug: "tacos-vege",
+    category: "Tacos",
     description: "Potato bun, double steak haché smashé, salade iceberg, pickles, oignons frais, double cheddar",
     price: 8.90,
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
@@ -121,9 +121,9 @@ const products = [
   },
   {
     id: 4,
-    name: "FRITES MAISON",
-    slug: "frites-maison",
-    category: "Extras",
+    name: "HOT‑G CHEESY",
+    slug: "hot-cheesy",
+    category: "Hot Dogs",
     description: "Frites fraîches coupées maison, cuites dans l'huile de tournesol",
     price: 3.50,
     image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&h=400&fit=crop&crop=center",
@@ -136,9 +136,9 @@ const products = [
   },
   {
    id: 5,
-    name: "MENU VEGGIE",
-    slug: "menu-veggie",
-    category: "Nouveautés",
+    name: "HOT‑G SPICY",
+    slug: "hot-spicy",
+    category: "Hot Dogs",
     description: "Pain complet, steak végétal, salade, tomate, frites + boisson",
     price: 10.90,
     image: "img/menu-veggie.jpg",
@@ -146,14 +146,35 @@ const products = [
    }, 
   {
     id: 6,
-    name: "COLA ZERO",
-    slug: "cola-zero",
-    category: "Boissons",
+    name: "HOT‑G BACON",
+    slug: "hot-bacon",
+    category: "Hot Dogs",
     description: "Boisson gazeuse sans sucre",
     price: 2.00,
     image: "img/cola-zero.jpg",
     options: {}
   }
+  {
+    id: 7,
+    name: "HOT‑G VEGGIE ",
+    slug: "hot-veggie",
+    category: "Hot Dogs",
+    description: "Boisson gazeuse sans sucre",
+    price: 2.00,
+    image: "img/cola-zero.jpg",
+    options: {}
+  }
+{
+    id: 8,
+    name: "HOT‑G FISH ",
+    slug: "hot-fish",
+    category: "Hot Dogs",
+    description: "Boisson gazeuse sans sucre",
+    price: 2.00,
+    image: "img/cola-zero.jpg",
+    options: {}
+  }
+
   
 ];
 
