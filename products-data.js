@@ -7,7 +7,7 @@ const products = [
     id: 1,
     name: "TACOS CLASSIQUE",
     slug: "tacos-classique", // généré automatiquement depuis le nom
-    category: "Tacos",
+    category: "tacos",
     description: "Tacos Classique : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
     price: 5.50,
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
