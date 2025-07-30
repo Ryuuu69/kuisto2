@@ -49,18 +49,21 @@ class CartSystem {
 
 
 
-  // Ajouter un produit au panier
-  addToCart(product, quantity = 1, options = {}) {
-    const cartItem = {
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      basePrice: product.price,
-      quantity: quantity,
-      options: options,
-      totalPrice: this.calculateItemPrice(product, quantity, options),
-      addedAt: new Date().toISOString()
-    };
+ // Ajouter un produit au panier
+addToCart(product, quantity = 1, options = {}, basePrice = null) {
+  // Utilise le basePrice passé en argument si dispo, sinon product.price
+  const realBasePrice = (basePrice !== null && basePrice !== undefined) ? basePrice : product.price;
+
+  const cartItem = {
+    id: product.id,
+    name: product.name,
+    slug: product.slug,
+    basePrice: realBasePrice,
+    quantity: quantity,
+    options: options,
+    totalPrice: this.calculateItemPrice(product, quantity, options, realBasePrice),
+    addedAt: new Date().toISOString()
+  };
 
     // Vérifier si le même produit avec les mêmes options existe déjà
     const existingIndex = this.cart.findIndex(item => 
