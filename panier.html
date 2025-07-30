@@ -421,7 +421,18 @@ function renderCart() {
       <div class="flex-1">
         <div class="font-medium">${item.name}</div>
         ${optText ? `<div class="text-sm text-gray-500 italic">${optText}</div>` : ''}
-        <div class="text-sm text-gray-500">Prix unitaire : ${prixUnitaire.toFixed(2).replace('.', ',')}€</div>
+        <div class="text-sm text-gray-500">
+  Prix unitaire : ${
+    typeof item.basePrice === 'number'
+      ? item.basePrice.toFixed(2).replace('.', ',')
+      : (
+          item.options && item.options.size && typeof item.options.size.price === 'number'
+            ? item.options.size.price.toFixed(2).replace('.', ',')
+            : '0,00'
+        )
+  }€
+</div>
+
       </div>
       <div class="flex items-center gap-2">
         <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
@@ -430,7 +441,16 @@ function renderCart() {
         <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
                 data-action="increase" data-slug="${item.slug}">+</button>
       </div>
-      <div class="font-semibold w-24 text-right">${prixTotal.toFixed(2).replace('.', ',')}€</div>
+      <div class="font-semibold w-24 text-right">${
+  typeof item.totalPrice === 'number'
+    ? item.totalPrice.toFixed(2).replace('.', ',')
+    : (
+        item.options && item.options.size && typeof item.options.size.price === 'number'
+          ? (item.options.size.price * item.quantity).toFixed(2).replace('.', ',')
+          : '0,00'
+      )
+}€</div>
+
     `;
     container.appendChild(row);
   });
