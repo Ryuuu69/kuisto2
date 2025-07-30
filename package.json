@@ -4,6 +4,7 @@
   "description": "BigSmash static website",
   "scripts": {
     "dev": "vite"
+    "build": "vite build"
   },
   "devDependencies": {
     "serve": "^14.2.1",
