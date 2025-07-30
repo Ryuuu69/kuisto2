@@ -256,8 +256,85 @@ const products = [
       { name: "Eau", price: 0, image: "img/eau.jpg" }
     ]
   }
+},
+  {
+  id: 12,
+  name: "CHICKEN POP",
+  slug: "chicken-pop",
+  category: "sides",
+  description: "Petites bouchées de poulet croustillant.",
+  price: null, // prix selon la taille
+  image: "img/chicken-pop.jpg",
+  options: {
+    size: [
+      { name: "S (200g)", price: 2.99 },
+      { name: "M (350g)", price: 3.99 },
+      { name: "L (500g)", price: 4.99 }
+    ]
+  }
+},
+{
+  id: 13,
+  name: "STICK MOZZA",
+  slug: "stick-mozza",
+  category: "sides",
+  description: "Bâtonnets de mozzarella panés.",
+  price: null,
+  image: "img/stick-mozza.jpg",
+  options: {
+    size: [
+      { name: "S (4p)", price: 3.50 },
+      { name: "M (6p)", price: 4.50 },
+      { name: "L (8p)", price: 5.50 }
+    ]
+  }
+},
+{
+  id: 14,
+  name: "NUGGETS",
+  slug: "nuggets",
+  category: "sides",
+  description: "Nuggets de poulet croustillants.",
+  price: null,
+  image: "img/nuggets.jpg",
+  options: {
+    size: [
+      { name: "S (4p)", price: 3.50 },
+      { name: "M (6p)", price: 4.50 },
+      { name: "L (8p)", price: 5.50 }
+    ]
+  }
+},
+{
+  id: 15,
+  name: "CHEESE",
+  slug: "cheese-side",
+  category: "sides",
+  description: "Portion de fromage.",
+  price: 2.90,
+  image: "img/cheese.jpg",
+  options: {}
+},
+{
+  id: 16,
+  name: "DOUBLE CHEESE",
+  slug: "double-cheese-side",
+  category: "sides",
+  description: "Double portion de fromage.",
+  price: 3.90,
+  image: "img/cheese.jpg",
+  options: {}
+},
+{
+  id: 36,
+  name: "FRITES MAISON",
+  slug: "frites-maison",
+  category: "sides",
+  description: "Frites fraîches maison.",
+  price: 3.00,
+  image: "img/frites.jpg",
+  options: {}
 }
-
   
 ];
 
