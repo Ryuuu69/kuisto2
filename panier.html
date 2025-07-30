@@ -401,13 +401,22 @@ function renderCart() {
     const optText = formatProductOptions(item.options, item.slug);
     const decSym = item.quantity > 1 ? '−' : '×';
 
+    // Correction prix : supporte sides à tailles !
+    let prixUnitaire;
+    if (item.options && item.options.size && item.options.size.price != null) {
+      prixUnitaire = item.options.size.price;
+    } else {
+      prixUnitaire = item.basePrice ?? item.product?.price ?? item.price ?? 0;
+    }
+    let prixTotal = prixUnitaire * item.quantity;
+
     const row = document.createElement('div');
     row.className = 'flex items-center justify-between border-b py-4';
     row.innerHTML = `
       <div class="flex-1">
         <div class="font-medium">${item.name}</div>
         ${optText ? `<div class="text-sm text-gray-500 italic">${optText}</div>` : ''}
-        <div class="text-sm text-gray-500">Prix unitaire : ${item.basePrice.toFixed(2).replace('.', ',')}€</div>
+        <div class="text-sm text-gray-500">Prix unitaire : ${prixUnitaire.toFixed(2).replace('.', ',')}€</div>
       </div>
       <div class="flex items-center gap-2">
         <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
@@ -416,13 +425,16 @@ function renderCart() {
         <button class="px-2 py-1 rounded-full bg-[#F18701] text-white"
                 data-action="increase" data-slug="${item.slug}">+</button>
       </div>
-      <div class="font-semibold w-24 text-right">${item.totalPrice.toFixed(2).replace('.', ',')}€</div>
+      <div class="font-semibold w-24 text-right">${prixTotal.toFixed(2).replace('.', ',')}€</div>
     `;
     container.appendChild(row);
   });
 
   if (validateTotal) {
-    validateTotal.textContent = `(${window.cartSystem.getTotalPrice().toFixed(2).replace('.', ',')}€)`;
+    const totalPrice = typeof window.cartSystem?.getTotalPrice === 'function'
+      ? window.cartSystem.getTotalPrice()
+      : 0;
+    validateTotal.textContent = `(${totalPrice.toFixed(2).replace('.', ',')}€)`;
   }
 
   container.querySelectorAll('[data-action]').forEach(btn => {
