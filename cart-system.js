@@ -1,5 +1,7 @@
 // cart-system.js - Système de panier partagé (à inclure sur toutes les pages)
-
+function updateCartFab() {
+  // temporaire : évite l’erreur si elle n’existe pas encore
+}
 class CartSystem {
   constructor() {
     this.cart = this.loadCart();
