@@ -1210,58 +1210,7 @@ renderOptions() {
         document.addEventListener('DOMContentLoaded', () => {
             new ProductPage();
         });
-      // Suppose que tu as récupéré le produit à afficher, ex via l'URL slug
-const urlParams = new URLSearchParams(window.location.search);
-const slug = urlParams.get('slug');
-const product = window.products.find(p => p.slug === slug);
-
-// Affiche infos de base
-document.getElementById('product-title').textContent = product.name;
-document.getElementById('product-desc').textContent = product.description;
-// etc...
-
-// ----- Générer sélecteur de taille Sides -----
-if(product.category === "sides" && product.options && product.options.sizes){
-    const container = document.getElementById('product-options-container');
-    const label = document.createElement('label');
-    label.textContent = "Choisissez la taille : ";
-    const select = document.createElement('select');
-    select.id = "side-size-select";
-    product.options.sizes.forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt.name;
-        option.textContent = `${opt.name} - ${opt.price.toFixed(2)} €`;
-        option.dataset.price = opt.price;
-        select.appendChild(option);
-    });
-    container.appendChild(label);
-    container.appendChild(select);
-}
-
-// ----- Ajouter au panier avec la bonne taille et prix -----
-document.getElementById("add-to-cart-btn").onclick = function(){
-    let size = null;
-    let price = product.price;
-    if(product.category === "sides" && product.options && product.options.sizes){
-        const select = document.getElementById("side-size-select");
-        size = select.value;
-        price = parseFloat(select.options[select.selectedIndex].dataset.price);
-    }
-    // Ici on crée un objet panier complet (ajoute supplements si besoin)
-    const item = {
-        id: product.id,
-        name: product.name,
-        size: size, // null si pas side
-        price: price,
-        qty: 1,
-        slug: product.slug,
-        image: product.image
-        // ... supplements, drinks etc si tu veux les gérer aussi
-    };
-    addToCart(item); // ta fonction pour stocker le panier
-    alert("Produit ajouté au panier !");
-};
-          
+       
 
     </script>
 </body>
