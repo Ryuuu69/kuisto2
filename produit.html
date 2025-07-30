@@ -1206,31 +1206,30 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                 }
             }
 
-            // Calculer le prix total
-            calculateTotal() {
-                let basePrice = this.product.price;
-if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) {
-    basePrice = this.selectedOptions.size.price;
+           calculateTotal() {
+    let basePrice = this.product.price;
+    if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) {
+        basePrice = this.selectedOptions.size.price;
+    }
+    let total = basePrice * this.quantity;
+
+    // Ajouter les suppléments
+    Object.keys(this.selectedOptions.supplements).forEach(index => {
+        const qty = this.selectedOptions.supplements[index] || 0;
+        if (qty > 0) {
+            const supplement = this.product.options.supplements[index];
+            total += supplement.price * qty * this.quantity;
+        }
+    });
+
+    // Ajouter la boisson
+    if (this.selectedOptions.drink && this.selectedOptions.drink.price > 0) {
+        total += this.selectedOptions.drink.price * this.quantity;
+    }
+
+    return total;
 }
-let total = basePrice * this.quantity;
 
-
-                // Ajouter les suppléments
-                Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qty = this.selectedOptions.supplements[index] || 0;
-                    if (qty > 0) {
-                        const supplement = this.product.options.supplements[index];
-                        total += supplement.price * qty * this.quantity;
-                    }
-                });
-
-                // Ajouter la boisson
-                if (this.selectedOptions.drink && this.selectedOptions.drink.price > 0) {
-                    total += this.selectedOptions.drink.price * this.quantity;
-                }
-
-                return total;
-            }
 
            // Ajouter au panier
 addToCart() {
