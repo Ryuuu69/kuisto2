@@ -138,7 +138,7 @@ const products = [
    id: 5,
     name: "HOT‑G SPICY",
     slug: "hot-spicy",
-    category: "Hot Dogs",
+    category: "hot-dogs",
     description: "Pain complet, steak végétal, salade, tomate, frites + boisson",
     price: 10.90,
     image: "img/menu-veggie.jpg",
