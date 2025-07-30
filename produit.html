@@ -1220,6 +1220,10 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                 if (btnText) {
                     btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
                 }
+              if (addToCartBtn) {
+  // Masquer si 0 ou moins, montrer sinon
+  addToCartBtn.style.display = total > 0 ? 'block' : 'none';
+}
             }
 
            calculateTotal() {
