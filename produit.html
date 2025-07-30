@@ -1215,15 +1215,19 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                 });
 
           const total = this.calculateTotal();
-const btnText = document.getElementById('cart-btn-text');
-const addToCartBtn = document.getElementById('add-to-cart'); // AJOUTE CECI !
+    const btnText = document.getElementById('cart-btn-text');
+    const addToCartBtn = document.getElementById('add-to-cart');
 
-if (btnText) {
-    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
-}
-if (addToCartBtn) {
-    addToCartBtn.style.display = total > 0 ? 'flex' : 'none'; // ou 'block' selon ton CSS
-}
+    if (btnText) {
+        btnText.textContent = total > 0
+            ? `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`
+            : 'Ajouter au panier';
+    }
+
+    if (addToCartBtn) {
+        addToCartBtn.style.display = (total > 0) ? 'flex' : 'none';
+    }
+} //
 
            calculateTotal() {
     let basePrice = this.product.price;
