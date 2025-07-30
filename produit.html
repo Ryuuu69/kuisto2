@@ -1232,27 +1232,45 @@ let total = basePrice * this.quantity;
                 return total;
             }
 
-            // Ajouter au panier
-            addToCart() {
-                // Préparer les options pour le panier
-                const options = {
-                    supplements: {},
-                    drink: this.selectedOptions.drink,
-                    remove: this.selectedOptions.remove
-                };
+           // Ajouter au panier
+addToCart() {
+    // Préparer les options pour le panier
+    const options = {
+        supplements: {},
+        drink: this.selectedOptions.drink,
+        remove: this.selectedOptions.remove
+    };
 
-                // Formater les suppléments
-                Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qty = this.selectedOptions.supplements[index];
-                    if (qty > 0) {
-                        const supplement = this.product.options.supplements[index];
-                        options.supplements[index] = {
-                            name: supplement.name,
-                            price: supplement.price,
-                            quantity: qty
-                        };
-                    }
-                });
+    // Formater les suppléments
+    Object.keys(this.selectedOptions.supplements).forEach(index => {
+        const qty = this.selectedOptions.supplements[index];
+        if (qty > 0) {
+            const supplement = this.product.options.supplements[index];
+            options.supplements[index] = {
+                name: supplement.name,
+                price: supplement.price,
+                quantity: qty
+            };
+        }
+    });
+
+    // 1️⃣ Ajout taille si concerné
+    if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) {
+        options.size = {
+            name: this.selectedOptions.size.name,
+            price: this.selectedOptions.size.price
+        };
+    }
+
+    // 2️⃣ Ajout au panier via le système global
+    if (window.cartSystem) {
+        window.cartSystem.addToCart(this.product, this.quantity, options);
+    } else {
+        console.error('Système de panier non disponible');
+        alert('Erreur: Système de panier non disponible');
+    }
+}
+
 
                 // Ajouter au panier via le système global
                 if (window.cartSystem) {
