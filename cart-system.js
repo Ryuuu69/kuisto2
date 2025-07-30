@@ -88,26 +88,34 @@ addToCart(product, quantity = 1, options = {}, basePrice = null) {
     
   }
 
-  // Calculer le prix d'un article avec ses options
-  calculateItemPrice(product, quantity, options) {
-    let price = product.price * quantity;
-    
-    // Ajouter le prix des suppléments
-    if (options.supplements) {
-      Object.values(options.supplements).forEach(supplement => {
-        if (supplement.quantity > 0) {
-          price += supplement.price * supplement.quantity * quantity;
-        }
-      });
-    }
-
-    // Ajouter le prix de la boisson
-    if (options.drink && options.drink.price > 0) {
-      price += options.drink.price * quantity;
-    }
-
-    return price;
+// Calculer le prix d'un article avec ses options (corrigé pour les tailles)
+calculateItemPrice(product, quantity, options) {
+  // 1️⃣ Utiliser le prix de l'option de taille si elle existe, sinon product.price
+  let basePrice = product.price;
+  if (options.size && options.size.price !== undefined) {
+    basePrice = options.size.price;
   }
+  if (!basePrice) basePrice = 0; // sécurité
+
+  let price = basePrice * quantity;
+
+  // 2️⃣ Ajouter le prix des suppléments
+  if (options.supplements) {
+    Object.values(options.supplements).forEach(supplement => {
+      if (supplement.quantity > 0) {
+        price += supplement.price * supplement.quantity * quantity;
+      }
+    });
+  }
+
+  // 3️⃣ Ajouter le prix de la boisson
+  if (options.drink && options.drink.price > 0) {
+    price += options.drink.price * quantity;
+  }
+
+  return price;
+}
+
 
   // Obtenir le nombre total d'articles
   getTotalItems() {
