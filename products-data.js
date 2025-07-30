@@ -266,7 +266,7 @@ const products = [
   price: null, // prix selon la taille
   image: "img/chicken-pop.jpg",
   options: {
-    size: [
+    sizes: [
       { name: "S (200g)", price: 2.99 },
       { name: "M (350g)", price: 3.99 },
       { name: "L (500g)", price: 4.99 }
@@ -282,7 +282,7 @@ const products = [
   price: null,
   image: "img/stick-mozza.jpg",
   options: {
-    size: [
+    sizes: [
       { name: "S (4p)", price: 3.50 },
       { name: "M (6p)", price: 4.50 },
       { name: "L (8p)", price: 5.50 }
@@ -298,7 +298,7 @@ const products = [
   price: null,
   image: "img/nuggets.jpg",
   options: {
-    size: [
+    sizes: [
       { name: "S (4p)", price: 3.50 },
       { name: "M (6p)", price: 4.50 },
       { name: "L (8p)", price: 5.50 }
