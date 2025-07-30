@@ -1214,20 +1214,23 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                     }
                 });
 
-                // Prix total
-               const total = this.calculateTotal();
+            // Prix total
+const total = this.calculateTotal();
 const btnText = document.getElementById('cart-btn-text');
 const addToCartBtn = document.getElementById('add-to-cart');
 
+// Met à jour le texte du bouton
 if (btnText) {
-    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+    // Si le prix est strictement positif, affiche le vrai total
+    // Sinon, affiche juste "Ajouter au panier" (ou laisse vide, selon ta préférence)
+    btnText.textContent = total > 0
+        ? `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`
+        : 'Ajouter au panier';
 }
+
+// Affiche ou cache le bouton selon le prix
 if (addToCartBtn) {
-    if (total > 0) {
-        addToCartBtn.style.display = 'flex'; // ou 'block' ou 'flex', selon ton CSS de base
-    } else {
-        addToCartBtn.style.display = 'none';
-    }
+    addToCartBtn.style.display = (total > 0) ? 'flex' : 'none'; // 'flex' ou 'block', selon ton CSS
 }
 
 
