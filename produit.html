@@ -1056,6 +1056,21 @@ if (this.product.options?.sizes?.length > 0) {
 
   return html;
 }
+          renderProductPrice() {
+    if (this.product.options?.sizes?.length > 0) {
+        const prices = this.product.options.sizes.map(s => s.price);
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        if (min !== max) {
+            return `À partir de ${min.toFixed(2).replace('.', ',')} €`;
+        } else {
+            return `${min.toFixed(2).replace('.', ',')} €`;
+        }
+    } else {
+        return `${this.product.price.toFixed(2).replace('.', ',')} €`;
+    }
+}
+
 
 
 
