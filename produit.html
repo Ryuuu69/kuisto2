@@ -1208,7 +1208,12 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
 
             // Calculer le prix total
             calculateTotal() {
-                let total = this.product.price * this.quantity;
+                let basePrice = this.product.price;
+if (this.product.options?.sizes?.length > 0 && this.selectedOptions.size) {
+    basePrice = this.selectedOptions.size.price;
+}
+let total = basePrice * this.quantity;
+
 
                 // Ajouter les suppléments
                 Object.keys(this.selectedOptions.supplements).forEach(index => {
