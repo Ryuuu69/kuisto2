@@ -978,6 +978,32 @@ renderOptions() {
       </div>
     `;
   }
+  // 4️⃣ Taille (uniquement pour les sides ayant une option de taille)
+if (this.product.options?.sizes?.length > 0) {
+  html += `
+    <div class="bigsmash-options-section">
+      <h3 class="bigsmash-options-title">Choisis la taille</h3>
+      <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.sizes.length}">
+        ${this.product.options.sizes.map((size, index) => `
+          <label class="bigsmash-option-card">
+            <input
+              type="radio"
+              name="side-size"
+              value="${index}"
+              class="sr-only size-radio"
+              ${index === 0 ? 'checked' : ''}
+            >
+            <div class="bigsmash-option-name">${size.name}</div>
+            <div class="bigsmash-option-price">${size.price.toFixed(2).replace('.', ',')} €</div>
+            <div class="bigsmash-radio-indicator">
+              <div class="bigsmash-radio-dot"></div>
+            </div>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
 
   // 2️⃣ Personnalisation (remove)
   if (this.product.options?.remove?.length > 0) {
