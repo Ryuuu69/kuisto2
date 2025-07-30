@@ -1215,13 +1215,21 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                 });
 
                 // Prix total
-                const total = this.calculateTotal();
-                const btnText = document.getElementById('cart-btn-text');
-                const addToCartBtn = document.getElementById('add-to-cart'); // AJOUTE CECI !
+               const total = this.calculateTotal();
+const btnText = document.getElementById('cart-btn-text');
+const addToCartBtn = document.getElementById('add-to-cart');
 
-                if (btnText) {
-                    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
-                }
+if (btnText) {
+    btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
+}
+if (addToCartBtn) {
+    if (total > 0) {
+        addToCartBtn.style.display = 'block'; // ou 'block' ou 'flex', selon ton CSS de base
+    } else {
+        addToCartBtn.style.display = 'none';
+    }
+}
+
               if (addToCartBtn) {
   // Masquer si 0 ou moins, montrer sinon
   addToCartBtn.style.display = total > 0 ? 'block' : 'none';
