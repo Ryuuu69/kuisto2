@@ -163,7 +163,7 @@ const products = [
     price: 2.00,
     image: "img/cola-zero.jpg",
     options: {}
-  }
+  },
 {
     id: 8,
     name: "HOT‑G FISH ",
