@@ -44,7 +44,7 @@ const products = [
       ],
       drinks: [
         { name: "Coca-Cola", price: 0, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake (+2€)", price: 2.00, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
+        { name: "Milkshake", price: 2.00, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
         { name: "Limonade", price: 0, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
       ],
        accompaniments: [
