@@ -334,6 +334,11 @@
 function formatProductOptions(options, slug) {
   if (!options) return '';
   const parts = [];
+  // Taille (pour les sides à tailles)
+if (options.size && options.size.name) {
+  parts.unshift(options.size.name); // met la taille en premier dans la liste
+}
+
 
   // Supplément steak + autres suppléments (nom seuls)
   if (options.supplements) {
