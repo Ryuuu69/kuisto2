@@ -335,6 +335,64 @@ const products = [
   image: "img/frites.jpg",
   options: {}
 }
+  {
+  id: 101,
+  name: "SMASH BURGER",
+  slug: "smash-burger-simple",
+  category: "burgers",
+  description: "Burger smash classique avec steak, cheddar, salade, sauce au choix.",
+  price: 6.50,
+  image: "img/smash-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
+    ],
+    remove: [
+      { name: "Sans oignons", price: 0 },
+      { name: "Sans sauce", price: 0 }
+    ]
+    // Pas de boissons, pas de sides ici
+  }
+},
+{
+  id: 102,
+  name: "GOLDEN BURGER",
+  slug: "golden-burger-simple",
+  category: "burgers",
+  description: "Burger golden avec steak, cheddar, sauce maison, salade.",
+  price: 7.50,
+  image: "img/golden-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Œuf", price: 1.00, image: "img/egg.jpg" }
+    ],
+    remove: [
+      { name: "Sans cornichons", price: 0 },
+      { name: "Sans salade", price: 0 }
+    ]
+  }
+},
+{
+  id: 103,
+  name: "SIGNATURE BURGER",
+  slug: "signature-burger-simple",
+  category: "burgers",
+  description: "Burger signature, sauce maison, double cheddar, salade, tomate.",
+  price: 7.90,
+  image: "img/signature-burger.jpg",
+  options: {
+    supplements: [
+      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
+      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
+    ],
+    remove: [
+      { name: "Sans oignons", price: 0 },
+      { name: "Sans tomate", price: 0 }
+    ]
+  }
+}
   
 ];
 
