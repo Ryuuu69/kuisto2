@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  imageUrl    String?
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("products")
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  customerName    String
+  customerAddress String?
+  customerPhone   String?
+  customerEmail   String?
+  totalAmount     Float
+  status          OrderStatus    @default(PENDING)
+  deliveryMode    DeliveryMode   @default(RESTAURANT)
+  orderItems      OrderItem[]
+  notes           String?
+  uberEatsOrderId String?        // Pour l'intégration future Uber Eats
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  productId    String
+  quantity     Int
+  priceAtOrder Float   // Prix du produit au moment de la commande
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum OrderStatus {
+  PENDING     // En attente
+  CONFIRMED   // Confirmée
+  PREPARING   // En préparation
+  READY       // Prête
+  DELIVERED   // Livrée
+  CANCELLED   // Annulée
+}
+
+enum DeliveryMode {
+  RESTAURANT  // À récupérer au restaurant
+  UBER_EATS   // Livraison Uber Eats
+}
