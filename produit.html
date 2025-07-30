@@ -1217,6 +1217,8 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
                 // Prix total
                 const total = this.calculateTotal();
                 const btnText = document.getElementById('cart-btn-text');
+                const addToCartBtn = document.getElementById('add-to-cart'); // AJOUTE CECI !
+
                 if (btnText) {
                     btnText.textContent = `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`;
                 }
