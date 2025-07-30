@@ -671,57 +671,84 @@
 
     <script>
 
-        // Fonction pour générer le HTML d'une carte produit
         function createProductCard(product) {
-            // Utiliser le slug déjà généré dans products-data.js
-            const slug = product.slug;
-            
-            // Vérifier si le produit est dans le panier
-            const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
-            
-            // Générer le bouton d'action selon l'état du panier
-            let actionButton;
-            if (cartQuantity > 0) {
-                // Produit dans le panier : afficher la barre rouge
-                actionButton = `
-                    <div class="cart-quantity-bar">
-                        <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                            </svg>
-                        </button>
-                        <span class="cart-qty">${cartQuantity}</span>
-                        <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </button>
-                    </div>
-                `;
-            } else {
-                // Produit pas dans le panier : afficher le bouton noir +
-                actionButton = `
-                    <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
-                `;
-            }
-            
-            return `
-                <div class="product-card">
-                    <div class="thumb">
-                        <img src="${product.image}" alt="${product.name}">
-                    </div>
-                    <div class="info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="desc">${product.description}</p>
-                        <span class="price">
-                            <span class="from">À partir de </span>
-                            <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
-                        </span>
-                    </div>
-                    ${actionButton}
-                </div>
+    // Utiliser le slug déjà généré dans products-data.js
+    const slug = product.slug;
+    
+    // Vérifier si le produit est dans le panier
+    const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
+    
+    // Générer le bouton d'action selon l'état du panier
+    let actionButton;
+    if (cartQuantity > 0) {
+        // Produit dans le panier : afficher la barre rouge
+        actionButton = `
+            <div class="cart-quantity-bar">
+                <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                    </svg>
+                </button>
+                <span class="cart-qty">${cartQuantity}</span>
+                <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </button>
+            </div>
+        `;
+    } else {
+        // Produit pas dans le panier : afficher le bouton noir +
+        actionButton = `
+            <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
+        `;
+    }
+
+    // 💡 Affichage du prix
+    let priceHtml = '';
+    if (product.options?.sizes?.length > 0) {
+        // Sides à taille : afficher la gamme de prix ou "À partir de"
+        const prices = product.options.sizes.map(s => s.price);
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        if (min !== max) {
+            priceHtml = `
+                <span class="price">
+                    <span class="from">À partir de </span>
+                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
+                </span>
+            `;
+        } else {
+            priceHtml = `
+                <span class="price">
+                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
+                </span>
             `;
         }
+    } else {
+        // Produits avec prix unique
+        priceHtml = `
+            <span class="price">
+                <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
+            </span>
+        `;
+    }
+
+    return `
+        <div class="product-card">
+            <div class="thumb">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="info">
+                <h3 class="product-name">${product.name}</h3>
+                <p class="desc">${product.description}</p>
+                ${priceHtml}
+            </div>
+            ${actionButton}
+        </div>
+    `;
+}
+
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
