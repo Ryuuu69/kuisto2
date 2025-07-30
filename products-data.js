@@ -326,7 +326,7 @@ const products = [
   options: {}
 },
 {
-  id: 36,
+  id: 17,
   name: "FRITES MAISON",
   slug: "frites-maison",
   category: "sides",
@@ -336,7 +336,7 @@ const products = [
   options: {}
 }
   {
-  id: 101,
+  id: 18,
   name: "SMASH BURGER",
   slug: "smash-burger-simple",
   category: "burgers",
@@ -356,7 +356,7 @@ const products = [
   }
 },
 {
-  id: 102,
+  id: 19,
   name: "GOLDEN BURGER",
   slug: "golden-burger-simple",
   category: "burgers",
@@ -375,7 +375,7 @@ const products = [
   }
 },
 {
-  id: 103,
+  id: 20,
   name: "SIGNATURE BURGER",
   slug: "signature-burger-simple",
   category: "burgers",
