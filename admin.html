@@ -1,46 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuisto - Admin Commandes</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
-    <style>
-        /* Copiez ici exactement le même <style> que dans panier.html */
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kuisto - Admin Commandes</title>
+
+  <!-- Pour passer le token sans fichier : décommente et remplace -->
+  <!-- <meta name="admin-token" content="TON_ADMIN_TOKEN_ICI" /> -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Colle ici exactement le style de panier.html (copier les règles de body, .panier-card, titres, etc.) */
+    body {
+      background: #f5f6f7;
+      font-family: 'Montserrat', sans-serif;
+    }
+    /* Tu peux copier-coller le CSS depuis panier.html pour garder l'identité visuelle. */
+    /* Exemple minimal pour que ça rende bien : */
+    h1 { font-weight: 700; }
+    .status-select { min-width: 140px; }
+    /* Ajoute autres styles partagés si nécessaire */
+  </style>
 </head>
 <body>
-    <!-- Header avec bannière -->
-    <header class="bg-white shadow-sm">
-        <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
-            <a href="index.html">
-                <img
-                    src="images/banner.svg"
-                    alt="Kuisto Banner"
-                    class="w-full h-full object-cover cursor-pointer"
-                />
-            </a>
-        </div>
-    </header>
+  <!-- Header avec bannière -->
+  <header class="bg-white shadow-sm">
+    <div class="h-[219px] flex items-center justify-center relative" style="box-shadow: 0 2px 6px rgba(0,0,0,.08);">
+      <a href="index.html">
+        <img
+          src="images/banner.svg"
+          alt="Kuisto Banner"
+          class="w-full h-full object-cover cursor-pointer"
+        />
+      </a>
+    </div>
+  </header>
 
-    <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
-      <div id="orders-card"
-           class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[900px] mx-auto flex flex-col relative">
+  <main class="flex justify-center items-start min-h-[70vh] w-full pt-12 pb-20">
+    <div id="orders-card"
+         class="bg-white rounded-[32px] shadow-lg px-7 py-10 w-full max-w-[900px] mx-auto flex flex-col relative">
 
-        <!-- Titre + Retour -->
-        <div class="flex items-center justify-between mb-8 relative">
-          <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Administration des commandes</h1>
-          <a href="index.html"
-             class="absolute -top-10 -right-7 bg-[#F18701] text-white rounded-bl-[32px] rounded-tr-[32px] w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#F18701]">←</a>
-        </div>
-
-        <!-- Conteneur des commandes -->
-        <div id="orders-container" class="w-full space-y-4 overflow-y-auto max-h-[60vh]"></div>
-
+      <!-- Titre + Retour -->
+      <div class="flex items-center justify-between mb-8 relative">
+        <h1 class="text-2xl sm:text-3xl font-bold font-montserrat text-center w-full">Administration des commandes</h1>
+        <a href="index.html"
+           class="absolute -top-10 -right-7 bg-[#F18701] text-white rounded-bl-[32px] rounded-tr-[32px] w-10 h-10 flex items-center justify-center text-2xl hover:bg-[#F18701]">←</a>
       </div>
-    </main>
 
-    <script src="admin.js"></script>
+      <!-- Indicateur d'erreur / token manquant -->
+      <div id="admin-message" class="mb-4"></div>
+
+      <!-- Conteneur des commandes -->
+      <div id="orders-container" class="w-full space-y-4 overflow-y-auto max-h-[60vh]"></div>
+    </div>
+  </main>
+
+  <!-- Optionnel : fichier non versionné contenant le token (à ajouter dans .gitignore) -->
+  <!-- admin-config.js doit contenir : window.ADMIN_TOKEN = "ton_token_admin"; -->
+  <script src="admin-config.js" nomodule defer></script>
+  <script src="admin.js" defer></script>
 </body>
 </html>
