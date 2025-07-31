@@ -328,6 +328,9 @@
               <span class="ml-2">Espèces à la livraison</span>
             </label>
           </fieldset>
+          <div class="mb-4 text-lg font-semibold">
+            Frais de livraison : €<span id="delivery-fee-amount">0.00</span>
+          </div>
           <button type="submit" class="big-btn">Commander</button>
         </form>
 
@@ -335,5 +338,75 @@
     </main>
 
     <script src="checkout.js"></script>
+    <script>
+        // Coordonnées du restaurant (exemple : Montpellier)
+        const RESTAURANT_COORDS = { lat: 43.610769, lng: 3.876716 };
+
+        // Géocode adresse via Nominatim OpenStreetMap
+        async function getCoords(address) {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+            const data = await res.json();
+            if (!data.length) throw new Error('Adresse introuvable');
+            return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+        }
+
+        // Calcul distance Haversine (km)
+        function haversineDistance(a, b) {
+            const toRad = x => x * Math.PI / 180;
+            const R = 6371;
+            const dLat = toRad(b.lat - a.lat);
+            const dLon = toRad(b.lng - a.lng);
+            const lat1 = toRad(a.lat);
+            const lat2 = toRad(b.lat);
+            const h = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+            return 2 * R * Math.asin(Math.sqrt(h));
+        }
+
+        // Calcul des frais selon distance (ex : 2€ de base + 1€/km)
+        function calculateFee(distanceKm) {
+            const base = 2;
+            const perKm = 1;
+            return base + perKm * distanceKm;
+        }
+
+        // Mise à jour du coût de livraison
+        async function updateDeliveryFee() {
+            const address = document.getElementById('address').value;
+            try {
+                const coords = await getCoords(address);
+                const dist = haversineDistance(RESTAURANT_COORDS, coords);
+                const fee = calculateFee(dist);
+                document.getElementById('delivery-fee-amount').textContent = fee.toFixed(2);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('delivery-fee-amount').textContent = '—';
+            }
+        }
+
+        // Événement sur champ adresse
+        document.getElementById('address').addEventListener('blur', updateDeliveryFee);
+
+        // Submit : inclure frais dans payload
+        document.getElementById('checkout-form').addEventListener('submit', async e => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const deliveryMode = document.querySelector('input[name="delivery"]:checked').value;
+            const paymentMode = document.querySelector('input[name="payment"]:checked').value;
+            const fee = parseFloat(document.getElementById('delivery-fee-amount').textContent) || 0;
+            // Récupérer les items du panier (à implémenter)
+            const items = getCartItems();
+            const payload = { name, address, phone, deliveryMode, paymentMode, fee, items };
+            const res = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            // Redirection ou message de confirmation
+            window.location.href = 'confirmation.html?orderId=' + result.id;
+        });
+    </script>
 </body>
 </html>
