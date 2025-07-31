@@ -337,184 +337,268 @@
       </div>
     </main>
 
+    
     <script src="checkout.js"></script>
-    <script>
-      // Récupère le panier tel que tu le stockes
-function getCartItems() {
-  return window.cartSystem ? window.cartSystem.loadCart() : [];
-}
+<script>
+  // ---------- UTILITAIRES PANIER / PRODUITS / SUPPLÉMENTS ----------
 
-// Charge en cache la définition complète d'un produit depuis le backend
-const productCache = {};
-async function loadProductBackend(id) {
-  if (productCache[id]) return productCache[id];
-  const res = await fetch(`/api/products/${id}`);
-  if (!res.ok) throw new Error("Impossible de charger le produit backend " + id);
-  const product = await res.json();
-  productCache[id] = product;
-  return product;
-}
-
-// Pour un item front, crée l'objet pour l'API
-async function buildOrderItemFromCartEntry(item) {
-  // item.product.id n'existe peut-être pas selon ta structure ; ajuste si tu stockes slug ou autre
-  const productId = item.product?.id;
-  if (!productId) throw new Error("Produit invalide dans le panier");
-
-  const productBackend = await loadProductBackend(productId);
-  const choices = [];
-
-  // Taille → option "Taille"
-  if (item.options?.size?.name) {
-    const tailleOption = (productBackend.options || []).find(o =>
-      o.name.toLowerCase() === "taille"
-    );
-    if (tailleOption) {
-      const tailleChoice = (tailleOption.choiceoptions || []).find(c =>
-        c.name === item.options.size.name
-      );
-      if (tailleChoice) {
-        choices.push({ option_id: tailleOption.id, choice_id: tailleChoice.id });
-      }
+  // Récupère le panier
+  function getCartItems() {
+    if (window.cartSystem && typeof window.cartSystem.loadCart === "function") {
+      return window.cartSystem.loadCart();
     }
+    const raw = localStorage.getItem("bigsmash_cart") || localStorage.getItem("cart");
+    if (!raw) return [];
+    try { return JSON.parse(raw); } catch { return []; }
   }
 
-  // Retraits (remove) → option contenant "modif" ou nom équivalent (ex : "Modifications")
-  if (item.options?.remove) {
-    const modifOption = (productBackend.options || []).find(o =>
-      o.name.toLowerCase().includes("modif")
-    );
-    if (modifOption) {
-      for (const [key, enabled] of Object.entries(item.options.remove)) {
-        if (!enabled) continue;
-        // Tu utilises un index pour retrouver la définition
-        // Il faut que le backend ait les choiceoptions avec les mêmes noms que dans product-data.js
-        const choice = (modifOption.choiceoptions || []).find(c => c.name === (() => {
-          // essayer de retrouver le nom comme dans ton formatProductOptions
-          const idx = parseInt(key, 10);
-          if (!isNaN(idx) && typeof findProductBySlug === 'function') {
+  // Cache produits et suppléments
+  const productCache = {};
+  let supplementsCache = null;
+
+  // Récupère un produit complet depuis le backend
+  async function loadProductBackend(id) {
+    if (productCache[id]) return productCache[id];
+    const res = await fetch(`/api/products/${id}`);
+    if (!res.ok) throw new Error("Impossible de charger le produit backend " + id);
+    const product = await res.json();
+    productCache[id] = product;
+    return product;
+  }
+
+  // Charge tous les suppléments (une fois)
+  async function loadSupplements() {
+    if (supplementsCache) return supplementsCache;
+    const res = await fetch("/api/supplements");
+    if (!res.ok) throw new Error("Impossible de charger les suppléments");
+    const list = await res.json();
+    supplementsCache = list;
+    return list;
+  }
+
+  // Trouve l'ID du supplément par nom (exact ou fuzzy)
+  async function findSupplementIdByName(name) {
+    const list = await loadSupplements();
+    const lower = name.trim().toLowerCase();
+    let match = list.find(s => s.name.toLowerCase() === lower);
+    if (!match) {
+      match = list.find(s =>
+        s.name.toLowerCase().includes(lower) || lower.includes(s.name.toLowerCase())
+      );
+    }
+    return match ? match.id : null;
+  }
+
+  // ---------- MAPPING D'UN ITEM FRONT EN ITEM BACKEND ----------
+
+  async function buildOrderItemFromCartEntry(item) {
+    const productId = item.id || item.product?.id;
+    if (!productId) throw new Error("Produit sans ID dans le panier");
+
+    const backendProd = await loadProductBackend(productId);
+    const choices = [];
+
+    // 1. Taille
+    if (item.options?.size?.name) {
+      const tailleOption = (backendProd.options || []).find(o =>
+        o.name.toLowerCase().includes("taille")
+      );
+      if (tailleOption) {
+        const tailleChoice = (tailleOption.choiceoptions || []).find(c =>
+          c.name === item.options.size.name
+        );
+        if (tailleChoice) {
+          choices.push({ option_id: tailleOption.id, choice_id: tailleChoice.id });
+        }
+      }
+    }
+
+    // 2. Retraits / modifications
+    if (item.options?.remove) {
+      // repérer une option contenant les choix de type "Sans ..."
+      const modifOption = (backendProd.options || []).find(o =>
+        o.choiceoptions?.some(c => c.name.toLowerCase().startsWith("sans"))
+      );
+      if (modifOption) {
+        for (const [key, enabled] of Object.entries(item.options.remove)) {
+          if (!enabled) continue;
+          let displayName = key;
+          if (typeof findProductBySlug === "function" && item.slug) {
             const def = findProductBySlug(item.slug);
-            return def?.options?.remove?.[idx]?.name || key;
-          }
-          return key;
-        })());
-        if (choice) {
-          choices.push({ option_id: modifOption.id, choice_id: choice.id });
-        }
-      }
-    }
-  }
-
-  // Boisson → soit comme option "Boisson"
-  if (item.options?.drink?.name) {
-    const drinkOption = (productBackend.options || []).find(o =>
-      o.name.toLowerCase() === "boisson"
-    );
-    if (drinkOption) {
-      const drinkChoice = (drinkOption.choiceoptions || []).find(c =>
-        c.name === item.options.drink.name
-      );
-      if (drinkChoice) {
-        choices.push({ option_id: drinkOption.id, choice_id: drinkChoice.id });
-      }
-    } else {
-      // Si la boisson est un produit séparé, tu devrais l'ajouter comme item distinct côté frontend
-    }
-  }
-
-  // Suppléments → on suppose que tu as des supplements dans le backend avec les mêmes noms
-  const supplements = [];
-  if (item.options?.supplements) {
-    // Le format : item.options.supplements est un objet avec des clés, chaque value a quantity et name
-    for (const sup of Object.values(item.options.supplements)) {
-      if (sup.quantity > 0) {
-        // Il faut connaître l'ID du supplément : on peut récupérer la liste des suppléments du backend une fois et matcher par nom
-        const supRes = await fetch(`/api/supplements?name=${encodeURIComponent(sup.name)}`);
-        if (supRes.ok) {
-          const list = await supRes.json();
-          if (Array.isArray(list) && list.length > 0) {
-            supplements.push(list[0].id); // prend le premier match
-          }
-        }
-      }
-    }
-  }
-
-  return {
-    product_id: productBackend.id,
-    quantity: item.quantity || 1,
-    choices,
-    supplements
-  };
-}
-        // Coordonnées du restaurant (exemple : Montpellier)
-        const RESTAURANT_COORDS = { lat: 43.610769, lng: 3.876716 };
-
-        // Géocode adresse via Nominatim OpenStreetMap
-        async function getCoords(address) {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
-            const data = await res.json();
-            if (!data.length) throw new Error('Adresse introuvable');
-            return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-        }
-
-        // Calcul distance Haversine (km)
-        function haversineDistance(a, b) {
-            const toRad = x => x * Math.PI / 180;
-            const R = 6371;
-            const dLat = toRad(b.lat - a.lat);
-            const dLon = toRad(b.lng - a.lng);
-            const lat1 = toRad(a.lat);
-            const lat2 = toRad(b.lat);
-            const h = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
-            return 2 * R * Math.asin(Math.sqrt(h));
-        }
-
-        // Calcul des frais selon distance (ex : 2€ de base + 1€/km)
-        function calculateFee(distanceKm) {
-            const base = 2;
-            const perKm = 1;
-            return base + perKm * distanceKm;
-        }
-
-        // Mise à jour du coût de livraison
-        async function updateDeliveryFee() {
-            const address = document.getElementById('address').value;
-            try {
-                const coords = await getCoords(address);
-                const dist = haversineDistance(RESTAURANT_COORDS, coords);
-                const fee = calculateFee(dist);
-                document.getElementById('delivery-fee-amount').textContent = fee.toFixed(2);
-            } catch (err) {
-                console.error(err);
-                document.getElementById('delivery-fee-amount').textContent = '—';
+            if (def?.options?.remove) {
+              const idx = parseInt(key, 10);
+              if (!isNaN(idx)) displayName = def.options.remove[idx]?.name || key;
             }
+          }
+          const choice = (modifOption.choiceoptions || []).find(c => c.name === displayName);
+          if (choice) {
+            choices.push({ option_id: modifOption.id, choice_id: choice.id });
+          }
         }
+      }
+    }
 
-        // Événement sur champ adresse
-        document.getElementById('address').addEventListener('blur', updateDeliveryFee);
+    // 3. Boisson
+    if (item.options?.drink?.name) {
+      const drinkOption = (backendProd.options || []).find(o =>
+        o.name.toLowerCase().includes("boisson") || o.name.toLowerCase().includes("drink")
+      );
+      if (drinkOption) {
+        const drinkChoice = (drinkOption.choiceoptions || []).find(c =>
+          c.name === item.options.drink.name
+        );
+        if (drinkChoice) {
+          choices.push({ option_id: drinkOption.id, choice_id: drinkChoice.id });
+        }
+      }
+    }
 
-        // Submit : inclure frais dans payload
-        document.getElementById('checkout-form').addEventListener('submit', async e => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const address = document.getElementById('address').value;
-            const phone = document.getElementById('phone').value;
-            const deliveryMode = document.querySelector('input[name="delivery"]:checked').value;
-            const paymentMode = document.querySelector('input[name="payment"]:checked').value;
-            const fee = parseFloat(document.getElementById('delivery-fee-amount').textContent) || 0;
-            // Récupérer les items du panier (à implémenter)
-            const items = getCartItems();
-            const payload = { name, address, phone, deliveryMode, paymentMode, fee, items };
-            const res = await fetch('/api/orders', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const result = await res.json();
-            // Redirection ou message de confirmation
-            window.location.href = 'confirmation.html?orderId=' + result.id;
-        });
-    </script>
+    // 4. Suppléments
+    const supplements = [];
+    if (item.options?.supplements) {
+      for (const sup of Object.values(item.options.supplements)) {
+        if (sup.quantity > 0) {
+          const supId = await findSupplementIdByName(sup.name);
+          if (supId) {
+            // Si quantité >1, on peut ajouter plusieurs fois ou laisser le backend gérer l'agrégation
+            for (let i = 0; i < sup.quantity; i++) {
+              supplements.push(supId);
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      product_id: backendProd.id,
+      quantity: item.quantity || 1,
+      choices,
+      supplements
+    };
+  }
+
+  // ---------- GÉOCODAGE + FRAIS DE LIVRAISON ----------
+
+  const RESTAURANT_COORDS = { lat: 43.610769, lng: 3.876716 };
+
+  async function getCoords(address) {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await res.json();
+    if (!data.length) throw new Error("Adresse introuvable");
+    return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+  }
+
+  function haversineDistance(a, b) {
+    const toRad = x => x * Math.PI / 180;
+    const R = 6371;
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lng - a.lng);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const h = Math.sin(dLat/2)**2 + Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLon/2)**2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  function calculateFee(distanceKm) {
+    const base = 2;
+    const perKm = 1;
+    return base + perKm * distanceKm;
+  }
+
+  async function updateDeliveryFee() {
+    const address = document.getElementById('address')?.value || '';
+    try {
+      const coords = await getCoords(address);
+      const dist = haversineDistance(RESTAURANT_COORDS, coords);
+      const fee = calculateFee(dist);
+      document.getElementById('delivery-fee-amount').textContent = fee.toFixed(2);
+    } catch (err) {
+      console.error(err);
+      document.getElementById('delivery-fee-amount').textContent = '—';
+    }
+  }
+
+  document.getElementById('address')?.addEventListener('blur', updateDeliveryFee);
+
+  // ---------- SUBMISSION ----------
+
+  document.getElementById('checkout-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const name = document.getElementById('name')?.value?.trim();
+      const address = document.getElementById('address')?.value?.trim();
+      const phone = document.getElementById('phone')?.value?.trim();
+      const delivery_mode = document.querySelector('input[name="delivery"]:checked')?.value;
+      const payment_mode = document.querySelector('input[name="payment"]:checked')?.value;
+
+      if (!name || !address || !phone) {
+        alert("Nom, adresse et téléphone requis.");
+        return;
+      }
+
+      // Géocodage pour coords (pour vérification / backend)
+      let latitude = null, longitude = null;
+      try {
+        const coords = await getCoords(address);
+        latitude = coords.lat;
+        longitude = coords.lng;
+      } catch (err) {
+        console.warn("Géocodage échoué, on continue sans lat/lng.");
+      }
+
+      // Construire les items
+      const cart = getCartItems();
+      if (!cart.length) {
+        alert("Panier vide.");
+        return;
+      }
+
+      const items = [];
+      for (const entry of cart) {
+        const orderItem = await buildOrderItemFromCartEntry(entry);
+        items.push(orderItem);
+      }
+
+      // Frais (affiché)
+      const feeText = document.getElementById("delivery-fee-amount")?.textContent || "0";
+      const fee = parseFloat(feeText.replace(",", ".")) || 0;
+
+      const payload = {
+        name,
+        address,
+        phone,
+        delivery_mode,
+        payment_mode,
+        latitude,
+        longitude,
+        fee,
+        items
+      };
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText);
+      }
+
+      const result = await res.json();
+      window.location.href = `confirmation.html?orderId=${result.id}`;
+    } catch (err) {
+      console.error("Erreur commande :", err);
+      alert("Erreur lors de la commande : " + (err.message || "erreur inconnue"));
+    }
+  });
+
+  // initial calc de frais si adresse préremplie
+  if (document.getElementById('address')?.value) {
+    updateDeliveryFee();
+  }
+</script>
+
 </body>
 </html>
