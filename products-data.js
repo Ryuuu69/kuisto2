@@ -391,7 +391,37 @@ const products = [
         { name: "Sans tomate", price: 0 }
       ]
     }
+  },
+  {
+  id: 21,
+  name: "BUCKET DUO",
+  slug: "bucket-duo",
+  category: "buckets",
+  description: "Bucket Duo : 16 wings ou 8 wings + 6 tenders, avec 2 frites maison, 4 sauces et 2 boissons de 33 cl. Le combo parfait à partager.",
+  price: null,
+  image: "img/nuggets.jpg",
+  options: {
+    sizes: [
+      { name: "16 wings", price: 18.00 },
+      { name: "8 wings et 6 Tenders", price: 19.00 },
+    ]
   }
+},
+   {
+  id: 22,
+  name: "BUCKET FAMILY",
+  slug: "bucket-family",
+  category: "buckets",
+  description: "Bucket Family : 28 wings ou 16 wings + 10 tenders, avec 4 frites maison, 8 sauces et boisson 1,5L. Le combo familial à partager.",
+  price: null,
+  image: "img/nuggets.jpg",
+  options: {
+    sizes: [
+      { name: "28 wings", price: 32.00 },
+      { name: "16 wings et 10 Tenders", price: 34.00 },
+    ]
+  }
+}
  
   
 ];
