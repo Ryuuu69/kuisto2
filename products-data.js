@@ -461,6 +461,36 @@ const products = [
   price: 3.50,
   image: "img/boisson-1-5l.jpg",
   options: {}
+},
+  {
+  id: 29,
+  name: "Menu Cheese Burger",
+  slug: "menu-cheese-burger",
+  category: "menus-bambino",
+  description: "Cheese burger, sauce ketchup, une portion de frites, et un Capri Sun.",
+  price: 6.00,
+  image: "img/menu-cheese-burger.jpg",
+  options: {}
+},
+{
+  id: 30,
+  name: "Menu Nuggets Kids",
+  slug: "menu-nuggets-kids",
+  category: "menus-bambino",
+  description: "5 nuggets, sauce ketchup, une portion de frites, et un Capri Sun.",
+  price: 6.00,
+  image: "img/menu-nuggets-kids.jpg",
+  options: {}
+},
+{
+  id: 31,
+  name: "Menu Mini Tacos",
+  slug: "menu-mini-tacos",
+  category: "menus-bambino",
+  description: "Mini tacos, une portion de frites, et un Capri Sun.",
+  price: 6.00,
+  image: "img/menu-mini-tacos.jpg",
+  options: {}
 }
   
  
