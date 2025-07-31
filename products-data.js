@@ -421,7 +421,48 @@ const products = [
       { name: "16 wings et 10 Tenders", price: 34.00 },
     ]
   }
+},
+  {
+  id: 23,
+  name: "Tarte au daim",
+  slug: "tarte",
+  category: "desserts",
+  description: "Tarte au Daim : base sablée, crème caramel, éclats de Daim et nappage chocolat. Dessert gourmand et croquant à partager.",
+  price: 3.50,
+  image: "img/cheese.jpg",
+  options: {}
+},
+  {
+  id: 24,
+  name: "Tiramisu",
+  slug: "tiramisu",
+  category: "desserts",
+  description: "Mascarpone crémeux, Nutella, spéculoos croquant et éclats d’Orio — le tiramisu qui fait fondre.",
+  price: 3.50,
+  image: "img/cheese.jpg",
+  options: {}
+},
+  {
+  id: 25,
+  name: "Boisson 33 CL",
+  slug: "boisson-33cl",
+  category: "boissons",
+  description: "Canette de 33 cl au choix (Coca-Cola, Sprite, Fanta, etc.).",
+  price: 2.00,
+  image: "img/boisson-33cl.jpg",
+  options: {}
+},
+{
+  id: 26,
+  name: "Boisson 1,5 L",
+  slug: "boisson-1-5l",
+  category: "boissons",
+  description: "Bouteille de 1,5 litre au choix.",
+  price: 3.50,
+  image: "img/boisson-1-5l.jpg",
+  options: {}
 }
+  
  
   
 ];
