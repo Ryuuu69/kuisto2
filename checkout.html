@@ -339,6 +339,114 @@
 
     <script src="checkout.js"></script>
     <script>
+      // Récupère le panier tel que tu le stockes
+function getCartItems() {
+  return window.cartSystem ? window.cartSystem.loadCart() : [];
+}
+
+// Charge en cache la définition complète d'un produit depuis le backend
+const productCache = {};
+async function loadProductBackend(id) {
+  if (productCache[id]) return productCache[id];
+  const res = await fetch(`/api/products/${id}`);
+  if (!res.ok) throw new Error("Impossible de charger le produit backend " + id);
+  const product = await res.json();
+  productCache[id] = product;
+  return product;
+}
+
+// Pour un item front, crée l'objet pour l'API
+async function buildOrderItemFromCartEntry(item) {
+  // item.product.id n'existe peut-être pas selon ta structure ; ajuste si tu stockes slug ou autre
+  const productId = item.product?.id;
+  if (!productId) throw new Error("Produit invalide dans le panier");
+
+  const productBackend = await loadProductBackend(productId);
+  const choices = [];
+
+  // Taille → option "Taille"
+  if (item.options?.size?.name) {
+    const tailleOption = (productBackend.options || []).find(o =>
+      o.name.toLowerCase() === "taille"
+    );
+    if (tailleOption) {
+      const tailleChoice = (tailleOption.choiceoptions || []).find(c =>
+        c.name === item.options.size.name
+      );
+      if (tailleChoice) {
+        choices.push({ option_id: tailleOption.id, choice_id: tailleChoice.id });
+      }
+    }
+  }
+
+  // Retraits (remove) → option contenant "modif" ou nom équivalent (ex : "Modifications")
+  if (item.options?.remove) {
+    const modifOption = (productBackend.options || []).find(o =>
+      o.name.toLowerCase().includes("modif")
+    );
+    if (modifOption) {
+      for (const [key, enabled] of Object.entries(item.options.remove)) {
+        if (!enabled) continue;
+        // Tu utilises un index pour retrouver la définition
+        // Il faut que le backend ait les choiceoptions avec les mêmes noms que dans product-data.js
+        const choice = (modifOption.choiceoptions || []).find(c => c.name === (() => {
+          // essayer de retrouver le nom comme dans ton formatProductOptions
+          const idx = parseInt(key, 10);
+          if (!isNaN(idx) && typeof findProductBySlug === 'function') {
+            const def = findProductBySlug(item.slug);
+            return def?.options?.remove?.[idx]?.name || key;
+          }
+          return key;
+        })());
+        if (choice) {
+          choices.push({ option_id: modifOption.id, choice_id: choice.id });
+        }
+      }
+    }
+  }
+
+  // Boisson → soit comme option "Boisson"
+  if (item.options?.drink?.name) {
+    const drinkOption = (productBackend.options || []).find(o =>
+      o.name.toLowerCase() === "boisson"
+    );
+    if (drinkOption) {
+      const drinkChoice = (drinkOption.choiceoptions || []).find(c =>
+        c.name === item.options.drink.name
+      );
+      if (drinkChoice) {
+        choices.push({ option_id: drinkOption.id, choice_id: drinkChoice.id });
+      }
+    } else {
+      // Si la boisson est un produit séparé, tu devrais l'ajouter comme item distinct côté frontend
+    }
+  }
+
+  // Suppléments → on suppose que tu as des supplements dans le backend avec les mêmes noms
+  const supplements = [];
+  if (item.options?.supplements) {
+    // Le format : item.options.supplements est un objet avec des clés, chaque value a quantity et name
+    for (const sup of Object.values(item.options.supplements)) {
+      if (sup.quantity > 0) {
+        // Il faut connaître l'ID du supplément : on peut récupérer la liste des suppléments du backend une fois et matcher par nom
+        const supRes = await fetch(`/api/supplements?name=${encodeURIComponent(sup.name)}`);
+        if (supRes.ok) {
+          const list = await supRes.json();
+          if (Array.isArray(list) && list.length > 0) {
+            supplements.push(list[0].id); // prend le premier match
+          }
+        }
+      }
+    }
+  }
+
+  return {
+    product_id: productBackend.id,
+    quantity: item.quantity || 1,
+    choices,
+    supplements
+  };
+}
         // Coordonnées du restaurant (exemple : Montpellier)
         const RESTAURANT_COORDS = { lat: 43.610769, lng: 3.876716 };
 
