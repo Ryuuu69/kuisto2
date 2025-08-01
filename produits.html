@@ -441,6 +441,48 @@
             cursor: pointer;
             transition: background 0.2s;
         }
+        /* Mobile menu burger button */
+.sidebar-btn {
+  display: none;
+  position: fixed; z-index: 1100; top: 1rem; left: 1rem;
+  background: #d72613; color: #fff; border: none;
+  border-radius: 50%; width: 60px; height: 60px;
+  flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; gap: 7px; box-shadow: 0 2px 8px #0002;
+}
+.sidebar-btn .burger {
+  width: 28px; height: 4px; background: #fff; border-radius: 4px; display: block;
+}
+
+/* Sidebar overlay (mobile) */
+.sidebar-menu {
+  display: none;
+  position: fixed; z-index: 1200; top: 0; left: 0; height: 100vh; width: 220px;
+  background: #fff; box-shadow: 4px 0 16px #0003; padding: 2rem 1rem 1rem 1rem;
+  transform: translateX(-100%); transition: .3s;
+}
+.sidebar-menu.open { display: block; transform: translateX(0); }
+.sidebar-menu .close-btn {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; font-size: 2rem; color: #d72613; cursor: pointer;
+}
+.sidebar-menu ul { margin-top: 2rem; list-style: none; padding: 0; }
+.sidebar-menu li { margin-bottom: 1.2rem; }
+.sidebar-menu a {
+  text-decoration: none; color: #222; font-weight: 600; font-size: 1.15rem; transition: color .2s;
+}
+.sidebar-menu a:hover { color: #d72613; }
+
+/* Responsive: cacher menu desktop et montrer bouton sur mobile */
+@media (max-width: 768px) {
+  .sidebar-btn { display: flex; }
+  .sidebar-classic { display: none !important; } /* à utiliser sur ton menu classique */
+}
+@media (min-width: 769px) {
+  .sidebar-btn, .sidebar-menu { display: none !important; }
+  .sidebar-classic { display: block !important; }
+}
+
 
         .product-plus-btn:hover {
             background: #F18701;
