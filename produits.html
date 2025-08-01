@@ -1205,13 +1205,35 @@
     </svg>
   </button>
 </div>
- <script>
+<script>
 const overlay = document.getElementById("mobile-menu-overlay");
 const popup   = document.getElementById("mobile-menu-popup");
 const content = document.getElementById("mobile-menu-content");
 const burger  = document.getElementById("mobile-menu-toggle");
+const menuList = document.getElementById("mobile-menu-list");
 let menuOpen  = false;
 
+// Stocke le dernier choix actif (par défaut "tacos")
+let activeCat = localStorage.getItem("kuisto_active_cat") || "tacos";
+
+function updateActiveMenu(cat) {
+  // mobile
+  menuList.querySelectorAll("li").forEach(e => {
+    if(e.getAttribute("data-cat") === cat) e.classList.add("active");
+    else e.classList.remove("active");
+  });
+  // desktop (si existe)
+  document.querySelectorAll(".side-nav li").forEach(e => {
+    if(e.textContent.trim().toLowerCase().replace(/ /g,"-") === cat)
+      e.classList.add("active");
+    else
+      e.classList.remove("active");
+  });
+  // Save for persist
+  localStorage.setItem("kuisto_active_cat", cat);
+}
+
+// Ouvre le menu mobile
 function openMobileMenu() {
   overlay.classList.remove("hidden");
   popup.classList.remove("pointer-events-none");
@@ -1220,16 +1242,17 @@ function openMobileMenu() {
     content.classList.remove("opacity-0","scale-95");
   }, 10);
   menuOpen = true;
-  // Change burger to X
   burger.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`;
+  // Restaure la selection active
+  updateActiveMenu(activeCat);
 }
+// Ferme le menu mobile
 function closeMobileMenu() {
   overlay.classList.add("hidden");
   content.classList.remove("opacity-100","scale-100");
   content.classList.add("opacity-0","scale-95");
   popup.classList.add("pointer-events-none");
   menuOpen = false;
-  // Change X to burger
   burger.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>`;
 }
 
@@ -1238,18 +1261,38 @@ burger.addEventListener("click", function() {
 });
 overlay.addEventListener("click", closeMobileMenu);
 
-document.getElementById("mobile-menu-list").querySelectorAll("li").forEach(li => {
+menuList.querySelectorAll("li").forEach(li => {
   li.addEventListener("click", function() {
-    // Remove all active
-    document.getElementById("mobile-menu-list").querySelectorAll("li").forEach(e => e.classList.remove("active"));
-    this.classList.add("active");
-    // Scroll to section
-    const section = document.getElementById(this.getAttribute("data-cat"));
+    const cat = this.getAttribute("data-cat");
+    activeCat = cat; // met à jour la catégorie active
+    updateActiveMenu(cat);
+    // Scroll vers la section
+    const section = document.getElementById(cat);
     if(section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     closeMobileMenu();
   });
+});
+
+// Synchronise le menu desktop au scroll (optionnel)
+window.addEventListener("scroll", function() {
+  // Pour chaque section, trouve celle qui est visible en haut
+  let found = false;
+  document.querySelectorAll("main > section.cat").forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (!found && rect.top < 160 && rect.bottom > 120) {
+      const cat = section.id;
+      activeCat = cat;
+      updateActiveMenu(cat);
+      found = true;
+    }
+  });
+});
+
+// Restaure l'état actif au chargement
+document.addEventListener("DOMContentLoaded", function() {
+  updateActiveMenu(activeCat);
 });
 </script>
 
