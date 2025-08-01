@@ -1124,6 +1124,19 @@
     </svg>
   </button>
 </div>
+  <script>
+  const sidebar = document.getElementById('sidebarMenu');
+  const openBtn = document.getElementById('openSidebar');
+  const closeBtn = document.getElementById('closeSidebar');
+  openBtn && (openBtn.onclick = () => sidebar.classList.add('open'));
+  closeBtn && (closeBtn.onclick = () => sidebar.classList.remove('open'));
+
+  // Fermer menu mobile après clic sur une entrée (pour UX mobile)
+  sidebar.querySelectorAll('li').forEach(li => {
+    li.onclick = () => sidebar.classList.remove('open');
+  });
+</script>
+
 
 </body>
 </html>
