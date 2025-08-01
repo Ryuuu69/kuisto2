@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
-    <style>
+     <style>
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .bg-kuistoOrange { background-color: #F18701; }
         
@@ -75,7 +75,7 @@
             background: #fff;
             overflow-y: auto;
             z-index: 900;
-            padding-top: 240px;
+            padding-top: 52px;
         }
         
         .side-nav ul {
@@ -110,28 +110,13 @@
 
         /* --- ZONE QUI DÉFILE --- */
         .catalogue {
-  margin-left: var(--side-w);
-  padding-top: 260px !important;   /* force le padding pour test */
-  padding-inline: var(--gutter);
-  height: 100%;
-  overflow-y: auto;
-  background: transparent;
-}
-      @media (max-width: 1024px) {
-    .side-nav {
-        display: none !important;
-    }
-    .catalogue {
-        margin-left: 0 !important;
-        padding-top: calc(var(--hero-h) + 1rem) !important;
-    }
-    .fixed.bottom-4.left-4 {
-        left: 50% !important;
-        transform: translateX(-50%);
-        bottom: 20px;
-    }
-}
-
+            position: relative;
+            margin-left: var(--side-w);     /* laisse place au menu fixe */
+            padding-top: calc(var(--hero-h) + 1rem);  /* évite le hero */
+            padding-inline: var(--gutter);  /* marges latérales */
+            height: 100%;
+            overflow-y: auto;
+        }
 
         /* ———————————————————————————
            SECTIONS DE CATÉGORIES
@@ -381,7 +366,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0,0,0,.15);
             
-            /* État par default : fond rouge, icône blanche */
+            /* État par défaut : fond rouge, icône blanche */
             background: var(--red);
             color: white;
         }
@@ -456,48 +441,6 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        /* Mobile menu burger button */
-.sidebar-btn {
-  display: none;
-  position: fixed; z-index: 1100; top: 1rem; left: 1rem;
-  background: #d72613; color: #fff; border: none;
-  border-radius: 50%; width: 60px; height: 60px;
-  flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; gap: 7px; box-shadow: 0 2px 8px #0002;
-}
-.sidebar-btn .burger {
-  width: 28px; height: 4px; background: #fff; border-radius: 4px; display: block;
-}
-
-/* Sidebar overlay (mobile) */
-.sidebar-menu {
-  display: none;
-  position: fixed; z-index: 1200; top: 0; left: 0; height: 100vh; width: 220px;
-  background: #fff; box-shadow: 4px 0 16px #0003; padding: 2rem 1rem 1rem 1rem;
-  transform: translateX(-100%); transition: .3s;
-}
-.sidebar-menu.open { display: block; transform: translateX(0); }
-.sidebar-menu .close-btn {
-  position: absolute; top: 1rem; right: 1rem;
-  background: none; border: none; font-size: 2rem; color: #d72613; cursor: pointer;
-}
-.sidebar-menu ul { margin-top: 2rem; list-style: none; padding: 0; }
-.sidebar-menu li { margin-bottom: 1.2rem; }
-.sidebar-menu a {
-  text-decoration: none; color: #222; font-weight: 600; font-size: 1.15rem; transition: color .2s;
-}
-.sidebar-menu a:hover { color: #d72613; }
-
-/* Responsive: cacher menu desktop et montrer bouton sur mobile */
-@media (max-width: 768px) {
-  .sidebar-btn { display: flex; }
-  .sidebar-classic { display: none !important; } /* à utiliser sur ton menu classique */
-}
-@media (min-width: 769px) {
-  .sidebar-btn, .sidebar-menu { display: none !important; }
-  .sidebar-classic { display: block !important; }
-}
-
 
         .product-plus-btn:hover {
             background: #F18701;
@@ -505,189 +448,13 @@
 
         /* Masquer sur mobile */
         @media (max-width: 768px) {
-            .side-nav {
-                display: none; /* Masque le menu latéral desktop sur mobile */
+            .desktop-buttons {
+                display: none;
             }
-
-            .catalogue {
-                margin-left: 0; /* Réinitialise la marge du contenu principal */
-                padding-top: calc(var(--hero-h) + 80px); /* Ajuste le padding pour le bouton hamburger */
-            }
-
-            .mobile-menu-toggle {
-                display: flex; /* Affiche le bouton hamburger sur mobile */
-            }
-
-            /* Masque le bouton flottant du panier sur la page produit */
-            #cart-fab {
-                display: none !important;
-            }
-        }
-
-        /* Styles pour le bouton hamburger mobile */
-        .mobile-menu-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px; /* Positionné en haut à droite */
-            z-index: 1001;
-            background: #F18701;
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: none; /* Masqué par défaut, affiché sur mobile via media query */
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,.15);
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-        }
-        /* Styles pour le pop-up mobile */
-        #mobile-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8); /* Overlay noir opaque */
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none; /* Permet de cliquer à travers quand masqué */
-            transition: opacity 0.3s ease;
-        }
-
-        #mobile-menu-drawer {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.95); /* Centré et légèrement réduit */
-            width: 92vw; /* Largeur relative */
-            max-width: 320px; /* Largeur maximale */
-            background: #fff;
-            border-radius: 20px; /* Arrondi des coins */
-            box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
-            z-index: 1001;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            padding: 20px;
-            display: flex; /* Utilisation de flexbox pour le layout interne */
-            flex-direction: column;
-            justify-content: space-between; /* Pour pousser les boutons en bas */
-            min-height: 300px; /* Hauteur minimale pour le pop-up */
-        }
-
-        /* État ouvert du pop-up */
-        #mobile-menu-overlay.is-open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        #mobile-menu-drawer.is-open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translate(-50%, -50%) scale(1); /* Retour à la taille normale */
-        }
-
-        /* Bouton de fermeture (X) dans le pop-up */
-        .mobile-menu-drawer .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #808080;
-            transition: color 0.2s ease;
-        }
-
-        .mobile-menu-drawer .close-btn:hover {
-            color: #F18701;
-        }
-
-        /* Liste des catégories dans le pop-up */
-        .mobile-menu-drawer ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 40px; /* Espace pour le bouton de fermeture */
-            flex-grow: 1; /* Prend l'espace disponible */
-        }
-
-        .mobile-menu-drawer li {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 600;
-            font-size: 16px; /* Taille de police légèrement plus grande */
-            line-height: 24px;
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 10px; /* Arrondi des éléments de liste */
-            color: #000;
-            background: transparent;
-            cursor: pointer;
-            transition: background 0.25s, color 0.25s;
-            text-align: center;
-        }
-
-        .mobile-menu-drawer li:hover,
-        .mobile-menu-drawer li.active {
-            background: var(--kuisto-orange);
-            color: #fff;
-        }
-
-        /* Boutons Accueil/Compte dans le pop-up mobile */
-        .mobile-popup-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding-top: 20px; /* Espace au-dessus des boutons */
-        }
-
-        .mobile-popup-buttons .desktop-btn { /* Réutilise le style des boutons desktop */
-            width: 48px;
-            height: 48px;
-            background: #F18701; /* Couleur orange */
-            color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,.15);
-        }
-
-        .mobile-popup-buttons .desktop-btn:hover {
-            background: white;
-            color: #F18701;
-        }
-
-        /* Empêche le défilement du body quand le menu est ouvert */
-        body.no-scroll {
-            overflow: hidden;
-        }
-
-        /* Media queries pour le comportement responsive */
-        @media (max-width: 768px) {
-            .side-nav, .desktop-buttons {
-                display: none !important; /* Masque le menu latéral et les boutons desktop sur mobile */
-            }
-            .mobile-menu-toggle {
-                display: flex; /* Affiche le bouton hamburger sur mobile */
-            }
-            .catalogue {
-                margin-left: 0; /* Réinitialise la marge du contenu principal */
-                padding-top: calc(var(--hero-h) + 20px); /* Ajuste le padding pour le bouton hamburger */
-            }
-            /* Masque le bouton flottant du panier sur la page produit */
-            #cart-fab {
-                display: none !important;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-menu-toggle,
-            #mobile-menu-overlay,
-            #mobile-menu-drawer {
-                display: none !important; /* Masque les éléments mobiles sur desktop */
-            }
-            .side-nav, .desktop-buttons {
-                display: flex !important; /* Assure l'affichage des éléments desktop */
+            
+            .product-card {
+                width: 100%;
+                max-width: var(--card-w);
             }
         }
 
@@ -738,45 +505,33 @@
             line-height: 24px;
             color: #000;
         }
-         
-    /* Désactive le scroll sur le body quand menu mobile ouvert */
-    body.overflow-hidden { overflow: hidden; }
-    /* Mobile menu drawer style */
-    #mobile-menu-drawer {
-      box-shadow: 0 20px 64px 0 rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, -50%) scale(0.95);
-    }
-    #mobile-menu-drawer.opacity-100, #mobile-menu-drawer.scale-100 {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      transform: translate(-50%, -50%) scale(1) !important;
-      transition: opacity .18s, transform .18s;
-    }
-    /* Menu items style - mobile */
-    .mobile-menu-item {
-      border-radius: 14px;
-      background: transparent;
-      color: #222;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.18s, color 0.18s;
-      position: relative;
-    }
-    .mobile-menu-item.active, .mobile-menu-item:hover {
-      background: #F18701;
-      color: #fff;
-    }
-    .mobile-menu-item.active::after, .mobile-menu-item:hover::after {
-      content: '';
-      position: absolute;
-      left: 12px; right: 12px; bottom: 5px; height: 4px;
-      background: #F18701;
-      border-radius: 4px;
-      display: block;
-    }
-        @media (max-width: 768px) {
+        /* ======== MOBILE ADAPTATIONS ======== */
+@media (max-width: 768px) {
+  .side-nav,
+  .desktop-buttons {
+    display: none !important;
+  }
+
+  .catalogue {
+    margin-left: 0 !important;
+    padding-top: calc(var(--hero-h) + 20px) !important;
+    padding-inline: 8px !important;
+  }
+
+  /* Bouton burger (affiché uniquement mobile) */
+  .sidebar-btn,
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
+  /* Affichage du menu burger/drawer mobile */
+  .sidebar-menu,
+  #mobile-menu-overlay,
+  #mobile-menu-drawer {
+    display: block !important;
+  }
+
+  /* Cacher le bouton panier desktop si tu en as un spécifique mobile */
   #cart-fab {
     width: 60px !important;
     height: 60px !important;
@@ -787,6 +542,7 @@
     transform: translateX(-50%) !important;
     padding: 0 !important;
     border-radius: 50% !important;
+    /* Si tu veux le cacher : display: none !important; */
   }
   #cart-fab .cart-svg {
     width: 28px !important;
@@ -800,24 +556,20 @@
   }
 }
 
-    /* Pop-up center responsive */
-    @media (max-width: 768px) {
-      #mobile-menu-drawer {
-        display: block !important;
-      }
-      .side-nav, .desktop-buttons {
-        display: none !important;
-      }
-    }
-    @media (min-width: 769px) {
-      #mobile-menu-drawer, #mobile-menu-overlay, #mobile-menu-toggle {
-        display: none !important;
-      }
-      .side-nav {
-        display: block !important;
-      }
-    }
-
+/* ======== VERSION DESKTOP ONLY ======= */
+@media (min-width: 769px) {
+  .sidebar-btn,
+  .sidebar-menu,
+  .mobile-menu-toggle,
+  #mobile-menu-overlay,
+  #mobile-menu-drawer {
+    display: none !important;
+  }
+  .side-nav,
+  .desktop-buttons {
+    display: flex !important;
+  }
+}
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
