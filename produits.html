@@ -458,6 +458,21 @@
             font-size: 1.1em;
             font-weight: 700;
         }
+        /* mobile-popup : boutons “Accueil / Compte” toujours orange, pas rouges */
+.mobile-popup-buttons .desktop-btn {
+  background: #F18701 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
+}
+.mobile-popup-buttons .desktop-btn:hover {
+  background: #fff !important;
+  color: #F18701 !important;
+}
+.mobile-popup-buttons .desktop-btn svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
 
         .product-plus-btn {
             background: #191919;
@@ -471,6 +486,10 @@
         .product-plus-btn:hover {
             background: #F18701;
         }
+        body.mobile-menu-active #cart-fab {
+  display: none !important;
+}
+
 
         /* Masquer sur mobile */
         @media (max-width: 768px) {
