@@ -1049,6 +1049,96 @@ document.getElementById('mobile-menu-close').onclick = function() {
 };
 
   </script>
+<script>
+  // syncHeroHeight : force --hero-h à la hauteur réelle de la bannière
+  function syncHeroHeight() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    const h = hero.offsetHeight;
+    document.documentElement.style.setProperty('--hero-h', `${h}px`);
+  }
+
+  // au chargement et à chaque redimensionnement
+  window.addEventListener('load', syncHeroHeight);
+  window.addEventListener('resize', syncHeroHeight);
+</script>
+<script>
+  // Synchronisation de la hauteur du hero pour que le catalogue soit toujours bien poussé
+  function syncHeroHeight() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    const h = hero.offsetHeight;
+    document.documentElement.style.setProperty('--hero-h', `${h}px`);
+  }
+  window.addEventListener('load', syncHeroHeight);
+  window.addEventListener('resize', syncHeroHeight);
+
+  // Gestion simple du panier / compteur sur les cartes produit
+  const CART_KEY = 'kuisto_cart';
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+  function updateCardUI(card, quantity) {
+    const addBtn = card.querySelector('.add-btn-corner');
+    const qtyBar = card.querySelector('.cart-quantity-bar');
+    const qtySpan = qtyBar?.querySelector('.cart-qty');
+    if (quantity > 0) {
+      addBtn && (addBtn.style.display = 'none');
+      if (qtyBar) {
+        qtyBar.style.display = 'flex';
+        if (qtySpan) qtySpan.textContent = quantity;
+      }
+      card.dataset.qty = quantity;
+    } else {
+      addBtn && (addBtn.style.display = 'flex');
+      if (qtyBar) qtyBar.style.display = 'none';
+      card.dataset.qty = 0;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = getCart();
+    document.querySelectorAll('.product-card').forEach(card => {
+      const productId = card.dataset.productId;
+      const qty = cart[productId] || 0;
+      updateCardUI(card, qty);
+    });
+
+    document.addEventListener('click', (e) => {
+      const add = e.target.closest('.add-btn-corner');
+      const plus = e.target.closest('.cart-plus-btn');
+      const minus = e.target.closest('.cart-remove-btn');
+      const cartLocal = getCart();
+
+      if (add) {
+        const card = add.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = (cartLocal[id] || 0) + 1;
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id]);
+      }
+      if (plus) {
+        const card = plus.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = (cartLocal[id] || 0) + 1;
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id]);
+      }
+      if (minus) {
+        const card = minus.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = Math.max(0, (cartLocal[id] || 0) - 1);
+        if (cartLocal[id] === 0) delete cartLocal[id];
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id] || 0);
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
