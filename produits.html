@@ -366,7 +366,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0,0,0,.15);
             
-            /* État par défaut : fond rouge, icône blanche */
+            /* État par default : fond rouge, icône blanche */
             background: var(--red);
             color: white;
         }
@@ -513,14 +513,14 @@
         .mobile-menu-toggle {
             position: fixed;
             top: 20px;
-            left: 20px;
+            right: 20px; /* Positionné en haut à droite */
             z-index: 1001;
             background: #F18701;
             color: white;
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            display: none; /* Masqué par défaut, affiché sur mobile */
+            display: none; /* Masqué par défaut, affiché sur mobile via media query */
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,.15);
@@ -528,123 +528,58 @@
             border: none;
             transition: all 0.3s ease;
         }
-        #mobile-menu-popup {
-  transition: opacity 0.2s;
-}
-#mobile-menu-content {
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-        .mobile-menu-toggle:hover {
-            background: white;
-            color: #F18701;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,.2);
-        }
-
-        .mobile-menu-toggle svg {
-            width: 24px;
-            height: 24px;
-        }
-        #mobile-menu-list li {
-  border-radius: 18px;
-  color: #000;
-  background: transparent;
-  cursor: pointer;
-  padding: 10px 0;
-  position: relative;
-  transition: background 0.22s, color 0.22s;
-}
-
-#mobile-menu-list li.active,
-#mobile-menu-list li:hover {
-  background: #F18701;
-  color: #fff;
-}
-
-#mobile-menu-list li.active::after,
-#mobile-menu-list li:hover::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 50%; bottom: 6px; transform: translateX(-50%);
-  width: 44px; height: 3px;
-  background: #F18701;
-  border-radius: 2px;
-  margin-top: 4px;
-}
-
-        /* Overlay du menu mobile */
-        .mobile-menu-overlay {
+        /* Styles pour le pop-up mobile */
+        #mobile-menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8); /* Overlay noir opaque */
             z-index: 1000;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none; /* Permet de cliquer à travers quand masqué */
+            transition: opacity 0.3s ease;
         }
 
-        .mobile-menu-overlay.is-open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Tiroir du menu mobile */
-        .mobile-menu-drawer {
+        #mobile-menu-drawer {
             position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95); /* Centré et légèrement réduit */
+            width: 92vw; /* Largeur relative */
+            max-width: 320px; /* Largeur maximale */
             background: #fff;
+            border-radius: 20px; /* Arrondi des coins */
+            box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
             z-index: 1001;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-            transition: left 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             padding: 20px;
-            overflow-y: auto;
+            display: flex; /* Utilisation de flexbox pour le layout interne */
+            flex-direction: column;
+            justify-content: space-between; /* Pour pousser les boutons en bas */
+            min-height: 300px; /* Hauteur minimale pour le pop-up */
         }
 
-        .mobile-menu-drawer.is-open {
-            left: 0;
+        /* État ouvert du pop-up */
+        #mobile-menu-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
         }
-        /* Menu mobile effet hover/actif comme desktop */
-#mobile-menu-list li {
-  border-radius: 18px;
-  color: #000;
-  background: transparent;
-  cursor: pointer;
-  padding: 10px 0;
-  position: relative;
-  transition: background 0.22s, color 0.22s;
-}
 
-#mobile-menu-list li.active,
-#mobile-menu-list li:hover {
-  background: #F18701;
-  color: #fff;
-}
+        #mobile-menu-drawer.is-open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1); /* Retour à la taille normale */
+        }
 
-#mobile-menu-list li.active::after,
-#mobile-menu-list li:hover::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 50%; bottom: 6px; transform: translateX(-50%);
-  width: 44px; height: 3px;
-  background: #F18701;
-  border-radius: 2px;
-  margin-top: 4px;
-}
-
-
+        /* Bouton de fermeture (X) dans le pop-up */
         .mobile-menu-drawer .close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 10px;
+            right: 10px;
             background: none;
             border: none;
             font-size: 24px;
@@ -657,29 +592,27 @@
             color: #F18701;
         }
 
+        /* Liste des catégories dans le pop-up */
         .mobile-menu-drawer ul {
             list-style: none;
             padding: 0;
-            margin-top: 60px;
+            margin-top: 40px; /* Espace pour le bouton de fermeture */
+            flex-grow: 1; /* Prend l'espace disponible */
         }
 
         .mobile-menu-drawer li {
             font-family: "Montserrat", sans-serif;
             font-weight: 600;
-            font-size: 14px;
-            line-height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-radius: 18px;
+            font-size: 16px; /* Taille de police légèrement plus grande */
+            line-height: 24px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px; /* Arrondi des éléments de liste */
             color: #000;
             background: transparent;
             cursor: pointer;
-            transition: 0.25s;
-            margin-bottom: 8px;
-            padding: 12px 16px;
-            height: auto;
+            transition: background 0.25s, color 0.25s;
+            text-align: center;
         }
 
         .mobile-menu-drawer li:hover,
@@ -688,29 +621,58 @@
             color: #fff;
         }
 
+        /* Boutons Accueil/Compte dans le pop-up mobile */
+        .mobile-popup-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding-top: 20px; /* Espace au-dessus des boutons */
+        }
+
+        .mobile-popup-buttons .desktop-btn { /* Réutilise le style des boutons desktop */
+            width: 48px;
+            height: 48px;
+            background: #F18701; /* Couleur orange */
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+        }
+
+        .mobile-popup-buttons .desktop-btn:hover {
+            background: white;
+            color: #F18701;
+        }
+
         /* Empêche le défilement du body quand le menu est ouvert */
         body.no-scroll {
             overflow: hidden;
         }
 
-        /* Media query pour les écrans desktop */
-        @media (min-width: 769px) {
-            .mobile-menu-toggle,
-            .mobile-menu-overlay,
-            .mobile-menu-drawer {
+        /* Media queries pour le comportement responsive */
+        @media (max-width: 768px) {
+            .side-nav, .desktop-buttons {
+                display: none !important; /* Masque le menu latéral et les boutons desktop sur mobile */
+            }
+            .mobile-menu-toggle {
+                display: flex; /* Affiche le bouton hamburger sur mobile */
+            }
+            .catalogue {
+                margin-left: 0; /* Réinitialise la marge du contenu principal */
+                padding-top: calc(var(--hero-h) + 20px); /* Ajuste le padding pour le bouton hamburger */
+            }
+            /* Masque le bouton flottant du panier sur la page produit */
+            #cart-fab {
                 display: none !important;
             }
         }
 
-        /* Masquer sur mobile */
-        @media (max-width: 768px) {
-            .desktop-buttons {
-                display: none;
+        @media (min-width: 769px) {
+            .mobile-menu-toggle,
+            #mobile-menu-overlay,
+            #mobile-menu-drawer {
+                display: none !important; /* Masque les éléments mobiles sur desktop */
             }
-            
-            .product-card {
-                width: 100%;
-                max-width: var(--card-w);
+            .side-nav, .desktop-buttons {
+                display: flex !important; /* Assure l'affichage des éléments desktop */
             }
         }
 
@@ -1043,7 +1005,7 @@
     // 💡 Affichage du prix
     let priceHtml = '';
     if (product.options?.sizes?.length > 0) {
-        // Sides à taille : afficher la gamme de prix ou "À partir de"
+        // Sides à taille : afficher la gamme de prix ou "À partir de"
         const prices = product.options.sizes.map(s => s.price);
         const min = Math.min(...prices);
         const max = Math.max(...prices);
@@ -1101,12 +1063,34 @@
             window.location.href = `produit.html?slug=${slug}`;
         }
 
+        // Fonction pour ajouter un produit au panier (utilisée par les boutons +)
+        function addProductToCart(slug) {
+            const product = products.find(p => p.slug === slug);
+            if (product && window.cartSystem) {
+                let basePrice = product.price;
+                let selectedSize = null;
+
+                // Si le produit a des options de taille, prendre la première par défaut
+                if (product.options && product.options.sizes && product.options.sizes.length > 0) {
+                    selectedSize = product.options.sizes[0];
+                    basePrice = selectedSize.price;
+                }
+
+                window.cartSystem.addToCart(product, 1, {
+                    supplements: {},
+                    drink: null,
+                    remove: {},
+                    size: selectedSize // Passer la taille sélectionnée
+                }, basePrice);
+            }
+        }
+
         // Fonction pour afficher tous les produits
         function renderAllProducts() {
             // Vider toutes les grilles de produits
             const containers = [
                 'tacos-products', 'burgers-products', 'menus-burgers-products',
-                'buckets-products', 'sides-products', 'boissons-products', 'desserts-products', 'menus-bambino-products'
+                'buckets-products', 'sides-products', 'boissons-products', 'desserts-products', 'hot-dogs-products', 'menus-bambino-products'
             ];
             
             containers.forEach(containerId => {
@@ -1127,86 +1111,80 @@
             });
         }
 
-        // Fonction pour basculer le menu mobile
-        function toggleMobileMenu() {
-            const overlay = document.getElementById('mobile-menu-overlay');
-            const drawer = document.getElementById('mobile-menu-drawer');
-            const body = document.body;
-            
-            const isOpen = overlay.classList.contains('is-open');
-            
-            if (isOpen) {
-                overlay.classList.remove('is-open');
-                drawer.classList.remove('is-open');
-                body.classList.remove('no-scroll');
+        // Variables globales pour le menu mobile
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        let menuOpen = false; // État du menu mobile
+
+        // Ouvre/Ferme le menu mobile
+        function toggleMobileMenu(open) {
+            if (open) {
+                mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                mobileMenuDrawer.classList.add('is-open'); // Utilise is-open pour la transition
+                mobileMenuOverlay.classList.add('is-open');
+                hamburgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                document.body.classList.add('no-scroll'); // Bloque le scroll
+                menuOpen = true;
             } else {
-                overlay.classList.add('is-open');
-                drawer.classList.add('is-open');
-                body.classList.add('no-scroll');
+                mobileMenuDrawer.classList.remove('is-open');
+                mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                mobileMenuOverlay.classList.remove('is-open');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.classList.remove('no-scroll'); // Débloque le scroll
+                menuOpen = false;
             }
         }
 
-        function setActiveCategory(category, closeMenu = false) {
-            // Mettre à jour l'état actif du menu
-            document.querySelectorAll('.side-nav li').forEach(li => {
-                li.classList.remove('active');
-            });
-            
-            // Mettre à jour l'état actif du menu mobile aussi
-            document.querySelectorAll('.mobile-menu-drawer li').forEach(li => {
-                li.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.side-nav li').forEach(li => {
-                if (li.textContent.trim() === category) {
-                    li.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.mobile-menu-drawer li').forEach(li => {
-                if (li.textContent.trim() === category) {
-                    li.classList.add('active');
-                }
-            });
-            
-            // Fermer le menu mobile si demandé
-            if (closeMenu) {
-                toggleMobileMenu();
-            }
-            
-            // Faire défiler vers la section correspondante
-            const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
-            const section = document.getElementById(sectionId);
+        // Gère l'activation des catégories et le défilement
+        window.setActiveCategory = function (cat, isMobile) {
+            // Désactive toutes les catégories actives
+            document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+            document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+
+            // Active la catégorie sélectionnée
+            document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+            document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+
+            // Défilement vers la section
+            const section = document.getElementById(cat);
             if (section) {
                 section.scrollIntoView({ behavior: 'smooth' });
             }
-        }
 
-        // Initialize
-        renderAllProducts();
+            // Ferme le menu mobile si l'action vient du mobile
+            if (isMobile) {
+                toggleMobileMenu(false);
+            }
+        };
+
+        // Initialisation au chargement du DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllProducts(); // Affiche les produits
+
+            // Écouteurs d'événements pour le menu mobile
+            mobileMenuToggle.addEventListener('click', () => toggleMobileMenu(!menuOpen));
+            mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
+            document.getElementById('mobile-menu-close').addEventListener('click', () => toggleMobileMenu(false));
+
+            // Écouteurs pour les éléments du menu mobile
+            document.querySelectorAll('.mobile-menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    setActiveCategory(item.dataset.cat, true); // isMobile = true
+                });
+            });
+
+            // Initialiser la première catégorie comme active
+            setActiveCategory('tacos', false); // 'tacos' est la première catégorie par défaut
+        });
         
         // Écouter les changements du panier pour mettre à jour l'affichage
         window.addEventListener('cartUpdated', () => {
             renderAllProducts();
-        });
-        
-        // Événements pour le menu mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const mobileMenuClose = document.getElementById('mobile-menu-close');
-            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-            
-            if (mobileMenuToggle) {
-                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-            }
-            
-            if (mobileMenuClose) {
-                mobileMenuClose.addEventListener('click', toggleMobileMenu);
-            }
-            
-            if (mobileMenuOverlay) {
-                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-            }
         });
     </script>
  
@@ -1280,7 +1258,7 @@
     mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
     mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
 
-    // Gère les liens du menu mobile : active + scroll vers section + ferme
+    // Gère les liens du menu mobile : active + scroll vers section + ferme
     document.querySelectorAll('.mobile-menu-item').forEach(item => {
       item.onclick = function () {
         document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
