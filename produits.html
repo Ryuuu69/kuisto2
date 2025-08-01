@@ -1135,26 +1135,41 @@
 </div>
   <script>
   const burgerBtn = document.getElementById('mobile-menu-toggle');
-  const drawer = document.getElementById('mobile-menu-drawer');
   const overlay = document.getElementById('mobile-menu-overlay');
+  const popup = document.getElementById('mobile-menu-popup');
+  const popupContent = document.getElementById('mobile-menu-content');
   const closeBtn = document.getElementById('mobile-menu-close');
 
+  // Ouvrir le menu pop-up
   burgerBtn.addEventListener('click', () => {
-    drawer.classList.remove('-translate-x-full');
     overlay.classList.remove('hidden');
+    popup.classList.remove('pointer-events-none');
+    setTimeout(() => {
+      popupContent.classList.remove('opacity-0', 'scale-95');
+      popupContent.classList.add('opacity-100', 'scale-100');
+    }, 10);
     document.body.classList.add('no-scroll');
   });
+
+  // Fermer le menu
+  function closeMenu() {
+    popupContent.classList.remove('opacity-100', 'scale-100');
+    popupContent.classList.add('opacity-0', 'scale-95');
+    overlay.classList.add('hidden');
+    setTimeout(() => {
+      popup.classList.add('pointer-events-none');
+    }, 200);
+    document.body.classList.remove('no-scroll');
+  }
 
   closeBtn.addEventListener('click', closeMenu);
   overlay.addEventListener('click', closeMenu);
 
-  function closeMenu() {
-    drawer.classList.add('-translate-x-full');
-    overlay.classList.add('hidden');
-    document.body.classList.remove('no-scroll');
-  }
+  // Fermer le menu quand on clique sur une catégorie
+  popupContent.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', closeMenu);
+  });
 </script>
-
 
 
 </body>
