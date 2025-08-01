@@ -761,6 +761,62 @@
             line-height: 24px;
             color: #000;
         }
+         
+    /* Désactive le scroll sur le body quand menu mobile ouvert */
+    body.overflow-hidden { overflow: hidden; }
+    /* Mobile menu drawer style */
+    #mobile-menu-drawer {
+      box-shadow: 0 20px 64px 0 rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+    #mobile-menu-drawer.opacity-100, #mobile-menu-drawer.scale-100 {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      transition: opacity .18s, transform .18s;
+    }
+    /* Menu items style - mobile */
+    .mobile-menu-item {
+      border-radius: 14px;
+      background: transparent;
+      color: #222;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      position: relative;
+    }
+    .mobile-menu-item.active, .mobile-menu-item:hover {
+      background: #F18701;
+      color: #fff;
+    }
+    .mobile-menu-item.active::after, .mobile-menu-item:hover::after {
+      content: '';
+      position: absolute;
+      left: 12px; right: 12px; bottom: 5px; height: 4px;
+      background: #F18701;
+      border-radius: 4px;
+      display: block;
+    }
+    /* Pop-up center responsive */
+    @media (max-width: 768px) {
+      #mobile-menu-drawer {
+        display: block !important;
+      }
+      .side-nav, .desktop-buttons {
+        display: none !important;
+      }
+    }
+    @media (min-width: 769px) {
+      #mobile-menu-drawer, #mobile-menu-overlay, #mobile-menu-toggle {
+        display: none !important;
+      }
+      .side-nav {
+        display: block !important;
+      }
+    }
+
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
