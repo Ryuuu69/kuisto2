@@ -942,28 +942,26 @@
     </div>
 
   <!-- Footer icons with hover inversion -->
-<div class="fixed bottom-4 left-4 z-50">
-  <div class="flex space-x-3">
-    <!-- Accueil -->
-    <button
-      onclick="window.location.href='index.html'"
-      title="Accueil"
-      class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
-    </button>
-
-    <!-- Mon compte (pour l'instant redirige vers index.html) -->
-    <button
-      onclick="window.location.href='index.html'"
-      title="Mon compte"
-      class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-      </svg>
-    </button>
-  </div>
+<!-- BOUTONS en bas du menu mobile -->
+<div class="flex justify-center gap-4 mt-8 md:hidden">
+  <!-- Accueil -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Accueil"
+    class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </button>
+  <!-- Mon compte -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Mon compte"
+    class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+  </button>
 </div>
     <!-- Include shared product data -->
     <script src="products-data.js"></script>
