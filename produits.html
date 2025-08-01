@@ -546,6 +546,33 @@
             width: 24px;
             height: 24px;
         }
+        #mobile-menu-list li {
+  border-radius: 18px;
+  color: #000;
+  background: transparent;
+  cursor: pointer;
+  padding: 10px 0;
+  position: relative;
+  transition: background 0.22s, color 0.22s;
+}
+
+#mobile-menu-list li.active,
+#mobile-menu-list li:hover {
+  background: #F18701;
+  color: #fff;
+}
+
+#mobile-menu-list li.active::after,
+#mobile-menu-list li:hover::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%; bottom: 6px; transform: translateX(-50%);
+  width: 44px; height: 3px;
+  background: #F18701;
+  border-radius: 2px;
+  margin-top: 4px;
+}
 
         /* Overlay du menu mobile */
         .mobile-menu-overlay {
