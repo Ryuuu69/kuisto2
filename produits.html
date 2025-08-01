@@ -110,14 +110,13 @@
 
         /* --- ZONE QUI DÉFILE --- */
         .catalogue {
-            position: relative;
-            margin-left: var(--side-w);     /* laisse place au menu fixe */
-            padding-top: 255px;
-  /* Ajoute plus d’espace si besoin */
-            padding-inline: var(--gutter);  /* marges latérales */
-            height: 100%;
-            overflow-y: auto;
-        }
+  margin-left: var(--side-w);
+  padding-top: 260px !important;   /* force le padding pour test */
+  padding-inline: var(--gutter);
+  height: 100%;
+  overflow-y: auto;
+  background: transparent;
+}
 
         /* ———————————————————————————
            SECTIONS DE CATÉGORIES
