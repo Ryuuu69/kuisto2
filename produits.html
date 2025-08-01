@@ -1193,6 +1193,68 @@
       window.scrollTo({ top, behavior: 'smooth' });
     }
   });
+    <script>
+  (function() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    let menuOpen = false;
+
+    function setMenuState(open) {
+      if (open) {
+        mobileMenuDrawer?.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer?.classList.add('opacity-100', 'scale-100');
+        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+        mobileMenuOverlay?.classList.remove('hidden');
+        hamburgerIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden', 'no-scroll', 'mobile-menu-active');
+        menuOpen = true;
+      } else {
+        mobileMenuDrawer?.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer?.classList.remove('opacity-100', 'scale-100');
+        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+        mobileMenuOverlay?.classList.add('hidden');
+        hamburgerIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden', 'no-scroll', 'mobile-menu-active');
+        menuOpen = false;
+      }
+    }
+
+    mobileMenuToggle?.addEventListener('click', () => setMenuState(!menuOpen));
+    mobileMenuOverlay?.addEventListener('click', () => setMenuState(false));
+
+    // items mobile : activation, scroll avec offset, fermeture, et appel à setActiveCategory si défini
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const cat = item.dataset.cat;
+
+        // visuel actif mobile
+        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+        item.classList.add('active');
+
+        // scroll avec compensation header fixe
+        const section = document.getElementById(cat);
+        if (section) {
+          const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+          const top = section.getBoundingClientRect().top + window.scrollY - headerOffset - 8;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+
+        // appel à ta fonction existante (desktop + sync) si elle existe
+        if (typeof window.setActiveCategory === 'function') {
+          window.setActiveCategory(cat, true);
+        }
+
+        // ferme le menu
+        setMenuState(false);
+      });
+    });
+  })();
 </script>
+
 </body>
 </html>
