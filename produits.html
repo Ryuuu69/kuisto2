@@ -448,6 +448,158 @@
 
         /* Masquer sur mobile */
         @media (max-width: 768px) {
+            .side-nav {
+                display: none; /* Masque le menu latéral desktop sur mobile */
+            }
+
+            .catalogue {
+                margin-left: 0; /* Réinitialise la marge du contenu principal */
+                padding-top: calc(var(--hero-h) + 80px); /* Ajuste le padding pour le bouton hamburger */
+            }
+
+            .mobile-menu-toggle {
+                display: flex; /* Affiche le bouton hamburger sur mobile */
+            }
+
+            /* Masque le bouton flottant du panier sur la page produit */
+            #cart-fab {
+                display: none !important;
+            }
+        }
+
+        /* Styles pour le bouton hamburger mobile */
+        .mobile-menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #F18701;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: none; /* Masqué par défaut, affiché sur mobile */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: white;
+            color: #F18701;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .mobile-menu-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Overlay du menu mobile */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Tiroir du menu mobile */
+        .mobile-menu-drawer {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: #fff;
+            z-index: 1001;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease-in-out;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu-drawer.is-open {
+            left: 0;
+        }
+
+        .mobile-menu-drawer .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #808080;
+            transition: color 0.2s ease;
+        }
+
+        .mobile-menu-drawer .close-btn:hover {
+            color: #F18701;
+        }
+
+        .mobile-menu-drawer ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 60px;
+        }
+
+        .mobile-menu-drawer li {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 18px;
+            color: #000;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-bottom: 8px;
+            padding: 12px 16px;
+            height: auto;
+        }
+
+        .mobile-menu-drawer li:hover,
+        .mobile-menu-drawer li.active {
+            background: var(--kuisto-orange);
+            color: #fff;
+        }
+
+        /* Empêche le défilement du body quand le menu est ouvert */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Media query pour les écrans desktop */
+        @media (min-width: 769px) {
+            .mobile-menu-toggle,
+            .mobile-menu-overlay,
+            .mobile-menu-drawer {
+                display: none !important;
+            }
+        }
+
+        /* Masquer sur mobile */
+        @media (max-width: 768px) {
             .desktop-buttons {
                 display: none;
             }
@@ -519,19 +671,43 @@
   </a>
 </header>
 
+    <!-- Bouton hamburger mobile -->
+    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
+
+    <!-- Overlay et tiroir du menu mobile -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+    <div id="mobile-menu-drawer" class="mobile-menu-drawer">
+        <button class="close-btn" id="mobile-menu-close">✕</button>
+        <ul>
+            <li class="active" onclick="setActiveCategory('tacos', true)">Tacos</li>
+            <li onclick="setActiveCategory('burgers', true)">Burgers</li>
+            <li onclick="setActiveCategory('menus-burgers', true)">Menus Burger</li>
+            <li onclick="setActiveCategory('buckets', true)">Buckets</li>
+            <li onclick="setActiveCategory('hot-dogs', true)">Hot Dogs</li>
+            <li onclick="setActiveCategory('menus-bambino', true)">Menus Bambino</li>
+            <li onclick="setActiveCategory('sides', true)">Sides</li>
+            <li onclick="setActiveCategory('boissons', true)">Boissons</li>
+            <li onclick="setActiveCategory('desserts', true)">Desserts</li>
+        </ul>
+    </div>
+
 
     <!-- MENUS FIXES À GAUCHE -->
     <nav class="side-nav">
         <ul>
-            <li class="active" onclick="setActiveCategory('tacos')">Tacos</li>
-            <li onclick="setActiveCategory('burgers')">Burgers</li>
-            <li onclick="setActiveCategory('menus-burgers')">Menus Burger</li>
-            <li onclick="setActiveCategory('buckets')">Buckets</li>
-            <li onclick="setActiveCategory('hot-dogs')">Hot Dogs</li>
-            <li onclick="setActiveCategory('menus-bambino')">Menus Bambino</li>
-            <li onclick="setActiveCategory('sides')">Sides</li>
-            <li onclick="setActiveCategory('boissons')">Boissons</li>
-            <li onclick="setActiveCategory('desserts')">Desserts</li>
+            <li class="active" onclick="setActiveCategory('tacos', false)">Tacos</li>
+            <li onclick="setActiveCategory('burgers', false)">Burgers</li>
+            <li onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
+            <li onclick="setActiveCategory('buckets', false)">Buckets</li>
+            <li onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
+            <li onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
+            <li onclick="setActiveCategory('sides', false)">Sides</li>
+            <li onclick="setActiveCategory('boissons', false)">Boissons</li>
+            <li onclick="setActiveCategory('desserts', false)">Desserts</li>
         </ul>
     </nav>
 
@@ -791,9 +967,33 @@
             });
         }
 
-        function setActiveCategory(category) {
+        // Fonction pour basculer le menu mobile
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const drawer = document.getElementById('mobile-menu-drawer');
+            const body = document.body;
+            
+            const isOpen = overlay.classList.contains('is-open');
+            
+            if (isOpen) {
+                overlay.classList.remove('is-open');
+                drawer.classList.remove('is-open');
+                body.classList.remove('no-scroll');
+            } else {
+                overlay.classList.add('is-open');
+                drawer.classList.add('is-open');
+                body.classList.add('no-scroll');
+            }
+        }
+
+        function setActiveCategory(category, closeMenu = false) {
             // Mettre à jour l'état actif du menu
             document.querySelectorAll('.side-nav li').forEach(li => {
+                li.classList.remove('active');
+            });
+            
+            // Mettre à jour l'état actif du menu mobile aussi
+            document.querySelectorAll('.mobile-menu-drawer li').forEach(li => {
                 li.classList.remove('active');
             });
             
@@ -802,6 +1002,17 @@
                     li.classList.add('active');
                 }
             });
+            
+            document.querySelectorAll('.mobile-menu-drawer li').forEach(li => {
+                if (li.textContent.trim() === category) {
+                    li.classList.add('active');
+                }
+            });
+            
+            // Fermer le menu mobile si demandé
+            if (closeMenu) {
+                toggleMobileMenu();
+            }
             
             // Faire défiler vers la section correspondante
             const sectionId = category.toLowerCase().replace(/\s+/g, '-').replace('é', 'e');
@@ -817,6 +1028,25 @@
         // Écouter les changements du panier pour mettre à jour l'affichage
         window.addEventListener('cartUpdated', () => {
             renderAllProducts();
+        });
+        
+        // Événements pour le menu mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+            
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', toggleMobileMenu);
+            }
+            
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+            }
         });
     </script>
     
