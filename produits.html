@@ -49,25 +49,35 @@
         
        
 
-        /* --- HERO --- */
-        .hero {
-            position: fixed;
-            inset: 0 0 auto 0;
-            height: var(--hero-h);
-            background: #d81616;
-            box-shadow: 0 2px 6px rgba(0,0,0,.08);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        /* Bannière style "produit.html" avec arrondis en bas */
+.hero {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--hero-h);
+  width: 100%; /* évite overflow horizontal que peut causer 100vw */
+  background: var(--bigsmash-white);
+  box-shadow: var(--bigsmash-shadow);
+  border-bottom-left-radius: var(--bigsmash-radius);
+  border-bottom-right-radius: var(--bigsmash-radius);
+  overflow: hidden; /* pour que l'image respecte les arrondis */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Image à l’intérieur : couvre sans déformer et s’aligne sur les arrondis */
+.hero .banner-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* appliquer les arrondis uniquement en bas si tu veux (hérité du parent) */
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
 
         /* --- MENU LATÉRAL --- */
         .side-nav {
