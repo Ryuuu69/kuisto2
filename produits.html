@@ -184,11 +184,12 @@
 
         /* ————————————— LAYOUT PRODUITS ————————————— */
         /* Grille de cartes produits */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(var(--card-w), 1fr));
-            gap: var(--gap);
-        }
+       .cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: flex-start;
+}
 
         /* ======================== COMPOSANT CARTE PRODUIT ================ */
         .product-card {
