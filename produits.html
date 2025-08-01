@@ -764,78 +764,79 @@
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
-    <!-- HERO -->
-    <header class="hero w-full">
-      <!-- BOUTON HAMBURGER MOBILE (haut droit, cache sur desktop) -->
-<button id="mobile-menu-toggle"
-    class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
-    aria-label="Menu">
-    <span id="hamburger-icon" class="block">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-7 h-7">
+
+  <!-- HERO / HEADER -->
+  <header class="hero w-full">
+    <!-- Bouton hamburger/croix mobile (EN HAUT À DROITE, mobile ONLY) -->
+    <button id="mobile-menu-toggle"
+      class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
+      aria-label="Menu">
+      <span id="hamburger-icon" class="block">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-7 h-7">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </span>
-    <span id="close-icon" class="hidden">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </span>
-</button>
-
-<!-- OVERLAY + POP-UP (que sur mobile, caché sur desktop) -->
-<div id="mobile-menu-overlay"
-     class="fixed inset-0 bg-black bg-opacity-80 z-40 transition-opacity hidden md:hidden"></div>
-
-<nav id="mobile-menu-drawer"
-     class="fixed top-0 left-1/2 -translate-x-1/2 h-[94vh] w-[92vw] max-w-xs bg-white shadow-2xl z-50 transition-transform scale-90 opacity-0 pointer-events-none md:hidden rounded-2xl flex flex-col items-center justify-between">
-  <button class="absolute top-4 right-4 text-3xl" id="mobile-menu-close" aria-label="Fermer le menu">✕</button>
-  <ul class="pt-16 px-6 space-y-5 text-lg font-semibold flex-1 w-full overflow-y-auto">
-    <li class="active" onclick="setActiveCategory('tacos', true)">Tacos</li>
-    <li onclick="setActiveCategory('burgers', true)">Burgers</li>
-    <li onclick="setActiveCategory('menus-burgers', true)">Menus Burger</li>
-    <li onclick="setActiveCategory('buckets', true)">Buckets</li>
-    <li onclick="setActiveCategory('hot-dogs', true)">Hot Dogs</li>
-    <li onclick="setActiveCategory('menus-bambino', true)">Menus Bambino</li>
-    <li onclick="setActiveCategory('sides', true)">Sides</li>
-    <li onclick="setActiveCategory('boissons', true)">Boissons</li>
-    <li onclick="setActiveCategory('desserts', true)">Desserts</li>
-  </ul>
-  <div class="pb-5 pt-2 w-full flex justify-center gap-4">
-    <button
-      onclick="window.location.href='index.html'"
-      title="Accueil"
-      class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
+            d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span id="close-icon" class="hidden">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </span>
     </button>
-    <button
-      onclick="window.location.href='index.html'"
-      title="Mon compte"
-      class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-      </svg>
-    </button>
-  </div>
-</nav>
+    <a href="index.html" class="block w-full">
+      <img src="images/banner.svg" alt="Kuisto Banner" class="w-full h-auto cursor-pointer" />
+    </a>
+  </header>
 
-    <!-- MENU LATÉRAL DESKTOP -->
-    <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
-        <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
-            <li class="active" onclick="setActiveCategory('tacos', false)">Tacos</li>
-            <li onclick="setActiveCategory('burgers', false)">Burgers</li>
-            <li onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
-            <li onclick="setActiveCategory('buckets', false)">Buckets</li>
-            <li onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
-            <li onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
-            <li onclick="setActiveCategory('sides', false)">Sides</li>
-            <li onclick="setActiveCategory('boissons', false)">Boissons</li>
-            <li onclick="setActiveCategory('desserts', false)">Desserts</li>
-        </ul>
-    </nav>
+  <!-- MENU MOBILE : overlay + drawer + boutons -->
+  <div id="mobile-menu-overlay"
+       class="fixed inset-0 bg-black bg-opacity-80 z-40 hidden transition-opacity duration-300"></div>
+  <nav id="mobile-menu-drawer"
+       class="fixed top-1/2 left-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-transform duration-300
+              translate-x-[-50%] translate-y-[-50%] scale-95 opacity-0 pointer-events-none">
+    <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
+      <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
+      <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
+      <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
+      <li class="mobile-menu-item" data-cat="hot-dogs">Hot Dogs</li>
+      <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
+      <li class="mobile-menu-item" data-cat="sides">Sides</li>
+      <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
+      <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
+    </ul>
+    <!-- Boutons attachés au pop-up (EN BAS) -->
+    <div class="w-full flex justify-center gap-5 pb-5">
+      <button onclick="window.location.href='index.html'"
+        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+      <button onclick="window.location.href='index.html'"
+        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MENU LATÉRAL DESKTOP -->
+  <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
+    <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
+      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Tacos</li>
+      <li class="classic-menu-item" data-cat="burgers" onclick="setActiveCategory('burgers', false)">Burgers</li>
+      <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
+      <li class="classic-menu-item" data-cat="buckets" onclick="setActiveCategory('buckets', false)">Buckets</li>
+      <li class="classic-menu-item" data-cat="hot-dogs" onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
+      <li class="classic-menu-item" data-cat="menus-bambino" onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
+      <li class="classic-menu-item" data-cat="sides" onclick="setActiveCategory('sides', false)">Sides</li>
+      <li class="classic-menu-item" data-cat="boissons" onclick="setActiveCategory('boissons', false)">Boissons</li>
+      <li class="classic-menu-item" data-cat="desserts" onclick="setActiveCategory('desserts', false)">Desserts</li>
+    </ul>
+  </nav>
 
   <!-- CONTENU QUI DÉFILE -->
 <main class="ml-0 md:ml-56">
@@ -1185,38 +1186,70 @@
     </svg>
   </button>
 </div>
-<script>
-const btnToggle = document.getElementById('mobile-menu-toggle');
-const overlay   = document.getElementById('mobile-menu-overlay');
-const drawer    = document.getElementById('mobile-menu-drawer');
-const btnClose  = document.getElementById('mobile-menu-close');
-const hamburger = document.getElementById('hamburger-icon');
-const closeIcon = document.getElementById('close-icon');
+  <script>
+    // ——————————————————————————————
+    // Menu Mobile JS
+    // ——————————————————————————————
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    let menuOpen = false;
 
-btnToggle.onclick = function() {
-  overlay.classList.remove('hidden');
-  drawer.classList.remove('scale-90', 'opacity-0', 'pointer-events-none');
-  drawer.classList.add('scale-100', 'opacity-100');
-  document.body.classList.add('overflow-hidden');
-  hamburger.classList.add('hidden');
-  closeIcon.classList.remove('hidden');
-};
-function closeMenu() {
-  overlay.classList.add('hidden');
-  drawer.classList.add('scale-90', 'opacity-0', 'pointer-events-none');
-  drawer.classList.remove('scale-100', 'opacity-100');
-  document.body.classList.remove('overflow-hidden');
-  hamburger.classList.remove('hidden');
-  closeIcon.classList.add('hidden');
-}
-btnClose.onclick = closeMenu;
-overlay.onclick = closeMenu;
-window.addEventListener('resize', () => {
-  if(window.innerWidth > 768) closeMenu();
-});
-</script>
+    // Ouvre/Ferme le menu
+    function toggleMobileMenu(open) {
+      if (open) {
+        mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
+        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+        mobileMenuOverlay.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        menuOpen = true;
+      } else {
+        mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
+        mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+        mobileMenuOverlay.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        menuOpen = false;
+      }
+    }
 
+    // Toggle menu on button click
+    mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
+    mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
 
+    // Gère les liens du menu mobile : active + scroll vers section + ferme
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.onclick = function () {
+        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+        item.classList.add('active');
+        // Scroller à la section correspondante
+        const section = document.getElementById(item.dataset.cat);
+        if(section) section.scrollIntoView({behavior: "smooth"});
+        toggleMobileMenu(false);
+      };
+    });
+
+    // Effet actif côté desktop menu (restera inchangé)
+    window.setActiveCategory = function (cat, isMobile) {
+      // Desktop
+      document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+      document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+      // Mobile
+      document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+      document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+      // Scroll (sur mobile, en ferme le menu après click)
+      const section = document.getElementById(cat);
+      if(section) section.scrollIntoView({behavior: "smooth"});
+      if(isMobile) toggleMobileMenu(false);
+    };
+  </script>
 
 </body>
 </html>
