@@ -1139,6 +1139,48 @@ document.getElementById('mobile-menu-close').onclick = function() {
     });
   });
 </script>
+  <script>
+  // toggle & hide cart when menu mobile open
+  function openMobileMenu() {
+    document.getElementById('mobile-menu-overlay')?.classList.add('is-open');
+    document.getElementById('mobile-menu-drawer')?.classList.add('is-open');
+    document.body.classList.add('no-scroll', 'mobile-menu-active');
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu-overlay')?.classList.remove('is-open');
+    document.getElementById('mobile-menu-drawer')?.classList.remove('is-open');
+    document.body.classList.remove('no-scroll', 'mobile-menu-active');
+  }
+
+  // burger toggle
+  document.querySelectorAll('#burger-btn, .mobile-menu-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const open = document.getElementById('mobile-menu-drawer')?.classList.contains('is-open');
+      open ? closeMobileMenu() : openMobileMenu();
+    });
+  });
+
+  // fermeture via overlay ou X
+  document.getElementById('mobile-menu-overlay')?.addEventListener('click', closeMobileMenu);
+  document.querySelectorAll('.mobile-menu-drawer .close-btn').forEach(el => el.addEventListener('click', closeMobileMenu));
+
+  // liens internes : scroll + fermeture
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('.mobile-menu-drawer a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      closeMobileMenu();
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+</script>
+
 
 </body>
 </html>
