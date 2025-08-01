@@ -1154,7 +1154,6 @@
   const hamburgerIcon = document.getElementById('hamburger-icon');
   const closeIcon = document.getElementById('close-icon');
 
-  // Fonction pour ouvrir le menu
   function openMenu() {
     overlay.classList.remove('hidden');
     popup.classList.remove('pointer-events-none');
@@ -1167,7 +1166,6 @@
     closeIcon.classList.remove('hidden');
   }
 
-  // Fonction pour fermer le menu
   function closeMenu() {
     popupContent.classList.remove('opacity-100', 'scale-100');
     popupContent.classList.add('opacity-0', 'scale-95');
@@ -1180,28 +1178,25 @@
     closeIcon.classList.add('hidden');
   }
 
-  // Toggle : si menu ouvert, ferme, sinon ouvre
   let menuOpen = false;
   burgerBtn.addEventListener('click', function() {
     menuOpen ? closeMenu() : openMenu();
     menuOpen = !menuOpen;
   });
 
-  // Ferme aussi si on clique sur overlay ou sur une catégorie
+  // Fermer en cliquant l'overlay (le fond noir)
   overlay.addEventListener('click', function() {
     closeMenu();
     menuOpen = false;
   });
+  // Fermer quand on clique un élément du menu
   popupContent.querySelectorAll('li').forEach(li => {
     li.addEventListener('click', function() {
       closeMenu();
       menuOpen = false;
     });
   });
-
-  // (Optionnel) Ferme aussi au swipe haut/bas mobile
 </script>
-
 
 </body>
 </html>
