@@ -1178,57 +1178,54 @@
     </svg>
   </button>
 </div>
-  <script>
-  const burgerBtn = document.getElementById('mobile-menu-toggle');
-  const overlay = document.getElementById('mobile-menu-overlay');
-  const popup = document.getElementById('mobile-menu-popup');
-  const popupContent = document.getElementById('mobile-menu-content');
-  const hamburgerIcon = document.getElementById('hamburger-icon');
-  const closeIcon = document.getElementById('close-icon');
+ <script>
+const overlay = document.getElementById("mobile-menu-overlay");
+const popup   = document.getElementById("mobile-menu-popup");
+const content = document.getElementById("mobile-menu-content");
+const burger  = document.getElementById("mobile-menu-toggle");
+let menuOpen  = false;
 
-  function openMenu() {
-    overlay.classList.remove('hidden');
-    popup.classList.remove('pointer-events-none');
-    setTimeout(() => {
-      popupContent.classList.remove('opacity-0', 'scale-95');
-      popupContent.classList.add('opacity-100', 'scale-100');
-    }, 10);
-    document.body.classList.add('no-scroll');
-    hamburgerIcon.classList.add('hidden');
-    closeIcon.classList.remove('hidden');
-  }
+function openMobileMenu() {
+  overlay.classList.remove("hidden");
+  popup.classList.remove("pointer-events-none");
+  setTimeout(() => {
+    content.classList.add("opacity-100","scale-100");
+    content.classList.remove("opacity-0","scale-95");
+  }, 10);
+  menuOpen = true;
+  // Change burger to X
+  burger.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`;
+}
+function closeMobileMenu() {
+  overlay.classList.add("hidden");
+  content.classList.remove("opacity-100","scale-100");
+  content.classList.add("opacity-0","scale-95");
+  popup.classList.add("pointer-events-none");
+  menuOpen = false;
+  // Change X to burger
+  burger.innerHTML = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>`;
+}
 
-  function closeMenu() {
-    popupContent.classList.remove('opacity-100', 'scale-100');
-    popupContent.classList.add('opacity-0', 'scale-95');
-    overlay.classList.add('hidden');
-    setTimeout(() => {
-      popup.classList.add('pointer-events-none');
-    }, 200);
-    document.body.classList.remove('no-scroll');
-    hamburgerIcon.classList.remove('hidden');
-    closeIcon.classList.add('hidden');
-  }
+burger.addEventListener("click", function() {
+  if (menuOpen) { closeMobileMenu(); } else { openMobileMenu(); }
+});
+overlay.addEventListener("click", closeMobileMenu);
 
-  let menuOpen = false;
-  burgerBtn.addEventListener('click', function() {
-    menuOpen ? closeMenu() : openMenu();
-    menuOpen = !menuOpen;
+document.getElementById("mobile-menu-list").querySelectorAll("li").forEach(li => {
+  li.addEventListener("click", function() {
+    // Remove all active
+    document.getElementById("mobile-menu-list").querySelectorAll("li").forEach(e => e.classList.remove("active"));
+    this.classList.add("active");
+    // Scroll to section
+    const section = document.getElementById(this.getAttribute("data-cat"));
+    if(section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    closeMobileMenu();
   });
-
-  // Fermer en cliquant l'overlay (le fond noir)
-  overlay.addEventListener('click', function() {
-    closeMenu();
-    menuOpen = false;
-  });
-  // Fermer quand on clique un élément du menu
-  popupContent.querySelectorAll('li').forEach(li => {
-    li.addEventListener('click', function() {
-      closeMenu();
-      menuOpen = false;
-    });
-  });
+});
 </script>
+
 
 </body>
 </html>
