@@ -704,27 +704,32 @@
 <body class="min-h-screen bg-gray-50">
     <!-- HERO -->
     <header class="hero">
-  <a href="index.html" class="block">
-    <img
-      src="images/banner.svg"
-      alt="Kuisto Banner"
-      class="w-full h-auto cursor-pointer"
-    />
-  </a>
-</header>
+        <a href="index.html" class="block">
+            <img
+                src="images/banner.svg"
+                alt="Kuisto Banner"
+                class="w-full h-auto cursor-pointer"
+            />
+        </a>
+    </header>
 
-    <!-- Bouton hamburger mobile -->
-    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    <!-- Bouton hamburger MOBILE (visible seulement sur mobile) -->
+    <button id="mobile-menu-toggle"
+            class="fixed top-5 left-4 z-40 md:hidden p-2 rounded bg-white shadow"
+            aria-label="Ouvrir le menu">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
     </button>
 
-    <!-- Overlay et tiroir du menu mobile -->
-    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
-    <div id="mobile-menu-drawer" class="mobile-menu-drawer">
-        <button class="close-btn" id="mobile-menu-close">✕</button>
-        <ul>
+    <!-- Overlay ET Tiroir du menu mobile -->
+    <div id="mobile-menu-overlay"
+         class="fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity hidden"></div>
+    <nav id="mobile-menu-drawer"
+         class="fixed top-0 left-0 h-full w-3/4 max-w-xs bg-white shadow-lg z-50 transition-transform -translate-x-full md:hidden">
+        <button class="absolute top-3 right-4 text-3xl" id="mobile-menu-close" aria-label="Fermer le menu">✕</button>
+        <ul class="pt-16 px-6 space-y-5 text-lg font-semibold">
             <li class="active" onclick="setActiveCategory('tacos', true)">Tacos</li>
             <li onclick="setActiveCategory('burgers', true)">Burgers</li>
             <li onclick="setActiveCategory('menus-burgers', true)">Menus Burger</li>
@@ -735,26 +740,25 @@
             <li onclick="setActiveCategory('boissons', true)">Boissons</li>
             <li onclick="setActiveCategory('desserts', true)">Desserts</li>
         </ul>
-    </div>
-
+    </nav>
 
     <!-- MENU LATÉRAL DESKTOP -->
-<nav class="side-nav sidebar-classic">
-    <ul>
-        <li class="active" onclick="setActiveCategory('tacos', false)">Tacos</li>
-        <li onclick="setActiveCategory('burgers', false)">Burgers</li>
-        <li onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
-        <li onclick="setActiveCategory('buckets', false)">Buckets</li>
-        <li onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
-        <li onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
-        <li onclick="setActiveCategory('sides', false)">Sides</li>
-        <li onclick="setActiveCategory('boissons', false)">Boissons</li>
-        <li onclick="setActiveCategory('desserts', false)">Desserts</li>
-    </ul>
-</nav>
+    <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
+        <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
+            <li class="active" onclick="setActiveCategory('tacos', false)">Tacos</li>
+            <li onclick="setActiveCategory('burgers', false)">Burgers</li>
+            <li onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
+            <li onclick="setActiveCategory('buckets', false)">Buckets</li>
+            <li onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
+            <li onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
+            <li onclick="setActiveCategory('sides', false)">Sides</li>
+            <li onclick="setActiveCategory('boissons', false)">Boissons</li>
+            <li onclick="setActiveCategory('desserts', false)">Desserts</li>
+        </ul>
+    </nav>
 
     <!-- CONTENU QUI DÉFILE -->
-    <main class="catalogue">
+    <main class="catalogue md:ml-56">
         <!-- Section Tacos -->
         <section id="tacos" class="cat">
             <h2 class="section-title">Tacos</h2>
@@ -762,7 +766,7 @@
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
-        
+
         <!-- Section Burgers -->
         <section id="burgers" class="cat">
             <h2 class="section-title">BURGERS</h2>
@@ -770,7 +774,7 @@
                 <!-- Products will be populated by JavaScript -->
             </div>
         </section>
-      
+
       <!-- Section Menus Burger -->
         <section id="menus-burgers" class="cat">
             <h2 class="section-title">MENUS BURGER</h2>
