@@ -18,7 +18,8 @@
             --hero-h: 219px;        /* hauteur du bandeau rouge */
             --side-w: 211px;        /* largeur du menu vertical */
             --gutter: 24px;         /* espacement latéral des produits */
-            --card-min: 340px;      /* largeur minimale d'une carte produit */
+            --card-min: 340px;/* largeur minimale d'une carte produit */
+            --catalogue-offset: 8px; /* décale la zone principale vers la droite */
             
             /* Variables pour le composant carte produit */
             --card-w: 370px;        /* largeur de la carte */
@@ -116,7 +117,8 @@
         /* --- ZONE QUI DÉFILE --- */
         .catalogue {
             position: relative;
-            margin-left: var(--side-w);     /* laisse place au menu fixe */
+            margin-left: calc(var(--side-w) + var(--catalogue-offset)); /* décale vers la droite */
+
             padding-top: calc(var(--hero-h) + 1rem);  /* évite le hero */
             padding-inline: var(--gutter);  /* marges latérales */
             height: 100%;
