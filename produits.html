@@ -797,27 +797,49 @@
         </a>
     </header>
 
-   <!-- Overlay noir pour popup menu mobile -->
+<!-- Overlay ET Tiroir du menu mobile -->
 <div id="mobile-menu-overlay"
-     class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-200"></div>
-<!-- Popup menu centré -->
-<div id="mobile-menu-popup"
-     class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-  <div id="mobile-menu-content"
-       class="bg-white rounded-2xl shadow-2xl p-7 w-[92vw] max-w-xs text-center opacity-0 scale-95 transition-all duration-200">
-    <ul id="mobile-menu-list" class="space-y-4 text-lg font-bold">
-      <li data-cat="tacos"    class="mobile-cat">Tacos</li>
-      <li data-cat="burgers"  class="mobile-cat">Burgers</li>
-      <li data-cat="menus-burgers" class="mobile-cat">Menus Burger</li>
-      <li data-cat="buckets"  class="mobile-cat">Buckets</li>
-      <li data-cat="hot-dogs" class="mobile-cat">Hot Dogs</li>
-      <li data-cat="menus-bambino" class="mobile-cat">Menus Bambino</li>
-      <li data-cat="sides"    class="mobile-cat">Sides</li>
-      <li data-cat="boissons" class="mobile-cat">Boissons</li>
-      <li data-cat="desserts" class="mobile-cat">Desserts</li>
+     class="fixed inset-0 bg-black bg-opacity-60 z-40 transition-opacity hidden"></div>
+
+<nav id="mobile-menu-drawer"
+     class="fixed top-0 left-0 h-full w-3/4 max-w-xs bg-white shadow-lg z-50 transition-transform -translate-x-full md:hidden">
+  <div class="relative h-full flex flex-col">
+    <button class="absolute top-3 right-4 text-3xl" id="mobile-menu-close" aria-label="Fermer le menu">✕</button>
+    <ul class="pt-16 px-6 space-y-5 text-lg font-semibold flex-1 overflow-y-auto">
+      <li class="active" onclick="setActiveCategory('tacos', true)">Tacos</li>
+      <li onclick="setActiveCategory('burgers', true)">Burgers</li>
+      <li onclick="setActiveCategory('menus-burgers', true)">Menus Burger</li>
+      <li onclick="setActiveCategory('buckets', true)">Buckets</li>
+      <li onclick="setActiveCategory('hot-dogs', true)">Hot Dogs</li>
+      <li onclick="setActiveCategory('menus-bambino', true)">Menus Bambino</li>
+      <li onclick="setActiveCategory('sides', true)">Sides</li>
+      <li onclick="setActiveCategory('boissons', true)">Boissons</li>
+      <li onclick="setActiveCategory('desserts', true)">Desserts</li>
     </ul>
+    <!-- BOUTONS collés en bas du menu pop-up mobile -->
+    <div class="absolute bottom-6 left-0 w-full flex justify-center gap-4 md:hidden">
+      <!-- Accueil -->
+      <button
+        onclick="window.location.href='index.html'"
+        title="Accueil"
+        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+      <!-- Mon compte -->
+      <button
+        onclick="window.location.href='index.html'"
+        title="Mon compte"
+        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+    </div>
   </div>
-</div>
+</nav>
+
 
     <!-- MENU LATÉRAL DESKTOP -->
     <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
@@ -941,28 +963,7 @@
         </div>
     </div>
 
-  <!-- Footer icons with hover inversion -->
-<!-- BOUTONS en bas du menu mobile -->
-<div class="flex justify-center gap-4 mt-8 md:hidden">
-  <!-- Accueil -->
-  <button
-    onclick="window.location.href='index.html'"
-    title="Accueil"
-    class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
-  </button>
-  <!-- Mon compte -->
-  <button
-    onclick="window.location.href='index.html'"
-    title="Mon compte"
-    class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
-  </button>
-</div>
+
     <!-- Include shared product data -->
     <script src="products-data.js"></script>
 
