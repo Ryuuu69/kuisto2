@@ -1128,19 +1128,35 @@
     </svg>
   </button>
 </div>
-  <script>
-  const sidebar = document.getElementById('sidebarMenu');
-  const openBtn = document.getElementById('openSidebar');
-  const closeBtn = document.getElementById('closeSidebar');
-  openBtn && (openBtn.onclick = () => sidebar.classList.add('open'));
-  closeBtn && (closeBtn.onclick = () => sidebar.classList.remove('open'));
+  </head>
+<body class="min-h-screen bg-gray-50">
+    <!-- HERO -->
+    <header class="hero">
+        <a href="index.html" class="block">
+            <img
+                src="images/banner.svg"
+                alt="Kuisto Banner"
+                class="w-full h-auto cursor-pointer"
+            />
+        </a>
+    </header>
 
-  // Fermer menu mobile après clic sur une entrée (pour UX mobile)
-  sidebar.querySelectorAll('li').forEach(li => {
-    li.onclick = () => sidebar.classList.remove('open');
-  });
-</script>
+    <!-- Bouton hamburger MOBILE (visible seulement sur mobile) -->
+    <button id="mobile-menu-toggle"
+            class="fixed top-5 left-4 z-40 md:hidden p-2 rounded bg-white shadow"
+            aria-label="Ouvrir le menu">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
 
+    <!-- Overlay ET Tiroir du menu mobile -->
+    <div id="mobile-menu-overlay"
+         class="fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity hidden"></div>
+    <nav id="mobile-menu-drawer"
+         class="fixed top-0 left-0 h-full w-3/4 max-w-xs bg-white shadow-lg z-50 transition-transform -translate-x-full md:hidden">
+        <button class="absolute top-3 right-4 text-3xl" id="mobile-menu-close" aria-label="Fermer le menu">✕</button>
 
 </body>
 </html>
