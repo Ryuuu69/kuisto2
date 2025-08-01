@@ -596,20 +596,22 @@
       <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
     </ul>
     <!-- Boutons attachés au pop-up (EN BAS) -->
-    <div class="w-full flex justify-center gap-5 pb-5">
-      <button onclick="window.location.href='index.html'"
-        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-        </svg>
-      </button>
-      <button onclick="window.location.href='index.html'"
-        class="w-12 h-12 bg-[#EA3D2F] text-white hover:bg-white hover:text-[#EA3D2F] border border-transparent hover:border-[#EA3D2F] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-        </svg>
-      </button>
-    </div>
+    <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
+  <button onclick="window.location.href='index.html'"
+    title="Accueil"
+    class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </button>
+  <button onclick="window.location.href='index.html'"
+    title="Mon compte"
+    class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+  </button>
+</div>
   </nav>
 
   <!-- MENU LATÉRAL DESKTOP -->
