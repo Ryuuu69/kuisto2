@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import toutes les coupes nécessaires : 400 normal, 600 normal, 700 normal, 600 italic -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
-     <style>
+      <style>
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .bg-kuistoOrange { background-color: #F18701; }
         
@@ -505,71 +505,6 @@
             line-height: 24px;
             color: #000;
         }
-        /* ======== MOBILE ADAPTATIONS ======== */
-@media (max-width: 768px) {
-  .side-nav,
-  .desktop-buttons {
-    display: none !important;
-  }
-
-  .catalogue {
-    margin-left: 0 !important;
-    padding-top: calc(var(--hero-h) + 20px) !important;
-    padding-inline: 8px !important;
-  }
-
-  /* Bouton burger (affiché uniquement mobile) */
-  .sidebar-btn,
-  .mobile-menu-toggle {
-    display: flex !important;
-  }
-
-  /* Affichage du menu burger/drawer mobile */
-  .sidebar-menu,
-  #mobile-menu-overlay,
-  #mobile-menu-drawer {
-    display: block !important;
-  }
-
-  /* Cacher le bouton panier desktop si tu en as un spécifique mobile */
-  #cart-fab {
-    width: 60px !important;
-    height: 60px !important;
-    min-width: 60px;
-    min-height: 60px;
-    bottom: 8px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    /* Si tu veux le cacher : display: none !important; */
-  }
-  #cart-fab .cart-svg {
-    width: 28px !important;
-    height: 28px !important;
-  }
-  #cart-fab .cart-badge {
-    font-size: 12px !important;
-    padding: 0 7px !important;
-    top: 4px !important;
-    right: 4px !important;
-  }
-}
-
-/* ======== VERSION DESKTOP ONLY ======= */
-@media (min-width: 769px) {
-  .sidebar-btn,
-  .sidebar-menu,
-  .mobile-menu-toggle,
-  #mobile-menu-overlay,
-  #mobile-menu-drawer {
-    display: none !important;
-  }
-  .side-nav,
-  .desktop-buttons {
-    display: flex !important;
-  }
-}
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
