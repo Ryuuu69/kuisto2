@@ -565,6 +565,20 @@
             line-height: 24px;
             color: #000;
         }
+        /* état fermé (par défaut via classes) */
+#mobile-menu-drawer {
+  /* Centré initialement */
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* État ouvert : descend sans changer la hauteur */
+#mobile-menu-drawer.is-open {
+  transform: translate(-50%, -20%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
