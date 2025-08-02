@@ -565,46 +565,47 @@
             line-height: 24px;
             color: #000;
         }
-        /* overlay */
-#mobile-menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-  z-index: 1000;
-}
-#mobile-menu-overlay.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* drawer : centré horizontalement, posé vers le bas */
+        /* override de test : centrage horizontal, ancré bas */
 #mobile-menu-drawer {
-  position: fixed;
-  left: 50%;
-  bottom: 60px; /* ajustable selon l’espace que tu veux sous le popup */
-  transform: translateX(-50%) scale(0.95);
-  width: min(92vw, 320px);
-  max-height: calc(100vh - 100px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 60px !important;
+  top: auto !important;
+  transform: translateX(-50%) scale(1) !important;
+  width: min(92vw, 320px) !important;
+  max-height: calc(100vh - 100px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  background: #fff !important;
+  border-radius: 20px !important;
+  padding: 20px !important;
+  box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07) !important;
+  overflow: hidden !important;
   opacity: 0;
   pointer-events: none;
-  transition: transform .25s ease, opacity .25s ease;
-  overflow: hidden;
-  z-index: 1001;
+  transition: transform .25s ease, opacity .25s ease !important;
+  z-index: 1001 !important;
 }
 #mobile-menu-drawer.is-open {
-  transform: translateX(-50%) scale(1);
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) scale(1) !important;
+}
+
+/* overlay */
+#mobile-menu-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.6) !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease !important;
+  z-index: 1000 !important;
+}
+#mobile-menu-overlay.is-open {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
  
        
