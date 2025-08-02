@@ -813,40 +813,35 @@
         function createProductCard(product) {
     // Utiliser le slug déjà généré dans products-data.js
     const slug = product.slug;
-    
+
     // Vérifier si le produit est dans le panier
     const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
-    
-    // Générer le bouton d'action selon l'état du panier
+
+    // Générer le bon bouton selon l'état du panier
     let actionButton;
     if (cartQuantity > 0) {
-        // Produit dans le panier : afficher la barre rouge
+        // Bandeau rouge arrondi bas/droite (compteur +/–/poubelle)
         actionButton = `
-            <div class="cart-quantity-bar">
-                <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                    </svg>
-                </button>
-                <span class="cart-qty">${cartQuantity}</span>
-                <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
+            <div class="cart-quantity-bar flex items-center bg-red-500 rounded-bl-2xl rounded-tr-2xl absolute bottom-0 right-0 px-3 py-2 gap-2 z-10">
+                <button class="cart-remove-btn text-white font-bold text-xl px-2" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">-</button>
+                <span class="cart-qty text-white font-bold">${cartQuantity}</span>
+                <button class="cart-plus-btn text-white font-bold text-xl px-2" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">+</button>
+                <button class="cart-delete-btn text-white ml-2" onclick="window.cartSystem.removeFromCart('${slug}')" title="Supprimer">
+                  <span class="material-icons">delete</span>
                 </button>
             </div>
         `;
     } else {
-        // Produit pas dans le panier : afficher le bouton noir +
+        // Bouton + arrondi rouge bas/droite
         actionButton = `
-            <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
+            <button class="add-btn-corner product-plus-btn absolute bottom-0 right-0 bg-red-500 text-white text-3xl rounded-bl-2xl rounded-tr-2xl px-4 py-2 z-10"
+                onclick="addProductToCart('${slug}')" aria-label="Ajouter au panier">+</button>
         `;
     }
 
-    // 💡 Affichage du prix
+    // Prix selon tailles/options
     let priceHtml = '';
     if (product.options?.sizes?.length > 0) {
-        // Sides à taille : afficher la gamme de prix ou "À partir de"
         const prices = product.options.sizes.map(s => s.price);
         const min = Math.min(...prices);
         const max = Math.max(...prices);
@@ -865,7 +860,6 @@
             `;
         }
     } else {
-        // Produits avec prix unique
         priceHtml = `
             <span class="price">
                 <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
@@ -873,21 +867,19 @@
         `;
     }
 
+    // Structure de la carte produit
     return `
-        <div class="product-card">
-            <div class="thumb">
-                <img src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="desc">${product.description}</p>
-                ${priceHtml}
+        <div class="product-card bg-white rounded-2xl shadow-lg flex items-center p-4 mb-6 relative" data-product-id="${slug}" style="min-height:112px">
+            <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-xl flex-shrink-0">
+            <div class="flex-1 ml-4">
+                <div class="font-semibold">${product.name}</div>
+                <div class="text-gray-500 text-sm">${product.description}</div>
+                <div class="font-bold text-xl mt-1">${priceHtml}</div>
             </div>
             ${actionButton}
         </div>
     `;
 }
-
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
