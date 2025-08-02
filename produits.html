@@ -635,19 +635,11 @@
     </a>
   </header>
 <!-- MENU MOBILE : overlay + drawer + boutons -->
-<div id="mobile-menu-overlay" aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-60 z-40"></div>
-
-<nav id="mobile-menu-drawer" aria-label="Menu mobile" class="md:hidden relative" role="dialog" aria-modal="true">
-  <!-- bouton fermer -->
-  <button id="mobile-menu-close"
-          aria-label="Fermer le menu"
-          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#F18701] text-white flex items-center justify-center shadow-lg z-50">
-    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-    </svg>
-  </button>
-
-  <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold overflow-y-auto">
+<div id="mobile-menu-overlay"
+     class="fixed inset-0 bg-black z-40 hidden transition-opacity duration-300"></div>
+<nav id="mobile-menu-drawer"
+    class="fixed top-1/2 left-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
+  <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
     <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
     <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
     <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
@@ -658,8 +650,7 @@
     <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
     <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
   </ul>
-
-  <!-- Boutons en bas -->
+  <!-- Boutons attachés au pop-up (EN BAS) -->
   <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
     <button onclick="window.location.href='index.html'"
       title="Accueil"
@@ -677,6 +668,7 @@
     </button>
   </div>
 </nav>
+
 
 
   <!-- MENU LATÉRAL DESKTOP -->
