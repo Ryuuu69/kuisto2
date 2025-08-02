@@ -810,17 +810,13 @@
 
     <script>
 
-        function createProductCard(product) {
-    // Utiliser le slug déjà généré dans products-data.js
+      function createProductCard(product) {
     const slug = product.slug;
-
-    // Vérifier si le produit est dans le panier
     const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
-    // Générer le bon bouton selon l'état du panier
+    // BOUTON ou BARRE compteur
     let actionButton;
     if (cartQuantity > 0) {
-        // Bandeau rouge arrondi bas/droite (compteur +/–/poubelle)
         actionButton = `
             <div class="cart-quantity-bar flex items-center bg-red-500 rounded-bl-2xl rounded-tr-2xl absolute bottom-0 right-0 px-3 py-2 gap-2 z-10">
                 <button class="cart-remove-btn text-white font-bold text-xl px-2" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">-</button>
@@ -832,14 +828,13 @@
             </div>
         `;
     } else {
-        // Bouton + arrondi rouge bas/droite
         actionButton = `
             <button class="add-btn-corner product-plus-btn absolute bottom-0 right-0 bg-red-500 text-white text-3xl rounded-bl-2xl rounded-tr-2xl px-4 py-2 z-10"
                 onclick="addProductToCart('${slug}')" aria-label="Ajouter au panier">+</button>
         `;
     }
 
-    // Prix selon tailles/options
+    // Gestion du prix
     let priceHtml = '';
     if (product.options?.sizes?.length > 0) {
         const prices = product.options.sizes.map(s => s.price);
@@ -867,19 +862,22 @@
         `;
     }
 
-    // Structure de la carte produit
+    // **Respecte TA structure originale**
     return `
-        <div class="product-card bg-white rounded-2xl shadow-lg flex items-center p-4 mb-6 relative" data-product-id="${slug}" style="min-height:112px">
-            <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-xl flex-shrink-0">
-            <div class="flex-1 ml-4">
-                <div class="font-semibold">${product.name}</div>
-                <div class="text-gray-500 text-sm">${product.description}</div>
+        <div class="product-card bg-white rounded-2xl shadow-lg mb-6 relative flex items-center" style="min-height:112px;">
+            <div class="thumb" style="margin: 16px;">
+                <img src="${product.image}" alt="${product.name}" style="width:84px;height:84px;object-fit:cover;border-radius:18px;">
+            </div>
+            <div class="info flex-1 ml-3">
+                <h3 class="product-name font-semibold mb-1">${product.name}</h3>
+                <p class="desc text-gray-500 text-sm mb-1">${product.description}</p>
                 <div class="font-bold text-xl mt-1">${priceHtml}</div>
             </div>
             ${actionButton}
         </div>
     `;
 }
+
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
