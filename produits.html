@@ -618,9 +618,12 @@
   <header class="w-full flex items-center justify-between relative bg-white shadow-md">
     <a href="index.html" class="w-full">
       <!-- Bannière desktop -->
-      <img src="images/banner.svg" alt="Kuisto Banner" class="hidden md:block w-full h-auto cursor-pointer" />
-      <!-- Bannière mobile -->
-      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile" class="block md:hidden w-full h-auto cursor-pointer" />
+      <img src="images/banner.svg" alt="Kuisto Banner"
+        class="hidden md:block w-full h-auto cursor-pointer" />
+      <!-- Bannière mobile arrondie -->
+      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile"
+        class="block md:hidden w-full h-auto cursor-pointer rounded-2xl shadow mb-[-28px]" />
+        <!-- ↑ mb-[-28px] (margin-bottom négatif) pour que la section blanche remonte sous la bannière -->
     </a>
     <!-- Bouton hamburger mobile ONLY -->
     <button id="mobile-menu-toggle"
@@ -640,42 +643,41 @@
       </span>
     </button>
   </header>
-<!-- MENU MOBILE : overlay + drawer + boutons -->
-<div id="mobile-menu-overlay"
+
+  <!-- MENU MOBILE : overlay + drawer + boutons -->
+  <div id="mobile-menu-overlay"
      class="fixed inset-0 bg-black z-40 hidden transition-opacity duration-300"></div>
-<nav id="mobile-menu-drawer"
+  <nav id="mobile-menu-drawer"
     class="fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
-  <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
-    <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
-    <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
-    <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
-    <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
-    <li class="mobile-menu-item" data-cat="hot-dogs">Hot Dogs</li>
-    <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
-    <li class="mobile-menu-item" data-cat="sides">Sides</li>
-    <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
-    <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
-  </ul>
-  <!-- Boutons attachés au pop-up (EN BAS) -->
-  <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
-    <button onclick="window.location.href='index.html'"
-      title="Accueil"
-      class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-      </svg>
-    </button>
-    <button onclick="window.location.href='index.html'"
-      title="Mon compte"
-      class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-      </svg>
-    </button>
-  </div>
-</nav>
-
-
+    <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
+      <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
+      <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
+      <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
+      <li class="mobile-menu-item" data-cat="hot-dogs">Hot Dogs</li>
+      <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
+      <li class="mobile-menu-item" data-cat="sides">Sides</li>
+      <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
+      <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
+    </ul>
+    <!-- Boutons attachés au pop-up (EN BAS) -->
+    <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
+      <button onclick="window.location.href='index.html'"
+        title="Accueil"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+      <button onclick="window.location.href='index.html'"
+        title="Mon compte"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
 
   <!-- MENU LATÉRAL DESKTOP -->
   <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
@@ -693,15 +695,15 @@
   </nav>
 
   <!-- CONTENU QUI DÉFILE -->
-<main class="ml-0 md:ml-56 pt-[219px] min-h-screen">
-  <!-- Section Tacos -->
-<section id="tacos" class="cat">
-  <h2 class="section-title">Tacos</h2>
-  <div class="cards-grid" id="tacos-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
-</section>
-
+  <main class="ml-0 md:ml-56 px-2 pt-4 min-h-screen">
+    <!-- Section Tacos -->
+    <section id="tacos" class="cat bg-white rounded-2xl shadow-lg px-3 pt-5 pb-8 max-w-2xl mx-auto -mt-10">
+      <!-- ↑↑↑ -mt-10 fait “remonter” la carte blanche sous la bannière arrondie, effet carte qui flotte -->
+      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Tacos</h2>
+      <div class="cards-grid" id="tacos-products">
+        <!-- Products will be populated by JavaScript -->
+      </div>
+    </section>
 <!-- Section Burgers -->
 <section id="burgers" class="cat">
   <h2 class="section-title">BURGERS</h2>
