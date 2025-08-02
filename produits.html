@@ -614,9 +614,15 @@
 </head>
 <body class="min-h-screen bg-gray-50">
 
-  <!-- HERO / HEADER -->
-  <header class="hero w-full">
-    <!-- Bouton hamburger/croix mobile (EN HAUT À DROITE, mobile ONLY) -->
+  <!-- HEADER (Logo + hamburger + bannière) -->
+  <header class="w-full flex items-center justify-between relative bg-white shadow-md">
+    <a href="index.html" class="w-full">
+      <!-- Bannière desktop -->
+      <img src="images/banner.svg" alt="Kuisto Banner" class="hidden md:block w-full h-auto cursor-pointer" />
+      <!-- Bannière mobile -->
+      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile" class="block md:hidden w-full h-auto cursor-pointer" />
+    </a>
+    <!-- Bouton hamburger mobile ONLY -->
     <button id="mobile-menu-toggle"
       class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
       aria-label="Menu">
@@ -633,19 +639,7 @@
         </svg>
       </span>
     </button>
-    <a href="index.html" class="block w-full">
-      <img src="images/banner.svg" alt="Kuisto Banner" class="w-full h-auto cursor-pointer" />
-    </a>
   </header>
-  <!-- Bannière desktop -->
-<div class="hero hidden md:flex">
-  <img class="banner-img" src="/images/banner.svg" alt="Bannière desktop" />
-</div>
-
-<!-- Bannière mobile -->
-<div class="hero flex md:hidden" style="height:110px;">
-  <img class="banner-img" src="/images/banner mobile.svg" alt="Bannière mobile" />
-</div>
 <!-- MENU MOBILE : overlay + drawer + boutons -->
 <div id="mobile-menu-overlay"
      class="fixed inset-0 bg-black z-40 hidden transition-opacity duration-300"></div>
