@@ -1272,13 +1272,13 @@
   })();
 </script>
   <script>
-
-  document.querySelectorAll('.mobile-menu-item').forEach(item => {
+document.querySelectorAll('.mobile-menu-item').forEach(item => {
   item.addEventListener('click', () => {
-    // gestion visuelle active
-    document.querySelectorAll('.mobile-menu-item').forEach(i => i.classList.remove('active'));
+    // Visuel actif
+    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
     item.classList.add('active');
 
+    // Scroll vers la section avec compensation du header
     const cat = item.dataset.cat;
     const section = document.getElementById(cat);
     if (section) {
@@ -1287,9 +1287,26 @@
       window.scrollTo({ top, behavior: 'smooth' });
     }
 
-    // fermer le menu si tu as une fonction de fermeture
+    // Fermer le menu mobile : essaie les fonctions existantes sinon fallback
     if (typeof closeMobileMenu === 'function') {
       closeMobileMenu();
+    } else if (typeof toggleMobileMenu === 'function') {
+      toggleMobileMenu(false);
+    } else {
+      // Fallback manuel si tu gérais via classes / inline styles
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const overlay = document.getElementById('mobile-menu-overlay');
+      drawer?.classList.remove('is-open');
+      overlay?.classList.remove('is-open');
+      if (drawer) {
+        drawer.style.opacity = '0';
+        drawer.style.pointerEvents = 'none';
+        drawer.style.transform = 'translate(-50%,-50%) scale(.95)';
+      }
+      if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+      }
     }
   });
 });
