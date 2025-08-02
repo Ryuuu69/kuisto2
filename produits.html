@@ -186,30 +186,18 @@
         /* Grille de cartes produits */
    
         .cards-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr)) !important;
-  gap: var(--gap) !important; /* espacement fixe entre cartes */
-  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-w), var(--card-w)));
+  gap: var(--gap);
+  justify-content: start; /* ou center si tu veux centrer quand il y a peu de colonnes */
 }
 
         /* ======================== COMPOSANT CARTE PRODUIT ================ */
         
 .product-card {
-  /* supprimer la largeur fixe / flex rigide pour qu’elle s’adapte à la cellule */
-  width: 100% !important;
-  max-width: none !important;
-  flex: initial !important;
-
-  /* garde le reste de ton style existant */
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: var(--card-h);
-  background: white;
-  border-radius: var(--card-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  overflow: visible;
-  transition: all 0.3s ease;
+  width: var(--card-w);
+  max-width: var(--card-w);
+  flex: 0 0 var(--card-w);
 }
 
 
