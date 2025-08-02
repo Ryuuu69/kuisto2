@@ -1271,6 +1271,29 @@
     });
   })();
 </script>
+  <script>
+
+  document.querySelectorAll('.mobile-menu-item').forEach(item => {
+  item.addEventListener('click', () => {
+    // gestion visuelle active
+    document.querySelectorAll('.mobile-menu-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+
+    const cat = item.dataset.cat;
+    const section = document.getElementById(cat);
+    if (section) {
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    // fermer le menu si tu as une fonction de fermeture
+    if (typeof closeMobileMenu === 'function') {
+      closeMobileMenu();
+    }
+  });
+});
+</script>
 
 </body>
 </html>
