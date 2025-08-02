@@ -810,9 +810,8 @@
 
     <!-- Include shared product data -->
     <script src="products-data.js"></script>
-
-    <script>
-function createProductCard(product) {
+<script
+    function createProductCard(product) {
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
@@ -826,8 +825,8 @@ function createProductCard(product) {
     priceHtml = `<span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>`;
   }
 
-  // Gestion bouton/bandeau
   let actionButton;
+
   if (cartQuantity > 0) {
     actionButton = `
       <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;bottom:13px;right:13px;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
@@ -843,20 +842,20 @@ function createProductCard(product) {
           }
         </button>
         <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
-        <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Ajouter"
-         style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;">+</button>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn"
+         title="Voir fiche produit"
+         style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
       </div>
     `;
   } else {
     actionButton = `
-      <button class="add-btn-corner" onclick="addProductToCart('${slug}')"
-        style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;">
+      <a href="produit.html?slug=${slug}" class="add-btn-corner"
+        style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
         +
-      </button>
+      </a>
     `;
   }
 
-  // Glow autour si produit dans panier
   const glow = cartQuantity > 0 ? 'glow' : '';
 
   return `
@@ -875,6 +874,7 @@ function createProductCard(product) {
     </div>
   `;
 }
+
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
