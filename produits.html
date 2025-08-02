@@ -565,6 +565,46 @@
             line-height: 24px;
             color: #000;
         }
+        /* Overlay mobile */
+#mobile-menu-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+#mobile-menu-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer mobile : centré horizontalement, placé plus bas */
+#mobile-menu-drawer {
+  position: fixed;
+  left: 50%;
+  bottom: 70px; /* remonte au-dessus des boutons fixes si besoin */
+  transform: translateX(-50%) scale(0.95);
+  width: 92vw;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* boutons en bas */
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  max-height: calc(100vh - 100px);
+  overflow: hidden;
+  z-index: 1001;
+}
+
+/* Ouvert : plein scale, visible */
+#mobile-menu-drawer.is-open {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
        
     </style>
 </head>
