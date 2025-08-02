@@ -810,50 +810,51 @@
 
     <script>
 
-      function createProductCard(product) {
+    function createProductCard(product) {
     const slug = product.slug;
     const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
-    // BOUTON ou BARRE compteur
+    // BOUTON ou BARRE compteur (en bas à droite, noir, arrondi)
     let actionButton;
     if (cartQuantity > 0) {
         actionButton = `
-            <div class="cart-quantity-bar flex items-center bg-red-500 rounded-bl-2xl rounded-tr-2xl absolute bottom-0 right-0 px-3 py-2 gap-2 z-10">
-                <button class="cart-remove-btn text-white font-bold text-xl px-2" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">-</button>
-                <span class="cart-qty text-white font-bold">${cartQuantity}</span>
-                <button class="cart-plus-btn text-white font-bold text-xl px-2" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">+</button>
-                <button class="cart-delete-btn text-white ml-2" onclick="window.cartSystem.removeFromCart('${slug}')" title="Supprimer">
-                  <span class="material-icons">delete</span>
+            <div class="cart-quantity-bar flex items-center justify-end absolute bottom-0 right-0 bg-black rounded-bl-[2rem] rounded-tr-[2rem] px-5 py-3 z-10 transition-all">
+                <button class="cart-remove-btn text-white text-2xl font-bold px-2"
+                    onclick="${cartQuantity === 1
+                        ? `window.cartSystem.removeFromCart('${slug}')`
+                        : `window.cartSystem.decreaseQuantity('${slug}')`}"
+                    title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">
+                    ${cartQuantity === 1
+                        ? '<span class="material-icons text-[22px] align-middle">delete</span>'
+                        : '–'}
+                </button>
+                <span class="cart-qty text-white font-bold text-lg px-3">${cartQuantity}</span>
+                <button class="cart-plus-btn text-white text-2xl font-bold px-2"
+                    onclick="addProductToCart('${slug}')" title="Ajouter">
+                    +
                 </button>
             </div>
         `;
     } else {
         actionButton = `
-            <button class="add-btn-corner product-plus-btn absolute bottom-0 right-0 bg-red-500 text-white text-3xl rounded-bl-2xl rounded-tr-2xl px-4 py-2 z-10"
-                onclick="addProductToCart('${slug}')" aria-label="Ajouter au panier">+</button>
+            <button class="add-btn-corner product-plus-btn absolute bottom-0 right-0 bg-black text-white text-3xl rounded-bl-[2rem] rounded-tr-[2rem] px-6 py-3 z-10"
+                onclick="addProductToCart('${slug}')" aria-label="Ajouter au panier">
+                +
+            </button>
         `;
     }
 
-    // Gestion du prix
+    // Gestion du prix (identique)
     let priceHtml = '';
     if (product.options?.sizes?.length > 0) {
         const prices = product.options.sizes.map(s => s.price);
         const min = Math.min(...prices);
-        const max = Math.max(...prices);
-        if (min !== max) {
-            priceHtml = `
-                <span class="price">
-                    <span class="from">À partir de </span>
-                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
-                </span>
-            `;
-        } else {
-            priceHtml = `
-                <span class="price">
-                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
-                </span>
-            `;
-        }
+        priceHtml = `
+            <span class="price">
+                <span class="from">À partir de </span>
+                <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
+            </span>
+        `;
     } else {
         priceHtml = `
             <span class="price">
@@ -862,22 +863,26 @@
         `;
     }
 
-    // **Respecte TA structure originale**
+    // Ajoute l'effet glow/bordure lumineuse si dans panier
+    const borderGlow = cartQuantity > 0
+        ? 'shadow-[0_0_0_4px_rgba(241,135,1,0.45),0_8px_32px_rgba(241,135,1,0.17)] ring-2 ring-[#F18701] transition-all'
+        : 'shadow-lg transition-all';
+
+    // Structure fidèle à ta maquette
     return `
-        <div class="product-card bg-white rounded-2xl shadow-lg mb-6 relative flex items-center" style="min-height:112px;">
-            <div class="thumb" style="margin: 16px;">
-                <img src="${product.image}" alt="${product.name}" style="width:84px;height:84px;object-fit:cover;border-radius:18px;">
+        <div class="product-card bg-white rounded-[2rem] ${borderGlow} mb-6 relative flex items-center min-h-[110px] px-4 py-2 pr-20">
+            <div class="thumb flex-shrink-0 mr-3">
+                <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-[1.2rem]" style="box-shadow:0 2px 12px rgba(0,0,0,.04);">
             </div>
-            <div class="info flex-1 ml-3">
-                <h3 class="product-name font-semibold mb-1">${product.name}</h3>
-                <p class="desc text-gray-500 text-sm mb-1">${product.description}</p>
+            <div class="info flex-1 min-w-0">
+                <div class="font-semibold">${product.name}</div>
+                <div class="desc text-gray-500 text-sm italic">${product.description}</div>
                 <div class="font-bold text-xl mt-1">${priceHtml}</div>
             </div>
             ${actionButton}
         </div>
     `;
 }
-
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
