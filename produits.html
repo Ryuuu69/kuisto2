@@ -184,28 +184,34 @@
 
         /* ————————————— LAYOUT PRODUITS ————————————— */
         /* Grille de cartes produits */
-       .cards-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: flex-start;
+   
+        .cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr)) !important;
+  gap: var(--gap) !important; /* espacement fixe entre cartes */
+  justify-content: start;
 }
 
         /* ======================== COMPOSANT CARTE PRODUIT ================ */
-        .product-card {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: var(--card-w);
-            height: var(--card-h);
-            background: white;
-            border-radius: var(--card-radius);
-            box-shadow: 0 4px 12px rgba(0,0,0,.08);
-            overflow: visible;
-            transition: all 0.3s ease;
-           flex: 0 0 var(--card-w);
-  max-width: var(--card-w);
-        }
+        
+.product-card {
+  /* supprimer la largeur fixe / flex rigide pour qu’elle s’adapte à la cellule */
+  width: 100% !important;
+  max-width: none !important;
+  flex: initial !important;
+
+  /* garde le reste de ton style existant */
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--card-h);
+  background: white;
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
 
         .product-card:hover {
             transform: translateY(-4px);
