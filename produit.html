@@ -495,28 +495,25 @@
                 height: 20px;
             }
         }
-      @media (max-width: 700px) {
+     @media (max-width: 700px) {
   .bigsmash-options-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne */
-    gap: 14px;                            /* 14px entre cartes (lignes et colonnes) */
-    margin-left: 85px;
-    margin-right: 85px;
+    grid-template-columns: repeat(2, 1fr);    /* 2 cartes par ligne */
+    gap: 14px;
+    width: calc(100vw - 170px);               /* 85px à gauche + 85px à droite */
+    margin: 0 auto;                           /* centre la grille dans la page */
     box-sizing: border-box;
-    justify-content: center;               /* centre la dernière carte s’il y en a une seule sur la ligne */
   }
 
   .bigsmash-option-card {
-    width: 100%;                          /* occupe toute la colonne */
-    max-width: none;                      /* pas de limite */
+    width: 100%;                              /* occupe toute la colonne */
+    max-width: none;
     height: auto;
     min-height: 120px;
     box-sizing: border-box;
-    /* Si tu veux arrondir, rajoute : */
-    /* border-radius: var(--bigsmash-radius-small); */
   }
 
-  /* Désactive les marges latérales spéciales */
+  /* Supprime toutes les marges latérales héritées */
   .bigsmash-options-grid--count-4,
   .bigsmash-options-grid--count-3,
   .bigsmash-options-grid--count-2,
