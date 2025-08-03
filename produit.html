@@ -899,26 +899,7 @@
                 `;
             }
 
-            // Fonctions utilitaires globales (tout en haut du JS, une seule fois !)
-function isMobile() {
-  return window.innerWidth <= 700;
-}
-
-function renderOptionsColumnsMobile(array, cardHtmlCallback) {
-  let col1 = '', col2 = '';
-  array.forEach((item, idx) => {
-    const card = cardHtmlCallback(item, idx);
-    if (idx % 2 === 0) col1 += card;
-    else col2 += card;
-  });
-  return `
-    <div class="bigsmash-options-grid-2col">
-      <div class="bigsmash-options-column">${col1}</div>
-      <div class="bigsmash-options-column">${col2}</div>
-    </div>
-  `;
-}
-          // --- FONCTION PRINCIPALE DE RENDU ---
+         // --- FONCTION PRINCIPALE DE RENDU ---
 renderOptions() {
   let html = '';
 
@@ -1036,6 +1017,7 @@ renderProductPrice() {
       return `${this.product.price.toFixed(2).replace('.', ',')} €`;
   }
 }
+
 
         // Liaison des événements
             bindEvents() {
