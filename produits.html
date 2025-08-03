@@ -198,17 +198,17 @@
 .product-card {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  width: var(--card-w);
-  max-width: var(--card-w);
-  flex: 0 0 var(--card-w);
-  height: var(--card-h);
+  align-items: flex-start; /* image & texte alignés en haut */
+  width: var(--card-w, 370px);
+  max-width: var(--card-w, 370px);
+  flex: 0 0 var(--card-w, 370px);
+  height: var(--card-h, 154px); /* 17(top) + 120(img) + 17(bot) */
   background: #fff;
-  border-radius: var(--card-radius);
+  border-radius: var(--card-radius, 28px);
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   overflow: hidden;
   margin: 0;
-  padding: 17px 26px 24px 26px; /* padding à droite/gauche pour ne pas toucher les bords */
+  padding: 0; /* toutes les marges sont gérées par thumb/info */
   transition: all 0.3s cubic-bezier(.39,.46,.29,1.17);
 }
 .product-card:hover {
@@ -221,9 +221,9 @@
 
 /* Image carrée à gauche */
 .product-card .thumb {
-  flex: 0 0 var(--thumb);
-  width: var(--thumb);
-  height: var(--thumb);
+  flex: 0 0 120px;
+  width: 120px;
+  height: 120px;
   border-radius: 18px;
   overflow: hidden;
   margin-top: 17px;
@@ -243,14 +243,14 @@
 
 /* Bloc texte flexible */
 .product-card .info {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
-  padding: 0 0 0 0;
+  height: 120px; /* alignement parfait sur l'image */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* align le nom en haut */
   gap: 8px;
-  height: 100%;
+  margin-top: 17px; /* nom du produit à 17px du haut */
 }
 
 .product-card .product-name,
@@ -261,7 +261,7 @@
   line-height: 1.1;
   color: #000;
   margin: 0 0 5px 0;
-  margin-top: 17px;
+  /* Surtout PAS de margin-top ici ! */
   text-transform: uppercase;
 }
 
