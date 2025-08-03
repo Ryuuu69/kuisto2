@@ -899,8 +899,8 @@
                 `;
             }
 
-              // Rendu des options
-          function isMobile() {
+            // Fonctions utilitaires globales (tout en haut du JS, une seule fois !)
+function isMobile() {
   return window.innerWidth <= 700;
 }
 
@@ -918,38 +918,20 @@ function renderOptionsColumnsMobile(array, cardHtmlCallback) {
     </div>
   `;
 }
-
-
-// Génère une grille responsive en 2 colonnes pour mobile
-function renderOptionsColumnsMobile(array, cardHtmlCallback) {
-  let col1 = '', col2 = '';
-  array.forEach((item, idx) => {
-    const card = cardHtmlCallback(item, idx);
-    if (idx % 2 === 0) col1 += card;
-    else col2 += card;
-  });
-  return `
-    <div class="bigsmash-options-grid-2col">
-      <div class="bigsmash-options-column">${col1}</div>
-      <div class="bigsmash-options-column">${col2}</div>
-    </div>
-  `;
-}
-           
-// --- FONCTION PRINCIPALE DE RENDU ---
+          // --- FONCTION PRINCIPALE DE RENDU ---
 renderOptions() {
   let html = '';
 
   // 1️⃣ Suppléments
   if (this.product.options?.supplements?.length > 0) {
-    html += `
+    html += 
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">Souhaitez-vous un supplément ?</h3>
         ${
           isMobile()
             ? renderOptionsColumnsMobile(
                 this.product.options.supplements,
-                (supplement, index) => `
+                (supplement, index) => 
                   <div class="bigsmash-option-card">
                     <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
                     <div class="bigsmash-option-name">${supplement.name}</div>
@@ -960,11 +942,11 @@ renderOptions() {
                       <button class="bigsmash-option-qty-btn supplement-plus" data-index="${index}">+</button>
                     </div>
                   </div>
-                `
+                
               )
-            : `
+            : 
               <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.supplements.length}">
-                ${this.product.options.supplements.map((supplement, index) => `
+                ${this.product.options.supplements.map((supplement, index) => 
                   <div class="bigsmash-option-card">
                     <img src="${supplement.image}" alt="${supplement.name}" class="bigsmash-option-image">
                     <div class="bigsmash-option-name">${supplement.name}</div>
@@ -975,24 +957,24 @@ renderOptions() {
                       <button class="bigsmash-option-qty-btn supplement-plus" data-index="${index}">+</button>
                     </div>
                   </div>
-                `).join('')}
+                ).join('')}
               </div>
-            `
+            
         }
       </div>
-    `;
+    ;
   }
 
   // 4️⃣ Taille (sides avec options de taille)
   if (this.product.options?.sizes?.length > 0) {
-    html += `
+    html += 
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">Choisis la taille</h3>
         ${
           isMobile()
             ? renderOptionsColumnsMobile(
                 this.product.options.sizes,
-                (size, index) => `
+                (size, index) => 
                   <label class="bigsmash-option-card">
                     <input
                       type="radio"
@@ -1007,11 +989,11 @@ renderOptions() {
                       <div class="bigsmash-radio-dot"></div>
                     </div>
                   </label>
-                `
+                
               )
-            : `
+            : 
               <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.sizes.length}">
-                ${this.product.options.sizes.map((size, index) => `
+                ${this.product.options.sizes.map((size, index) => 
                   <label class="bigsmash-option-card">
                     <input
                       type="radio"
@@ -1026,24 +1008,24 @@ renderOptions() {
                       <div class="bigsmash-radio-dot"></div>
                     </div>
                   </label>
-                `).join('')}
+                ).join('')}
               </div>
-            `
+            
         }
       </div>
-    `;
+    ;
   }
 
   // 2️⃣ Personnalisation (remove)
   if (this.product.options?.remove?.length > 0) {
-    html += `
+    html += 
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
         ${
           isMobile()
             ? renderOptionsColumnsMobile(
                 this.product.options.remove,
-                (item, index) => `
+                (item, index) => 
                   <label class="bigsmash-option-card">
                     <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
                     <div class="bigsmash-checkbox-indicator">
@@ -1051,11 +1033,11 @@ renderOptions() {
                     </div>
                     <div class="bigsmash-option-name">${item.name}</div>
                   </label>
-                `
+                
               )
-            : `
+            : 
               <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
-                ${this.product.options.remove.map((item, index) => `
+                ${this.product.options.remove.map((item, index) => 
                   <label class="bigsmash-option-card">
                     <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
                     <div class="bigsmash-checkbox-indicator">
@@ -1063,80 +1045,80 @@ renderOptions() {
                     </div>
                     <div class="bigsmash-option-name">${item.name}</div>
                   </label>
-                `).join('')}
+                ).join('')}
               </div>
-            `
+            
         }
       </div>
-    `;
+    ;
   }
 
   // 3️⃣ Boissons
   if (this.product.options?.drinks?.length > 0) {
-    html += `
+    html += 
       <div class="bigsmash-options-section">
         <h3 class="bigsmash-options-title">Choisis ta boisson</h3>
         ${
           isMobile()
             ? renderOptionsColumnsMobile(
                 this.product.options.drinks,
-                (drink, index) => `
+                (drink, index) => 
                   <label class="bigsmash-option-card">
                     <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
                     <img src="${drink.image}" alt="${drink.name}" class="bigsmash-option-image">
                     <div class="bigsmash-option-name">${drink.name}</div>
                     <div class="bigsmash-option-price">
                       ${drink.price > 0
-                        ? `+${drink.price.toFixed(2).replace('.', ',')} €`
+                        ? +${drink.price.toFixed(2).replace('.', ',')} €
                         : 'Inclus'}
                     </div>
                     <div class="bigsmash-radio-indicator">
                       <div class="bigsmash-radio-dot"></div>
                     </div>
                   </label>
-                `
+                
               )
-            : `
+            : 
               <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.drinks.length}">
-                ${this.product.options.drinks.map((drink, index) => `
+                ${this.product.options.drinks.map((drink, index) => 
                   <label class="bigsmash-option-card">
                     <input type="radio" name="drink" value="${index}" class="sr-only drink-radio">
                     <img src="${drink.image}" alt="${drink.name}" class="bigsmash-option-image">
                     <div class="bigsmash-option-name">${drink.name}</div>
                     <div class="bigsmash-option-price">
                       ${drink.price > 0
-                        ? `+${drink.price.toFixed(2).replace('.', ',')} €`
+                        ? +${drink.price.toFixed(2).replace('.', ',')} €
                         : 'Inclus'}
                     </div>
                     <div class="bigsmash-radio-indicator">
                       <div class="bigsmash-radio-dot"></div>
                     </div>
                   </label>
-                `).join('')}
+                ).join('')}
               </div>
-            `
+            
         }
       </div>
-    `;
+    ;
   }
 
   return html;
 }
-          renderProductPrice() {
-    if (this.product.options?.sizes?.length > 0) {
-        const prices = this.product.options.sizes.map(s => s.price);
-        const min = Math.min(...prices);
-        const max = Math.max(...prices);
-        if (min !== max) {
-            return À partir de ${min.toFixed(2).replace('.', ',')} €;
-        } else {
-            return ${min.toFixed(2).replace('.', ',')} €;
-        }
-    } else {
-        return ${this.product.price.toFixed(2).replace('.', ',')} €;
-    }
+          // Idem pour renderProductPrice (dans ta classe/objet)
+renderProductPrice() {
+  if (this.product.options?.sizes?.length > 0) {
+      const prices = this.product.options.sizes.map(s => s.price);
+      const min = Math.min(...prices);
+      const max = Math.max(...prices);
+      if (min !== max) {
+          return `À partir de ${min.toFixed(2).replace('.', ',')} €`;
+      } else {
+          return `${min.toFixed(2).replace('.', ',')} €`;
+      }
+  } else {
+      return `${this.product.price.toFixed(2).replace('.', ',')} €`;
+  }
 }
-
             // Liaison des événements
             bindEvents() {
                 // Quantité
