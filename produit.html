@@ -453,20 +453,26 @@
 
      @media (max-width: 700px) {
   .bigsmash-options-grid {
-    column-count: 2;
-    column-gap: 14px;
-    width: calc(100vw - 170px);
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    width: calc(100vw - 170px); /* 85px de chaque côté */
     margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .bigsmash-options-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1 1 0;
   }
   .bigsmash-option-card {
-    width: 100%;
+    width: 100%;          /* occupe toute la largeur de la colonne */
     min-height: 120px;
+    height: auto;
     box-sizing: border-box;
-    display: inline-block; /* nécessaire pour column-count */
-    margin-bottom: 14px;
   }
 }
-
 
 
         
