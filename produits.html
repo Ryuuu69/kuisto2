@@ -271,8 +271,12 @@
 
 .price-row {
   display: flex;
-  align-items: center;
+  align-items: flex-end;      /* Aligne sur la ligne de base */
   gap: 4px;
+  position: absolute;
+  left: 0;
+  bottom: 20px;              /* À 20px du bord inférieur de la carte */
+  width: 100%;
 }
 .price-row .from {
   font-family: 'Montserrat', sans-serif;
@@ -289,6 +293,8 @@
   font-size: 16px;
   line-height: 24px;
   color: #000;
+  position: relative;
+  top: -3px;   /* Monte un peu le prix par rapport à "À partir de" */
 }
 
 
@@ -834,86 +840,65 @@
     <!-- Include shared product data -->
     <script src="products-data.js"></script>
 <script>
-   function createProductCard(product) {
+  function createProductCard(product) {
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
- // Bloc prix
-     let minPrice = (product.options?.sizes?.length > 0)
-  ? Math.min(...product.options.sizes.map(s => s.price))
-  : product.price;
+  // Bloc prix (affiche toujours "À partir de ...")
+  let minPrice = (product.options?.sizes?.length > 0)
+    ? Math.min(...product.options.sizes.map(s => s.price))
+    : product.price;
 
-let priceHtml = `
-  <div class="price-row" style="
-    display:flex;
-    align-items:center;
-    gap:4px;
-    margin-top:10px;
-  ">
-    <span class="from" style="
-      font-family:'Montserrat',sans-serif;
-      font-style:italic;
-      font-weight:600;
-      font-size:10px;
-      line-height:15px;
-      color:#000;
-    ">À partir de </span>
-    <span class="value" style="
-      font-family:'Montserrat',sans-serif;
-      font-style:normal;
-      font-weight:700;
-      font-size:16px;
-      line-height:24px;
-      color:#000;
-    ">${minPrice.toFixed(2).replace('.', ',')} €</span>
-  </div>
-`;
-let actionButton = '';
-if (cartQuantity > 0) {
-  actionButton = `
-    <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;bottom:13px;right:13px;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
-      <button class="cart-remove-btn" onclick="${
-        cartQuantity === 1
-          ? `window.cartSystem.removeFromCart('${slug}')`
-          : `window.cartSystem.decreaseQuantity('${slug}')`
-      }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
-      style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
-        ${cartQuantity === 1 ? '<span class="material-icons">delete</span>' : '–'}
-      </button>
-      <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
-      <a href="produit.html?slug=${slug}" class="cart-plus-btn"
-       title="Voir fiche produit"
-       style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
+  let priceHtml = `
+    <div class="price-row">
+      <span class="from">À partir de </span>
+      <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
     </div>
   `;
-} else {
-  actionButton = `
-    <a href="produit.html?slug=${slug}" class="add-btn-corner"
-      style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
-      +
-    </a>
-  `;
-}
 
-const glow = cartQuantity > 0 ? 'glow' : '';
+  let actionButton = '';
+  if (cartQuantity > 0) {
+    actionButton = `
+      <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;bottom:13px;right:13px;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
+        <button class="cart-remove-btn" onclick="${
+          cartQuantity === 1
+            ? `window.cartSystem.removeFromCart('${slug}')`
+            : `window.cartSystem.decreaseQuantity('${slug}')`
+        }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
+        style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
+          ${cartQuantity === 1 ? '<span class="material-icons">delete</span>' : '–'}
+        </button>
+        <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn"
+         title="Voir fiche produit"
+         style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
+      </div>
+    `;
+  } else {
+    actionButton = `
+      <a href="produit.html?slug=${slug}" class="add-btn-corner"
+        style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
+        +
+      </a>
+    `;
+  }
 
-return `
-  <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
-    <div class="thumb" style="width:120px;height:120px;margin-left:15px;">
-      <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
-    </div>
-    <div class="info" style="flex:1;padding:0 20px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
-      <div class="product-name" style="font-family:'Montserrat',sans-serif;font-weight:400;font-size:11px;line-height:13px;color:#000;margin-bottom:5px;">${product.name}</div>
-      <div class="desc" style="font-family:'Montserrat',sans-serif;font-style:italic;font-weight:600;font-size:10px;line-height:11px;color:#808080;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.description}</div>
-      <div class="price" style="margin-top:8px;font-size:0;">
+  const glow = cartQuantity > 0 ? 'glow' : '';
+
+  return `
+    <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
+      <div class="thumb" style="width:120px;height:120px;margin-left:17px;margin-top:17px;margin-bottom:17px;margin-right:20px;">
+        <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
+      </div>
+      <div class="info" style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;height:120px;margin-top:17px;min-width:0;position:relative;">
+        <div class="product-name" style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px;line-height:1.1;color:#000;margin:0 0 5px 0;text-transform:uppercase;">${product.name}</div>
+        <div class="desc" style="font-family:'Montserrat',sans-serif;font-style:italic;font-weight:600;font-size:12px;line-height:1.3;color:#808080;margin:0 0 4px 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-width:210px;min-height:calc(1.3em * 3);white-space:normal;">${product.description}</div>
         ${priceHtml}
       </div>
+      ${actionButton}
     </div>
-    ${actionButton}
-  </div>
-`;
-   }
-     
+  `;
+}
 
 
 
