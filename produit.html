@@ -900,10 +900,25 @@
             }
 
               // Rendu des options
-          // Détecte si on est sur mobile
-function isMobile() {
+          function isMobile() {
   return window.innerWidth <= 700;
 }
+
+function renderOptionsColumnsMobile(array, cardHtmlCallback) {
+  let col1 = '', col2 = '';
+  array.forEach((item, idx) => {
+    const card = cardHtmlCallback(item, idx);
+    if (idx % 2 === 0) col1 += card;
+    else col2 += card;
+  });
+  return `
+    <div class="bigsmash-options-grid-2col">
+      <div class="bigsmash-options-column">${col1}</div>
+      <div class="bigsmash-options-column">${col2}</div>
+    </div>
+  `;
+}
+
 
 // Génère une grille responsive en 2 colonnes pour mobile
 function renderOptionsColumnsMobile(array, cardHtmlCallback) {
