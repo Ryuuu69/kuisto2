@@ -1,3 +1,4 @@
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +27,7 @@
             --thumb: 120px;         /* taille de l'image */
             --btn: 48px;            /* taille du bouton + */
             --gap: 22px;            /* espace entre cartes */
-            
+
             --red: #E30613;
             --kuisto-orange: #F18701;
             --grey-text: #808080;
@@ -57,9 +58,7 @@
   top: 0;
   left: 0;
   right: 0;
-            align-items: center;
-            gap: 14px;
-            text-transform: uppercase;
+@@ -176,237 +176,242 @@
         }
         
         .section-title::after {
@@ -82,30 +81,42 @@
   /* margin: 0 auto; */
 }
 
- .product-card {
+.product-card {
   position: relative;
+  display: flex;
+  align-items: flex-start;
   width: var(--card-w);
+  max-width: var(--card-w);
+  flex: 0 0 var(--card-w);
   height: var(--card-h);
   background: #fff;
   border-radius: var(--card-radius);
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   overflow: hidden;
+  margin: 0;
+  padding: 17px 26px 0 26px;
+  transition: all 0.3s cubic-bezier(.39,.46,.29,1.17);
 }
 .product-card:hover {
+  transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0,0,0,.15);
 }
 .product-card.glow {
-  box-shadow: 0 0 0 4px #F18701, 0 0 18px rgba(241,135,1,0.6);
+  box-shadow: 0 0 0 4px #F18701, 0 8px 32px rgba(241,135,1,0.14);
 }
 
+/* Image carrée à gauche */
 .product-card .thumb {
-  position: absolute;
-  top: 15px;
-  left: 15px;
+  flex: 0 0 var(--thumb);
   width: var(--thumb);
   height: var(--thumb);
   border-radius: 18px;
   overflow: hidden;
+  margin-right: 20px;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .product-card .thumb img {
   width: 100%;
@@ -114,15 +125,17 @@
   border-radius: 18px;
 }
 
+/* Bloc texte flexible */
 .product-card .info {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(15px + var(--thumb) + 15px);
-  right: 13px;
+  flex: 1;
+  min-width: 0;
+  padding: 0 80px 0 0;
   display: flex;
   flex-direction: column;
-  padding: 17px 0 40px 0;
+  justify-content: flex-start;
+  gap: 8px;
+  height: 100%;
+  position: relative;
 }
 
 .product-card .product-name,
@@ -132,8 +145,8 @@
   font-size: 17px;
   line-height: 1.1;
   color: #000;
-  text-transform: uppercase;
   margin: 0 0 5px 0;
+  text-transform: uppercase;
 }
 
 .product-card .desc {
@@ -143,18 +156,22 @@
   font-size: 10px;
   line-height: 13px;
   color: #808080;
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 190px;
 }
 
 .product-card .price {
-  margin-top: auto;
-  font-size: 0;
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  font-size: 0; /* Pour inline-blocks */
 }
+
 .product-card .price .from {
   font-style: italic;
   font-weight: 600;
@@ -164,12 +181,12 @@
   margin-right: 3px;
 }
 .product-card .price .value {
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
+  font-weight: bold;
+  font-size: 15px;
+  color: #222;
 }
 
+/* ===== BOUTON "+" dans le coin ===== */
 .add-btn-corner {
   position: absolute;
   right: 13px;
@@ -184,13 +201,16 @@
   justify-content: center;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  z-index: 2;
   text-decoration: none;
   transition: background 0.3s;
+  box-shadow: 0 4px 14px rgba(0,0,0,.13);
 }
 .add-btn-corner:hover {
   background: #F18701;
 }
 
+/* ===== BARRE QUANTITÉ ===== */
 .cart-quantity-bar {
   position: absolute;
   right: 13px;
@@ -202,17 +222,18 @@
   border-bottom-right-radius: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 8px;
+  z-index: 2;
+  box-shadow: 0 4px 14px rgba(0,0,0,.13);
 }
+
 .cart-quantity-bar button,
 .cart-quantity-bar a {
   width: 36px;
   height: 36px;
-  background: transparent;
+  background: #000;
   border: none;
   color: #fff;
-  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -226,16 +247,36 @@
   background: #F18701;
   color: #fff;
 }
+.cart-quantity-bar button {font-size:20px;}
+.cart-quantity-bar a {font-size:28px;}
+.cart-minus-placeholder { width:36px; height:36px; display:block; }
 
 .cart-qty {
+  flex:1;
   font-size: 18px;
   font-weight: 700;
   color: #fff;
+  text-align: center;
 }
 
+/* ===== Responsive Mobile ===== */
 @media (max-width: 540px) {
   .product-card {
     width: 95vw;
+    min-width: 0;
+    padding: 17px 5vw 72px 5vw;
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .product-card .thumb {
+    margin: 0 auto 12px auto;
+  }
+  .product-card .cart-quantity-bar,
+  .product-card .add-btn-corner {
+    right: 13px;
+    bottom: 13px;
+    left: auto;
   }
 }
 
@@ -260,58 +301,21 @@
         .desktop-buttons {
             position: fixed;
             bottom: 20px;
-            left: calc(var(--side-w) / 2 - 60px); /* centré avec le menu */
-@@ -521,55 +484,50 @@
-}
-
-
-        .product-plus-btn {
-            background: #191919;
-            color: #fff;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .product-plus-btn:hover {
-            background: #F18701;
-        }
-        body.mobile-menu-active #cart-fab {
-  display: none !important;
-}
-
-
-        /* Masquer sur mobile */
-        @media (max-width: 768px) {
-            .desktop-buttons {
-                display: none;
-            }
-        }
-
-        /* Mise à jour des anciens styles pour compatibilité */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
-            gap: var(--gap);
-        }
-
-        /* Styles pour les anciens éléments (si présents) */
-        .title {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 400;
-            font-size: 11px;
-            line-height: 13px;
-            color: #000;
-            text-transform: uppercase;
-            margin: 0 0 4px;
-        }
-
-        .desc {
-            font-family: "Montserrat", sans-serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 10px;
+@@ -822,111 +827,72 @@
+                <button class="add-btn">+</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=300&fit=crop&crop=center" alt="BIG CHEESE">
+                </div>
+                <div class="info">
+                    <h3>BIG CHEESE</h3>
+                    <p class="desc">Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar</p>
+                    <span class="price">À partir de <strong>11,90 €</strong></span>
+                </div>
+                <button class="add-btn">+</button>
+            </div>
         </div>
     </div>
 
@@ -323,7 +327,6 @@
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
-  // Bloc prix
   let priceHtml = '';
   if (product.options?.sizes?.length > 0) {
     const prices = product.options.sizes.map(s => s.price);
@@ -334,36 +337,17 @@
   }
 
   let actionButton;
-
   if (cartQuantity > 0) {
-    actionButton = `
-      <div class="cart-quantity-bar">
-        ${cartQuantity > 1 ? `<button onclick=\"window.cartSystem.decreaseQuantity('${slug}')\">–</button>` : ''}
-        <span class="cart-qty">${cartQuantity}</span>
-        <a href="produit.html?slug=${slug}" class="cart-plus">+</a>
-      </div>
-    `;
+    const minusBtn = cartQuantity > 1 ? `<button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')">–</button>` : `<span class="cart-minus-placeholder"></span>`;
+    actionButton = `<div class="cart-quantity-bar">${minusBtn}<span class="cart-qty">${cartQuantity}</span><a href="produit.html?slug=${slug}" class="cart-plus-btn">+</a></div>`;
   } else {
     actionButton = `<a href="produit.html?slug=${slug}" class="add-btn-corner">+</a>`;
   }
 
   const glow = cartQuantity > 0 ? 'glow' : '';
 
-  return `
-    <div class="product-card ${glow}">
-      <div class="thumb">
-        <img src="${product.image}" alt="${product.name}">
-      </div>
-      <div class="info">
-        <h3 class="product-name">${product.name}</h3>
-        <p class="desc">${product.description}</p>
-        <div class="price">${priceHtml}</div>
-      </div>
-      ${actionButton}
-    </div>
-  `;
+  return `<div class="product-card ${glow}" data-product-id="${product.id}" data-product-slug="${slug}"><div class="thumb"><img src="${product.image}" alt="${product.name}"></div><div class="info"><h3 class="product-name">${product.name}</h3><p class="desc">${product.description}</p><div class="price">${priceHtml}</div></div>${actionButton}</div>`;
 }
-
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
@@ -383,7 +367,14 @@
         // Fonction pour ajouter un produit au panier (utilisée par les boutons +)
         function addProductToCart(slug) {
             const product = products.find(p => p.slug === slug);
-      // Desktop
+            if (product && window.cartSystem) {
+                let basePrice = product.price;
+                let selectedSize = null;
+
+                // Si le produit a des options de taille, prendre la première par défaut
+                if (product.options && product.options.sizes && product.options.sizes.length > 0) {
+                    selectedSize = product.options.sizes[0];
+@@ -1141,115 +1107,50 @@
       document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
       document.querySelector(.classic-menu-item[data-cat="${cat}"])?.classList.add('active');
       // Mobile
@@ -408,5 +399,29 @@
   }
   window.addEventListener('load', syncHeroHeight);
   window.addEventListener('resize', syncHeroHeight);
-          </script>
 
+</script>
+  <script>
+  // toggle & hide cart when menu mobile open
+  function openMobileMenu() {
+    document.getElementById('mobile-menu-overlay')?.classList.add('is-open');
+    document.getElementById('mobile-menu-drawer')?.classList.add('is-open');
+    document.body.classList.add('no-scroll', 'mobile-menu-active');
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu-overlay')?.classList.remove('is-open');
+    document.getElementById('mobile-menu-drawer')?.classList.remove('is-open');
+    document.body.classList.remove('no-scroll', 'mobile-menu-active');
+  }
+
+  // burger toggle
+  document.querySelectorAll('#burger-btn, .mobile-menu-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const open = document.getElementById('mobile-menu-drawer')?.classList.contains('is-open');
+      open ? closeMobileMenu() : openMobileMenu();
+    });
+  });
+
+  // fermeture via overlay ou X
+  document.getElementById('mobile-menu-overlay')?.addEventListener('click', closeMobileMenu);
+  document.querySelectorAll('.mobile-menu-drawer .close-btn').forEach(el => el.addEventListener('click', closeMobileMenu));
