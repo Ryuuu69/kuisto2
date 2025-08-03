@@ -245,12 +245,13 @@
 .product-card .info {
   flex: 1 1 0;
   min-width: 0;
-  height: 120px; /* alignement parfait sur l'image */
+  height: 120px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* align le nom en haut */
+  justify-content: flex-start;
   gap: 8px;
-  margin-top: 17px; /* nom du produit à 17px du haut */
+  margin-top: 17px;
+  /* PAS de margin-left si l’image a margin-right: 20px */
 }
 
 .product-card .product-name,
