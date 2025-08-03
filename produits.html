@@ -834,54 +834,50 @@
     <!-- Include shared product data -->
     <script src="products-data.js"></script>
 <script>
-    function createProductCard(product) {
+   function createProductCard(product) {
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
- // Bloc prix
+  // Bloc prix
   let priceHtml = '';
   if (product.options?.sizes?.length > 0) {
     const prices = product.options.sizes.map(s => s.price);
     const min = Math.min(...prices);
-    priceHtml = <span class="from">À partir de </span><span class="value">${min.toFixed(2).replace('.', ',')} €</span>;
+    priceHtml = `<span class="from">À partir de </span><span class="value">${min.toFixed(2).replace('.', ',')} €</span>`;
   } else {
-    priceHtml = <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>;
+    priceHtml = `<span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>`;
   }
 
-  let actionButton;
-
+  let actionButton = '';
   if (cartQuantity > 0) {
-    actionButton = 
+    actionButton = `
       <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;bottom:13px;right:13px;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
         <button class="cart-remove-btn" onclick="${
-            cartQuantity === 1
-              ? window.cartSystem.removeFromCart('${slug}')
-              : window.cartSystem.decreaseQuantity('${slug}')
-          }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
-          style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
-          ${cartQuantity === 1
-              ? '<span class="material-icons">delete</span>'
-              : '–'
-          }
+          cartQuantity === 1
+            ? `window.cartSystem.removeFromCart('${slug}')`
+            : `window.cartSystem.decreaseQuantity('${slug}')`
+        }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
+        style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
+          ${cartQuantity === 1 ? '<span class="material-icons">delete</span>' : '–'}
         </button>
         <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
         <a href="produit.html?slug=${slug}" class="cart-plus-btn"
          title="Voir fiche produit"
          style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
       </div>
-    ;
+    `;
   } else {
-    actionButton = 
+    actionButton = `
       <a href="produit.html?slug=${slug}" class="add-btn-corner"
         style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
         +
       </a>
-    ;
+    `;
   }
 
   const glow = cartQuantity > 0 ? 'glow' : '';
 
-  return 
+  return `
     <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
       <div class="thumb" style="width:120px;height:120px;margin-left:15px;">
         <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
@@ -895,8 +891,9 @@
       </div>
       ${actionButton}
     </div>
-  ;
+  `;
 }
+
 
 
 
