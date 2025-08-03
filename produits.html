@@ -839,12 +839,17 @@
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
  // Bloc prix
-let minPrice = (product.options?.sizes?.length > 0)
+     let minPrice = (product.options?.sizes?.length > 0)
   ? Math.min(...product.options.sizes.map(s => s.price))
   : product.price;
 
 let priceHtml = `
-  <div class="price-row" style="display:flex;align-items:center;gap:4px;">
+  <div class="price-row" style="
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-top:10px;
+  ">
     <span class="from" style="
       font-family:'Montserrat',sans-serif;
       font-style:italic;
@@ -863,8 +868,6 @@ let priceHtml = `
     ">${minPrice.toFixed(2).replace('.', ',')} €</span>
   </div>
 `;
-
-
 let actionButton = '';
 if (cartQuantity > 0) {
   actionButton = `
