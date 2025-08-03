@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -24,15 +24,15 @@
             /* Variables pour le composant carte produit */
             --card-w: 370px;        /* largeur de la carte */
             --card-h: 150px;        /* hauteur de la carte */
-            --thumb: 120px;         /* taille de l'image */
+            --thumb: 96px;          /* taille de l'image */
             --btn: 48px;            /* taille du bouton + */
             --gap: 22px;            /* espace entre cartes */
-
+            
             --red: #E30613;
             --kuisto-orange: #F18701;
             --grey-text: #808080;
             --grey-line: #d0d0d0;
-            --card-radius: 28px;
+            --card-radius: 26px;
             --bigsmash-white: #ffffff;
             --bigsmash-shadow: 0 4px 16px rgba(0,0,0,0.08);
             --bigsmash-radius: 20px;
@@ -58,7 +58,121 @@
   top: 0;
   left: 0;
   right: 0;
-@@ -176,237 +176,242 @@
+  height: var(--hero-h);
+  width: 100%; /* évite overflow horizontal que peut causer 100vw */
+  background: var(--bigsmash-white);
+  box-shadow: var(--bigsmash-shadow);
+  border-bottom-left-radius: var(--bigsmash-radius);
+  border-bottom-right-radius: var(--bigsmash-radius);
+  overflow: hidden; /* pour que l'image respecte les arrondis */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Image à l’intérieur : couvre sans déformer et s’aligne sur les arrondis */
+.hero .banner-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* appliquer les arrondis uniquement en bas si tu veux (hérité du parent) */
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+        /* --- MENU LATÉRAL --- */
+        .side-nav {
+            position: fixed;
+            top: var(--hero-h);
+            left: 0;
+            width: var(--side-w);
+            bottom: 0;
+            background: #f5f6f7 !important;
+            overflow-y: auto;
+            z-index: 900;
+            padding-top: 260px;
+          border-right: none !important;
+    box-shadow: none !important;
+        }
+        
+        .side-nav ul {
+            list-style: none;
+            padding: 0 1rem;
+        }
+        
+        .side-nav li {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            height: 22px;
+            display: block;
+            text-align: center;
+            border-radius: 18px;
+            color: #000;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .side-nav li:hover,
+        .side-nav li.active {
+            background: var(--kuisto-orange);
+            color: #fff;
+        }
+
+        /* --- ZONE QUI DÉFILE --- */
+        .catalogue {
+            position: relative;
+            margin-left: calc(var(--side-w) + var(--catalogue-offset)); /* décale vers la droite */
+
+            padding-top: calc(var(--hero-h) + 1rem);  /* évite le hero */
+            padding-inline: var(--gutter);  /* marges latérales */
+            height: 100%;
+            overflow-y: auto;
+            background: #f5f6f7 !important;
+          border-left: none !important;
+    box-shadow: none !important;
+        }
+
+        /* ———————————————————————————
+           SECTIONS DE CATÉGORIES
+        ——————————————————————————— */
+        .cat {
+            padding-block: 2.5rem 1rem;
+            scroll-margin-top: calc(var(--hero-h) + 0.5rem);  /* pour les ancres */
+        }
+        
+        .cat + .cat {
+            border-top: 1px solid #efefef;  /* séparation fine entre sections */
+        }
+        
+        .cat h2 {
+            margin: 0 0 1.5rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        /* ———————————————————————————
+           TITRES DE SECTION
+        ——————————————————————————— */
+        .section-title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+            margin: 32px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-transform: uppercase;
         }
         
         .section-title::after {
@@ -84,7 +198,7 @@
 .product-card {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: var(--card-w);
   max-width: var(--card-w);
   flex: 0 0 var(--card-w);
@@ -94,7 +208,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   overflow: hidden;
   margin: 0;
-  padding: 17px 26px 0 26px;
+  padding: 24px 28px 24px 26px; /* padding à droite/gauche pour ne pas toucher les bords */
   transition: all 0.3s cubic-bezier(.39,.46,.29,1.17);
 }
 .product-card:hover {
@@ -129,13 +243,12 @@
 .product-card .info {
   flex: 1;
   min-width: 0;
-  padding: 0 80px 0 0;
+  padding: 0 0 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 8px;
   height: 100%;
-  position: relative;
 }
 
 .product-card .product-name,
@@ -146,6 +259,7 @@
   line-height: 1.1;
   color: #000;
   margin: 0 0 5px 0;
+  margin-top: 17px;
   text-transform: uppercase;
 }
 
@@ -166,9 +280,7 @@
 }
 
 .product-card .price {
-  position: absolute;
-  bottom: 40px;
-  left: 0;
+  margin-top: 8px;
   font-size: 0; /* Pour inline-blocks */
 }
 
@@ -189,18 +301,18 @@
 /* ===== BOUTON "+" dans le coin ===== */
 .add-btn-corner {
   position: absolute;
-  right: 13px;
-  bottom: 13px;
-  width: 50px;
-  height: 36px;
+  right: 0;
+  bottom: 0;
+  width: 56px;
+  height: 56px;
   background: #000;
   color: #fff;
-  font-size: 28px;
+  font-size: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 28px;
+  border-bottom-right-radius: 28px;
   z-index: 2;
   text-decoration: none;
   transition: background 0.3s;
@@ -213,58 +325,55 @@
 /* ===== BARRE QUANTITÉ ===== */
 .cart-quantity-bar {
   position: absolute;
-  right: 13px;
-  bottom: 13px;
-  width: 152px;
-  height: 36px;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  min-width: 132px;
   background: #000;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 28px;
+  border-bottom-right-radius: 28px;
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  justify-content: space-between;
   z-index: 2;
   box-shadow: 0 4px 14px rgba(0,0,0,.13);
+  padding: 0 10px;
 }
 
 .cart-quantity-bar button,
 .cart-quantity-bar a {
-  width: 36px;
-  height: 36px;
-  background: #000;
+  width: 40px;
+  height: 40px;
+  background: transparent;
   border: none;
   color: #fff;
+  font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.12s;
-  text-decoration: none;
 }
 .cart-quantity-bar button:hover,
 .cart-quantity-bar a:hover {
   background: #F18701;
   color: #fff;
 }
-.cart-quantity-bar button {font-size:20px;}
-.cart-quantity-bar a {font-size:28px;}
-.cart-minus-placeholder { width:36px; height:36px; display:block; }
 
 .cart-qty {
-  flex:1;
   font-size: 18px;
   font-weight: 700;
   color: #fff;
-  text-align: center;
+  margin: 0 8px;
 }
 
 /* ===== Responsive Mobile ===== */
 @media (max-width: 540px) {
   .product-card {
-    width: 95vw;
+    width: 96vw;
     min-width: 0;
-    padding: 17px 5vw 72px 5vw;
+    padding: 18px 7vw 72px 7vw;
     height: auto;
     flex-direction: column;
     align-items: flex-start;
@@ -274,8 +383,8 @@
   }
   .product-card .cart-quantity-bar,
   .product-card .add-btn-corner {
-    right: 13px;
-    bottom: 13px;
+    right: 0;
+    bottom: 0;
     left: auto;
   }
 }
@@ -301,7 +410,415 @@
         .desktop-buttons {
             position: fixed;
             bottom: 20px;
-@@ -822,111 +827,72 @@
+            left: calc(var(--side-w) / 2 - 60px); /* centré avec le menu */
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+    #cart-fab {
+  position: fixed;
+  left: 50%;
+  bottom: 122px;   /* espace de 30px sous l'icône */
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  background: #F18701;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(241,135,1,0.3), 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  cursor: pointer;
+  font-size: 2rem;
+  border: 6px solid #fff;
+  transition: box-shadow 0.2s;
+}
+
+/* Icône panier */
+#cart-fab .cart-svg {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+}
+
+/* Badge montant – rectangle arrondi, position relevée */
+#cart-fab .cart-badge {
+  position: absolute;
+  right: -50px;
+  top: -20px;
+  background: #191919;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  border-radius: 6px;
+  min-width: 40px;
+  height: 24px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  pointer-events: none;
+  border: 0px solid #fff;
+}
+
+
+
+      #cart-bar {
+  display: none !important;
+
+
+
+
+        .desktop-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            
+            /* État par défaut : fond rouge, icône blanche */
+            background: var(--red);
+            color: white;
+        }
+
+        .desktop-btn:hover {
+            /* Au hover : fond blanc, icône rouge */
+            background: white;
+            color: var(--red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,.2);
+        }
+
+        .desktop-btn svg {
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+        }
+
+      
+        /* mobile-popup : boutons “Accueil / Compte” toujours orange, pas rouges */
+.mobile-popup-buttons .desktop-btn {
+  background: #F18701 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
+}
+.mobile-popup-buttons .desktop-btn:hover {
+  background: #fff !important;
+  color: #F18701 !important;
+}
+.mobile-popup-buttons .desktop-btn svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+
+        .product-plus-btn {
+            background: #191919;
+            color: #fff;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .product-plus-btn:hover {
+            background: #F18701;
+        }
+        body.mobile-menu-active #cart-fab {
+  display: none !important;
+}
+
+
+        /* Masquer sur mobile */
+        @media (max-width: 768px) {
+            .desktop-buttons {
+                display: none;
+            }
+            
+            .product-card {
+                width: 100%;
+                max-width: var(--card-w);
+            }
+        }
+
+        /* Mise à jour des anciens styles pour compatibilité */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            gap: var(--gap);
+        }
+
+        /* Styles pour les anciens éléments (si présents) */
+        .title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 13px;
+            color: #000;
+            text-transform: uppercase;
+            margin: 0 0 4px;
+        }
+
+        .desc {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 11px;
+            color: var(--grey-text);
+            margin: 0;
+            display: block;
+            overflow: visible;
+            white-space: normal;
+        }
+
+        .price .label {
+            font-family: "Montserrat", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 15px;
+            color: #000;
+        }
+
+        .price .value {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000;
+        }
+       /* overlay mobile */
+#mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 1000;
+}
+#mobile-menu-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* drawer mobile : centré horizontalement, posé vers le bas */
+#mobile-menu-drawer {
+  position: fixed;
+  left: 50%;
+  bottom: 60px; /* près du bas */
+  transform: translateX(-50%) scale(.95);
+  width: min(92vw, 320px);
+  max-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 64px rgba(0,0,0,0.33), 0 2px 8px rgba(0,0,0,0.07);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .25s ease, opacity .25s ease;
+  overflow: hidden;
+  z-index: 1001;
+}
+#mobile-menu-drawer.is-open {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+        @media (max-width: 767px) {
+  --hero-h: 110px; /* Hauteur pour mobile */
+}
+       
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- HEADER (Logo + hamburger + bannière) -->
+  <header class="w-full flex items-center justify-between relative bg-white shadow-md">
+    <a href="index.html" class="w-full">
+      <!-- Bannière desktop -->
+      <img src="images/banner.svg" alt="Kuisto Banner"
+        class="hidden md:block w-full h-auto cursor-pointer" />
+      <!-- Bannière mobile arrondie -->
+      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile"
+        class="block md:hidden w-full h-auto cursor-pointer rounded-2xl shadow mb-[-12px]" />
+        <!-- ↑ mb-[-28px] (margin-bottom négatif) pour que la section blanche remonte sous la bannière -->
+    </a>
+    <!-- Bouton hamburger mobile ONLY -->
+    <button id="mobile-menu-toggle"
+      class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
+      aria-label="Menu">
+      <span id="hamburger-icon" class="block">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-7 h-7">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span id="close-icon" class="hidden">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+
+  <!-- MENU MOBILE : overlay + drawer + boutons -->
+  <div id="mobile-menu-overlay"
+     class="fixed inset-0 bg-black z-40 hidden transition-opacity duration-300"></div>
+  <nav id="mobile-menu-drawer"
+    class="fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
+    <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
+      <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
+      <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
+      <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
+      <li class="mobile-menu-item" data-cat="hot-dogs">Hot Dogs</li>
+      <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
+      <li class="mobile-menu-item" data-cat="sides">Sides</li>
+      <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
+      <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
+    </ul>
+    <!-- Boutons attachés au pop-up (EN BAS) -->
+    <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
+      <button onclick="window.location.href='index.html'"
+        title="Accueil"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+      <button onclick="window.location.href='index.html'"
+        title="Mon compte"
+        class="desktop-btn w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MENU LATÉRAL DESKTOP -->
+  <nav class="side-nav sidebar-classic hidden md:block fixed left-0 top-0 h-full w-56 bg-white shadow">
+    <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
+      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Tacos</li>
+      <li class="classic-menu-item" data-cat="burgers" onclick="setActiveCategory('burgers', false)">Burgers</li>
+      <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
+      <li class="classic-menu-item" data-cat="buckets" onclick="setActiveCategory('buckets', false)">Buckets</li>
+      <li class="classic-menu-item" data-cat="hot-dogs" onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
+      <li class="classic-menu-item" data-cat="menus-bambino" onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
+      <li class="classic-menu-item" data-cat="sides" onclick="setActiveCategory('sides', false)">Sides</li>
+      <li class="classic-menu-item" data-cat="boissons" onclick="setActiveCategory('boissons', false)">Boissons</li>
+      <li class="classic-menu-item" data-cat="desserts" onclick="setActiveCategory('desserts', false)">Desserts</li>
+    </ul>
+  </nav>
+
+  <!-- CONTENU QUI DÉFILE -->
+  <main class="ml-0 md:ml-56 px-2 pt-4 min-h-screen">
+    <!-- Section Tacos -->
+    
+      <section id="tacos" class="cat px-3 pt-5 pb-8 max-w-2xl mx-auto">
+
+      <!-- ↑↑↑ -mt-10 fait “remonter” la carte blanche sous la bannière arrondie, effet carte qui flotte -->
+      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Tacos</h2>
+      <div class="cards-grid" id="tacos-products">
+        <!-- Products will be populated by JavaScript -->
+      </div>
+    </section>
+<!-- Section Burgers -->
+<section id="burgers" class="cat">
+  <h2 class="section-title">BURGERS</h2>
+  <div class="cards-grid" id="burgers-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Menus Burger -->
+<section id="menus-burgers" class="cat">
+  <h2 class="section-title">MENUS BURGER</h2>
+  <div class="cards-grid" id="menus-burgers-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Buckets -->
+<section id="buckets" class="cat">
+  <h2 class="section-title">BUCKETS</h2>
+  <div class="cards-grid" id="buckets-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Hot Dogs -->
+<section id="hot-dogs" class="cat">
+  <h2 class="section-title">Hot Dogs</h2>
+  <div class="cards-grid" id="hot-dogs-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Menus Bambino -->
+<section id="menus-bambino" class="cat">
+  <h2 class="section-title">MENUS BAMBINO</h2>
+  <div class="cards-grid" id="menus-bambino-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Sides -->
+<section id="sides" class="cat">
+  <h2 class="section-title">SIDES</h2>
+  <div class="cards-grid" id="sides-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Boissons -->
+<section id="boissons" class="cat">
+  <h2 class="section-title">BOISSONS</h2>
+  <div class="cards-grid" id="boissons-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+<!-- Section Desserts -->
+<section id="desserts" class="cat">
+  <h2 class="section-title">DESSERTS</h2>
+  <div class="cards-grid" id="desserts-products">
+    <!-- Products will be populated by JavaScript -->
+  </div>
+</section>
+
+
+</main>
+
+   
+
+    <!-- Exemple de grille de cartes (pour démonstration) -->
+    <div style="display: none;">
+        <div class="cards-grid">
+            <div class="product-card">
+                <div class="thumb">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&crop=center" alt="BIG SALADES">
+                </div>
+                <div class="info">
+                    <h3>BIG SALADES</h3>
+                    <p class="desc">Big Caesar : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan</p>
+                    <span class="price">À partir de <strong>9,90 €</strong></span>
+                </div>
                 <button class="add-btn">+</button>
             </div>
             
@@ -327,6 +844,7 @@
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
+  // Bloc prix
   let priceHtml = '';
   if (product.options?.sizes?.length > 0) {
     const prices = product.options.sizes.map(s => s.price);
@@ -337,17 +855,55 @@
   }
 
   let actionButton;
+
   if (cartQuantity > 0) {
-    const minusBtn = cartQuantity > 1 ? `<button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')">–</button>` : `<span class="cart-minus-placeholder"></span>`;
-    actionButton = `<div class="cart-quantity-bar">${minusBtn}<span class="cart-qty">${cartQuantity}</span><a href="produit.html?slug=${slug}" class="cart-plus-btn">+</a></div>`;
+    actionButton = `
+      <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;bottom:13px;right:13px;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
+        <button class="cart-remove-btn" onclick="${
+            cartQuantity === 1
+              ? `window.cartSystem.removeFromCart('${slug}')`
+              : `window.cartSystem.decreaseQuantity('${slug}')`
+          }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
+          style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
+          ${cartQuantity === 1
+              ? '<span class="material-icons">delete</span>'
+              : '–'
+          }
+        </button>
+        <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn"
+         title="Voir fiche produit"
+         style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
+      </div>
+    `;
   } else {
-    actionButton = `<a href="produit.html?slug=${slug}" class="add-btn-corner">+</a>`;
+    actionButton = `
+      <a href="produit.html?slug=${slug}" class="add-btn-corner"
+        style="width:51px;height:35px;background:#000;color:#fff;border:none;position:absolute;bottom:13px;right:13px;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
+        +
+      </a>
+    `;
   }
 
   const glow = cartQuantity > 0 ? 'glow' : '';
 
-  return `<div class="product-card ${glow}" data-product-id="${product.id}" data-product-slug="${slug}"><div class="thumb"><img src="${product.image}" alt="${product.name}"></div><div class="info"><h3 class="product-name">${product.name}</h3><p class="desc">${product.description}</p><div class="price">${priceHtml}</div></div>${actionButton}</div>`;
+  return `
+    <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
+      <div class="thumb" style="width:120px;height:120px;margin-left:15px;">
+        <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
+      </div>
+      <div class="info" style="flex:1;padding:0 20px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
+        <div class="product-name" style="font-family:'Montserrat',sans-serif;font-weight:400;font-size:11px;line-height:13px;color:#000;margin-bottom:5px;">${product.name}</div>
+        <div class="desc" style="font-family:'Montserrat',sans-serif;font-style:italic;font-weight:600;font-size:10px;line-height:11px;color:#808080;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.description}</div>
+        <div class="price" style="margin-top:8px;font-size:0;">
+          ${priceHtml}
+        </div>
+      </div>
+      ${actionButton}
+    </div>
+  `;
 }
+
 
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
@@ -374,7 +930,214 @@
                 // Si le produit a des options de taille, prendre la première par défaut
                 if (product.options && product.options.sizes && product.options.sizes.length > 0) {
                     selectedSize = product.options.sizes[0];
-@@ -1141,115 +1107,50 @@
+                    basePrice = selectedSize.price;
+                }
+
+                window.cartSystem.addToCart(product, 1, {
+                    supplements: {},
+                    drink: null,
+                    remove: {},
+                    size: selectedSize // Passer la taille sélectionnée
+                }, basePrice);
+            }
+        }
+
+        // Fonction pour afficher tous les produits
+        function renderAllProducts() {
+            // Vider toutes les grilles de produits
+            const containers = [
+                'tacos-products', 'burgers-products', 'menus-burgers-products',
+                'buckets-products', 'sides-products', 'boissons-products', 'desserts-products', 'hot-dogs-products', 'menus-bambino-products'
+            ];
+            
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = '';
+                }
+            });
+            
+            // Remplir les grilles avec les produits de products-data.js
+            products.forEach(product => {
+                const sectionId = getCategorySectionId(product.category) + '-products';
+                const container = document.getElementById(sectionId);
+                
+                if (container) {
+                    container.innerHTML += createProductCard(product);
+                }
+            });
+        }
+
+        // Variables globales pour le menu mobile
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        let menuOpen = false; // État du menu mobile
+
+        // Ouvre/Ferme le menu mobile
+        function toggleMobileMenu(open) {
+            if (open) {
+                mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                mobileMenuDrawer.classList.add('is-open'); // Utilise is-open pour la transition
+                mobileMenuOverlay.classList.add('is-open');
+                hamburgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                document.body.classList.add('no-scroll'); // Bloque le scroll
+                menuOpen = true;
+            } else {
+                mobileMenuDrawer.classList.remove('is-open');
+                mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                mobileMenuOverlay.classList.remove('is-open');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.classList.remove('no-scroll'); // Débloque le scroll
+                menuOpen = false;
+            }
+        }
+
+        // Gère l'activation des catégories et le défilement
+        window.setActiveCategory = function (cat, isMobile) {
+            // Désactive toutes les catégories actives
+            document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+            document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+
+            // Active la catégorie sélectionnée
+            document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+            document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+
+            // Défilement vers la section
+            const section = document.getElementById(cat);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Ferme le menu mobile si l'action vient du mobile
+            if (isMobile) {
+                toggleMobileMenu(false);
+            }
+        };
+
+        // Initialisation au chargement du DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllProducts(); // Affiche les produits
+
+            // Écouteurs d'événements pour le menu mobile
+            mobileMenuToggle.addEventListener('click', () => toggleMobileMenu(!menuOpen));
+            mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
+            document.getElementById('mobile-menu-close').addEventListener('click', () => toggleMobileMenu(false));
+
+            // Écouteurs pour les éléments du menu mobile
+            document.querySelectorAll('.mobile-menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    setActiveCategory(item.dataset.cat, true); // isMobile = true
+                });
+            });
+
+            // Initialiser la première catégorie comme active
+            setActiveCategory('tacos', false); // 'tacos' est la première catégorie par défaut
+        });
+        
+        // Écouter les changements du panier pour mettre à jour l'affichage
+        window.addEventListener('cartUpdated', () => {
+            renderAllProducts();
+        });
+    </script>
+ 
+    
+    <!-- Inclure les données produits et le système de panier -->
+    <script src="cart-system.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ 
+<!-- Panier flottant, parfaitement centré en bas -->
+<div id="cart-fab"
+     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
+     style="display:none; bottom:10px; transform:translateX(-50%);">
+  <svg class="cart-svg" fill="currentColor" viewBox="0 0 24 24" width="38" height="38">
+    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.16 15H17c.83 0 1.54-.5 1.84-1.22l3.02-7.05a1 1 0 00-.93-1.38H6.21l-.94-2.14A1.003 1.003 0 004.25 2H2v2h2l3.6 7.59-1.35 2.44C5.52 14.37 6.1 15 7 15zm0-2l1.1-2h7.45l-2.76 5H7.16z"/>
+  </svg>
+  <span class="cart-badge" id="cart-fab-price">0,00€</span>
+</div>
+
+
+<!-- Floating icons bottom‑left (DESKTOP UNIQUEMENT) -->
+<div class="fixed bottom-4 left-4 z-[9999] flex space-x-3 hidden md:flex">
+  <!-- Accueil -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Accueil"
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+    </svg>
+  </button>
+
+  <!-- Mon compte (redirige temporairement vers index.html) -->
+  <button
+    onclick="window.location.href='index.html'"
+    title="Mon compte"
+    class="w-12 h-12 bg-[#F18701] text-white rounded-full flex items-center justify-center shadow-lg transition-colors hover:bg-white hover:text-[#F18701]">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+  </button>
+ 
+</div>
+
+<script>
+    // ——————————————————————————————
+    // Menu Mobile JS
+    // ——————————————————————————————
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    let menuOpen = false;
+
+    // Ouvre/Ferme le menu
+    function toggleMobileMenu(open) {
+      if (open) {
+        mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
+        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+        mobileMenuOverlay.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        menuOpen = true;
+      } else {
+        mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
+        mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+        mobileMenuOverlay.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        menuOpen = false;
+      }
+    }
+
+    // Toggle menu on button click
+    mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
+    mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
+
+    // Gère les liens du menu mobile : active + scroll vers section + ferme
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.onclick = function () {
+        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+        item.classList.add('active');
+        // Scroller à la section correspondante
+        const section = document.getElementById(item.dataset.cat);
+        if(section) section.scrollIntoView({behavior: "smooth"});
+        toggleMobileMenu(false);
+      };
+    });
+
+    // Effet actif côté desktop menu (restera inchangé)
+    window.setActiveCategory = function (cat, isMobile) {
+      // Desktop
       document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
       document.querySelector(.classic-menu-item[data-cat="${cat}"])?.classList.add('active');
       // Mobile
@@ -400,6 +1163,71 @@
   window.addEventListener('load', syncHeroHeight);
   window.addEventListener('resize', syncHeroHeight);
 
+  // Gestion simple du panier / compteur sur les cartes produit
+  const CART_KEY = 'kuisto_cart';
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+  function updateCardUI(card, quantity) {
+    const addBtn = card.querySelector('.add-btn-corner');
+    const qtyBar = card.querySelector('.cart-quantity-bar');
+    const qtySpan = qtyBar?.querySelector('.cart-qty');
+    if (quantity > 0) {
+      addBtn && (addBtn.style.display = 'none');
+      if (qtyBar) {
+        qtyBar.style.display = 'flex';
+        if (qtySpan) qtySpan.textContent = quantity;
+      }
+      card.dataset.qty = quantity;
+    } else {
+      addBtn && (addBtn.style.display = 'flex');
+      if (qtyBar) qtyBar.style.display = 'none';
+      card.dataset.qty = 0;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = getCart();
+    document.querySelectorAll('.product-card').forEach(card => {
+      const productId = card.dataset.productId;
+      const qty = cart[productId] || 0;
+      updateCardUI(card, qty);
+    });
+
+    document.addEventListener('click', (e) => {
+      const add = e.target.closest('.add-btn-corner');
+      const plus = e.target.closest('.cart-plus-btn');
+      const minus = e.target.closest('.cart-remove-btn');
+      const cartLocal = getCart();
+
+      if (add) {
+        const card = add.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = (cartLocal[id] || 0) + 1;
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id]);
+      }
+      if (plus) {
+        const card = plus.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = (cartLocal[id] || 0) + 1;
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id]);
+      }
+      if (minus) {
+        const card = minus.closest('.product-card');
+        const id = card.dataset.productId;
+        cartLocal[id] = Math.max(0, (cartLocal[id] || 0) - 1);
+        if (cartLocal[id] === 0) delete cartLocal[id];
+        saveCart(cartLocal);
+        updateCardUI(card, cartLocal[id] || 0);
+      }
+    });
+  });
 </script>
   <script>
   // toggle & hide cart when menu mobile open
@@ -425,4 +1253,123 @@
   // fermeture via overlay ou X
   document.getElementById('mobile-menu-overlay')?.addEventListener('click', closeMobileMenu);
   document.querySelectorAll('.mobile-menu-drawer .close-btn').forEach(el => el.addEventListener('click', closeMobileMenu));
-      
+
+  // liens internes : scroll + fermeture
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('.mobile-menu-drawer a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      closeMobileMenu();
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+    <script>
+  (function() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    let menuOpen = false;
+
+    function setMenuState(open) {
+      if (open) {
+        mobileMenuDrawer?.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer?.classList.add('opacity-100', 'scale-100');
+        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+        mobileMenuOverlay?.classList.remove('hidden');
+        hamburgerIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden', 'no-scroll', 'mobile-menu-active');
+        menuOpen = true;
+      } else {
+        mobileMenuDrawer?.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer?.classList.remove('opacity-100', 'scale-100');
+        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+        mobileMenuOverlay?.classList.add('hidden');
+        hamburgerIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden', 'no-scroll', 'mobile-menu-active');
+        menuOpen = false;
+      }
+    }
+
+    mobileMenuToggle?.addEventListener('click', () => setMenuState(!menuOpen));
+    mobileMenuOverlay?.addEventListener('click', () => setMenuState(false));
+
+    // items mobile : activation, scroll avec offset, fermeture, et appel à setActiveCategory si défini
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const cat = item.dataset.cat;
+
+        // visuel actif mobile
+        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+        item.classList.add('active');
+
+        // scroll avec compensation header fixe
+        const section = document.getElementById(cat);
+        if (section) {
+          const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+          const top = section.getBoundingClientRect().top + window.scrollY - headerOffset - 8;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+
+        // appel à ta fonction existante (desktop + sync) si elle existe
+        if (typeof window.setActiveCategory === 'function') {
+          window.setActiveCategory(cat, true);
+        }
+
+        // ferme le menu
+        setMenuState(false);
+      });
+    });
+  })();
+</script>
+  <script>
+document.querySelectorAll('.mobile-menu-item').forEach(item => {
+  item.addEventListener('click', () => {
+    // Visuel actif
+    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+    item.classList.add('active');
+
+    // Scroll vers la section avec compensation du header
+    const cat = item.dataset.cat;
+    const section = document.getElementById(cat);
+    if (section) {
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+
+    // Fermer le menu mobile : essaie les fonctions existantes sinon fallback
+    if (typeof closeMobileMenu === 'function') {
+      closeMobileMenu();
+    } else if (typeof toggleMobileMenu === 'function') {
+      toggleMobileMenu(false);
+    } else {
+      // Fallback manuel si tu gérais via classes / inline styles
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const overlay = document.getElementById('mobile-menu-overlay');
+      drawer?.classList.remove('is-open');
+      overlay?.classList.remove('is-open');
+      if (drawer) {
+        drawer.style.opacity = '0';
+        drawer.style.pointerEvents = 'none';
+        drawer.style.transform = 'translate(-50%,-50%) scale(.95)';
+      }
+      if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
