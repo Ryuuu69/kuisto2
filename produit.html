@@ -528,27 +528,28 @@
                 font-size: 24px;
                 border-radius: 40px;
             }
-          @media (max-width: 700px) {
+         @media (max-width: 700px) {
   .bigsmash-options-grid {
     display: grid;
-    grid-template-columns: 1fr;         /* 1 colonne en mobile */
-    grid-auto-rows: auto;               /* hauteur automatique */
-    gap: 12px;                          /* espace entre les cartes */
-    margin: 0;                          /* aucune marge latérale */
-    width: 100vw;                       /* toute la largeur de l'écran */
+    grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne */
+    gap: 14px;                            /* 14px entre cartes (lignes et colonnes) */
+    margin-left: 85px;
+    margin-right: 85px;
     box-sizing: border-box;
-    justify-items: center;              /* centre les cartes */
+    justify-content: center;               /* centre la dernière carte s’il y en a une seule sur la ligne */
   }
 
   .bigsmash-option-card {
-    width: 90vw;                        /* presque toute la largeur */
-    max-width: 330px;                   /* limite pour les grands mobiles */
-    height: auto;                       /* hauteur adaptée au contenu */
-    min-height: 120px;                  /* hauteur mini si besoin */
+    width: 100%;                          /* occupe toute la colonne */
+    max-width: none;                      /* pas de limite */
+    height: auto;
+    min-height: 120px;
     box-sizing: border-box;
+    /* Si tu veux arrondir, rajoute : */
+    /* border-radius: var(--bigsmash-radius-small); */
   }
 
-  /* Désactive les marges spéciales selon le nombre de cartes */
+  /* Désactive les marges latérales spéciales */
   .bigsmash-options-grid--count-4,
   .bigsmash-options-grid--count-3,
   .bigsmash-options-grid--count-2,
@@ -556,7 +557,6 @@
     margin: 0 !important;
   }
 }
-
         }
         /* ===== STYLES POUR LES ERREURS ===== */
         .bigsmash-error-container {
