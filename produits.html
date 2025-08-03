@@ -198,17 +198,15 @@
 .product-card {
   position: relative;
   display: flex;
-  align-items: flex-start; /* image & texte alignés en haut */
-  width: var(--card-w, 370px);
-  max-width: var(--card-w, 370px);
-  flex: 0 0 var(--card-w, 370px);
-  height: var(--card-h, 154px); /* 17(top) + 120(img) + 17(bot) */
+  align-items: flex-start;
+  width: 370px;
+  height: 154px;              /* 17(top) + 120(img) + 17(bot) */
   background: #fff;
-  border-radius: var(--card-radius, 28px);
+  border-radius: 28px;
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   overflow: hidden;
   margin: 0;
-  padding: 0; /* toutes les marges sont gérées par thumb/info */
+  padding: 0;
   transition: all 0.3s cubic-bezier(.39,.46,.29,1.17);
 }
 .product-card:hover {
@@ -229,11 +227,12 @@
   margin-top: 17px;
   margin-bottom: 17px;
   margin-left: 17px;
-  margin-right: 20px; /* espace image-texte */
+  margin-right: 20px;   /* Espace image-texte */
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .product-card .thumb img {
   width: 100%;
   height: 100%;
@@ -245,24 +244,21 @@
 .product-card .info {
   flex: 1 1 0;
   min-width: 0;
-  height: 120px;
+  height: 120px;      /* Pour aligner verticalement sur l’image */
+  margin-top: 17px;   /* Aligné avec le haut de l’image */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 8px;
-  margin-top: 17px;
-  /* PAS de margin-left si l’image a margin-right: 20px */
 }
 
-.product-card .product-name,
-.product-card h3 {
+.product-card .product-name {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 17px;
   line-height: 1.1;
   color: #000;
   margin: 0 0 5px 0;
-  /* Surtout PAS de margin-top ici ! */
   text-transform: uppercase;
 }
 
@@ -271,16 +267,17 @@
   font-style: italic;
   font-weight: 600;
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.3;
   color: #808080;
   margin: 0 0 4px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;      /* affiche jusqu’à 3 lignes */
+  -webkit-line-clamp: 3;      /* Coupe après 3 lignes */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 230px;
-  min-height: calc(1.4em * 3); /* force 3 lignes d’espace */
+  max-width: 210px;           /* Ajuste selon largeur de ta carte et bouton */
+  min-height: calc(1.3em * 3); /* Force l'espace de 3 lignes même si plus court */
+  white-space: normal;
 }
 
 .product-card .price {
