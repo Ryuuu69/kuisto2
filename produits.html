@@ -845,11 +845,11 @@
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
   // Bloc prix (affiche toujours "À partir de ...")
-  let minPrice = (product.options?.sizes?.length > 0)
-    ? Math.min(...product.options.sizes.map(s => s.price))
-    : product.price;
+let minPrice = (product.options?.sizes?.length > 0)
+  ? Math.min(...product.options.sizes.map(s => s.price))
+  : product.price;
 
-  let priceHtml = `
+let priceHtml = `
   <div class="price-row">
     <span class="from">À partir de </span>
     <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
@@ -895,6 +895,7 @@ if (cartQuantity > 0) {
     </a>
   `;
 }
+
 
   } else {
     actionButton = `
