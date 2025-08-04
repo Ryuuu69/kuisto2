@@ -858,28 +858,38 @@
 
 let actionButton = '';
 if (cartQuantity > 0) {
-  // Préparer la fonction onclick en fonction de la quantité
-  let onClickHandler = '';
+  // Préparer le code onclick séparément
+  let onclickHandler = '';
   if (cartQuantity === 1) {
-    onClickHandler = `window.cartSystem.removeFromCart('${slug}')`;
+    onclickHandler = `window.cartSystem.removeFromCart('${slug}')`;
   } else {
-    onClickHandler = `window.cartSystem.decreaseQuantity('${slug}')`;
+    onclickHandler = `window.cartSystem.decreaseQuantity('${slug}')`;
   }
+
+  // Préparer le contenu du bouton supprimer/diminuer
+  let buttonContent = cartQuantity === 1 
+    ? '<span class="material-icons">delete</span>' 
+    : '–';
 
   actionButton = `
     <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
-      <button class="cart-remove-btn" onclick="${onClickHandler}" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
+      <button 
+        class="cart-remove-btn" 
+        onclick="${onclickHandler}" 
+        title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
         style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
-        ${cartQuantity === 1 ? '<span class="material-icons">delete</span>' : '–'}
+          ${buttonContent}
       </button>
       <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
-      <a href="produit.html?slug=${slug}" class="cart-plus-btn"
-         title="Voir fiche produit"
-         style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">+</a>
+      <a 
+        href="produit.html?slug=${slug}" 
+        class="cart-plus-btn"
+        title="Voir fiche produit"
+        style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
+        +
+      </a>
     </div>
   `;
-
-
   } else {
     actionButton = `
       <a href="produit.html?slug=${slug}" class="add-btn-corner"
