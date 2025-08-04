@@ -23,6 +23,29 @@
         .font-montserrat { 
             font-family: Montserrat, sans-serif; 
         }
+      .main-content,
+.bigsmash-product-card {
+  margin-top: 219px;  /* hauteur bannière desktop */
+}
+       /* ===== HEADER IMAGE BANNIÈRE ===== */
+.main-header {
+  width: 100vw;
+  background: var(--bigsmash-white);
+  box-shadow: var(--bigsmash-shadow);              /* ombre sous la bannière */
+  border-bottom-left-radius: var(--bigsmash-radius);  /* arrondi bas gauche */
+  border-bottom-right-radius: var(--bigsmash-radius); /* arrondi bas droite */
+  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l'ombre */
+  position: relative;                                /* pour garantir que l'ombre s'affiche bien */
+  z-index: 10;
+}
+.banner-img {
+  display: block;
+  width: 100%;
+  height: 219px;       /* ajuste à la hauteur exacte souhaitée */
+  object-fit: cover;
+  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l'image si besoin */
+  border-bottom-right-radius: var(--bigsmash-radius-small);
+}
 
         /* ===== FOND DE PAGE GRISÉ (MODAL-LIKE) ===== */
         .bigsmash-page-container {
@@ -482,25 +505,7 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
-         /* ===== HEADER IMAGE BANNIÈRE ===== */
-.main-header {
-  width: 100vw;
-  background: var(--bigsmash-white);
-  box-shadow: var(--bigsmash-shadow);              /* ombre sous la bannière */
-  border-bottom-left-radius: var(--bigsmash-radius);  /* arrondi bas gauche */
-  border-bottom-right-radius: var(--bigsmash-radius); /* arrondi bas droite */
-  /* overflow: hidden; */                            /* supprime ou commente pour laisser passer l'ombre */
-  position: relative;                                /* pour garantir que l'ombre s'affiche bien */
-  z-index: 10;
-}
-.banner-img {
-  display: block;
-  width: 100%;
-  height: 219px;       /* ajuste à la hauteur exacte souhaitée */
-  object-fit: cover;
-  border-bottom-left-radius: var(--bigsmash-radius-small);  /* arrondir légèrement l'image si besoin */
-  border-bottom-right-radius: var(--bigsmash-radius-small);
-}
+        
         .bigsmash-error-title {
             font-size: 24px;
             font-weight: 700;
