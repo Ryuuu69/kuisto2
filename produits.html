@@ -696,10 +696,13 @@
 body.mobile-menu-active #cart-fab {
   display: none !important;
 }
-        /* Cacher le bouton panier quand le menu mobile est ouvert */
+        #mobile-menu-overlay.is-open ~ #cart-fab,
+#mobile-menu-drawer.is-open ~ #cart-fab,
 body.mobile-menu-active #cart-fab {
   display: none !important;
 }
+
+        
        
           
     </style>
