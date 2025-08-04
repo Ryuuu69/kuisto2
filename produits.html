@@ -837,57 +837,55 @@
     </div>
 
 
-    <!-- Include shared product data -->
-    <script src="products-data.js"></script>
+   // Include shared product data
+<script src="products-data.js"></script>
 <script>
-  function createProductCard(product) {
+function createProductCard(product) {
   const slug = product.slug;
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
   // Bloc prix (affiche toujours "À partir de ...")
-let minPrice = (product.options?.sizes?.length > 0)
-  ? Math.min(...product.options.sizes.map(s => s.price))
-  : product.price;
+  let minPrice = (product.options?.sizes?.length > 0)
+    ? Math.min(...product.options.sizes.map(s => s.price))
+    : product.price;
 
-let priceHtml = `
-  <div class="price-row" style="margin-top:8px; font-size:0;">
-    <span class="from" style="
-      font-family: 'Montserrat', sans-serif;
-      font-style: italic;
-      font-weight: 600;
-      font-size: 10px;
-      margin-bottom: -6px; /* <--- Ajoute cette ligne */
+  let priceHtml = `
+    <div class="price-row" style="margin-top:2px; font-size:0;">
+      <span class="from" style="
+        font-family: 'Montserrat', sans-serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 15px;
+        color: #000000;
+        margin-right: 3px;
+        display: inline-block;
+      ">À partir de </span>
+      <span class="value" style="
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: #000000;
+        display: inline-block;
+      ">${minPrice.toFixed(2).replace('.', ',')} €</span>
+    </div>
+  `;
 
-      line-height: 15px;
-      color: #000000;
-      margin-right: 3px;
-      display: inline-block;
-    ">À partir de </span>
-    <span class="value" style="
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 24px;
-      color: #000000;
-      display: inline-block;
-    ">${minPrice.toFixed(2).replace('.', ',')} €</span>
-  </div>
-`;
+  let actionButton = '';
+  if (cartQuantity > 0) {
+    // Préparer le code onclick séparément
+    let onclickHandler = '';
+    if (cartQuantity === 1) {
+      onclickHandler = `window.cartSystem.removeFromCart('${slug}')`;
+    } else {
+      onclickHandler = `window.cartSystem.decreaseQuantity('${slug}')`;
+    }
 
-let actionButton = '';
-if (cartQuantity > 0) {
-  // Préparer le code onclick séparément
-  let onclickHandler = '';
-  if (cartQuantity === 1) {
-    onclickHandler = `window.cartSystem.removeFromCart('${slug}')`;
-  } else {
-    onclickHandler = `window.cartSystem.decreaseQuantity('${slug}')`;
-  }
-
-  // Préparer le contenu du bouton supprimer/diminuer
-  let buttonContent = cartQuantity === 1 
-    ? '<span class="material-icons">delete</span>' 
-    : '–';
+    // Préparer le contenu du bouton supprimer/diminuer
+    let buttonContent = cartQuantity === 1 
+      ? '<span class="material-icons">delete</span>' 
+      : '–';
 
   actionButton = `
     <div class="cart-quantity-bar" style="
