@@ -855,65 +855,65 @@
 
     <script>
       function createProductCard(product) {
-    const slug = product.slug;
-    const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
+  const slug = product.slug;
+  const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
-    // Générer le bouton d'action selon l'état du panier
-    let actionButton;
-    if (cartQuantity > 0) {
-        actionButton = `
-            <div class="cart-quantity-bar">
-                <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                    </svg>
-                </button>
-                <span class="cart-qty">${cartQuantity}</span>
-                <button class="cart-plus-btn" onclick="addProductToCart('${slug}')" title="Augmenter la quantité">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                </button>
-            </div>
-        `;
-    } else {
-        actionButton = `
-            <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
-        `;
-    }
+  // Bloc prix toujours "À partir de ..."
+  let minPrice = (product.options?.sizes?.length > 0)
+    ? Math.min(...product.options.sizes.map(s => s.price))
+    : product.price;
 
-    // 💡 Affichage du prix (toujours "À partir de ...")
-    let minPrice;
-    if (product.options?.sizes?.length > 0) {
-        const prices = product.options.sizes.map(s => s.price);
-        minPrice = Math.min(...prices);
-    } else {
-        minPrice = product.price;
-    }
+  let priceHtml = `
+    <div class="price-row">
+      <span class="from">À partir de </span>
+      <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
+    </div>
+  `;
 
-    // Toujours afficher "À partir de ..."
-    let priceHtml = `
-        <span class="price">
-            <span class="from">À partir de </span>
-            <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
-        </span>
+  // Gestion barre/bouton
+  let actionButton = '';
+  if (cartQuantity > 0) {
+    // Si quantité = 1, on affiche la poubelle
+    let buttonContent = cartQuantity === 1
+      ? '<span class="material-icons">delete</span>'
+      : '–';
+    let onclickHandler = cartQuantity === 1
+      ? `window.cartSystem.removeFromCart('${slug}')`
+      : `window.cartSystem.decreaseQuantity('${slug}')`;
+
+    actionButton = `
+      <div class="cart-quantity-bar">
+        <button class="cart-remove-btn"
+          onclick="${onclickHandler}"
+          title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">
+          ${buttonContent}
+        </button>
+        <span class="cart-qty">${cartQuantity}</span>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn" title="Voir fiche produit">+</a>
+      </div>
     `;
-
-    return `
-        <div class="product-card">
-            <div class="thumb">
-                <img src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="desc">${product.description}</p>
-                ${priceHtml}
-            </div>
-            ${actionButton}
-        </div>
+  } else {
+    actionButton = `
+      <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
     `;
+  }
+
+  const glow = cartQuantity > 0 ? 'glow' : '';
+
+  return `
+    <div class="product-card ${glow}">
+      <div class="thumb">
+        <img src="${product.image}" alt="${product.name}">
+      </div>
+      <div class="info">
+        <div class="product-name">${product.name}</div>
+        <div class="desc">${product.description}</div>
+        ${priceHtml}
+      </div>
+      ${actionButton}
+    </div>
+  `;
 }
-
 
         
         // Fonction pour convertir une catégorie en ID de section
