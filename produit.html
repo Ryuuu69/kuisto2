@@ -554,28 +554,32 @@
     width: 100vw;
     max-width: 100vw;
     margin: 0;
-    padding: 0;
+    padding: 0 16px 0 16px;        /* marge horizontale à gauche et droite */
     box-sizing: border-box;
     border-radius: 0;
+    background: #fff;
   }
 
-  /* Image produit responsive et arrondie */
+  /* Image produit responsive, arrondie, espacée des bords */
   .bigsmash-product-image-container {
     border-radius: 16px;
-    overflow: hidden;              /* Pour que l'image suive le radius du container */
-    width: calc(100vw - 32px);     /* Un peu de marge latérale, adapte si besoin */
-    margin: 0 auto 12px auto;
-    max-width: 500px;              /* Adaptatif si tu veux limiter la taille max */
+    overflow: hidden;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto 18px auto;   /* haut, droite, bas, gauche = espace autour */
+    padding: 0 12px;               /* marge interne horizontale (gauche/droite) */
+    background: #fff;
+    box-sizing: border-box;
   }
   .bigsmash-product-image-container img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 16px;           /* Même valeur que le container pour que ce soit propre */
+    border-radius: 16px;
     object-fit: cover;
   }
 
-  /* Titres centrés et responsifs */
+  /* Titre centré et responsif */
   .bigsmash-product-title,
   h2, h3 {
     text-align: center;
@@ -592,16 +596,16 @@
     word-break: break-word;
   }
 
-  /* Grille options : 2 cartes par ligne, centrée, marges latérales de 85px */
+  /* Grille options : 2 cartes par ligne, centrée, marge latérale de 85px, décalée à droite */
   .bigsmash-options-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 14px !important;
-    width: calc(100vw - 170px) !important;    /* 85px de chaque côté */
-    margin-left: auto !important;
-    margin-right: auto !important;
-    justify-content: center !important;
+    width: calc(100vw - 170px) !important;      /* 85px à gauche/droite */
+    margin: 0 0 40px 0;                        /* marge inférieure après la dernière carte */
+    margin-left: 100px !important;             /* décale toute la grille à droite (ajuste la valeur !) */
     box-sizing: border-box;
+    justify-content: start !important;
     padding: 0;
   }
 
