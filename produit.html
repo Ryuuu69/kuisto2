@@ -1061,24 +1061,25 @@ renderOptions() {
   }
 
   // 2️⃣ Personnalisation (remove)
-  if (this.product.options?.remove?.length > 0) {
-    html += `
-      <div class="bigsmash-options-section">
-        <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
-        <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
-          ${this.product.options.remove.map((item, index) => `
-            <label class="bigsmash-option-card">
-              <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
-              <div class="bigsmash-checkbox-indicator">
-                <div class="bigsmash-checkbox-check"></div>
-              </div>
-              <div class="bigsmash-option-name">${item.name}</div>
-            </label>
-          `).join('')}
-        </div>
+if (this.product.options?.remove?.length > 0) {
+  html += `
+    <div class="bigsmash-options-section">
+      <h3 class="bigsmash-options-title">On enlève quelque chose ?</h3>
+      <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.remove.length}">
+        ${this.product.options.remove.map((item, index) => `
+          <label class="bigsmash-option-card">
+            <input type="checkbox" class="sr-only remove-checkbox" data-index="${index}">
+            <div class="bigsmash-checkbox-indicator">
+              <div class="bigsmash-checkbox-check"></div>
+            </div>
+            ${item.image ? `<img src="${item.image}" alt="${item.name}" class="bigsmash-option-image">` : ''}
+            <div class="bigsmash-option-name">${item.name}</div>
+          </label>
+        `).join('')}
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
   // 3️⃣ Boissons
   if (this.product.options?.drinks?.length > 0) {
