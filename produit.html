@@ -717,6 +717,8 @@
   border: none;
   cursor: pointer;
 }
+      .banner-mobile { display: none; }
+
       @media (max-width: 700px) {
   html, body {
     overflow-x: hidden;
@@ -828,6 +830,16 @@
     justify-content: center;
   }
 }
+      .banner-desktop { display: none; }
+  .banner-mobile { display: block; }
+  .banner-mobile {
+    width: 100%;
+    height: 120px; /* adapte la hauteur pour mobile */
+    object-fit: cover;
+    border-bottom-left-radius: var(--bigsmash-radius-small);
+    border-bottom-right-radius: var(--bigsmash-radius-small);
+  }
+}
 
 
 
@@ -839,6 +851,7 @@
 <body class="bg-gray-50 font-montserrat">
   <header class="main-header">
   <img src="/images/banner.svg" alt="Banner Kuisto" class="banner-img">
+  <img src="/images/banner mobile.svg" alt="Banner Kuisto Mobile" class="banner-img banner-mobile">
 </header>
 
     <!-- Container principal -->
