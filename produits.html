@@ -655,6 +655,32 @@
         @media (max-width: 767px) {
   --hero-h: 110px; /* Hauteur pour mobile */
 }
+        .main-header {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw;
+  z-index: 2000;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+.banner-desktop {
+  height: 219px; width: 100%; object-fit: cover; display: block;
+}
+.banner-mobile {
+  height: 110px; width: 100%; object-fit: cover; display: block;
+}
+@media (min-width: 768px) {
+  .banner-desktop { display: block; }
+  .banner-mobile { display: none; }
+}
+@media (max-width: 767px) {
+  .banner-desktop { display: none; }
+  .banner-mobile { display: block; }
+}
+.side-nav {
+  z-index: 100;
+}
         
        
     </style>
