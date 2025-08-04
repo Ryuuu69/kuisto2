@@ -1051,38 +1051,79 @@ body.mobile-menu-active #cart-fab {
         const closeIcon = document.getElementById('close-icon');
         let menuOpen = false; // État du menu mobile
 
-        // Ouvre/Ferme le menu mobile
-function toggleMobileMenu(open) {
+         // Ouvre/Ferme le menu mobile
+  function toggleMobileMenu(open) {
     const cartFab = document.getElementById('cart-fab');
 
     if (open) {
-        // Ouvrir le drawer
-        mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuDrawer.classList.add('is-open');
-        mobileMenuOverlay.classList.add('is-open');
-        hamburgerIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
-        document.body.classList.add('no-scroll', 'mobile-menu-active'); // Bloque le scroll et marque menu ouvert
+      // Ouvre le drawer
+      mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuDrawer.classList.add('is-open');
+      mobileMenuOverlay.classList.add('is-open');
+      hamburgerIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      document.body.classList.add('no-scroll', 'mobile-menu-active');
 
-        // Masquer le bouton panier
-        if (cartFab) cartFab.style.display = 'none';
+      // Masquer le bouton panier
+      if (cartFab) cartFab.style.display = 'none';
 
-        menuOpen = true;
+      menuOpen = true;
     } else {
-        // Fermer le drawer
-        mobileMenuDrawer.classList.remove('is-open');
-        mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuOverlay.classList.remove('is-open');
-        hamburgerIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
-        document.body.classList.remove('no-scroll', 'mobile-menu-active'); // Débloque le scroll
+      // Ferme le drawer
+      mobileMenuDrawer.classList.remove('is-open');
+      mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuOverlay.classList.remove('is-open');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.classList.remove('no-scroll', 'mobile-menu-active');
 
-        // Réafficher le bouton panier
-        if (cartFab) cartFab.style.display = '';
+      // Réafficher le bouton panier
+      if (cartFab) cartFab.style.display = '';
 
-        menuOpen = false;
+      menuOpen = false;
     }
-}
+  }
+
+  // Écouteurs pour ouvrir/fermer
+  mobileMenuToggle.addEventListener('click', () => toggleMobileMenu(!menuOpen));
+  mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
+
+  // Gère l'activation des catégories et le défilement
+  window.setActiveCategory = function (cat, isMobile) {
+    document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+
+    document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+    document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+
+    const section = document.getElementById(cat);
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+
+    if (isMobile) toggleMobileMenu(false);
+  };
+
+  // Initialisation au chargement du DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    renderAllProducts(); // Affiche les produits
+
+    mobileMenuToggle.addEventListener('click', () => toggleMobileMenu(!menuOpen));
+    mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
+    document.getElementById('mobile-menu-close')?.addEventListener('click', () => toggleMobileMenu(false));
+
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        setActiveCategory(item.dataset.cat, true);
+      });
+    });
+
+    // Première catégorie active par défaut
+    setActiveCategory('tacos', false);
+  });
+
+  // Met à jour l'affichage quand le panier change
+  window.addEventListener('cartUpdated', () => {
+    renderAllProducts();
+  });
 
     </script>
  
