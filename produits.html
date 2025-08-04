@@ -1175,8 +1175,6 @@ body.mobile-menu-active #cart-fab {
     // Ouvre/Ferme le menu
     function toggleMobileMenu(open) {
       if (open) {
-        const cartFab = document.getElementById('cart-fab');
-   if (open) {
         mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
         mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
         mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
@@ -1184,8 +1182,6 @@ body.mobile-menu-active #cart-fab {
         hamburgerIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
-        document.body.classList.add('overflow-hidden');
-    if (cartFab) cartFab.style.display = 'none';
         menuOpen = true;
       } else {
         mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
@@ -1195,10 +1191,7 @@ body.mobile-menu-active #cart-fab {
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
-     document.body.classList.remove('overflow-hidden');
-    if (cartFab) cartFab.style.display = '';
         menuOpen = false;
-     
       }
     }
 
@@ -1323,8 +1316,6 @@ body.mobile-menu-active #cart-fab {
     document.getElementById('mobile-menu-overlay')?.classList.remove('is-open');
     document.getElementById('mobile-menu-drawer')?.classList.remove('is-open');
     document.body.classList.remove('no-scroll', 'mobile-menu-active');
-    document.getElementById('cart-fab')?.style.setProperty('display','none','important');
-    document.getElementById('cart-fab')?.style.setProperty('display','flex','important');
   }
 
   // burger toggle
