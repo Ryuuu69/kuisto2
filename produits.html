@@ -862,8 +862,8 @@ if (cartQuantity > 0) {
     <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
       <button class="cart-remove-btn" onclick="${
         cartQuantity === 1
-          ? `window.cartSystem.removeFromCart('${slug}')`
-          : `window.cartSystem.decreaseQuantity('${slug}')`
+          ? "window.cartSystem.removeFromCart('" + slug + "')"
+          : "window.cartSystem.decreaseQuantity('" + slug + "')"
       }" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
       style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
         ${cartQuantity === 1 ? '<span class="material-icons">delete</span>' : '–'}
