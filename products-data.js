@@ -51,7 +51,8 @@ const products = [
     
       remove: [
         { name: "Sans cheddar", price: 0 },
-        { name: "Sans oignons", price: 0 },
+        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
+
         { name: "Sans pickles", price: 0 },
         { name: "Sans salade", price: 0 }
       ]
@@ -79,7 +80,8 @@ const products = [
       ],
       remove: [
         { name: "Sans cheddar", price: 0 },
-        { name: "Sans oignons", price: 0 },
+        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
+
         { name: "Sans pickles", price: 0 }
       ]
     }
@@ -153,7 +155,8 @@ const products = [
       { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
     ],
     remove: [
-      { name: "Sans oignons", price: 0 },
+      { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
+
       { name: "Sans sauce", price: 0 }
     ],
     side: [
@@ -314,7 +317,8 @@ const products = [
         { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
       ],
       remove: [
-        { name: "Sans oignons", price: 0 },
+        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
+
         { name: "Sans sauce", price: 0 }
       ]
     }
@@ -352,7 +356,8 @@ const products = [
         { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
       ],
       remove: [
-        { name: "Sans oignons", price: 0 },
+        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
+
         { name: "Sans tomate", price: 0 }
       ]
     }
