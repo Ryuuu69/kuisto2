@@ -1052,72 +1052,38 @@ body.mobile-menu-active #cart-fab {
         let menuOpen = false; // État du menu mobile
 
         // Ouvre/Ferme le menu mobile
-        function toggleMobileMenu(open) {
-            if (open) {
-                mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-                mobileMenuDrawer.classList.add('is-open'); // Utilise is-open pour la transition
-                mobileMenuOverlay.classList.add('is-open');
-                hamburgerIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-                document.body.classList.add('no-scroll'); // Bloque le scroll
-                menuOpen = true;
-            } else {
-                mobileMenuDrawer.classList.remove('is-open');
-                mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-                mobileMenuOverlay.classList.remove('is-open');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                document.body.classList.remove('no-scroll'); // Débloque le scroll
-                menuOpen = false;
-            }
-        }
+function toggleMobileMenu(open) {
+    const cartFab = document.getElementById('cart-fab');
 
-        // Gère l'activation des catégories et le défilement
-        window.setActiveCategory = function (cat, isMobile) {
-            // Désactive toutes les catégories actives
-            document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
-            document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+    if (open) {
+        // Ouvrir le drawer
+        mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuDrawer.classList.add('is-open');
+        mobileMenuOverlay.classList.add('is-open');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        document.body.classList.add('no-scroll', 'mobile-menu-active'); // Bloque le scroll et marque menu ouvert
 
-            // Active la catégorie sélectionnée
-            document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
-            document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+        // Masquer le bouton panier
+        if (cartFab) cartFab.style.display = 'none';
 
-            // Défilement vers la section
-            const section = document.getElementById(cat);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
+        menuOpen = true;
+    } else {
+        // Fermer le drawer
+        mobileMenuDrawer.classList.remove('is-open');
+        mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+        mobileMenuOverlay.classList.remove('is-open');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+        document.body.classList.remove('no-scroll', 'mobile-menu-active'); // Débloque le scroll
 
-            // Ferme le menu mobile si l'action vient du mobile
-            if (isMobile) {
-                toggleMobileMenu(false);
-            }
-        };
+        // Réafficher le bouton panier
+        if (cartFab) cartFab.style.display = '';
 
-        // Initialisation au chargement du DOM
-        document.addEventListener('DOMContentLoaded', () => {
-            renderAllProducts(); // Affiche les produits
+        menuOpen = false;
+    }
+}
 
-            // Écouteurs d'événements pour le menu mobile
-            mobileMenuToggle.addEventListener('click', () => toggleMobileMenu(!menuOpen));
-            mobileMenuOverlay.addEventListener('click', () => toggleMobileMenu(false));
-            document.getElementById('mobile-menu-close').addEventListener('click', () => toggleMobileMenu(false));
-
-            // Écouteurs pour les éléments du menu mobile
-            document.querySelectorAll('.mobile-menu-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    setActiveCategory(item.dataset.cat, true); // isMobile = true
-                });
-            });
-
-            // Initialiser la première catégorie comme active
-            setActiveCategory('tacos', false); // 'tacos' est la première catégorie par défaut
-        });
-        
-        // Écouter les changements du panier pour mettre à jour l'affichage
-        window.addEventListener('cartUpdated', () => {
-            renderAllProducts();
-        });
     </script>
  
     
