@@ -44,102 +44,107 @@
             margin: 0;
             padding: 0;
         }
-         html, body, .side-nav, .catalogue, main, .app, .container {
-    background: #f5f6f7 !important;
-           height: 100%;
+      body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #f5f6f7;
 }
 
-        
-       
-
-        /* Bannière style "produit.html" avec arrondis en bas */
 .hero {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto 0;
   height: var(--hero-h);
-  width: 100%; /* évite overflow horizontal que peut causer 100vw */
-  background: var(--bigsmash-white);
-  box-shadow: var(--bigsmash-shadow);
-  border-bottom-left-radius: var(--bigsmash-radius);
-  border-bottom-right-radius: var(--bigsmash-radius);
-  overflow: hidden; /* pour que l'image respecte les arrondis */
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
 }
 
-/* Image à l’intérieur : couvre sans déformer et s’aligne sur les arrondis */
 .hero .banner-img {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* appliquer les arrondis uniquement en bas si tu veux (hérité du parent) */
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
+  display: none;
+}
+.hero .banner-desktop { display: block; }
+.hero .banner-mobile { display: none; }
+
+.side-nav {
+  position: fixed;
+  top: var(--hero-h);
+  left: 0;
+  width: var(--side-w);
+  bottom: 0;
+  background: #fff;
+  z-index: 900;
+  padding-top: 52px;
+  overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0,0,0,.06);
 }
 
-        /* --- MENU LATÉRAL --- */
-        .side-nav {
-            position: fixed;
-            top: var(--hero-h);
-            left: 0;
-            width: var(--side-w);
-            bottom: 0;
-            background: #f5f6f7 !important;
-            overflow-y: auto;
-            z-index: 900;
-            padding-top: 260px;
-          border-right: none !important;
-    box-shadow: none !important;
-        }
-        
-        .side-nav ul {
-            list-style: none;
-            padding: 0 1rem;
-        }
-        
-        .side-nav li {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 18px;
-            height: 22px;
-            display: block;
-            text-align: center;
-            border-radius: 18px;
-            color: #000;
-            background: transparent;
-            cursor: pointer;
-            transition: 0.25s;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .side-nav li:hover,
-        .side-nav li.active {
-            background: var(--kuisto-orange);
-            color: #fff;
-        }
+.side-nav ul {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+}
+.side-nav li {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 18px;
+  color: #000;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-bottom: 8px;
+}
+.side-nav li:hover,
+.side-nav li.active {
+  background: var(--kuisto-orange);
+  color: #fff;
+}
 
-        /* --- ZONE QUI DÉFILE --- */
-        .catalogue {
-            position: relative;
-            margin-left: calc(var(--side-w) + var(--catalogue-offset)); /* décale vers la droite */
-
-            padding-top: calc(var(--hero-h) + 1rem);  /* évite le hero */
-            padding-inline: var(--gutter);  /* marges latérales */
-            height: 100%;
-            overflow-y: auto;
-            background: #f5f6f7 !important;
-          border-left: none !important;
-    box-shadow: none !important;
-        }
+.catalogue {
+  position: relative;
+  margin-left: var(--side-w);
+  padding-top: calc(var(--hero-h) + 1.5rem);
+  padding-inline: var(--gutter);
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+        @media (max-width: 767px) {
+  :root { --hero-h: 110px; --side-w: 0; }
+  .side-nav { display: none; }
+  .catalogue {
+    margin-left: 0;
+    padding-top: calc(var(--hero-h) + 1.1rem);
+    padding-inline: 4vw;
+  }
+  .hero {
+    height: var(--hero-h);
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    overflow: hidden;
+    justify-content: stretch;
+    align-items: flex-end;
+    background: #fff;
+  }
+  .hero .banner-desktop { display: none; }
+  .hero .banner-mobile { display: block; }
+}
 
         /* ———————————————————————————
            SECTIONS DE CATÉGORIES
@@ -655,49 +660,15 @@
         @media (max-width: 767px) {
   --hero-h: 110px; /* Hauteur pour mobile */
 }
-        .main-header {
-  position: fixed;
-  left: 0; top: 0;
-  width: 100vw;
-  z-index: 2000;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-}
-
-.banner-desktop {
-  height: 219px; width: 100%; object-fit: cover; display: block;
-}
-.banner-mobile {
-  height: 110px; width: 100%; object-fit: cover; display: block;
-}
-@media (min-width: 768px) {
-  .banner-desktop { display: block; }
-  .banner-mobile { display: none; }
-}
-@media (max-width: 767px) {
-  .banner-desktop { display: none; }
-  .banner-mobile { display: block; }
-}
-.side-nav {
-  z-index: 100;
-}
-        
-       
+          
     </style>
 </head>
-<body class="min-h-screen bg-gray-50">
-
-  <!-- HEADER (Logo + hamburger + bannière) -->
-  <header class="w-full flex items-center justify-between relative bg-white shadow-md">
-    <a href="index.html" class="w-full">
-      <!-- Bannière desktop -->
-      <img src="images/banner.svg" alt="Kuisto Banner"
-        class="hidden md:block w-full h-auto cursor-pointer" />
-      <!-- Bannière mobile arrondie -->
-      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile"
-        class="block md:hidden w-full h-auto cursor-pointer rounded-2xl shadow mb-[-12px]" />
-        <!-- ↑ mb-[-28px] (margin-bottom négatif) pour que la section blanche remonte sous la bannière -->
+ <header class="hero">
+    <a href="index.html" class="block">
+      <img src="images/banner.svg" alt="Kuisto Banner" class="banner-img banner-desktop" />
+      <img src="images/banner mobile.svg" alt="Kuisto Banner mobile" class="banner-img banner-mobile" />
     </a>
+  </header>
     <!-- Bouton hamburger mobile ONLY -->
     <button id="mobile-menu-toggle"
       class="fixed top-4 right-4 z-50 md:hidden flex items-center justify-center w-12 h-12 bg-[#F18701] text-white rounded-full shadow-lg transition-all"
