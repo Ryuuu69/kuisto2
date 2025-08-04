@@ -850,11 +850,11 @@
     : product.price;
 
   let priceHtml = `
-    <div class="price-row">
-      <span class="from">À partir de </span>
-      <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
-    </div>
-  `;
+  <div class="price-row">
+    <span class="from">À partir de </span>
+    <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
+  </div>
+`;
 
 let actionButton = '';
 if (cartQuantity > 0) {
@@ -872,24 +872,30 @@ if (cartQuantity > 0) {
     : '–';
 
   actionButton = `
-    <div class="cart-quantity-bar" style="width:153px;height:37px;position:absolute;display:flex;align-items:center;justify-content:space-between;background:#000;border-bottom-right-radius:20px;border-top-left-radius:20px;">
+    <div class="cart-quantity-bar">
       <button 
         class="cart-remove-btn" 
         onclick="${onclickHandler}" 
-        title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
-        style="width:36px;height:36px;background:transparent;border:none;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:10px;">
+        title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">
           ${buttonContent}
       </button>
-      <span class="cart-qty" style="font-size:18px;font-weight:700;color:#fff;">${cartQuantity}</span>
+      <span class="cart-qty">${cartQuantity}</span>
       <a 
         href="produit.html?slug=${slug}" 
         class="cart-plus-btn"
-        title="Voir fiche produit"
-        style="width:51px;height:35px;background:#000;color:#fff;border:none;font-size:28px;display:flex;align-items:center;justify-content:center;border-bottom-right-radius:20px;border-top-left-radius:20px;text-decoration:none;">
+        title="Voir fiche produit">
         +
       </a>
     </div>
   `;
+} else {
+  actionButton = `
+    <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">
+      +
+    </a>
+  `;
+}
+
   } else {
     actionButton = `
       <a href="produit.html?slug=${slug}" class="add-btn-corner"
