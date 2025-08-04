@@ -381,16 +381,15 @@
 }
 
 
-/* ===== Responsive Mobile ===== */
-@media (max-width: 540px) {
-  .product-card {
-    width: 96vw;
-    min-width: 0;
-    padding: 18px 7vw 72px 7vw;
-    height: auto;
+@media (max-width: 640px) {
+  .cards-grid {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 18px;
+    align-items: stretch;
   }
+}
+
   .product-card .thumb {
     margin: 0 auto 12px auto;
   }
