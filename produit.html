@@ -451,28 +451,7 @@
             height: 24px;
         }
 
-     @media (max-width: 700px) {
-  .bigsmash-options-grid-2col {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    width: calc(100vw - 170px); /* 85px de chaque côté */
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-  .bigsmash-options-column {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    flex: 1 1 0;
-  }
-  .bigsmash-option-card {
-    width: 100%;
-    min-height: 120px;
-    height: auto;
-    box-sizing: border-box;
-  }
-}
+    
 
         
         /* ===== STYLES POUR LES ERREURS ===== */
@@ -539,6 +518,39 @@
     display: none !important;
 }
       @media (max-width: 700px) {
+  /* GRILLE 2 COLONNES EN FLEX (pour JS custom si besoin) */
+  .bigsmash-options-grid-2col {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    width: calc(100vw - 170px); /* 85px de chaque côté */
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .bigsmash-options-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1 1 0;
+  }
+
+  /* --- Carte d'option (pour grille flex ET grid) --- */
+  .bigsmash-option-card {
+    width: 100%;
+    min-height: 120px;
+    height: auto;
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #fff !important;
+    border-radius: 18px !important;
+    box-shadow: 0 2px 10px 0 #0001 !important;
+    margin: 0 !important;
+  }
+
+  /* HTML / BODY général */
   html, body {
     overflow-x: hidden !important;
     width: 100vw;
@@ -562,11 +574,11 @@
     position: relative;
   }
 
-  /* --- Image produit : espacée du haut, arrondie, centrée --- */
+  /* --- Image produit --- */
   .bigsmash-product-image-container {
-    width: calc(100vw - 32px) !important;        /* 16px de chaque côté */
+    width: calc(100vw - 32px) !important;
     max-width: 520px !important;
-    margin: 48px 18px 24px 18px !important;      /* 48px top, 24px bottom, 18px côtés */
+    margin: 48px 18px 24px 18px !important;
     border-radius: 24px !important;
     overflow: hidden !important;
     background: #fff !important;
@@ -596,36 +608,20 @@
     word-break: break-word !important;
   }
 
-  /* --- Grille options : centrée, décalée à droite, marge dessous --- */
+  /* --- Grille options : 2 cartes, décalée à droite, marge en bas --- */
   .bigsmash-options-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 16px !important;
-    width: calc(100vw - 60px) !important;      /* grille un peu moins large */
-    margin-left: 40px !important;              /* grille décalée à droite */
+    width: calc(100vw - 60px) !important;
+    margin-left: 40px !important;
     margin-right: auto !important;
-    margin-bottom: 80px !important;            /* gros espace sous la dernière carte */
+    margin-bottom: 80px !important;
     margin-top: 14px !important;
     justify-content: start !important;
     box-sizing: border-box !important;
     padding: 0 !important;
   }
-
-  .bigsmash-option-card {
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 120px !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #fff !important;
-    border-radius: 18px !important;
-    box-shadow: 0 2px 10px 0 #0001 !important;
-    box-sizing: border-box !important;
-  }
-
   .bigsmash-options-grid--count-4,
   .bigsmash-options-grid--count-3,
   .bigsmash-options-grid--count-2,
@@ -633,13 +629,13 @@
     margin: 0 !important;
   }
 
-  /* --- Bouton panier parfaitement centré SUR la fiche, pas sur tout l'écran --- */
+  /* --- Bouton panier bien centré sur la fiche --- */
   .bigsmash-add-to-cart-btn {
     position: absolute !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     bottom: 24px !important;
-    width: calc(100vw - 64px) !important;       /* 32px de chaque côté, comme l'image */
+    width: calc(100vw - 64px) !important;
     max-width: 520px !important;
     height: 56px !important;
     border-radius: 18px !important;
@@ -653,12 +649,15 @@
     z-index: 1000 !important;
     box-shadow: 0 2px 10px 0 #0002 !important;
   }
-}
-      .bigsmash-desktop-btn,
-  .bigsmash-desktop-buttons {
-    display: none;
-  }
 
+  /* --- CACHE LES ICONES DESKTOP EN BAS A GAUCHE --- */
+  .bigsmash-desktop-btn,
+  .bigsmash-desktop-buttons {
+    display: none !important;
+  }
+}
+
+      
 
 
         .bigsmash-error-btn {
