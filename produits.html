@@ -845,18 +845,13 @@
     <script src="products-data.js"></script>
 
     <script>
-
-        function createProductCard(product) {
-    // Utiliser le slug déjà généré dans products-data.js
+      function createProductCard(product) {
     const slug = product.slug;
-    
-    // Vérifier si le produit est dans le panier
     const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
-    
+
     // Générer le bouton d'action selon l'état du panier
     let actionButton;
     if (cartQuantity > 0) {
-        // Produit dans le panier : afficher la barre rouge
         actionButton = `
             <div class="cart-quantity-bar">
                 <button class="cart-remove-btn" onclick="window.cartSystem.decreaseQuantity('${slug}')" title="Diminuer la quantité">
@@ -873,41 +868,27 @@
             </div>
         `;
     } else {
-        // Produit pas dans le panier : afficher le bouton noir +
         actionButton = `
             <button class="add-btn-corner product-plus-btn" aria-label="Voir les détails" onclick="goToProduct('${slug}')">+</button>
         `;
     }
 
-    // 💡 Affichage du prix
-    let priceHtml = '';
+    // 💡 Affichage du prix (toujours "À partir de ...")
+    let minPrice;
     if (product.options?.sizes?.length > 0) {
-        // Sides à taille : afficher la gamme de prix ou "À partir de"
         const prices = product.options.sizes.map(s => s.price);
-        const min = Math.min(...prices);
-        const max = Math.max(...prices);
-        if (min !== max) {
-            priceHtml = `
-                <span class="price">
-                    <span class="from">À partir de </span>
-                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
-                </span>
-            `;
-        } else {
-            priceHtml = `
-                <span class="price">
-                    <span class="value">${min.toFixed(2).replace('.', ',')} €</span>
-                </span>
-            `;
-        }
+        minPrice = Math.min(...prices);
     } else {
-        // Produits avec prix unique
-        priceHtml = `
-            <span class="price">
-                <span class="value">${product.price.toFixed(2).replace('.', ',')} €</span>
-            </span>
-        `;
+        minPrice = product.price;
     }
+
+    // Toujours afficher "À partir de ..."
+    let priceHtml = `
+        <span class="price">
+            <span class="from">À partir de </span>
+            <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
+        </span>
+    `;
 
     return `
         <div class="product-card">
@@ -924,6 +905,8 @@
     `;
 }
 
+
+        
         // Fonction pour convertir une catégorie en ID de section
         function getCategorySectionId(category) {
             return category.toLowerCase()
