@@ -181,6 +181,191 @@
             height: 1px;
             background: var(--grey-line);
         }
+         .product-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 370px;
+  height: 150px;
+  background: #fff;
+  border-radius: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  overflow: hidden;
+  margin: 0;
+  transition: box-shadow 0.3s, border 0.3s;
+  border: 2.5px solid transparent;
+}
+
+.product-card.glow {
+  border: 2.5px solid #F18701 !important;
+  box-shadow: 0 0 0 0 #0000 !important;
+}
+
+.product-card .thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  margin-left: 17px;
+  margin-top: 17px;
+  margin-bottom: 17px;
+  margin-right: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+.product-card .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 120px;
+  margin-top: 17px;
+  min-width: 0;
+  position: relative;
+}
+
+.product-name {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.desc {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 11px;
+  color: #808080;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 210px;
+  min-height: calc(1.1em * 3);
+  white-space: normal;
+}
+
+.price-row {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  font-size: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.price-row .from {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 15px;
+  color: #000;
+  margin-right: 3px;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.price-row .value {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000;
+  display: inline-block;
+  position: relative;
+  top: -2px;
+}
+
+/* Bouton "+" noir (hors panier) */
+.add-btn-corner {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 36px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-size: 28px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s;
+}
+.add-btn-corner:hover {
+  background: #F18701;
+}
+
+/* Barre de quantité orange */
+.cart-quantity-bar {
+  width: 152px;
+  height: 36px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #F18701;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: none;
+  border: 2.5px solid #F18701;
+  padding: 0 8px;
+  z-index: 2;
+}
+.cart-quantity-bar button,
+.cart-quantity-bar a {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: none;
+}
+.cart-quantity-bar button:hover,
+.cart-quantity-bar a:hover {
+  background: inherit !important;
+  color: inherit !important;
+}
+.cart-qty {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 6px;
+}
+
+       
 
         /* ————————————— LAYOUT PRODUITS ————————————— */
         /* Grille de cartes produits */
@@ -469,190 +654,6 @@
         @media (max-width: 767px) {
   --hero-h: 110px; /* Hauteur pour mobile */
 }
-        .product-card {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 370px;
-  height: 150px;
-  background: #fff;
-  border-radius: 32px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-  overflow: hidden;
-  margin: 0;
-  transition: box-shadow 0.3s, border 0.3s;
-  border: 2.5px solid transparent;
-}
-
-.product-card.glow {
-  border: 2.5px solid #F18701 !important;
-  box-shadow: 0 0 0 0 #0000 !important;
-}
-
-.product-card .thumb {
-  width: 120px;
-  height: 120px;
-  border-radius: 18px;
-  margin-left: 17px;
-  margin-top: 17px;
-  margin-bottom: 17px;
-  margin-right: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.product-card .thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
-}
-.product-card .info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 120px;
-  margin-top: 17px;
-  min-width: 0;
-  position: relative;
-}
-
-.product-name {
-  font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 11px;
-  line-height: 13px;
-  color: #000;
-  margin: 0 0 4px 0;
-  text-transform: uppercase;
-}
-
-.desc {
-  font-family: 'Montserrat', sans-serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 11px;
-  color: #808080;
-  margin: 0 0 6px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 210px;
-  min-height: calc(1.1em * 3);
-  white-space: normal;
-}
-
-.price-row {
-  position: absolute;
-  left: 0;
-  bottom: 20px;
-  font-size: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 0;
-}
-
-.price-row .from {
-  font-family: 'Montserrat', sans-serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 15px;
-  color: #000;
-  margin-right: 3px;
-  display: inline-block;
-  margin-bottom: 2px;
-}
-
-.price-row .value {
-  font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
-  color: #000;
-  display: inline-block;
-  position: relative;
-  top: -2px;
-}
-
-/* Bouton "+" noir (hors panier) */
-.add-btn-corner {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 36px;
-  background: #000;
-  color: #fff;
-  border: none;
-  font-size: 28px;
-  border-bottom-right-radius: 20px;
-  border-top-left-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.3s;
-}
-.add-btn-corner:hover {
-  background: #F18701;
-}
-
-/* Barre de quantité orange */
-.cart-quantity-bar {
-  width: 152px;
-  height: 36px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: #F18701;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: none;
-  border: 2.5px solid #F18701;
-  padding: 0 8px;
-  z-index: 2;
-}
-.cart-quantity-bar button,
-.cart-quantity-bar a {
-  width: 36px;
-  height: 36px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: none;
-}
-.cart-quantity-bar button:hover,
-.cart-quantity-bar a:hover {
-  background: inherit !important;
-  color: inherit !important;
-}
-.cart-qty {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 6px;
-}
-
         
        
     </style>
