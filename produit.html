@@ -850,13 +850,21 @@
 
 
     </style>
-</head>
-<body class="bg-gray-50 font-montserrat">
-  <header class="main-header">
-  <img src="/images/banner.svg" alt="Banner Kuisto" class="banner-img banner-desktop">
-<img src="/images/banner mobile.svg" alt="Banner Kuisto Mobile" class="banner-img banner-mobile">
-
+<header class="fixed left-0 top-0 w-full z-40 bg-white">
+  <!-- Bannière desktop (fixe, visible uniquement sur desktop) -->
+  <img 
+    src="images/banner.svg" 
+    alt="Banner Kuisto" 
+    class="banner-img banner-desktop hidden md:block w-full h-[219px] object-cover"
+  />
+  <!-- Bannière mobile (fixe, visible uniquement sur mobile) -->
+  <img 
+    src="images/banner mobile.svg" 
+    alt="Banner Kuisto Mobile" 
+    class="banner-img banner-mobile block md:hidden w-full h-[110px] object-cover"
+  />
 </header>
+
 
     <!-- Container principal -->
     <div id="app">
