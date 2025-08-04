@@ -928,9 +928,13 @@ body.mobile-menu-active #cart-fab {
 <script src="cart-system.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<script src="products-data.js"></script>
+<script src="cart-system.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <script>
-/* ---------- UTILS PANIER ---------- */
 const CART_KEY = 'kuisto_cart';
+
 function getCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
   catch { return {}; }
@@ -938,47 +942,44 @@ function getCart() {
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
-
-/* ----------- HERO SYNCHRO --------- */
-function syncHeroHeight() {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
-  const h = hero.offsetHeight;
-  document.documentElement.style.setProperty('--hero-h', `${h}px`);
+function updateCartFabPrice() {
+  const cart = getCart();
+  let total = 0;
+  for (const slug in cart) {
+    const product = products.find(p => p.slug === slug);
+    if (!product) continue;
+    let price = product.price;
+    if (product.options?.sizes?.length) {
+      price = Math.min(...product.options.sizes.map(s => s.price));
+    }
+    total += price * cart[slug];
+  }
+  const badge = document.getElementById('cart-fab-price');
+  if (badge) badge.textContent = `${total.toFixed(2).replace('.', ',')}€`;
 }
-window.addEventListener('load', syncHeroHeight);
-window.addEventListener('resize', syncHeroHeight);
-
-/* --------- CART-FAB MANAGEMENT -------- */
-function showOrHideCartFab() {
+function showOrHideCartFab(menuOpen) {
   const cartFab = document.getElementById('cart-fab');
-  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
   if (!cartFab) return;
-  const menuOpen = mobileMenuDrawer && mobileMenuDrawer.classList.contains('opacity-100');
+  // Sur mobile, cacher le panier si le menu mobile est ouvert
   if (window.innerWidth < 768 && menuOpen) {
     cartFab.style.display = 'none';
   } else {
     cartFab.style.display = '';
   }
 }
-
-/* ----------- CARTE PRODUIT ---------- */
 function createProductCard(product) {
   const slug = product.slug;
   const cart = getCart();
   const cartQuantity = cart[slug] || 0;
-
   let minPrice = (product.options?.sizes?.length > 0)
     ? Math.min(...product.options.sizes.map(s => s.price))
     : product.price;
-
   let priceHtml = `
     <div class="price-row">
       <span class="from">À partir de </span>
       <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
     </div>
   `;
-
   let actionButton = '';
   if (cartQuantity > 0) {
     let buttonContent = cartQuantity === 1
@@ -998,7 +999,6 @@ function createProductCard(product) {
       <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
     `;
   }
-
   const glow = cartQuantity > 0 ? 'glow' : '';
   return `
     <div class="product-card ${glow}" data-product-id="${slug}">
@@ -1014,8 +1014,6 @@ function createProductCard(product) {
     </div>
   `;
 }
-
-/* ---- ID SECTIONS --------- */
 function getCategorySectionId(category) {
   return category.toLowerCase()
     .replace(/\s+/g, '-')
@@ -1024,8 +1022,6 @@ function getCategorySectionId(category) {
     .replace(/à/g, 'a')
     .replace(/ç/g, 'c');
 }
-
-/* ----------- RENDER PRODUITS -------- */
 function renderAllProducts() {
   const containers = [
     'tacos-products', 'burgers-products', 'menus-burgers-products',
@@ -1041,14 +1037,10 @@ function renderAllProducts() {
     if (container) container.innerHTML += createProductCard(product);
   });
 }
-
-/* --------- HANDLER INTERACTIONS PRODUIT -------- */
 function handleProductCardEvents() {
-  // gestion pour tous les boutons
   document.querySelectorAll('.product-card').forEach(card => {
     const slug = card.dataset.productId;
-
-    // Remove/Minus bouton (sur la barre quantité)
+    // Bouton supprimer ou diminuer
     const removeBtn = card.querySelector('.cart-remove-btn');
     if (removeBtn) {
       removeBtn.onclick = function(e) {
@@ -1060,37 +1052,19 @@ function handleProductCardEvents() {
         renderAllProducts();
         handleProductCardEvents();
         updateCartFabPrice();
-        showOrHideCartFab();
+        showOrHideCartFab(false);
       }
     }
-    // + et "ajouter" sont toujours des liens vers produit.html, rien à faire ici
+    // Les "+" sont toujours des liens vers produit.html, donc pas de gestion JS ici
   });
 }
 
-/* --------- ACTUALISER PRIX PANIER FLOTTANT --------- */
-function updateCartFabPrice() {
-  const cart = getCart();
-  let total = 0;
-  for (const slug in cart) {
-    const product = products.find(p => p.slug === slug);
-    if (!product) continue;
-    let price = product.price;
-    // Si options tailles, prendre la moins chère (démo, pour du vrai, stocke l'option choisie)
-    if (product.options?.sizes?.length) {
-      price = Math.min(...product.options.sizes.map(s => s.price));
-    }
-    total += price * cart[slug];
-  }
-  const badge = document.getElementById('cart-fab-price');
-  if (badge) badge.textContent = `${total.toFixed(2).replace('.', ',')}€`;
-}
-
-/* --------- INITIALISATION TOTALE --------- */
+/* ---------------------- MENU MOBILE -------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
   handleProductCardEvents();
   updateCartFabPrice();
-  showOrHideCartFab();
+  showOrHideCartFab(false);
 
   // --- MENU MOBILE ---
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -1101,6 +1075,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let menuOpen = false;
 
   function toggleMobileMenu(open) {
+    menuOpen = open;
     if (open) {
       mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
       mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
@@ -1109,8 +1084,6 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburgerIcon.classList.add('hidden');
       closeIcon.classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
-      showOrHideCartFab();
-      menuOpen = true;
     } else {
       mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
       mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
@@ -1119,9 +1092,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburgerIcon.classList.remove('hidden');
       closeIcon.classList.add('hidden');
       document.body.classList.remove('overflow-hidden');
-      showOrHideCartFab();
-      menuOpen = false;
     }
+    showOrHideCartFab(menuOpen);
   }
   if (mobileMenuToggle) mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
   if (mobileMenuOverlay) mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
@@ -1143,7 +1115,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Fonction pour activer une catégorie depuis le desktop OU le mobile (utilisée ailleurs)
   window.setActiveCategory = function (cat, isMobile) {
     document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
     document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
@@ -1158,13 +1129,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMobile) toggleMobileMenu(false);
   };
 
-  // Initialise la première catégorie
   window.setActiveCategory('tacos', false);
 });
+
+// A chaque modif du panier (depuis un autre onglet)
 window.addEventListener('storage', () => {
   renderAllProducts();
   handleProductCardEvents();
   updateCartFabPrice();
-  showOrHideCartFab();
+  showOrHideCartFab(false);
 });
 </script>
+
+
