@@ -679,124 +679,79 @@
             transform: translateY(-2px);
             box-shadow: var(--bigsmash-shadow);
         }
-@media (max-width: 700px) {
-  html, body {
-    overflow-x: hidden !important;
-    width: 100vw;
-    max-width: 100vw;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: #f7f7f7;
-  }
+      /* ==== ZONE STICKY (barre translucide) ==== */
+.bigsmash-cart-container {
+  position: fixed;
+  bottom: 0;                  /* colle la barre au bas de l'écran */
+  left: 490px;
+  right: 490px;
+  height: 125px;
+  background: rgba(255,255,255,0.85);
+  border-radius: var(--bigsmash-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;                   /* espace réduit */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+  z-index: 2000;
+  padding: 0;
+}
 
-  .bigsmash-product-card,
-  .container,
-  .main-content {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin: 0 auto !important;
-    /* VOICI LA MARGE EN HAUT ET EN BAS DE LA FICHE */
-    padding: 40px 0 60px 0 !important; /* haut droite bas gauche */
-    border-radius: 0 !important;
-    background: #fff !important;
-    box-sizing: border-box !important;
-    position: relative;
-  }
+/* ==== CERCLÉS "–" et "+" ==== */
+.bigsmash-cart-container .bigsmash-sticky-qty-btn {
+  width: 32px;                /* réduit de 44 → 32 */
+  height: 32px;               /* réduit de 44 → 32 */
+  border-radius: 50%;
+  background: var(--kuisto-orange);
+  color: #000000;             /* icône toujours noire */
+  font-size: 16px;            /* réduit de 20 → 16 */
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bigsmash-cart-container .bigsmash-sticky-qty-btn:hover {
+  transform: scale(1.05);
+}
 
-  /* --- Image produit centrée, arrondie, espacée --- */
-  .bigsmash-product-image-container {
-    width: 90%; /* occupe presque toute la fiche, espace à gauche/droite */
-    max-width: 480px;
-    margin: 0 auto 24px auto !important;
-    border-radius: 24px !important;
-    overflow: hidden !important;
-    background: #fff !important;
-    box-sizing: border-box !important;
-    display: block;
-  }
-  .bigsmash-product-image-container img {
-    width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    border-radius: 24px !important;
-    object-fit: cover !important;
-  }
+/* ==== COMPTEUR (NOMBRE) ==== */
+.bigsmash-cart-container .bigsmash-sticky-qty-display {
+  color: #000000;             /* nombre en noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  font-size: 16px;            /* taille réduite à 16px */
+  line-height: 20px;
+  min-width: 24px;
+  text-align: center;
+}
 
-  .bigsmash-product-title,
-  h2, h3 {
-    text-align: center !important;
-    font-size: 1.3rem !important;
-    margin: 12px 0 8px 0 !important;
-    word-break: break-word !important;
-  }
-
-  .bigsmash-product-description,
-  p {
-    text-align: center !important;
-    font-size: 1rem !important;
-    margin: 0 0 16px 0 !important;
-    word-break: break-word !important;
-  }
-
-  /* --- Grille options : centrée, décalée à droite, marge en bas --- */
-  .bigsmash-options-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 16px !important;
-    width: 92% !important;
-    margin: 0 auto 32px 32px !important; /* décalée à droite */
-    box-sizing: border-box !important;
-    padding: 0 !important;
-    justify-content: start !important;
-  }
-
-  .bigsmash-option-card {
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 120px !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #fff !important;
-    border-radius: 18px !important;
-    box-shadow: 0 2px 10px 0 #0001 !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Surcharge les grilles fixes desktop */
-  .bigsmash-options-grid--count-4,
-  .bigsmash-options-grid--count-3,
-  .bigsmash-options-grid--count-2,
-  .bigsmash-options-grid--count-1 {
-    margin: 0 !important;
-  }
-
-  /* --- Bouton panier BIEN CENTRÉ, SOUS la grille (dans le flux) --- */
-  .bigsmash-add-to-cart-btn {
-    position: static !important; /* pas absolute/fixed */
-    width: 92% !important;
-    max-width: 480px !important;
-    margin: 0 auto 0 auto !important;
-    height: 56px !important;
-    border-radius: 18px !important;
-    box-sizing: border-box !important;
-    padding: 0 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #fff !important;
-    z-index: 10 !important;
-    box-shadow: 0 2px 10px 0 #0002 !important;
-  }
-
-  /* --- CACHE LES ICONES DESKTOP EN BAS A GAUCHE --- */
-  .bigsmash-desktop-btn,
-  .bigsmash-desktop-buttons {
-    display: none !important;
-  }
+/* ==== BOUTON "Ajouter au panier" ==== */
+.bigsmash-cart-container .bigsmash-main-add-btn {
+  width: 270px;
+  height: 40px;
+  background: var(--kuisto-orange);
+  border: 2px solid var(--bigsmash-white);
+  border-radius: 20px;
+  
+  color: #000000;             /* texte noir */
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.bigsmash-cart-container .bigsmash-main-add-btn:hover {
+  background: var(--bigsmash-white);
+  color: var(--kuisto-orange);
+  transform: scale(1.02);
 }
 
 /* ===== CACHER L'ANCIEN CONTAINER ===== */
