@@ -74,15 +74,19 @@
 .hero .banner-desktop { display: block; }
 .hero .banner-mobile { display: none; }
 
+
 .side-nav {
   position: fixed;
-  top: 219px; /* <--- MÊME valeur que la hauteur de ta bannière */
+  top: var(--hero-h);
   left: 0;
-  width: 224px; /* ou ta largeur */
-  height: calc(100vh - 219px);
+  width: var(--side-w);
+  bottom: 0;
   background: #fff;
   z-index: 900;
+  padding-top: 52px;
   overflow-y: auto;
+  box-shadow: 2px 0 8px rgba(0,0,0,.06);
+}
 
 .side-nav ul {
   list-style: none;
