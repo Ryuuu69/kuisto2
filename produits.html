@@ -44,6 +44,23 @@
             margin: 0;
             padding: 0;
         }
+        .hero {
+  overflow: visible; /* laisse dépasser l’image si nécessaire */
+}
+.hero .banner-img {
+  object-fit: contain;   /* affiche tout l’image, avec letterboxing si ratio différent */
+  object-position: center top;
+}
+
+/* 2. Même couleur d’arrière-plan pour side-nav et catalogue */
+:root {
+  --bg-main: #f5f6f7;  /* ou la couleur que tu utilises pour le catalogue */
+}
+
+.side-nav,
+.catalogue {
+  background: var(--bg-main) !important;
+}
       body, html {
   height: 100%;
   margin: 0;
