@@ -267,9 +267,9 @@ const products = [
   image: "img/nuggets.jpg",
   options: {
     sizes: [
-      { name: "S (4p)", price: 3.50 },
-      { name: "M (6p)", price: 4.50 },
-      { name: "L (8p)", price: 5.50 }
+      { name: "S (200g)", price: 2.99, image: "img/sides-s.jpg" },
+  { name: "M (350g)", price: 3.99, image: "img/sides-m.jpg" },
+  { name: "L (500g)", price: 4.99, image: "img/sides-l.jpg" }
     ]
   }
 },
