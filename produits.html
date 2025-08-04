@@ -849,11 +849,11 @@ function createProductCard(product) {
   const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
 
   // Bloc prix (affiche toujours "À partir de ...")
-let minPrice = (product.options?.sizes?.length > 0)
-  ? Math.min(...product.options.sizes.map(s => s.price))
-  : product.price;
+  let minPrice = (product.options?.sizes?.length > 0)
+    ? Math.min(...product.options.sizes.map(s => s.price))
+    : product.price;
 
-let priceHtml = `
+  let priceHtml = 
   <div class="price-row" style="position:relative; top:-6px; font-size:0;">
     <span class="from" style="
       font-family: 'Montserrat', sans-serif;
@@ -874,24 +874,24 @@ let priceHtml = `
       display: inline-block;
     ">${minPrice.toFixed(2).replace('.', ',')} €</span>
   </div>
-`;
+;
 
-let actionButton = '';
-if (cartQuantity > 0) {
-  // Préparer le code onclick séparément
-  let onclickHandler = '';
-  if (cartQuantity === 1) {
-    onclickHandler = `window.cartSystem.removeFromCart('${slug}')`;
-  } else {
-    onclickHandler = `window.cartSystem.decreaseQuantity('${slug}')`;
-  }
+  let actionButton = '';
+  if (cartQuantity > 0) {
+    // Préparer le code onclick séparément
+    let onclickHandler = '';
+    if (cartQuantity === 1) {
+      onclickHandler = window.cartSystem.removeFromCart('${slug}');
+    } else {
+      onclickHandler = window.cartSystem.decreaseQuantity('${slug}');
+    }
 
-  // Préparer le contenu du bouton supprimer/diminuer
-  let buttonContent = cartQuantity === 1 
-    ? '<span class="material-icons">delete</span>' 
-    : '–';
+    // Préparer le contenu du bouton supprimer/diminuer
+    let buttonContent = cartQuantity === 1 
+      ? '<span class="material-icons">delete</span>' 
+      : '–';
 
-  actionButton = `
+  actionButton = 
     <div class="cart-quantity-bar" style="
       width: 153px;
       height: 37px;
@@ -908,59 +908,14 @@ if (cartQuantity > 0) {
       padding: 0 8px;
       z-index: 2;
     ">
-      <button 
-        class="cart-remove-btn" 
-        onclick="${onclickHandler}" 
-        title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
-        style="
-          width: 36px;
-          height: 36px;
-          background: transparent;
-          border: none;
-          color: #fff;
-          font-size: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background 0.12s;
-        ">
-        ${buttonContent}
-      </button>
-      <span class="cart-qty" style="
-        font-size: 18px;
-        font-weight: 700;
-        color: #fff;
-        margin: 0 8px;
-      ">${cartQuantity}</span>
-      <a 
-        href="produit.html?slug=${slug}" 
-        class="cart-plus-btn"
-        title="Voir fiche produit"
-        style="
-          width: 51px;
-          height: 35px;
-          background: #000;
-          color: #fff;
-          border: none;
-          font-size: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-bottom-right-radius: 20px;
-          border-top-left-radius: 20px;
-          text-decoration: none;
-          cursor: pointer;
-          transition: background 0.3s;
-        ">
-        +
-      </a>
+      <button ... style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 24px;">–</button>
+      <span ...>1</span>
+      <a ... style="width: 51px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 28px;">+</a>
     </div>
-  `;
+  ;
 } else {
-  actionButton = `
-    <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit" style="
+  actionButton = 
+    <a ... class="add-btn-corner" style="
       width: 51px;
       height: 35px;
       background: #000;
@@ -977,31 +932,26 @@ if (cartQuantity > 0) {
       border-top-left-radius: 20px;
       text-decoration: none;
       cursor: pointer;
-      transition: background 0.3s;
-    ">
-      +
-    </a>
-  `;
+    ">+</a>
+  ;
 }
 
-const glow = cartQuantity > 0 ? 'glow' : '';
+  const glow = cartQuantity > 0 ? 'glow' : '';
 
-return `
-  <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
-    <div class="thumb" style="width:120px;height:120px;margin-left:17px;margin-top:17px;margin-bottom:17px;margin-right:20px;">
-      <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
-    </div>
-    <div class="info" style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;height:120px;margin-top:17px;min-width:0;position:relative;">
-      <div class="product-name">${product.name}</div>
-      <div class="desc">${product.description}</div>
-      ${priceHtml}
-    </div>
-    ${actionButton}
+  return 
+    <div class="product-card ${glow}" style="width:370px;height:150px;border-radius:32px;box-shadow:0 4px 12px rgba(0,0,0,.08);display:flex;align-items:center;position:relative;">
+  <div class="thumb" style="width:120px;height:120px;margin-left:17px;margin-top:17px;margin-bottom:17px;margin-right:20px;">
+    <img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
   </div>
-`;
-
-
-
+  <div class="info" style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;height:120px;margin-top:17px;min-width:0;position:relative;">
+    <div class="product-name">${product.name}</div>
+    <div class="desc">${product.description}</div>
+    ${priceHtml}
+  </div>
+  ${actionButton}
+</div>
+  ;
+}
 
 
         // Fonction pour convertir une catégorie en ID de section
