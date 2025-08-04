@@ -1044,21 +1044,20 @@ body.mobile-menu-active #cart-fab {
         }
 
         <script>
-    // ——————————————————————————————
-    // Menu Mobile JS
-    // ——————————————————————————————
+  // Gestion du menu mobile avec masquage du bouton panier
+  document.addEventListener('DOMContentLoaded', () => {
+    // Récupère tous les éléments nécessaires
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
     const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
     const hamburgerIcon = document.getElementById('hamburger-icon');
     const closeIcon = document.getElementById('close-icon');
+    const cartFab = document.getElementById('cart-fab');
     let menuOpen = false;
 
-    // Ouvre/Ferme le menu
+    // Fonction pour ouvrir/fermer le menu
     function toggleMobileMenu(open) {
       if (open) {
-        const cartFab = document.getElementById('cart-fab');
-   if (open) {
         mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
         mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
         mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
@@ -1066,8 +1065,7 @@ body.mobile-menu-active #cart-fab {
         hamburgerIcon.classList.add('hidden');
         closeIcon.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
-        document.body.classList.add('overflow-hidden');
-    if (cartFab) cartFab.style.display = 'none';
+        if (cartFab) cartFab.style.display = 'none';
         menuOpen = true;
       } else {
         mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
@@ -1077,47 +1075,58 @@ body.mobile-menu-active #cart-fab {
         hamburgerIcon.classList.remove('hidden');
         closeIcon.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
-     document.body.classList.remove('overflow-hidden');
-    if (cartFab) cartFab.style.display = '';
+        if (cartFab) cartFab.style.display = '';
         menuOpen = false;
-     
       }
     }
 
-    // Toggle menu on button click
-    mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
-    mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
+    // Ouvre/ferme menu avec le bouton hamburger
+    mobileMenuToggle?.addEventListener('click', () => toggleMobileMenu(!menuOpen));
+    mobileMenuOverlay?.addEventListener('click', () => toggleMobileMenu(false));
+    closeIcon?.addEventListener('click', () => toggleMobileMenu(false));
 
-    // Gère les liens du menu mobile : active + scroll vers section + ferme
+    // Gère l'activation des catégories et le scroll
     document.querySelectorAll('.mobile-menu-item').forEach(item => {
-      item.onclick = function () {
+      item.addEventListener('click', () => {
+        // Activer le bon menu
         document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
         item.classList.add('active');
-        // Scroller à la section correspondante
-        const section = document.getElementById(item.dataset.cat);
-        if(section) section.scrollIntoView({behavior: "smooth"});
+        // Scroll vers la bonne section
+        const cat = item.dataset.cat;
+        const section = document.getElementById(cat);
+        if (section) {
+          // Prend en compte la hauteur de la bannière fixe (header)
+          const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+          const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+        // Fermer le menu mobile après le clic
         toggleMobileMenu(false);
-      };
+      });
     });
 
-    // Effet actif côté desktop menu (restera inchangé)
+    // Fonction pour activer une catégorie depuis le desktop OU le mobile (utilisée ailleurs)
     window.setActiveCategory = function (cat, isMobile) {
-      // Desktop
       document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
-      document.querySelector(.classic-menu-item[data-cat="${cat}"])?.classList.add('active');
-      // Mobile
+      document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
       document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
-      document.querySelector(.mobile-menu-item[data-cat="${cat}"])?.classList.add('active');
-      // Scroll (sur mobile, en ferme le menu après click)
+      document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+      // Scroll vers la bonne section
       const section = document.getElementById(cat);
-      if(section) section.scrollIntoView({behavior: "smooth"});
-      if(isMobile) toggleMobileMenu(false);
+      if (section) {
+        const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+        const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+      // Si action depuis mobile : fermer le menu
+      if (isMobile) toggleMobileMenu(false);
     };
-    
 
-  </script>
-   
- 
+    // Initialise la première catégorie (optionnel)
+    window.setActiveCategory('tacos', false);
+  });
+</script>
+
     
     <!-- Inclure les données produits et le système de panier -->
     <script src="cart-system.js"></script>
@@ -1158,72 +1167,7 @@ body.mobile-menu-active #cart-fab {
  
 </div>
 
- <script>
-    // ——————————————————————————————
-    // Menu Mobile JS
-    // ——————————————————————————————
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
-    const closeIcon = document.getElementById('close-icon');
-    let menuOpen = false;
-
-    // Ouvre/Ferme le menu
-    function toggleMobileMenu(open) {
-      if (open) {
-        mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
-        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
-        mobileMenuOverlay.classList.remove('hidden');
-        hamburgerIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-        menuOpen = true;
-      } else {
-        mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
-        mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
-        mobileMenuOverlay.classList.add('hidden');
-        hamburgerIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-        menuOpen = false;
-      }
-    }
-
-    // Toggle menu on button click
-    mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
-    mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
-
-    // Gère les liens du menu mobile : active + scroll vers section + ferme
-    document.querySelectorAll('.mobile-menu-item').forEach(item => {
-      item.onclick = function () {
-        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
-        item.classList.add('active');
-        // Scroller à la section correspondante
-        const section = document.getElementById(item.dataset.cat);
-        if(section) section.scrollIntoView({behavior: "smooth"});
-        toggleMobileMenu(false);
-      };
-    });
-
-    // Effet actif côté desktop menu (restera inchangé)
-    window.setActiveCategory = function (cat, isMobile) {
-      // Desktop
-      document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
-      document.querySelector(.classic-menu-item[data-cat="${cat}"])?.classList.add('active');
-      // Mobile
-      document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
-      document.querySelector(.mobile-menu-item[data-cat="${cat}"])?.classList.add('active');
-      // Scroll (sur mobile, en ferme le menu après click)
-      const section = document.getElementById(cat);
-      if(section) section.scrollIntoView({behavior: "smooth"});
-      if(isMobile) toggleMobileMenu(false);
-    };
-    
-
-  </script>
+ 
 
 <script>
   // Synchronisation de la hauteur du hero pour que le catalogue soit toujours bien poussé
@@ -1302,147 +1246,7 @@ body.mobile-menu-active #cart-fab {
     });
   });
 </script>
-  <script>
-  // toggle & hide cart when menu mobile open
-  function openMobileMenu() {
-    document.getElementById('mobile-menu-overlay')?.classList.add('is-open');
-    document.getElementById('mobile-menu-drawer')?.classList.add('is-open');
-    document.body.classList.add('no-scroll', 'mobile-menu-active');
-  }
-  function closeMobileMenu() {
-    document.getElementById('mobile-menu-overlay')?.classList.remove('is-open');
-    document.getElementById('mobile-menu-drawer')?.classList.remove('is-open');
-    document.body.classList.remove('no-scroll', 'mobile-menu-active');
-  }
-
-  // burger toggle
-  document.querySelectorAll('#burger-btn, .mobile-menu-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const open = document.getElementById('mobile-menu-drawer')?.classList.contains('is-open');
-      open ? closeMobileMenu() : openMobileMenu();
-    });
-  });
-
-  // fermeture via overlay ou X
-  document.getElementById('mobile-menu-overlay')?.addEventListener('click', closeMobileMenu);
-  document.querySelectorAll('.mobile-menu-drawer .close-btn').forEach(el => el.addEventListener('click', closeMobileMenu));
-
-  // liens internes : scroll + fermeture
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('.mobile-menu-drawer a');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || !href.startsWith('#')) return;
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      closeMobileMenu();
-      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset - 8;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-    <script>
-  (function() {
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
-    const closeIcon = document.getElementById('close-icon');
-    let menuOpen = false;
-
-    function setMenuState(open) {
-      if (open) {
-        mobileMenuDrawer?.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuDrawer?.classList.add('opacity-100', 'scale-100');
-        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
-        mobileMenuOverlay?.classList.remove('hidden');
-        hamburgerIcon?.classList.add('hidden');
-        closeIcon?.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden', 'no-scroll', 'mobile-menu-active');
-        menuOpen = true;
-      } else {
-        mobileMenuDrawer?.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-        mobileMenuDrawer?.classList.remove('opacity-100', 'scale-100');
-        if (mobileMenuDrawer) mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
-        mobileMenuOverlay?.classList.add('hidden');
-        hamburgerIcon?.classList.remove('hidden');
-        closeIcon?.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden', 'no-scroll', 'mobile-menu-active');
-        menuOpen = false;
-      }
-    }
-
-    mobileMenuToggle?.addEventListener('click', () => setMenuState(!menuOpen));
-    mobileMenuOverlay?.addEventListener('click', () => setMenuState(false));
-
-    // items mobile : activation, scroll avec offset, fermeture, et appel à setActiveCategory si défini
-    document.querySelectorAll('.mobile-menu-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const cat = item.dataset.cat;
-
-        // visuel actif mobile
-        document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
-        item.classList.add('active');
-
-        // scroll avec compensation header fixe
-        const section = document.getElementById(cat);
-        if (section) {
-          const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
-          const top = section.getBoundingClientRect().top + window.scrollY - headerOffset - 8;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-
-        // appel à ta fonction existante (desktop + sync) si elle existe
-        if (typeof window.setActiveCategory === 'function') {
-          window.setActiveCategory(cat, true);
-        }
-
-        // ferme le menu
-        setMenuState(false);
-      });
-    });
-  })();
-</script>
-  <script>
-document.querySelectorAll('.mobile-menu-item').forEach(item => {
-  item.addEventListener('click', () => {
-    // Visuel actif
-    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
-    item.classList.add('active');
-
-    // Scroll vers la section avec compensation du header
-    const cat = item.dataset.cat;
-    const section = document.getElementById(cat);
-    if (section) {
-      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
-      const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-
-    // Fermer le menu mobile : essaie les fonctions existantes sinon fallback
-    if (typeof closeMobileMenu === 'function') {
-      closeMobileMenu();
-    } else if (typeof toggleMobileMenu === 'function') {
-      toggleMobileMenu(false);
-    } else {
-      // Fallback manuel si tu gérais via classes / inline styles
-      const drawer = document.getElementById('mobile-menu-drawer');
-      const overlay = document.getElementById('mobile-menu-overlay');
-      drawer?.classList.remove('is-open');
-      overlay?.classList.remove('is-open');
-      if (drawer) {
-        drawer.style.opacity = '0';
-        drawer.style.pointerEvents = 'none';
-        drawer.style.transform = 'translate(-50%,-50%) scale(.95)';
-      }
-      if (overlay) {
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-      }
-    }
-  });
-});
-</script>
+  
+ 
 </body>
 </html>
