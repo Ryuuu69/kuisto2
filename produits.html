@@ -914,17 +914,50 @@ body.mobile-menu-active #cart-fab {
     </div>
 
 
-<!-- Inclure les données produit en premier -->
 <script src="products-data.js"></script>
 <script src="cart-system.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <script>
-// ----------------------------------
-// Génération des cartes produit
+// ----------- UTILITAIRES PANIER -----------------
+const CART_KEY = 'kuisto_cart';
+function getCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+// ----------- CART FAB DISPLAY --------------------
+function showOrHideCartFab() {
+  const cartFab = document.getElementById('cart-fab');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  if (!cartFab) return;
+  // Cacher sur mobile si menu ouvert
+  const menuOpen = mobileMenuDrawer && mobileMenuDrawer.classList.contains('opacity-100');
+  if (window.innerWidth < 768 && menuOpen) {
+    cartFab.style.display = 'none';
+  } else {
+    cartFab.style.display = '';
+  }
+}
+
+// ----------- SYNCHRO BANNIÈRE HERO ---------------
+function syncHeroHeight() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  const h = hero.offsetHeight;
+  document.documentElement.style.setProperty('--hero-h', `${h}px`);
+}
+window.addEventListener('load', syncHeroHeight);
+window.addEventListener('resize', syncHeroHeight);
+
+// ----------- GÉNÉRATION DES CARTES PRODUIT -------
 function createProductCard(product) {
   const slug = product.slug;
-  const cartQuantity = window.cartSystem ? window.cartSystem.getProductQuantity(slug) : 0;
+  const cart = getCart();
+  const cartQuantity = cart[slug] || 0;
 
   let minPrice = (product.options?.sizes?.length > 0)
     ? Math.min(...product.options.sizes.map(s => s.price))
@@ -942,30 +975,26 @@ function createProductCard(product) {
     let buttonContent = cartQuantity === 1
       ? '<span class="material-icons">delete</span>'
       : '–';
-    let onclickHandler = cartQuantity === 1
-      ? `window.cartSystem.removeFromCart('${slug}')`
-      : `window.cartSystem.decreaseQuantity('${slug}')`;
-
     actionButton = `
       <div class="cart-quantity-bar">
-        <button class="cart-remove-btn"
-          onclick="${onclickHandler}"
-          title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">
-          ${buttonContent}
-        </button>
+        <button class="cart-remove-btn" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">${buttonContent}</button>
         <span class="cart-qty">${cartQuantity}</span>
-        <a href="produit.html?slug=${slug}" class="cart-plus-btn" title="Voir fiche produit">+</a>
+        <button class="cart-plus-btn" title="Ajouter 1">+</button>
+        <a href="produit.html?slug=${slug}" class="see-details-btn ml-2" title="Voir fiche produit">
+          <span class="material-icons" style="font-size:20px;vertical-align:middle;">visibility</span>
+        </a>
       </div>
     `;
   } else {
     actionButton = `
-      <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
+      <button class="add-btn-corner" title="Ajouter au panier">+</button>
+      <a href="produit.html?slug=${slug}" class="see-details-btn ml-2" title="Voir fiche produit">
+        <span class="material-icons" style="font-size:20px;vertical-align:middle;">visibility</span>
+      </a>
     `;
   }
 
   const glow = cartQuantity > 0 ? 'glow' : '';
-
-  // Important : ajoute data-product-id pour le refresh
   return `
     <div class="product-card ${glow}" data-product-id="${slug}">
       <div class="thumb">
@@ -981,7 +1010,7 @@ function createProductCard(product) {
   `;
 }
 
-// Convertir catégorie en ID de section
+// ----------- RENDU DE TOUS LES PRODUITS -----------
 function getCategorySectionId(category) {
   return category.toLowerCase()
     .replace(/\s+/g, '-')
@@ -990,8 +1019,6 @@ function getCategorySectionId(category) {
     .replace(/à/g, 'a')
     .replace(/ç/g, 'c');
 }
-
-// Affiche tous les produits
 function renderAllProducts() {
   const containers = [
     'tacos-products', 'burgers-products', 'menus-burgers-products',
@@ -1008,17 +1035,16 @@ function renderAllProducts() {
   });
 }
 
-// Met à jour l'UI de toutes les cartes produits selon le panier
+// ----------- MAJ QUANTITÉ ET UI SUR CHAQUE CARTE -------
 function refreshProductCards() {
-  const cart = getCart();
   document.querySelectorAll('.product-card').forEach(card => {
-    const productId = card.dataset.productId;
-    const qty = cart[productId] || 0;
+    const id = card.dataset.productId;
+    const cart = getCart();
+    const qty = cart[id] || 0;
     updateCardUI(card, qty);
   });
 }
 
-// Met à jour une carte produit
 function updateCardUI(card, quantity) {
   const addBtn = card.querySelector('.add-btn-corner');
   const qtyBar = card.querySelector('.cart-quantity-bar');
@@ -1039,49 +1065,51 @@ function updateCardUI(card, quantity) {
   }
 }
 
-// --- Gestion du panier localStorage
-const CART_KEY = 'kuisto_cart';
-function getCart() {
-  try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
-  catch { return {}; }
-}
-function saveCart(cart) {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
-}
+// ----------- HANDLERS INTERACTIONS PANIER -------------
+document.addEventListener('click', (e) => {
+  const add = e.target.closest('.add-btn-corner');
+  const plus = e.target.closest('.cart-plus-btn');
+  const minus = e.target.closest('.cart-remove-btn');
+  const card = e.target.closest('.product-card');
+  if (!card) return;
+  const id = card.dataset.productId;
+  const cartLocal = getCart();
 
-// Réaffiche les cartes produits et (optionnel) le badge du panier
+  if (add) {
+    cartLocal[id] = (cartLocal[id] || 0) + 1;
+    saveCart(cartLocal);
+    onCartUpdated();
+  }
+  if (plus) {
+    cartLocal[id] = (cartLocal[id] || 0) + 1;
+    saveCart(cartLocal);
+    onCartUpdated();
+  }
+  if (minus) {
+    cartLocal[id] = Math.max(0, (cartLocal[id] || 0) - 1);
+    if (cartLocal[id] === 0) delete cartLocal[id];
+    saveCart(cartLocal);
+    onCartUpdated();
+  }
+});
+
+// ----------- MAJ TOTALE APRÈS MODIF PANIER ------------
 function onCartUpdated() {
-  refreshProductCards();
+  renderAllProducts();
   showOrHideCartFab();
 }
 
-// Affiche/cache le bouton panier selon l'état du menu mobile et la largeur écran
-function showOrHideCartFab() {
-  const cartFab = document.getElementById('cart-fab');
-  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
-  // Cacher que sur mobile ET menu mobile ouvert
-  if (cartFab) {
-    if (window.innerWidth < 768 && mobileMenuDrawer && mobileMenuDrawer.classList.contains('opacity-100')) {
-      cartFab.style.display = 'none';
-    } else {
-      cartFab.style.display = '';
-    }
-  }
-}
-
-// ------------ MENU MOBILE ----------
+// ----------- INITIALISATION GENERALE ------------------
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
-  refreshProductCards();
   showOrHideCartFab();
 
-  // --- MENU MOBILE ---
+  // Menu mobile
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
   const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
   const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
   const hamburgerIcon = document.getElementById('hamburger-icon');
   const closeIcon = document.getElementById('close-icon');
-  const cartFab = document.getElementById('cart-fab');
   let menuOpen = false;
 
   function toggleMobileMenu(open) {
@@ -1093,7 +1121,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburgerIcon.classList.add('hidden');
       closeIcon.classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
-      if (cartFab) cartFab.style.display = 'none';
+      // Cacher le panier flottant
+      showOrHideCartFab();
       menuOpen = true;
     } else {
       mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
@@ -1103,7 +1132,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburgerIcon.classList.remove('hidden');
       closeIcon.classList.add('hidden');
       document.body.classList.remove('overflow-hidden');
-      if (cartFab) cartFab.style.display = '';
+      // Afficher le panier flottant
+      showOrHideCartFab();
       menuOpen = false;
     }
   }
@@ -1111,6 +1141,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileMenuOverlay) mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
   if (closeIcon) closeIcon.onclick = function () { toggleMobileMenu(false); };
 
+  // Gère l'activation des catégories et le scroll
   document.querySelectorAll('.mobile-menu-item').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
@@ -1126,7 +1157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Desktop & mobile menu : active + scroll
+  // Fonction pour activer une catégorie depuis le desktop OU le mobile
   window.setActiveCategory = function (cat, isMobile) {
     document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
     document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
@@ -1141,55 +1172,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMobile) toggleMobileMenu(false);
   };
 
-  // Initialisation
+  // Initialise la première catégorie
   window.setActiveCategory('tacos', false);
-
-  // -- Écoute les clics sur le "+" ou la poubelle de CHAQUE carte produit
-  document.addEventListener('click', (e) => {
-    // Pour chaque carte produit, on récupère le productId avec dataset
-    const add = e.target.closest('.add-btn-corner');
-    const plus = e.target.closest('.cart-plus-btn');
-    const minus = e.target.closest('.cart-remove-btn');
-
-    if (!add && !plus && !minus) return;
-    // Récupère le slug/ID du produit ciblé
-    const card = e.target.closest('.product-card');
-    if (!card) return;
-    const id = card.dataset.productId;
-    const cartLocal = getCart();
-
-    if (add) {
-      cartLocal[id] = (cartLocal[id] || 0) + 1;
-      saveCart(cartLocal);
-      onCartUpdated();
-    }
-    if (plus) {
-      cartLocal[id] = (cartLocal[id] || 0) + 1;
-      saveCart(cartLocal);
-      onCartUpdated();
-    }
-    if (minus) {
-      cartLocal[id] = Math.max(0, (cartLocal[id] || 0) - 1);
-      if (cartLocal[id] === 0) delete cartLocal[id];
-      saveCart(cartLocal);
-      onCartUpdated();
-    }
-  });
-
-  // Ajuste le bouton panier flottant au resize écran
-  window.addEventListener('resize', showOrHideCartFab);
 });
-
-// Synchronisation de la hauteur du hero
-function syncHeroHeight() {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
-  const h = hero.offsetHeight;
-  document.documentElement.style.setProperty('--hero-h', `${h}px`);
-}
-window.addEventListener('load', syncHeroHeight);
-window.addEventListener('resize', syncHeroHeight);
-
 </script>
 
 </body>
