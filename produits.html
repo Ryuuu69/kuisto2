@@ -918,6 +918,10 @@ body.mobile-menu-active #cart-fab {
 <script src="cart-system.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<script src="products-data.js"></script>
+<script src="cart-system.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <script>
 // ----------- UTILITAIRES PANIER -----------------
 const CART_KEY = 'kuisto_cart';
@@ -979,18 +983,12 @@ function createProductCard(product) {
       <div class="cart-quantity-bar">
         <button class="cart-remove-btn" title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}">${buttonContent}</button>
         <span class="cart-qty">${cartQuantity}</span>
-        <button class="cart-plus-btn" title="Ajouter 1">+</button>
-        <a href="produit.html?slug=${slug}" class="see-details-btn ml-2" title="Voir fiche produit">
-          <span class="material-icons" style="font-size:20px;vertical-align:middle;">visibility</span>
-        </a>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn" title="Voir fiche produit">+</a>
       </div>
     `;
   } else {
     actionButton = `
-      <button class="add-btn-corner" title="Ajouter au panier">+</button>
-      <a href="produit.html?slug=${slug}" class="see-details-btn ml-2" title="Voir fiche produit">
-        <span class="material-icons" style="font-size:20px;vertical-align:middle;">visibility</span>
-      </a>
+      <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
     `;
   }
 
@@ -1080,11 +1078,8 @@ document.addEventListener('click', (e) => {
     saveCart(cartLocal);
     onCartUpdated();
   }
-  if (plus) {
-    cartLocal[id] = (cartLocal[id] || 0) + 1;
-    saveCart(cartLocal);
-    onCartUpdated();
-  }
+  // ATTENTION : pour le "+" (cart-plus-btn), on ne modifie pas la quantité, on redirige vers la fiche produit
+  // Si tu veux ajouter 1 directement sans fiche produit, tu peux le faire ici, mais ce n'est pas ce que tu as demandé.
   if (minus) {
     cartLocal[id] = Math.max(0, (cartLocal[id] || 0) - 1);
     if (cartLocal[id] === 0) delete cartLocal[id];
