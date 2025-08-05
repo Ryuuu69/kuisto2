@@ -758,15 +758,15 @@ body.mobile-menu-active #cart-fab {
   <nav id="mobile-menu-drawer"
     class="fixed top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 md:hidden bg-white rounded-2xl shadow-2xl w-[92vw] max-w-xs p-0 transition-opacity transition-transform duration-300 opacity-0 pointer-events-none">
     <ul class="pt-10 pb-4 px-6 space-y-4 text-lg font-semibold">
-      <li class="mobile-menu-item active" data-cat="tacos">Tacos</li>
-      <li class="mobile-menu-item" data-cat="burgers">Burgers</li>
-      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burger</li>
+      <li class="mobile-menu-item active" data-cat="tacos">Smash Tacos</li>
+      <li class="mobile-menu-item" data-cat="smash-burgers">Smash Burgers</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Burgers Signature</li>
+      <li class="mobile-menu-item" data-cat="menus-burgers">Menus Burgers</li>
       <li class="mobile-menu-item" data-cat="buckets">Buckets</li>
-      <li class="mobile-menu-item" data-cat="hot-dogs">Hot Dogs</li>
       <li class="mobile-menu-item" data-cat="menus-bambino">Menus Bambino</li>
       <li class="mobile-menu-item" data-cat="sides">Sides</li>
-      <li class="mobile-menu-item" data-cat="boissons">Boissons</li>
-      <li class="mobile-menu-item" data-cat="desserts">Desserts</li>
+      <li class="mobile-menu-item" data-cat="salades">Salades</li>
+      <li class="mobile-menu-item" data-cat="boissons-desserts">Boissons & Desserts</li>
     </ul>
     <!-- Boutons attachés au pop-up (EN BAS) -->
     <div class="w-full flex justify-center gap-5 pb-5 mobile-popup-buttons">
@@ -790,15 +790,15 @@ body.mobile-menu-active #cart-fab {
   <!-- MENU LATÉRAL DESKTOP -->
   <nav class="side-nav sidebar-classic hidden md:block fixed left-0 h-full w-56 bg-white shadow">
     <ul class="pt-32 px-4 space-y-3 font-semibold text-gray-800">
-      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Tacos</li>
-      <li class="classic-menu-item" data-cat="burgers" onclick="setActiveCategory('burgers', false)">Burgers</li>
-      <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burger</li>
+      <li class="classic-menu-item active" data-cat="tacos" onclick="setActiveCategory('tacos', false)">Smash Tacos</li>
+      <li class="classic-menu-item" data-cat="smash-burgers" onclick="setActiveCategory('smash-burgers', false)">Smash Burgers</li>
+      <li class="classic-menu-item" data-cat="burgers-signature" onclick="setActiveCategory('burgers-signature', false)">Burgers Signature</li>
+      <li class="classic-menu-item" data-cat="menus-burgers" onclick="setActiveCategory('menus-burgers', false)">Menus Burgers</li>
       <li class="classic-menu-item" data-cat="buckets" onclick="setActiveCategory('buckets', false)">Buckets</li>
-      <li class="classic-menu-item" data-cat="hot-dogs" onclick="setActiveCategory('hot-dogs', false)">Hot Dogs</li>
       <li class="classic-menu-item" data-cat="menus-bambino" onclick="setActiveCategory('menus-bambino', false)">Menus Bambino</li>
       <li class="classic-menu-item" data-cat="sides" onclick="setActiveCategory('sides', false)">Sides</li>
-      <li class="classic-menu-item" data-cat="boissons" onclick="setActiveCategory('boissons', false)">Boissons</li>
-      <li class="classic-menu-item" data-cat="desserts" onclick="setActiveCategory('desserts', false)">Desserts</li>
+      <li class="classic-menu-item" data-cat="salades" onclick="setActiveCategory('salades', false)">Salades</li>
+      <li class="classic-menu-item" data-cat="boissons-desserts" onclick="setActiveCategory('boissons-desserts', false)">Boissons & Desserts</li>
     </ul>
   </nav>
 
@@ -810,75 +810,58 @@ body.mobile-menu-active #cart-fab {
 
 
       <!-- ↑↑↑ -mt-10 fait “remonter” la carte blanche sous la bannière arrondie, effet carte qui flotte -->
-      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Tacos</h2>
+      <h2 class="section-title text-2xl font-bold mb-4 mt-0">Smash Tacos</h2>
       <div class="cards-grid" id="tacos-products">
         <!-- Products will be populated by JavaScript -->
       </div>
     </section>
-<!-- Section Burgers -->
-<section id="burgers" class="cat">
-  <h2 class="section-title">BURGERS</h2>
-  <div class="cards-grid" id="burgers-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+<!-- Section Smash Burgers -->
+<section id="smash-burgers" class="cat">
+  <h2 class="section-title">SMASH BURGERS</h2>
+  <div class="cards-grid" id="smash-burgers-products"></div>
 </section>
 
-<!-- Section Menus Burger -->
+<!-- Section Burgers Signature -->
+<section id="burgers-signature" class="cat">
+  <h2 class="section-title">BURGERS SIGNATURES</h2>
+  <div class="cards-grid" id="burgers-signature-products"></div>
+</section>
+
+<!-- Section Menus Burgers -->
 <section id="menus-burgers" class="cat">
-  <h2 class="section-title">MENUS BURGER</h2>
-  <div class="cards-grid" id="menus-burgers-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+  <h2 class="section-title">MENUS BURGERS</h2>
+  <div class="cards-grid" id="menus-burgers-products"></div>
 </section>
 
 <!-- Section Buckets -->
 <section id="buckets" class="cat">
   <h2 class="section-title">BUCKETS</h2>
-  <div class="cards-grid" id="buckets-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
-</section>
-
-<!-- Section Hot Dogs -->
-<section id="hot-dogs" class="cat">
-  <h2 class="section-title">Hot Dogs</h2>
-  <div class="cards-grid" id="hot-dogs-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+  <div class="cards-grid" id="buckets-products"></div>
 </section>
 
 <!-- Section Menus Bambino -->
 <section id="menus-bambino" class="cat">
   <h2 class="section-title">MENUS BAMBINO</h2>
-  <div class="cards-grid" id="menus-bambino-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+  <div class="cards-grid" id="menus-bambino-products"></div>
 </section>
 
 <!-- Section Sides -->
 <section id="sides" class="cat">
   <h2 class="section-title">SIDES</h2>
-  <div class="cards-grid" id="sides-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+  <div class="cards-grid" id="sides-products"></div>
 </section>
 
-<!-- Section Boissons -->
-<section id="boissons" class="cat">
-  <h2 class="section-title">BOISSONS</h2>
-  <div class="cards-grid" id="boissons-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+<!-- Section Salades -->
+<section id="salades" class="cat">
+  <h2 class="section-title">SALADES</h2>
+  <div class="cards-grid" id="salades-products"></div>
 </section>
 
-<!-- Section Desserts -->
-<section id="desserts" class="cat">
-  <h2 class="section-title">DESSERTS</h2>
-  <div class="cards-grid" id="desserts-products">
-    <!-- Products will be populated by JavaScript -->
-  </div>
+<!-- Section Boissons & Desserts -->
+<section id="boissons-desserts" class="cat">
+  <h2 class="section-title">BOISSONS & DESSERTS</h2>
+  <div class="cards-grid" id="boissons-desserts-products"></div>
 </section>
-
 
 </main>
 
