@@ -1,146 +1,67 @@
 // products-data.js - Données partagées entre toutes les pages
 // Pour ajouter un produit, il suffit de compléter ce tableau
+// -- Options centralisées pour réutilisation --
+const sauceOptions = [
+  { name: "Blanche", price: 0.50, image: "img/sauce-blanche.jpg" },
+  { name: "Smoky", price: 0.50, image: "img/sauce-smoky.jpg" },
+  { name: "Chili Thaï", price: 0.50, image: "img/sauce-chili.jpg" },
+  { name: "Mayo Truffe", price: 0.50, image: "img/sauce-truffe.jpg" },
+  { name: "Fromagère", price: 0.50, image: "img/sauce-fromagere.jpg" }
+];
+
+const petitCreuxOptions = [
+  { name: "Frites", price: 0, image: "img/frites.jpg" },
+  { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" },
+  { name: "Onion Rings", price: 1.00, image: "img/onionrings.jpg" },
+  { name: "Salade", price: 0.80, image: "img/salade.jpg" }
+];
+
+const burgerOptions = [
+  { name: "Smash Burger", price: 6.50, image: "img/smash-burger.jpg" },
+  { name: "Signature Burger", price: 7.90, image: "img/signature-burger.jpg" },
+  { name: "Golden Burger", price: 7.50, image: "img/golden-burger.jpg" }
+];
+
+const meatOptions = [
+  { name: "Poulet mariné", image: "img/poulet.jpg" },
+  { name: "Kefta", image: "img/kefta.jpg" },
+  { name: "Tenders", image: "img/tenders.jpg" },
+  { name: "Cordon Bleu", image: "img/cordonbleu.jpg" },
+  { name: "Steak haché", image: "img/steak.jpg" }
+];
+
+const meatCounts = [
+  { value: 1, label: "1 viande", price: 6.00 },
+  { value: 2, label: "2 viandes", price: 7.50 },
+  { value: 3, label: "3 viandes", price: 8.90 }
+];
 
 const products = [
   // Nouveautés
-  {
-    id: 1,
-    name: "TACOS CLASSIQUE",
-    slug: "tacos-classique", // généré automatiquement depuis le nom
+   {
+    id: 200,
+    name: "Tacos personnalisé",
+    slug: "tacos",
     category: "tacos",
-    description: "Tacos Classique : salade fraîche, tendres croutons, tomates cerises, copeaux de parmesan",
-    price: 5.50,
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop&crop=center",
+    description: "Compose ton tacos : 1, 2 ou 3 viandes au choix, sauces et suppléments.",
+    price: 6.00, // base = 1 viande, le reste dynamique via meatCounts
+    image: "img/tacos.jpg",
     options: {
+      meatCounts: meatCounts,   // ← Sélection du nombre de viandes (radio)
+      meats: meatOptions,       // ← Liste des viandes possibles (radio ou checkbox selon nb viandes)
+      sauces: sauceOptions,     // ← Multi (checkbox)
       supplements: [
-        { name: "Cheddar", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Avocat", price: 1.50, image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=100&h=100&fit=crop" }
-      ],
-      drinks: [
-        { name: "Coca-Cola", price: 2.90, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake Vanille", price: 4.50, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
-        { name: "Limonade", price: 2.50, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
+        { name: "Cheddar", price: 1.00, image: "img/cheddar.jpg" },
+        { name: "Bacon", price: 1.00, image: "img/bacon.jpg" }
       ],
       remove: [
-        { name: "Sans croutons", price: 0 },
-        { name: "Sans parmesan", price: 0 },
-        { name: "Sans tomates", price: 0 }
+        { name: "Sans oignons", price: 0 },
+        { name: "Sans salade", price: 0 },
+        { name: "Sans tomate", price: 0 }
       ]
     }
   },
-  {
-    id: 2,
-    name: "SPICY TACOS",
-    slug: "spicy-tacos",
-    category: "tacos",
-    description: "Potato bun, double steak haché smashé, oignons frais, pickles, salade double cheddar + frites + boisson",
-    price: 5.50,
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
-    options: {
-      supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Steak supplémentaire", price: 2.50, image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" },
-        { name: "Bacon", price: 1.50, image: "https://images.unsplash.com/photo-1528607929212-2636ec44b957?w=100&h=100&fit=crop" }
-      ],
-      drinks: [
-        { name: "Coca-Cola", price: 0, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake", price: 2.00, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" },
-        { name: "Limonade", price: 0, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=100&h=100&fit=crop" }
-      ],
-       
-    
-      remove: [
-        { name: "Sans cheddar", price: 0 },
-        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
 
-        { name: "Sans pickles", price: 0 },
-        { name: "Sans salade", price: 0 }
-      ]
-      
-    }
-  },
-  
-
-  {
-    id: 3,
-    name: "TACOS VÉGÉTARIEN",
-    slug: "tacos-vege",
-    category: "tacos",
-    description: "Potato bun, double steak haché smashé, salade iceberg, pickles, oignons frais, double cheddar",
-    price: 8.90,
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=400&fit=crop&crop=center",
-    options: {
-      supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Steak supplémentaire", price: 2.50, image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100&h=100&fit=crop" }
-      ],
-      drinks: [
-        { name: "Coca-Cola", price: 2.90, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=100&h=100&fit=crop" },
-        { name: "Milkshake", price: 4.50, image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=100&h=100&fit=crop" }
-      ],
-      remove: [
-        { name: "Sans cheddar", price: 0 },
-        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
-
-        { name: "Sans pickles", price: 0 }
-      ]
-    }
-  },
-  {
-    id: 4,
-    name: "HOT‑G CHEESY",
-    slug: "hot-cheesy",
-    category: "hot-dogs",
-    description: "Frites fraîches coupées maison, cuites dans l'huile de tournesol",
-    price: 3.50,
-    image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&h=400&fit=crop&crop=center",
-    options: {
-      supplements: [
-        { name: "Sauce cheddar", price: 0.50, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=100&h=100&fit=crop" },
-        { name: "Sauce barbecue", price: 0.50, image: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=100&h=100&fit=crop" }
-      ]
-    }
-  },
-  {
-   id: 5,
-    name: "HOT‑G SPICY",
-    slug: "hot-spicy",
-    category: "hot-dogs",
-    description: "Pain complet, steak végétal, salade, tomate, frites + boisson",
-    price: 10.90,
-    image: "img/menu-veggie.jpg",
-    options: {}
-   }, 
-  {
-    id: 6,
-    name: "HOT‑G BACON",
-    slug: "hot-bacon",
-    category: "hot-dogs",
-    description: "Boisson gazeuse sans sucre",
-    price: 2.00,
-    image: "img/cola-zero.jpg",
-    options: {}
-  },
-  {
-    id: 7,
-    name: "HOT‑G VEGGIE ",
-    slug: "hot-veggie",
-    category: "hot-dogs",
-    description: "Boisson gazeuse sans sucre",
-    price: 2.00,
-    image: "img/cola-zero.jpg",
-    options: {}
-  },
-{
-    id: 8,
-    name: "HOT‑G FISH ",
-    slug: "hot-fish",
-    category: "hot-dogs",
-    description: "Boisson gazeuse sans sucre",
-    price: 2.00,
-    image: "img/cola-zero.jpg",
-    options: {}
-  },
   {
   id: 9,
   name: "MENU SMASH BURGER",
@@ -323,45 +244,7 @@ const products = [
       ]
     }
   },
-  {
-    id: 19,
-    name: "GOLDEN BURGER",
-    slug: "golden-burger-simple",
-    category: "burgers",
-    description: "Burger golden avec steak, cheddar, sauce maison, salade.",
-    price: 7.50,
-    image: "img/golden-burger.jpg",
-    options: {
-      supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-        { name: "Œuf", price: 1.00, image: "img/egg.jpg" }
-      ],
-      remove: [
-        { name: "Sans cornichons", price: 0 },
-        { name: "Sans salade", price: 0 }
-      ]
-    }
-  },
-  {
-    id: 20,
-    name: "SIGNATURE BURGER",
-    slug: "signature-burger-simple",
-    category: "burgers",
-    description: "Burger signature, sauce maison, double cheddar, salade, tomate.",
-    price: 7.90,
-    image: "img/signature-burger.jpg",
-    options: {
-      supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-        { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
-      ],
-      remove: [
-        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
-
-        { name: "Sans tomate", price: 0 }
-      ]
-    }
-  },
+  
   {
   id: 21,
   name: "BUCKET DUO",
