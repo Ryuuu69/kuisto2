@@ -1,7 +1,4 @@
 // cart-system.js - Système de panier partagé (à inclure sur toutes les pages)
-function updateCartFab() {
-  // temporaire : évite l’erreur si elle n’existe pas encore
-}
 
 class CartSystem {
   constructor() {
@@ -16,6 +13,13 @@ class CartSystem {
       if (e.key === 'bigsmash_cart') {
         this.cart = this.loadCart();
         this.updateCartDisplay();
+      }
+    });
+    // S'assure que la cartBar clique bien vers panier.html
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartBar = document.getElementById('cart-bar');
+      if (cartBar) {
+        cartBar.onclick = () => window.location.href = 'panier.html';
       }
     });
   }
@@ -38,7 +42,6 @@ class CartSystem {
     } catch (e) {
       console.error('Erreur lors de la sauvegarde du panier:', e);
     }
-    updateCartFab();
   }
 
   addToCart(product, quantity = 1, options = {}, basePrice = null) {
@@ -68,7 +71,6 @@ class CartSystem {
       this.cart.push(cartItem);
     }
     this.saveCart();
-    // *** REDIRECTION AUTOMATIQUE COMME AVANT ***
     window.location.href = "produits.html";
   }
 
@@ -95,18 +97,17 @@ class CartSystem {
   getTotalItems() {
     return this.cart.reduce((total, item) => total + item.quantity, 0);
   }
+
   getTotalPrice() {
     return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
 
-  // --- NOUVEAU ---
   getTotalQuantityForProduct(slug) {
     return this.cart
       .filter(item => item.slug === slug)
       .reduce((total, item) => total + item.quantity, 0);
   }
 
-  // --- NOUVEAU ---
   removeLastVariantOfProduct(slug) {
     const candidates = this.cart.filter(item => item.slug === slug);
     if (candidates.length === 0) return;
@@ -142,11 +143,12 @@ class CartSystem {
       <div class="cart-content">
         <span class="cart-icon">🛒</span>
         <span class="cart-text">
-          <span id="cart-count">0</span> article(s) — 
+          <span id="cart-count">0</span> article(s) —
           <span id="cart-price">0,00 €</span>
         </span>
       </div>
     `;
+    // Styles inline pour éviter les conflits
     cartBar.style.cssText = `
       position: fixed;
       bottom: 20px;
