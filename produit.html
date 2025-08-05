@@ -1602,6 +1602,15 @@ if (this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burge
 
            // Ajouter au panier
 addToCart() {
+    // Sécurité anti-bidouille du DOM (cas tacos) :
+    if (this.product.options?.meats?.length > 0 && this.product.options?.meatCounts?.length > 0) {
+        const nbViandes = this.selectedOptions.meatCount || 1;
+        const nbChecked = Object.values(this.selectedOptions.meats).filter(Boolean).length;
+        if (nbChecked !== nbViandes) {
+            alert(`Merci de sélectionner ${nbViandes} viande${nbViandes > 1 ? 's' : ''} pour votre tacos.`);
+            return;
+        }
+    }
     // Préparer les options pour le panier
     const options = {
     supplements: {},
