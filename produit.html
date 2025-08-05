@@ -634,47 +634,41 @@
   grid-auto-rows: 150px;
   column-gap: 11px;
   row-gap: 11px;
-  justify-content: start;   /* On modifie seulement sur les grilles à 4+ */
+  justify-content: start;
   margin: 0;
 }
 
-/* 4 cartes → largeur fixe centrée + marge */
+/* Pour 4 cartes ou plus, largeur fixe centrée */
 .bigsmash-options-grid--count-4,
 .bigsmash-options-grid--count-5,
 .bigsmash-options-grid--count-6,
 .bigsmash-options-grid--count-7,
-.bigsmash-options-grid--count-8 {
-  width: 633px;   /* 4 * 150 + 3 * 11 */
+.bigsmash-options-grid--count-8,
+.bigsmash-options-grid--count-9,
+.bigsmash-options-grid--count-10 {
+  width: 633px;  /* 4*150 + 3*11 */
   margin-left: auto;
   margin-right: auto;
-  justify-content: start;  /* important ! */
 }
 
-/* 3 cartes → grille de 3 centrée, largeur personnalisée */
+/* Pour 3, 2, 1 carte(s) tu gardes tes marges spéciales */
 .bigsmash-options-grid--count-3 {
   grid-template-columns: repeat(3, 150px);
-  width: 478px;   /* 3 * 150 + 2 * 11 */
+  width: 478px; /* 3*150 + 2*11 */
   margin-left: auto;
   margin-right: auto;
-  justify-content: start;
 }
-
-/* 2 cartes → grille de 2 centrée, largeur personnalisée */
 .bigsmash-options-grid--count-2 {
   grid-template-columns: repeat(2, 150px);
-  width: 311px;  /* 2 * 150 + 1 * 11 */
+  width: 311px; /* 2*150 + 1*11 */
   margin-left: auto;
   margin-right: auto;
-  justify-content: start;
 }
-
-/* 1 carte → largeur personnalisée */
 .bigsmash-options-grid--count-1 {
   grid-template-columns: 150px;
   width: 150px;
   margin-left: auto;
   margin-right: auto;
-  justify-content: start;
 }
 
 /* Image dans la carte */
