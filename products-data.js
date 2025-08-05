@@ -292,7 +292,7 @@ const products = [
   slug: "menu-signature-burger",
   category: "menus-burgers",
   description: "Burger signature au choix, frites, boisson, sauces",
-  price: 0, // <-- prix géré dynamiquement
+  price: 13.00, // <-- prix géré dynamiquement
   image: "img/menu-signature.jpg",
   options: {
     burgerSelect: signatureBurgersMenuChoices,
@@ -311,7 +311,7 @@ const products = [
   slug: "menu-combo",
   category: "menus-burgers",
   description: "Burger au choix, frites, boisson, sauces, petit creux",
-  price: 0, // <-- prix géré dynamiquement
+  price: 11.00, // <-- prix géré dynamiquement
   image: "img/menu-combo.jpg",
   options: {
     burgerSelect: allMenuBurgers,
