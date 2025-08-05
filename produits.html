@@ -1134,17 +1134,15 @@ window.addEventListener('storage', () => {
 });
 </script>
 
-<!-- Panier flottant, parfaitement centré en bas -->
+<!-- Panier flottant stylé, centré en bas -->
 <div id="cart-fab"
-     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
+     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#E53935] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200 border-4 border-white"
      style="display:none; bottom:10px; transform:translateX(-50%);">
-  <!-- SVG Panier PRO, design épuré et bien visible -->
-  <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-    <circle cx="26" cy="26" r="24" fill="#F18701" />
-    <path d="M17 22h18l-2.5 13.5a2 2 0 0 1-2 1.5h-9a2 2 0 0 1-2-1.5L17 22zm4-6.5A5 5 0 0 1 26 11a5 5 0 0 1 5 4.5V22" 
-      stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <circle cx="21" cy="36" r="2.2" fill="white"/>
-    <circle cx="31" cy="36" r="2.2" fill="white"/>
+  <!-- Icône chariot blanche, style e-commerce moderne -->
+  <svg width="42" height="42" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="12" fill="#E53935" />
+    <path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7.16 15H17c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1 1 0 0 0 20.93 5H6.21l-.94-2.14A1 1 0 0 0 4.25 2H2v2h2l3.6 7.59-1.35 2.44A1.98 1.98 0 0 0 7.16 15zm0-2l1.1-2h7.45l-2.76 5H7.16z"
+          fill="white"/>
   </svg>
   <span class="cart-badge" id="cart-fab-price" style="margin-left: 10px; font-weight:700; font-size:1.2rem;">0,00€</span>
 </div>
