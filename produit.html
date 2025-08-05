@@ -1383,36 +1383,35 @@ renderProductPrice() {
         });
     });
 
-    // Sélection de viandes tacos (radio/checkbox)
-    const nbViandes = (this.product.options?.meatCounts?.length > 0)
-        ? (this.selectedOptions.meatCount || 1)
-        : 1;
+    // Sélection de viandes tacos (radio ou checkbox selon nbViandes)
+const nbViandes = (this.product.options?.meatCounts?.length > 0)
+    ? (this.selectedOptions.meatCount || 1)
+    : 1;
 
-    if (this.product.options?.meats?.length > 0) {
-        if (nbViandes === 1) {
-            document.querySelectorAll('.meat-checkbox').forEach(radio => {
-                radio.addEventListener('change', () => {
-                    this.selectedOptions.meats = {};
-                    const idx = parseInt(radio.dataset.index);
-                    if (radio.checked) this.selectedOptions.meats[idx] = true;
-                    this.updateDisplay();
-                });
+if (this.product.options?.meats?.length > 0) {
+    if (nbViandes === 1) {
+        document.querySelectorAll('.meat-checkbox').forEach((radio, idx) => {
+            radio.addEventListener('change', () => {
+                this.selectedOptions.meats = {};
+                if (radio.checked) this.selectedOptions.meats[idx] = true;
+                this.updateDisplay();
             });
-        } else {
-            document.querySelectorAll('.meat-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    const checked = document.querySelectorAll('.meat-checkbox:checked');
-                    if (checked.length > nbViandes) {
-                        checkbox.checked = false;
-                        return;
-                    }
-                    const idx = parseInt(checkbox.dataset.index);
-                    this.selectedOptions.meats[idx] = checkbox.checked;
-                    this.updateDisplay();
-                });
+        });
+    } else {
+        document.querySelectorAll('.meat-checkbox').forEach((checkbox, idx) => {
+            checkbox.addEventListener('change', () => {
+                const checked = document.querySelectorAll('.meat-checkbox:checked');
+                if (checked.length > nbViandes) {
+                    checkbox.checked = false;
+                    return;
+                }
+                this.selectedOptions.meats[idx] = checkbox.checked;
+                this.updateDisplay();
             });
-        }
+        });
     }
+}
+
 
     // Personnalisation (remove)
     document.querySelectorAll('.remove-checkbox').forEach(checkbox => {
@@ -1481,17 +1480,25 @@ document.querySelectorAll('.petit-creux-radio').forEach((radio, idx) => {
   if (radio.checked) card.classList.add('selected');
   else card.classList.remove('selected');
 });
-// Viandes
+// Viandes (radio ou checkbox)
 document.querySelectorAll('.meat-checkbox').forEach((input, idx) => {
-  const card = input.closest('.bigsmash-option-card');
-  if (input.checked) card.classList.add('selected');
-  else card.classList.remove('selected');
+    const card = input.closest('.bigsmash-option-card');
+    if (input.checked) card.classList.add('selected');
+    else card.classList.remove('selected');
 });
+
 // Sauces
 document.querySelectorAll('.sauce-checkbox').forEach((checkbox, idx) => {
-  const card = checkbox.closest('.bigsmash-option-card');
-  if (checkbox.checked) card.classList.add('selected');
-  else card.classList.remove('selected');
+    const card = checkbox.closest('.bigsmash-option-card');
+    if (checkbox.checked) card.classList.add('selected');
+    else card.classList.remove('selected');
+});
+
+// Remove
+document.querySelectorAll('.remove-checkbox').forEach((checkbox, idx) => {
+    const card = checkbox.closest('.bigsmash-option-card');
+    if (checkbox.checked) card.classList.add('selected');
+    else card.classList.remove('selected');
 });
 
 
@@ -1520,16 +1527,7 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
 });
 
 
-                // Indicateurs de personnalisation
-                document.querySelectorAll('.remove-checkbox').forEach((checkbox, index) => {
-                    const card = checkbox.closest('.bigsmash-option-card');
-                    
-                    if (checkbox.checked) {
-                        card.classList.add('selected');
-                    } else {
-                        card.classList.remove('selected');
-                    }
-                });
+                
 
           const total = this.calculateTotal();
     const btnText = document.getElementById('cart-btn-text');
