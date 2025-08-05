@@ -1016,6 +1016,7 @@ function handleProductCardEvents() {
           renderAllProducts();
           handleProductCardEvents();
           if (typeof window.cartSystem.updateCartDisplay === "function") window.cartSystem.updateCartDisplay();
+          if (typeof updateCartFabPrice === "function") updateCartFabPrice();
         }
       }
     }
@@ -1024,15 +1025,32 @@ function handleProductCardEvents() {
 }
 
 // ========================
-// 4. Gestion Menu Mobile & Panier
+// 4. Gestion du bouton panier flottant
+// ========================
+function updateCartFabPrice() {
+  const cartFab = document.getElementById('cart-fab');
+  if (!cartFab || !window.cartSystem) return;
+  const badge = document.getElementById('cart-fab-price');
+  const total = window.cartSystem.getTotalPrice ? window.cartSystem.getTotalPrice() : 0;
+  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
+  // Affiche le bouton seulement si il y a au moins un produit
+  cartFab.style.display = (window.cartSystem.getTotalItems && window.cartSystem.getTotalItems() > 0) ? 'flex' : 'none';
+}
+
+// ========================
+// 5. Menu Mobile & Sync catégories
 // ========================
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
   handleProductCardEvents();
 
   // Met à jour le FAB/bouton panier au chargement
-  if (window.cartSystem && typeof window.cartSystem.updateCartDisplay === "function") {
-    window.cartSystem.updateCartDisplay();
+  updateCartFabPrice();
+
+  // Gestion bouton panier
+  const cartFab = document.getElementById('cart-fab');
+  if (cartFab) {
+    cartFab.onclick = function() { window.location.href = 'panier.html'; };
   }
 
   // Menu mobile toggle
@@ -1041,7 +1059,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
   const hamburgerIcon = document.getElementById('hamburger-icon');
   const closeIcon = document.getElementById('close-icon');
-  const cartFab = document.getElementById('cart-fab');
   let menuOpen = false;
 
   function toggleMobileMenu(open) {
@@ -1063,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburgerIcon.classList.remove('hidden');
       closeIcon.classList.add('hidden');
       document.body.classList.remove('overflow-hidden');
-      if (cartFab) cartFab.style.display = '';
+      updateCartFabPrice();
     }
   }
   if (mobileMenuToggle) mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
@@ -1108,23 +1125,24 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('cartUpdated', () => {
   renderAllProducts();
   handleProductCardEvents();
-  if (window.cartSystem && typeof window.cartSystem.updateCartDisplay === "function") {
-    window.cartSystem.updateCartDisplay();
-  }
+  updateCartFabPrice();
+});
+window.addEventListener('storage', () => {
+  renderAllProducts();
+  handleProductCardEvents();
+  updateCartFabPrice();
 });
 </script>
-  <!-- Panier flottant, parfaitement centré en bas -->
+
+<!-- Panier flottant, parfaitement centré en bas -->
 <div id="cart-fab"
      class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
      style="display:none; bottom:10px; transform:translateX(-50%);">
-  <!-- Icône panier SVG moderne et bien visible -->
   <svg class="cart-svg" fill="white" viewBox="0 0 32 32" width="38" height="38">
     <path d="M9 28a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm12 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM7.67 22h14.8c.81 0 1.53-.52 1.82-1.3l4.02-9.96A1 1 0 0 0 27.4 8H6.22l-1.17-2.7A1 1 0 0 0 4.3 4H2v2h1.6l6.45 14.28A1 1 0 0 0 9.67 22zm0-2l-1.1-2.4h15.58l-2.76 5H9.67z"/>
   </svg>
   <span class="cart-badge" id="cart-fab-price" style="margin-left: 6px; font-weight:700; font-size:1.1rem;">0,00€</span>
 </div>
-
-
 
 </body>
 </html>
