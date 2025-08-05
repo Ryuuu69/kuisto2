@@ -1450,86 +1450,82 @@ if (this.product.options?.meats?.length > 0) {
 
 
             // Mettre à jour l'affichage
-            updateDisplay() {
-                // Quantité
-                const qtyElement = document.getElementById('quantity');
-                const stickyQtyElement = document.getElementById('sticky-quantity');
-                if (qtyElement) qtyElement.textContent = this.quantity;
-                if (stickyQtyElement) stickyQtyElement.textContent = this.quantity;
+updateDisplay() {
+    // Quantité
+    const qtyElement = document.getElementById('quantity');
+    const stickyQtyElement = document.getElementById('sticky-quantity');
+    if (qtyElement) qtyElement.textContent = this.quantity;
+    if (stickyQtyElement) stickyQtyElement.textContent = this.quantity;
 
-                // Suppléments
-                Object.keys(this.selectedOptions.supplements).forEach(index => {
-                    const qtyElement = document.querySelector(`.supplement-qty[data-index="${index}"]`);
-                    if (qtyElement) {
-                        qtyElement.textContent = this.selectedOptions.supplements[index] || 0;
-                    }
-                });
-              if (this.product.options?.meatCounts?.length > 0 && this.selectedOptions.meatCount) {
-  const meatCountObj = this.product.options.meatCounts.find(m => m.value === this.selectedOptions.meatCount);
-  if (meatCountObj) basePrice = meatCountObj.price;
-}
-              // Burger
-document.querySelectorAll('.burger-radio').forEach((radio, idx) => {
-  const card = radio.closest('.bigsmash-option-card');
-  if (radio.checked) card.classList.add('selected');
-  else card.classList.remove('selected');
-});
-// Petit creux
-document.querySelectorAll('.petit-creux-radio').forEach((radio, idx) => {
-  const card = radio.closest('.bigsmash-option-card');
-  if (radio.checked) card.classList.add('selected');
-  else card.classList.remove('selected');
-});
-// Viandes (radio ou checkbox)
-document.querySelectorAll('.meat-checkbox').forEach((input, idx) => {
-    const card = input.closest('.bigsmash-option-card');
-    if (input.checked) card.classList.add('selected');
-    else card.classList.remove('selected');
-});
-
-// Sauces
-document.querySelectorAll('.sauce-checkbox').forEach((checkbox, idx) => {
-    const card = checkbox.closest('.bigsmash-option-card');
-    if (checkbox.checked) card.classList.add('selected');
-    else card.classList.remove('selected');
-});
-
-// Remove
-document.querySelectorAll('.remove-checkbox').forEach((checkbox, idx) => {
-    const card = checkbox.closest('.bigsmash-option-card');
-    if (checkbox.checked) card.classList.add('selected');
-    else card.classList.remove('selected');
-});
-
-
-                // Indicateurs de boisson
-                document.querySelectorAll('.drink-radio').forEach((radio, index) => {
-                    const card = radio.closest('.bigsmash-option-card');
-                    
-                    if (radio.checked) {
-                        card.classList.add('selected');
-                    } else {
-                        card.classList.remove('selected');
-                    }
-                });
-              // Indicateurs de taille pour sides
-document.querySelectorAll('.size-radio').forEach((radio, index) => {
-    const card = radio.closest('.bigsmash-option-card');
-    if (radio.checked) {
-        card.classList.add('selected');
-        // Met à jour la sélection JS aussi, au cas où
-        if (this.product.options?.sizes?.length > 0) {
-            this.selectedOptions.size = this.product.options.sizes[index];
+    // Suppléments
+    Object.keys(this.selectedOptions.supplements).forEach(index => {
+        const qtyElem = document.querySelector(`.supplement-qty[data-index="${index}"]`);
+        if (qtyElem) {
+            qtyElem.textContent = this.selectedOptions.supplements[index] || 0;
         }
-    } else {
-        card.classList.remove('selected');
+    });
+
+    // Visuel sélectionné sur les options
+    document.querySelectorAll('.burger-radio').forEach((radio) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (radio.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.petit-creux-radio').forEach((radio) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (radio.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.meat-checkbox').forEach((input) => {
+        const card = input.closest('.bigsmash-option-card');
+        if (input.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.sauce-checkbox').forEach((checkbox) => {
+        const card = checkbox.closest('.bigsmash-option-card');
+        if (checkbox.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.remove-checkbox').forEach((checkbox) => {
+        const card = checkbox.closest('.bigsmash-option-card');
+        if (checkbox.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.drink-radio').forEach((radio) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (radio.checked) card.classList.add('selected');
+        else card.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.size-radio').forEach((radio, index) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (radio.checked) {
+            card.classList.add('selected');
+            if (this.product.options?.sizes?.length > 0) {
+                this.selectedOptions.size = this.product.options.sizes[index];
+            }
+        } else {
+            card.classList.remove('selected');
+        }
+    });
+
+    // Désactivation du bouton "Ajouter au panier" si viandes non choisies (pour tacos)
+    let blockAddToCart = false;
+    if (this.product.options?.meats?.length > 0 && this.product.options?.meatCounts?.length > 0) {
+        const nbViandes = this.selectedOptions.meatCount || 1;
+        const nbChecked = Object.values(this.selectedOptions.meats).filter(Boolean).length;
+        if (nbChecked !== nbViandes) {
+            blockAddToCart = true;
+        }
     }
-});
 
-
-                
-
-          const total = this.calculateTotal();
+    // Mise à jour du bouton
+    const total = this.calculateTotal();
     const btnText = document.getElementById('cart-btn-text');
     const addToCartBtn = document.getElementById('add-to-cart');
 
@@ -1538,12 +1534,12 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
             ? `Ajouter au panier — ${total.toFixed(2).replace('.', ',')} €`
             : 'Ajouter au panier';
     }
-
     if (addToCartBtn) {
+        addToCartBtn.disabled = blockAddToCart || total <= 0;
+        addToCartBtn.classList.toggle('bigsmash-btn-disabled', blockAddToCart || total <= 0);
         addToCartBtn.style.display = (total > 0) ? 'flex' : 'none';
     }
-} //
-
+}
            calculateTotal() {
     let basePrice = this.product.price;
 
