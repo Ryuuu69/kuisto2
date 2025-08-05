@@ -68,7 +68,7 @@ class CartSystem {
       this.cart.push(cartItem);
     }
     this.saveCart();
-    // window.location.href = "produits.html"; // désactive sauf cas spécial
+    // PAS DE REDIRECTION PAR DÉFAUT (laissez le bouton gérer)
   }
 
   calculateItemPrice(product, quantity, options) {
@@ -91,6 +91,13 @@ class CartSystem {
     return price;
   }
 
+  // Compte TOUTES les variantes (même produit, options différentes)
+  getTotalQuantityForProduct(slug) {
+    return this.cart
+      .filter(item => item.slug === slug)
+      .reduce((total, item) => total + item.quantity, 0);
+  }
+
   getTotalItems() {
     return this.cart.reduce((total, item) => total + item.quantity, 0);
   }
@@ -98,19 +105,10 @@ class CartSystem {
     return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
 
-  // --- NOUVEAU ---
-  getTotalQuantityForProduct(slug) {
-    return this.cart
-      .filter(item => item.slug === slug)
-      .reduce((total, item) => total + item.quantity, 0);
-  }
-
-  // --- NOUVEAU ---
+  // Retire la dernière variante ajoutée pour ce slug (même s'il y en a plusieurs avec suppléments différents)
   removeLastVariantOfProduct(slug) {
-    // Trouve toutes les variantes de ce produit
     const candidates = this.cart.filter(item => item.slug === slug);
     if (candidates.length === 0) return;
-    // Cherche la plus récente
     let last = candidates[0];
     for (const item of candidates) {
       if (item.addedAt > last.addedAt) last = item;
@@ -129,13 +127,11 @@ class CartSystem {
     this.saveCart();
   }
 
-  // (Pour compatibilité, mais on ne l'utilise plus pour l'affichage du compteur)
+  // Compatibilité : ne compte que la première variante trouvée (inutile pour l'affichage total)
   getProductQuantity(productSlug) {
     const item = this.cart.find(item => item.slug === productSlug);
     return item ? item.quantity : 0;
   }
-
-  // ... Les méthodes pour la barre/affichage, inchangées
 
   createCartBar() {
     if (document.getElementById('cart-bar')) return;
@@ -151,7 +147,6 @@ class CartSystem {
         </span>
       </div>
     `;
-    // Styles inline
     cartBar.style.cssText = `
       position: fixed;
       bottom: 20px;
