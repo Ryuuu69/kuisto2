@@ -931,12 +931,7 @@ function saveCart(cart) {
 }
 function getProductQuantity(slug) {
   const cart = getCart();
-  if (Array.isArray(cart)) {
-    return cart
-      .filter(item => item.slug === slug)
-      .reduce((sum, item) => sum + (parseInt(item.quantity, 10) || 0), 0);
-  }
-  return parseInt(cart[slug], 10) || 0;
+  return cart[slug] || 0;
 }
 
 // 2. MAJ du bouton panier flottant
@@ -950,7 +945,7 @@ function updateCartFabPrice() {
     if (product.options?.sizes?.length) {
       price = Math.min(...product.options.sizes.map(s => s.price));
     }
-    total += price * (parseInt(cart[slug], 10) || 0);
+    total += price * cart[slug];
   }
   const badge = document.getElementById('cart-fab-price');
   if (badge) badge.textContent = `${total.toFixed(2).replace('.', ',')}€`;
@@ -960,7 +955,11 @@ function updateCartFabPrice() {
 function showOrHideCartFab(menuOpen = false) {
   const cartFab = document.getElementById('cart-fab');
   if (!cartFab) return;
-  cartFab.style.display = (window.innerWidth < 768 && menuOpen) ? 'none' : 'flex';
+  if (window.innerWidth < 768 && menuOpen) {
+    cartFab.style.display = 'none';
+  } else {
+    cartFab.style.display = '';
+  }
 }
 
 // 4. Génération des cartes produit (INCLUT le bouton ajouter)
@@ -986,7 +985,44 @@ function createProductCard(product) {
       <div class="cart-quantity-bar">
         <button class="cart-remove-btn" type="button"
           title="${cartQuantity === 1 ? 'Supprimer' : 'Diminuer la quantité'}"
-@@ -1026,66 +1027,71 @@ function renderAllProducts() {
+          data-action="remove" data-slug="${slug}">${buttonContent}</button>
+        <span class="cart-qty">${cartQuantity}</span>
+        <a href="produit.html?slug=${slug}" class="cart-plus-btn" title="Voir fiche produit">+</a>
+      </div>
+    `;
+  } else {
+    actionButton = `
+      <button class="add-btn-corner" data-action="add" data-slug="${slug}" title="Ajouter au panier">+</button>
+    `;
+  }
+  const glow = cartQuantity > 0 ? 'glow' : '';
+  return `
+    <div class="product-card ${glow}" data-product-id="${slug}">
+      <div class="thumb">
+        <img src="${product.image}" alt="${product.name}">
+      </div>
+      <div class="info">
+        <div class="product-name">${product.name}</div>
+        <div class="desc">${product.description}</div>
+        ${priceHtml}
+      </div>
+      ${actionButton}
+    </div>
+  `;
+}
+
+// 5. Conversion de la catégorie en id section
+function getCategorySectionId(category) {
+  return category.toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/é/g, 'e')
+    .replace(/è/g, 'e')
+    .replace(/à/g, 'a')
+    .replace(/ç/g, 'c');
+}
+
+// 6. Render ALL products
+function renderAllProducts() {
   const containers = [
     'tacos-products', 'burgers-products', 'menus-burgers-products',
     'buckets-products', 'sides-products', 'boissons-products', 'desserts-products', 'hot-dogs-products', 'menus-bambino-products'
@@ -1012,8 +1048,7 @@ function handleProductCardEvents() {
       addBtn.onclick = function(e) {
         e.preventDefault();
         let cart = getCart();
-        const current = parseInt(cart[slug], 10) || 0;
-        cart[slug] = current + 1;
+        cart[slug] = (cart[slug] || 0) + 1;
         saveCart(cart);
         renderAllProducts();
         handleProductCardEvents();
@@ -1027,12 +1062,8 @@ function handleProductCardEvents() {
       removeBtn.onclick = function(e) {
         e.preventDefault();
         let cart = getCart();
-        const current = Math.max(0, (parseInt(cart[slug], 10) || 0) - 1);
-        if (current === 0) {
-          delete cart[slug];
-        } else {
-          cart[slug] = current;
-        }
+        cart[slug] = Math.max(0, (cart[slug] || 0) - 1);
+        if (cart[slug] === 0) delete cart[slug];
         saveCart(cart);
         renderAllProducts();
         handleProductCardEvents();
