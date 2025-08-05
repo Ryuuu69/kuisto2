@@ -218,7 +218,7 @@ const products = [
     id: 202,
     name: "Pistachio",
     slug: "signature-pistachio",
-    category: "burgers-signatures",
+    category: "burgers-signature",
     description: "Viande hachée, roquette, tomates poêlées, stracciatella, pistache, parmesan",
     price: 12.50,
     image: "img/signature-pistachio.jpg",
