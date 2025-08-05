@@ -921,7 +921,6 @@ body.mobile-menu-active #cart-fab {
 <script>
 const CART_KEY = 'kuisto_cart';
 
-// 1. Utilitaires panier
 function getCart() {
   try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; }
   catch { return {}; }
@@ -929,12 +928,6 @@ function getCart() {
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
-function getProductQuantity(slug) {
-  const cart = getCart();
-  return cart[slug] || 0;
-}
-
-// 2. MAJ du bouton panier flottant
 function updateCartFabPrice() {
   const cart = getCart();
   let total = 0;
@@ -950,11 +943,10 @@ function updateCartFabPrice() {
   const badge = document.getElementById('cart-fab-price');
   if (badge) badge.textContent = `${total.toFixed(2).replace('.', ',')}€`;
 }
-
-// 3. Affichage ou masquage du bouton panier flottant
-function showOrHideCartFab(menuOpen = false) {
+function showOrHideCartFab(menuOpen) {
   const cartFab = document.getElementById('cart-fab');
   if (!cartFab) return;
+  // Sur mobile, cacher le panier si le menu mobile est ouvert, sinon toujours visible
   if (window.innerWidth < 768 && menuOpen) {
     cartFab.style.display = 'none';
   } else {
@@ -962,10 +954,11 @@ function showOrHideCartFab(menuOpen = false) {
   }
 }
 
-// 4. Génération des cartes produit (INCLUT le bouton ajouter)
+// GÉNÈRE UNE CARTE PRODUIT À PARTIR DES DONNÉES
 function createProductCard(product) {
   const slug = product.slug;
-  const cartQuantity = getProductQuantity(slug);
+  const cart = getCart();
+  const cartQuantity = cart[slug] || 0;
   let minPrice = (product.options?.sizes?.length > 0)
     ? Math.min(...product.options.sizes.map(s => s.price))
     : product.price;
@@ -975,7 +968,6 @@ function createProductCard(product) {
       <span class="value">${minPrice.toFixed(2).replace('.', ',')} €</span>
     </div>
   `;
-  // Action (barre quantité OU bouton ajouter)
   let actionButton = '';
   if (cartQuantity > 0) {
     let buttonContent = cartQuantity === 1
@@ -992,7 +984,7 @@ function createProductCard(product) {
     `;
   } else {
     actionButton = `
-      <button class="add-btn-corner" data-action="add" data-slug="${slug}" title="Ajouter au panier">+</button>
+      <a href="produit.html?slug=${slug}" class="add-btn-corner" title="Voir fiche produit">+</a>
     `;
   }
   const glow = cartQuantity > 0 ? 'glow' : '';
@@ -1010,8 +1002,6 @@ function createProductCard(product) {
     </div>
   `;
 }
-
-// 5. Conversion de la catégorie en id section
 function getCategorySectionId(category) {
   return category.toLowerCase()
     .replace(/\s+/g, '-')
@@ -1020,8 +1010,6 @@ function getCategorySectionId(category) {
     .replace(/à/g, 'a')
     .replace(/ç/g, 'c');
 }
-
-// 6. Render ALL products
 function renderAllProducts() {
   const containers = [
     'tacos-products', 'burgers-products', 'menus-burgers-products',
@@ -1037,26 +1025,10 @@ function renderAllProducts() {
     if (container) container.innerHTML += createProductCard(product);
   });
 }
-
-// 7. Events sur les boutons produits (après chaque render)
 function handleProductCardEvents() {
   document.querySelectorAll('.product-card').forEach(card => {
     const slug = card.dataset.productId;
-    // Ajouter au panier
-    const addBtn = card.querySelector('.add-btn-corner[data-action="add"]');
-    if (addBtn) {
-      addBtn.onclick = function(e) {
-        e.preventDefault();
-        let cart = getCart();
-        cart[slug] = (cart[slug] || 0) + 1;
-        saveCart(cart);
-        renderAllProducts();
-        handleProductCardEvents();
-        updateCartFabPrice();
-        showOrHideCartFab(false);
-      }
-    }
-    // Retirer ou diminuer
+    // Bouton supprimer ou diminuer
     const removeBtn = card.querySelector('.cart-remove-btn');
     if (removeBtn) {
       removeBtn.onclick = function(e) {
@@ -1071,11 +1043,15 @@ function handleProductCardEvents() {
         showOrHideCartFab(false);
       }
     }
-    // "+" = lien, pas d'action JS
+    // Les "+" sont toujours des liens vers produit.html, donc pas de gestion JS ici
   });
 }
 
-// ------------------- MENU MOBILE -------------------
+// AJOUTER au panier depuis la fiche produit (OU tu peux gérer ailleurs)
+// Si tu veux gérer un bouton "ajouter" dans la fiche produit.html :
+// window.addProductToCart = function(slug) { ... }
+
+// --------------- MENU MOBILE ----------------
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
   handleProductCardEvents();
@@ -1148,7 +1124,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.setActiveCategory('tacos', false);
 });
 
-// MAJ à chaque modif du panier dans un autre onglet
+// A chaque modif du panier (depuis un autre onglet)
 window.addEventListener('storage', () => {
   renderAllProducts();
   handleProductCardEvents();
