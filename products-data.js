@@ -488,6 +488,45 @@ const products = [
   price: 6.00,
   image: "img/menu-mini-tacos.jpg",
   options: {}
+},
+  {
+  id: 401,
+  name: "CÉSARE",
+  slug: "salade-cesare",
+  category: "salades",
+  description: "Tenders, salade, oignon, parmesan, croûtons, oeuf mollet, sauce césar",
+  price: 9.00,
+  image: "img/salade-cesare.jpg",
+  options: {
+    remove: removeOptions,
+    
+  }
+},
+{
+  id: 402,
+  name: "ITALIENNE",
+  slug: "salade-italienne",
+  category: "salades",
+  description: "Poulet grillé, stracciatella, tomates poêlées, salade, oignon, sauce blanche",
+  price: 8.90,
+  image: "img/salade-italienne.jpg",
+  options: {
+    remove: removeOptions,
+    
+  }
+},
+{
+  id: 403,
+  name: "VEGGIE",
+  slug: "salade-veggie",
+  category: "salades",
+  description: "Falafel, stracciatella, tomates poêlées, salade, oignon",
+  price: 8.90,
+  image: "img/salade-veggie.jpg",
+  options: {
+    remove: removeOptions,
+   
+  }
 }
   
  
