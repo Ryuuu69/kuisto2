@@ -922,7 +922,8 @@ body.mobile-menu-active #cart-fab {
 <script>
 function createProductCard(product) {
   const slug = product.slug;
-  const cartQty = window.cartSystem.getProductQuantity(slug);
+  const cartQuantity = window.cartSystem ? window.cartSystem.getTotalQuantityForProduct(slug) : 0;
+
 
   let minPrice = (product.options?.sizes?.length > 0)
     ? Math.min(...product.options.sizes.map(s => s.price))
