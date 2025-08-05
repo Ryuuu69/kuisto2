@@ -1507,6 +1507,20 @@ updateDisplay() {
         if (radio.checked) card.classList.add('selected');
         else card.classList.remove('selected');
     });
+  // La boucle correcte pour size-radio
+    document.querySelectorAll('.size-radio').forEach((radio, index) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (card) {
+            if (radio.checked) {
+                card.classList.add('selected');
+                if (this.product.options?.sizes?.length > 0) {
+                    this.selectedOptions.size = this.product.options.sizes[index];
+                }
+            } else {
+                card.classList.remove('selected');
+            }
+        }
+    });
 
 
 
