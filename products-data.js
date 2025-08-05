@@ -61,6 +61,162 @@ const products = [
       ]
     }
   },
+  {
+    id: 101,
+    name: "Classique",
+    slug: "smash-classique",
+    category: "smash-burgers",
+    description: "Viande hachée, cheddar, salade, tomate, oignon",
+    price: 6.00,
+    image: "img/smash-classique.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 102,
+    name: "Double",
+    slug: "smash-double",
+    category: "smash-burgers",
+    description: "2 steaks, double cheddar, salade, tomate, oignon",
+    price: 7.50,
+    image: "img/smash-double.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 103,
+    name: "Bacon",
+    slug: "smash-bacon",
+    category: "smash-burgers",
+    description: "Steak haché, bacon, cheddar, salade, tomate, oignon",
+    price: 7.50,
+    image: "img/smash-bacon.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 104,
+    name: "Double Bacon",
+    slug: "smash-double-bacon",
+    category: "smash-burgers",
+    description: "2 steaks, bacon, double cheddar, salade, tomate, oignon",
+    price: 8.00,
+    image: "img/smash-double-bacon.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 105,
+    name: "Chicken",
+    slug: "smash-chicken",
+    category: "smash-burgers",
+    description: "Tenders, cheddar, salade, tomate, oignon",
+    price: 8.00,
+    image: "img/smash-chicken.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 106,
+    name: "Chèvre Miel",
+    slug: "smash-chevre-miel",
+    category: "smash-burgers",
+    description: "Viande hachée, salade, fromage de chèvre, miel",
+    price: 8.00,
+    image: "img/smash-chevre-miel.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 107,
+    name: "Fish",
+    slug: "smash-fish",
+    category: "smash-burgers",
+    description: "Poisson pané, salade, tomate, oignon, sauce blanche",
+    price: 8.00,
+    image: "img/smash-fish.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 201,
+    name: "Kuisto",
+    slug: "signature-kuisto",
+    category: "burgers-signatures",
+    description: "Viande hachée, 2 tenders, oignons frits, cheddar, salade, ketchup",
+    price: 10.50,
+    image: "img/signature-kuisto.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 202,
+    name: "Pistachio",
+    slug: "signature-pistachio",
+    category: "burgers-signatures",
+    description: "Viande hachée, roquette, tomates poêlées, stracciatella, pistache, parmesan",
+    price: 12.50,
+    image: "img/signature-pistachio.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 203,
+    name: "Grogon",
+    slug: "signature-grogon",
+    category: "burgers-signatures",
+    description: "Double cheese, viande hachée, onion rings, oignons frits, sauce burger, frites, cornichons",
+    price: 10.50,
+    image: "img/signature-grogon.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 204,
+    name: "Le Veggie",
+    slug: "signature-le-veggie",
+    category: "burgers-signatures",
+    description: "Steak de falafel, stracciatella, roquette, tomates poêlées, oignons, sauce blanche ciboulette",
+    price: 11.50,
+    image: "img/signature-le-veggie.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
+  {
+    id: 205,
+    name: "Chicken Truff",
+    slug: "signature-chicken-truff",
+    category: "burgers-signatures",
+    description: "Tenders, oignons, champignons persillés, sauce truffe",
+    price: 12.50,
+    image: "img/signature-chicken-truff.jpg",
+    options: {
+      remove: removeOptions,
+      sauces: sauceOptions
+    }
+  },
 
   {
   id: 9,
