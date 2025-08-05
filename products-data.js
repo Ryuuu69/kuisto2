@@ -35,6 +35,13 @@ const meatCounts = [
   { value: 2, label: "2 viandes", price: 7.50 },
   { value: 3, label: "3 viandes", price: 8.90 }
 ];
+// Option centralisée pour "enlever" sur tous les burgers
+const removeOptions = [
+  { name: "Sans salade", price: 0 },
+  { name: "Sans tomate", price: 0 },
+  { name: "Sans oignon", price: 0 }
+];
+
 // D’abord, tu déclares tes smashBurgers et signatureBurgers
 const smashBurgersMenuChoices = [
   { name: "Classique", price: 6.00, image: "img/burger-classique.jpg" },
