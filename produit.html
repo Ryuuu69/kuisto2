@@ -630,45 +630,22 @@
     
 .bigsmash-options-grid {
   display: grid;
-  grid-template-columns: repeat(4, 150px);
+  grid-template-columns: repeat(4, 150px); /* max 4 par ligne */
   grid-auto-rows: 150px;
   column-gap: 11px;
   row-gap: 11px;
-  /* on enlève tout centering précédent */
+  justify-content: center;  /* <---- LE secret pour centrer toute la grille ! */
 }
 
-/* 4 cartes → 86px de marge latérale */
-.bigsmash-options-grid--count-4 {
-  margin: 0 86px;
-}
-
-/* 3 cartes → 166px de marge latérale */
-.bigsmash-options-grid--count-3 {
-  margin: 0 166px;
-}
-
-/* 2 cartes → 246px de marge latérale */
-.bigsmash-options-grid--count-2 {
-  margin: 0 246px;
-}
-
-/* 1 carte → 336px de marge latérale (si jamais) */
+/* Pour les cas où moins de 4 éléments */
+.bigsmash-options-grid--count-4,
+.bigsmash-options-grid--count-3,
+.bigsmash-options-grid--count-2,
 .bigsmash-options-grid--count-1 {
-  margin: 0 336px;
+  /* On n'a plus besoin de margin, la grille gère tout */
+  margin: 0;
 }
 
-/* Cartes individuelles */
-.bigsmash-option-card {
-  width: 150px;
-  height: 150px;
-  background: var(--bigsmash-white);
-  border-radius: var(--bigsmash-radius-small);
-  box-shadow: var(--bigsmash-shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px;
-}
 
 /* Image dans la carte */
 .bigsmash-option-image {
