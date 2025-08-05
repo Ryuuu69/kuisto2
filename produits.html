@@ -1133,14 +1133,12 @@ window.addEventListener('storage', () => {
   updateCartFabPrice();
 });
 </script>
-
-<!-- Panier flottant stylé, centré en bas -->
+<!-- Panier flottant, parfaitement centré en bas, fond orange -->
 <div id="cart-fab"
-     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#E53935] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200 border-4 border-white"
+     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer border-4 border-white transition-transform duration-200"
      style="display:none; bottom:10px; transform:translateX(-50%);">
-  <!-- Icône chariot blanche, style e-commerce moderne -->
+  <!-- SVG icône chariot moderne, sans fond parasite -->
   <svg width="42" height="42" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="12" fill="#E53935" />
     <path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7.16 15H17c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1 1 0 0 0 20.93 5H6.21l-.94-2.14A1 1 0 0 0 4.25 2H2v2h2l3.6 7.59-1.35 2.44A1.98 1.98 0 0 0 7.16 15zm0-2l1.1-2h7.45l-2.76 5H7.16z"
           fill="white"/>
   </svg>
