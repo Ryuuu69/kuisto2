@@ -35,6 +35,28 @@ const meatCounts = [
   { value: 2, label: "2 viandes", price: 7.50 },
   { value: 3, label: "3 viandes", price: 8.90 }
 ];
+// D’abord, tu déclares tes smashBurgers et signatureBurgers
+const smashBurgersMenuChoices = [
+  { name: "Classique", price: 6.00, image: "img/burger-classique.jpg" },
+  { name: "Double", price: 7.50, image: "img/burger-double.jpg" },
+  { name: "Bacon", price: 7.50, image: "img/burger-bacon.jpg" },
+  { name: "Double Bacon", price: 8.00, image: "img/burger-double-bacon.jpg" },
+  { name: "Chicken", price: 8.00, image: "img/burger-chicken.jpg" },
+  { name: "Chèvre Miel", price: 8.00, image: "img/burger-chevre.jpg" },
+  { name: "Fish", price: 8.00, image: "img/burger-fish.jpg" },
+];
+const signatureBurgersMenuChoices = [
+  { name: "Kuisto", price: 10.50, image: "img/burger-kuisto.jpg" },
+  { name: "Pistachio", price: 12.50, image: "img/burger-pistachio.jpg" },
+  { name: "Grogon", price: 10.50, image: "img/burger-grogon.jpg" },
+  { name: "Le Veggie", price: 11.50, image: "img/burger-veggie.jpg" },
+  { name: "Chicken Truff", price: 12.50, image: "img/burger-truff.jpg" },
+];
+// Pour le menu combo :
+const allMenuBurgers = [...smashBurgersMenuChoices, ...signatureBurgersMenuChoices];
+
+// Dans chaque objet menu (voir plus haut pour la structure)
+
 
 const products = [
   // Nouveautés
