@@ -2,18 +2,16 @@
 function updateCartFab() {
   // temporaire : évite l’erreur si elle n’existe pas encore
 }
+
 class CartSystem {
   constructor() {
     this.cart = this.loadCart();
     this.init();
   }
 
-  // Initialisation du système
   init() {
     this.createCartBar();
     this.updateCartDisplay();
-    
-    // Écouter les changements de localStorage depuis d'autres onglets
     window.addEventListener('storage', (e) => {
       if (e.key === 'bigsmash_cart') {
         this.cart = this.loadCart();
@@ -22,7 +20,6 @@ class CartSystem {
     });
   }
 
-  // Charger le panier depuis localStorage
   loadCart() {
     try {
       const saved = localStorage.getItem('bigsmash_cart');
@@ -33,105 +30,115 @@ class CartSystem {
     }
   }
 
-  // Sauvegarder le panier dans localStorage
   saveCart() {
     try {
       localStorage.setItem('bigsmash_cart', JSON.stringify(this.cart));
       this.updateCartDisplay();
-      // Notifier les autres parties de l'application du changement
       window.dispatchEvent(new CustomEvent('cartUpdated'));
     } catch (e) {
       console.error('Erreur lors de la sauvegarde du panier:', e);
     }
     updateCartFab();
-
   }
 
-
-
- // Ajouter un produit au panier
-addToCart(product, quantity = 1, options = {}, basePrice = null) {
-  // Utilise le basePrice passé en argument si dispo, sinon product.price
-  const realBasePrice = (basePrice !== null && basePrice !== undefined) ? basePrice : product.price;
-
-  const cartItem = {
-    id: product.id,
-    name: product.name,
-    slug: product.slug,
-    basePrice: realBasePrice,
-    quantity: quantity,
-    options: options,
-    totalPrice: this.calculateItemPrice(product, quantity, options, realBasePrice),
-    addedAt: new Date().toISOString()
-  };
-
-    // Vérifier si le même produit avec les mêmes options existe déjà
-    const existingIndex = this.cart.findIndex(item => 
-      item.id === product.id && 
+  addToCart(product, quantity = 1, options = {}, basePrice = null) {
+    const realBasePrice = (basePrice !== null && basePrice !== undefined) ? basePrice : product.price;
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      basePrice: realBasePrice,
+      quantity: quantity,
+      options: options,
+      totalPrice: this.calculateItemPrice(product, quantity, options, realBasePrice),
+      addedAt: new Date().toISOString()
+    };
+    const existingIndex = this.cart.findIndex(item =>
+      item.id === product.id &&
       JSON.stringify(item.options) === JSON.stringify(options)
     );
-
     if (existingIndex > -1) {
       this.cart[existingIndex].quantity += quantity;
       this.cart[existingIndex].totalPrice = this.calculateItemPrice(
-        product, 
-        this.cart[existingIndex].quantity, 
+        product,
+        this.cart[existingIndex].quantity,
         options
       );
     } else {
       this.cart.push(cartItem);
     }
-
     this.saveCart();
-    window.location.href = "produits.html";
-
-    
+    // window.location.href = "produits.html"; // désactive sauf cas spécial
   }
 
-// Calculer le prix d'un article avec ses options (corrigé pour les tailles)
-calculateItemPrice(product, quantity, options) {
-  // 1️⃣ Utiliser le prix de l'option de taille si elle existe, sinon product.price
-  let basePrice = product.price;
-  if (options.size && options.size.price !== undefined) {
-    basePrice = options.size.price;
-  }
-  if (!basePrice) basePrice = 0; // sécurité
-
-  let price = basePrice * quantity;
-
-  // 2️⃣ Ajouter le prix des suppléments
-  if (options.supplements) {
-    Object.values(options.supplements).forEach(supplement => {
-      if (supplement.quantity > 0) {
-        price += supplement.price * supplement.quantity * quantity;
-      }
-    });
-  }
-
-  // 3️⃣ Ajouter le prix de la boisson
-  if (options.drink && options.drink.price > 0) {
-    price += options.drink.price * quantity;
+  calculateItemPrice(product, quantity, options) {
+    let basePrice = product.price;
+    if (options.size && options.size.price !== undefined) {
+      basePrice = options.size.price;
+    }
+    if (!basePrice) basePrice = 0;
+    let price = basePrice * quantity;
+    if (options.supplements) {
+      Object.values(options.supplements).forEach(supplement => {
+        if (supplement.quantity > 0) {
+          price += supplement.price * supplement.quantity * quantity;
+        }
+      });
+    }
+    if (options.drink && options.drink.price > 0) {
+      price += options.drink.price * quantity;
+    }
+    return price;
   }
 
-  return price;
-}
-
-
-  // Obtenir le nombre total d'articles
   getTotalItems() {
     return this.cart.reduce((total, item) => total + item.quantity, 0);
   }
-
-  // Obtenir le prix total
   getTotalPrice() {
     return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
 
+  // --- NOUVEAU ---
+  getTotalQuantityForProduct(slug) {
+    return this.cart
+      .filter(item => item.slug === slug)
+      .reduce((total, item) => total + item.quantity, 0);
+  }
 
-  // Créer la barre de panier sticky
+  // --- NOUVEAU ---
+  removeLastVariantOfProduct(slug) {
+    // Trouve toutes les variantes de ce produit
+    const candidates = this.cart.filter(item => item.slug === slug);
+    if (candidates.length === 0) return;
+    // Cherche la plus récente
+    let last = candidates[0];
+    for (const item of candidates) {
+      if (item.addedAt > last.addedAt) last = item;
+    }
+    const index = this.cart.indexOf(last);
+    if (last.quantity > 1) {
+      last.quantity--;
+      last.totalPrice = this.calculateItemPrice(
+        { price: last.basePrice },
+        last.quantity,
+        last.options
+      );
+    } else {
+      this.cart.splice(index, 1);
+    }
+    this.saveCart();
+  }
+
+  // (Pour compatibilité, mais on ne l'utilise plus pour l'affichage du compteur)
+  getProductQuantity(productSlug) {
+    const item = this.cart.find(item => item.slug === productSlug);
+    return item ? item.quantity : 0;
+  }
+
+  // ... Les méthodes pour la barre/affichage, inchangées
+
   createCartBar() {
-    if (document.getElementById('cart-bar')) return; // Éviter les doublons
-
+    if (document.getElementById('cart-bar')) return;
     const cartBar = document.createElement('div');
     cartBar.id = 'cart-bar';
     cartBar.className = 'cart-bar';
@@ -144,44 +151,7 @@ calculateItemPrice(product, quantity, options) {
         </span>
       </div>
     `;
-    function updateCartFab() {
-        if (window.location.pathname.includes('produit.html')) {
-    const cartFab = document.getElementById('cart-fab');
-    if (cartFab) cartFab.style.display = 'none';
-    return;
-  }
-  const cartFab = document.getElementById('cart-fab');
-  const badge = document.getElementById('cart-fab-price');
-  if (!cartFab || !badge) return;
-
-  // Utilise le panier global
-  const cart = (window.cartSystem && window.cartSystem.cart) || [];
-  const total = cart.reduce((acc, item) => acc + (item.totalPrice || 0), 0);
-
-  badge.textContent = total.toFixed(2).replace('.', ',') + '€';
-  cartFab.style.display = total > 0 ? 'flex' : 'none';
-}
-
-// Clique sur le bouton = va sur panier.html
-document.addEventListener('DOMContentLoaded', function() {
-  // Vérifier qu’on N’EST PAS sur produit.html
-  if (window.location.pathname.includes('produit.html')) {
-    // Cache le FAB s’il existe
-    const cartFab = document.getElementById('cart-fab');
-    if (cartFab) cartFab.style.display = 'none';
-    return; // N’exécute rien d’autre
-  }
-  // Le reste du code ici (affichage FAB si panier > 0)
-  const cartFab = document.getElementById('cart-fab');
-  if (cartFab) {
-    cartFab.onclick = function() { window.location.href = 'panier.html'; };
-    updateCartFab();
-  }
-});
-
-
-
-    // Styles inline pour éviter les conflits
+    // Styles inline
     cartBar.style.cssText = `
       position: fixed;
       bottom: 20px;
@@ -199,61 +169,42 @@ document.addEventListener('DOMContentLoaded', function() {
       font-weight: 600;
       display: none;
     `;
-
     cartBar.addEventListener('click', () => {
       window.location.href = 'panier.html';
     });
-
     cartBar.addEventListener('mouseenter', () => {
       cartBar.style.background = '#F18701';
       cartBar.style.transform = 'translateY(-2px)';
     });
-
     cartBar.addEventListener('mouseleave', () => {
       cartBar.style.background = '#191919';
       cartBar.style.transform = 'translateY(0)';
     });
-
     document.body.appendChild(cartBar);
   }
 
-  // Mettre à jour l'affichage du panier
-   updateCartDisplay() {
+  updateCartDisplay() {
     const cartBar = document.getElementById('cart-bar');
     const cartCount = document.getElementById('cart-count');
     const cartPrice = document.getElementById('cart-price');
-
     if (!cartBar || !cartCount || !cartPrice) return;
-
     const totalItems = this.getTotalItems();
     const totalPrice = this.getTotalPrice();
-
     cartCount.textContent = totalItems;
     cartPrice.textContent = totalPrice.toFixed(2).replace('.', ',') + ' €';
-
-    // Afficher/masquer la barre selon le contenu du panier
     cartBar.style.display = totalItems > 0 ? 'block' : 'none';
-     }
+  }
 
-  
-     
-
-   
-
-  // Vider le panier
   clearCart() {
     this.cart = [];
     this.saveCart();
   }
-
-  // Supprimer complètement un produit du panier
   removeFromCart(productSlug) {
     this.cart = this.cart.filter(item => item.slug !== productSlug);
     this.saveCart();
   }
-
-  // Diminuer la quantité d'un produit (ou le supprimer si quantité = 0)
   decreaseQuantity(productSlug) {
+    // garde pour compatibilité
     const itemIndex = this.cart.findIndex(item => item.slug === productSlug);
     if (itemIndex > -1) {
       if (this.cart[itemIndex].quantity > 1) {
@@ -269,8 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
       this.saveCart();
     }
   }
-
-  // Augmenter la quantité d'un produit existant
   increaseQuantity(productSlug) {
     const itemIndex = this.cart.findIndex(item => item.slug === productSlug);
     if (itemIndex > -1) {
@@ -283,14 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
       this.saveCart();
     }
   }
-
-  // Obtenir la quantité d'un produit dans le panier
-  getProductQuantity(productSlug) {
-    const item = this.cart.find(item => item.slug === productSlug);
-    return item ? item.quantity : 0;
-  }
 }
-
-// Initialiser le système de panier automatiquement et le rendre globalement accessible
 
 window.cartSystem = new CartSystem();
