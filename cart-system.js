@@ -68,7 +68,8 @@ class CartSystem {
       this.cart.push(cartItem);
     }
     this.saveCart();
-    // PAS DE REDIRECTION PAR DÉFAUT (laissez le bouton gérer)
+    // *** REDIRECTION AUTOMATIQUE COMME AVANT ***
+    window.location.href = "produits.html";
   }
 
   calculateItemPrice(product, quantity, options) {
@@ -91,13 +92,6 @@ class CartSystem {
     return price;
   }
 
-  // Compte TOUTES les variantes (même produit, options différentes)
-  getTotalQuantityForProduct(slug) {
-    return this.cart
-      .filter(item => item.slug === slug)
-      .reduce((total, item) => total + item.quantity, 0);
-  }
-
   getTotalItems() {
     return this.cart.reduce((total, item) => total + item.quantity, 0);
   }
@@ -105,7 +99,14 @@ class CartSystem {
     return this.cart.reduce((total, item) => total + item.totalPrice, 0);
   }
 
-  // Retire la dernière variante ajoutée pour ce slug (même s'il y en a plusieurs avec suppléments différents)
+  // --- NOUVEAU ---
+  getTotalQuantityForProduct(slug) {
+    return this.cart
+      .filter(item => item.slug === slug)
+      .reduce((total, item) => total + item.quantity, 0);
+  }
+
+  // --- NOUVEAU ---
   removeLastVariantOfProduct(slug) {
     const candidates = this.cart.filter(item => item.slug === slug);
     if (candidates.length === 0) return;
@@ -127,7 +128,6 @@ class CartSystem {
     this.saveCart();
   }
 
-  // Compatibilité : ne compte que la première variante trouvée (inutile pour l'affichage total)
   getProductQuantity(productSlug) {
     const item = this.cart.find(item => item.slug === productSlug);
     return item ? item.quantity : 0;
@@ -199,7 +199,6 @@ class CartSystem {
     this.saveCart();
   }
   decreaseQuantity(productSlug) {
-    // garde pour compatibilité
     const itemIndex = this.cart.findIndex(item => item.slug === productSlug);
     if (itemIndex > -1) {
       if (this.cart[itemIndex].quantity > 1) {
