@@ -1288,7 +1288,7 @@ renderProductPrice() {
 
 
         // Liaison des événements
-           bindEvents() {
+bindEvents() {
     // Quantité
     document.getElementById('qty-minus')?.addEventListener('click', () => {
         if (this.quantity > 1) {
@@ -1344,7 +1344,13 @@ renderProductPrice() {
         });
     });
 
-    // Burger select (radio)
+    // Sélection burger (radio)
+    if (this.product.options?.burgerSelect?.length > 0) {
+        // On initialise le choix par défaut si rien n’est encore sélectionné (utile au 1er render)
+        if (!this.selectedOptions.burger) {
+            this.selectedOptions.burger = this.product.options.burgerSelect[0];
+        }
+    }
     document.querySelectorAll('.burger-radio').forEach(radio => {
         radio.addEventListener('change', () => {
             const idx = parseInt(radio.dataset.index);
@@ -1355,11 +1361,13 @@ renderProductPrice() {
             this.updateDisplay();
         });
     });
-    if (this.product.options?.burgerSelect?.length > 0) {
-        this.selectedOptions.burger = this.product.options.burgerSelect[0];
-    }
 
-    // Petit creux select (radio)
+    // Sélection petit creux (radio)
+    if (this.product.options?.petitCreuxSelect?.length > 0) {
+        if (!this.selectedOptions.petitCreux) {
+            this.selectedOptions.petitCreux = this.product.options.petitCreuxSelect[0];
+        }
+    }
     document.querySelectorAll('.petit-creux-radio').forEach(radio => {
         radio.addEventListener('change', () => {
             const idx = parseInt(radio.dataset.index);
@@ -1367,15 +1375,13 @@ renderProductPrice() {
             this.updateDisplay();
         });
     });
-    if (this.product.options?.petitCreuxSelect?.length > 0) {
-        this.selectedOptions.petitCreux = this.product.options.petitCreuxSelect[0];
-    }
 
     // Nombre de viandes tacos (radio)
     document.querySelectorAll('.meat-count-radio').forEach(radio => {
         radio.addEventListener('change', () => {
             if (radio.checked) {
                 this.selectedOptions.meatCount = parseInt(radio.value);
+                // Remise à zéro des viandes sélectionnées
                 this.selectedOptions.meats = {};
                 this.render();
                 this.bindEvents();
@@ -1384,34 +1390,34 @@ renderProductPrice() {
     });
 
     // Sélection de viandes tacos (radio ou checkbox selon nbViandes)
-const nbViandes = (this.product.options?.meatCounts?.length > 0)
-    ? (this.selectedOptions.meatCount || 1)
-    : 1;
-
-if (this.product.options?.meats?.length > 0) {
-    if (nbViandes === 1) {
-        document.querySelectorAll('.meat-checkbox').forEach((radio, idx) => {
-            radio.addEventListener('change', () => {
-                this.selectedOptions.meats = {};
-                if (radio.checked) this.selectedOptions.meats[idx] = true;
-                this.updateDisplay();
+    const nbViandes = (this.product.options?.meatCounts?.length > 0)
+        ? (this.selectedOptions.meatCount || 1)
+        : 1;
+    if (this.product.options?.meats?.length > 0) {
+        if (nbViandes === 1) {
+            document.querySelectorAll('.meat-checkbox').forEach((radio, idx) => {
+                radio.addEventListener('change', () => {
+                    this.selectedOptions.meats = {};
+                    if (radio.checked) this.selectedOptions.meats[idx] = true;
+                    this.updateDisplay();
+                });
             });
-        });
-    } else {
-        document.querySelectorAll('.meat-checkbox').forEach((checkbox, idx) => {
-            checkbox.addEventListener('change', () => {
-                const checked = document.querySelectorAll('.meat-checkbox:checked');
-                if (checked.length > nbViandes) {
-                    checkbox.checked = false;
-                    return;
-                }
-                this.selectedOptions.meats[idx] = checkbox.checked;
-                this.updateDisplay();
+        } else {
+            document.querySelectorAll('.meat-checkbox').forEach((checkbox, idx) => {
+                checkbox.addEventListener('change', () => {
+                    // On compte les viandes sélectionnées
+                    const checked = document.querySelectorAll('.meat-checkbox:checked');
+                    if (checked.length > nbViandes) {
+                        // Empêche de dépasser le max
+                        checkbox.checked = false;
+                        return;
+                    }
+                    this.selectedOptions.meats[idx] = checkbox.checked;
+                    this.updateDisplay();
+                });
             });
-        });
+        }
     }
-}
-
 
     // Personnalisation (remove)
     document.querySelectorAll('.remove-checkbox').forEach(checkbox => {
@@ -1447,7 +1453,6 @@ if (this.product.options?.meats?.length > 0) {
         this.addToCart();
     });
 }
-
 
             // Mettre à jour l'affichage
 updateDisplay() {
