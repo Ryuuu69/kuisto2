@@ -237,36 +237,68 @@ const products = [
       sauces: sauceOptions
     }
   },
-
+  
   {
-  id: 9,
-  name: "MENU SMASH BURGER",
-  slug: "smash-burger",
-  category: "menus-burgers",
-  description: "Burger smash avec frites, boisson au choix et suppléments possibles.",
-  price: 9.90,
-  image: "img/smash-burger.jpg",
+  id: 301,
+  name: "Menu Smash Burger",
+  slug: "menu-smash-burger",
+  category: "menus",
+  description: "Smash burger au choix, frites, boisson, sauces",
+  price: 0, // <-- prix géré dynamiquement
+  image: "img/menu-smash.jpg",
   options: {
-    supplements: [
-      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
-    ],
-    remove: [
-      { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
-
-      { name: "Sans sauce", price: 0 }
-    ],
-    side: [
-      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
-      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
-    ],
+    burgerSelect: smashBurgersMenuChoices,
+    sauces: sauceOptions,
     drinks: [
       { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
       { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
       { name: "Eau", price: 0, image: "img/eau.jpg" }
-    ]
+    ],
+    remove: removeOptions
   }
 },
+{
+  id: 302,
+  name: "Menu Signature Burger",
+  slug: "menu-signature-burger",
+  category: "menus",
+  description: "Burger signature au choix, frites, boisson, sauces",
+  price: 0, // <-- prix géré dynamiquement
+  image: "img/menu-signature.jpg",
+  options: {
+    burgerSelect: signatureBurgersMenuChoices,
+    sauces: sauceOptions,
+    drinks: [
+      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
+      { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
+      { name: "Eau", price: 0, image: "img/eau.jpg" }
+    ],
+    remove: removeOptions
+  }
+},
+{
+  id: 303,
+  name: "Menu Combo",
+  slug: "menu-combo",
+  category: "menus",
+  description: "Burger au choix, frites, boisson, sauces, petit creux",
+  price: 0, // <-- prix géré dynamiquement
+  image: "img/menu-combo.jpg",
+  options: {
+    burgerSelect: allMenuBurgers,
+    petitCreuxSelect: petitCreuxOptions,
+    sauces: sauceOptions,
+    drinks: [
+      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
+      { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
+      { name: "Eau", price: 0, image: "img/eau.jpg" }
+    ],
+    remove: removeOptions
+  }
+},
+
+
+  
 
   {
   id: 12,
