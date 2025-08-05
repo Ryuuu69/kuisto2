@@ -1103,6 +1103,29 @@ if (this.product.options?.remove?.length > 0) {
     </div>
   `;
 }
+  // 5️⃣ Sauces (si présentes)
+if (this.product.options?.sauces?.length > 0) {
+  html += `
+    <div class="bigsmash-options-section">
+      <h3 class="bigsmash-options-title">Choisis ta sauce</h3>
+      <div class="bigsmash-options-grid bigsmash-options-grid--count-${this.product.options.sauces.length}">
+        ${this.product.options.sauces.map((sauce, index) => `
+          <label class="bigsmash-option-card">
+            <input
+              type="checkbox"
+              class="sr-only sauce-checkbox"
+              data-index="${index}">
+            ${sauce.image ? `<img src="${sauce.image}" alt="${sauce.name}" class="bigsmash-option-image">` : ''}
+            <div class="bigsmash-option-name">${sauce.name}</div>
+            <div class="bigsmash-option-price">
+              ${sauce.price > 0 ? `+${sauce.price.toFixed(2).replace('.', ',')} €` : 'Inclus'}
+            </div>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
 
   // 3️⃣ Boissons
   if (this.product.options?.drinks?.length > 0) {
