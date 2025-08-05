@@ -1118,10 +1118,16 @@ window.addEventListener('storage', () => {
 <div id="cart-fab"
      class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
      style="bottom:10px; transform:translateX(-50%);">
-  <svg width="38" height="38"><circle cx="19" cy="19" r="15" fill="#fff" /></svg>
-
+  <!-- SVG Panier -->
+  <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+    <circle cx="19" cy="19" r="19" fill="#F18701"/>
+    <path d="M13.25 16.5H29.417L27.646 25.092A2.75 2.75 0 0 1 24.957 27H16.292a2.75 2.75 0 0 1-2.693-2.193L11 9.917" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="17.083" cy="30" r="1.292" fill="#fff"/>
+    <circle cx="24.5" cy="30" r="1.292" fill="#fff"/>
+  </svg>
   <span class="cart-badge" id="cart-fab-price">0,00€</span>
 </div>
+
 
 </body>
 </html>
