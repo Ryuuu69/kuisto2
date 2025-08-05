@@ -205,7 +205,7 @@ const products = [
     id: 201,
     name: "Kuisto",
     slug: "signature-kuisto",
-    category: "burgers-signatures",
+    category: "burgers-signature",
     description: "Viande hachée, 2 tenders, oignons frits, cheddar, salade, ketchup",
     price: 10.50,
     image: "img/signature-kuisto.jpg",
