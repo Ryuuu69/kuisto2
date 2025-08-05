@@ -920,9 +920,12 @@ body.mobile-menu-active #cart-fab {
 
 
 <script>
+// ========================
+// 1. Génération des cartes produit
+// ========================
 function createProductCard(product) {
   const slug = product.slug;
-  // Utilise la méthode qui somme toutes les variantes !
+  // Compte toutes les variantes dans le panier
   const cartQuantity = window.cartSystem ? window.cartSystem.getTotalQuantityForProduct(slug) : 0;
 
   let minPrice = (product.options?.sizes?.length > 0)
@@ -938,7 +941,6 @@ function createProductCard(product) {
 
   let actionButton = '';
   if (cartQuantity > 0) {
-    // Le bouton "-" enlève la dernière variante ajoutée !
     actionButton = `
       <div class="cart-quantity-bar">
         <button class="cart-remove-btn" type="button"
@@ -970,6 +972,9 @@ function createProductCard(product) {
   `;
 }
 
+// ========================
+// 2. Catégorisation & Rendu
+// ========================
 function getCategorySectionId(category) {
   return category.toLowerCase()
     .replace(/\s+/g, '-')
@@ -995,6 +1000,9 @@ function renderAllProducts() {
   });
 }
 
+// ========================
+// 3. Gestion événements cartes produit
+// ========================
 function handleProductCardEvents() {
   document.querySelectorAll('.product-card').forEach(card => {
     const slug = card.dataset.productId;
@@ -1007,8 +1015,7 @@ function handleProductCardEvents() {
           window.cartSystem.removeLastVariantOfProduct(slug);
           renderAllProducts();
           handleProductCardEvents();
-          if (typeof updateCartFabPrice === "function") updateCartFabPrice();
-          if (typeof showOrHideCartFab === "function") showOrHideCartFab(false);
+          if (typeof window.cartSystem.updateCartDisplay === "function") window.cartSystem.updateCartDisplay();
         }
       }
     }
@@ -1016,33 +1023,96 @@ function handleProductCardEvents() {
   });
 }
 
+// ========================
+// 4. Gestion Menu Mobile & Panier
+// ========================
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
   handleProductCardEvents();
 
-  // ... (ton code pour le menu mobile, etc.)
+  // Met à jour le FAB/bouton panier au chargement
+  if (window.cartSystem && typeof window.cartSystem.updateCartDisplay === "function") {
+    window.cartSystem.updateCartDisplay();
+  }
+
+  // Menu mobile toggle
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const cartFab = document.getElementById('cart-fab');
+  let menuOpen = false;
+
+  function toggleMobileMenu(open) {
+    menuOpen = open;
+    if (open) {
+      mobileMenuDrawer.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuDrawer.classList.add('opacity-100', 'scale-100');
+      mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(1)";
+      mobileMenuOverlay.classList.remove('hidden');
+      hamburgerIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      if (cartFab) cartFab.style.display = 'none';
+    } else {
+      mobileMenuDrawer.classList.remove('opacity-100', 'scale-100');
+      mobileMenuDrawer.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      mobileMenuDrawer.style.transform = "translate(-50%, -50%) scale(0.95)";
+      mobileMenuOverlay.classList.add('hidden');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      if (cartFab) cartFab.style.display = '';
+    }
+  }
+  if (mobileMenuToggle) mobileMenuToggle.onclick = function () { toggleMobileMenu(!menuOpen); };
+  if (mobileMenuOverlay) mobileMenuOverlay.onclick = function () { toggleMobileMenu(false); };
+  if (closeIcon) closeIcon.onclick = function () { toggleMobileMenu(false); };
+
+  // Gestion activation catégorie menu mobile
+  document.querySelectorAll('.mobile-menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+      item.classList.add('active');
+      const cat = item.dataset.cat;
+      const section = document.getElementById(cat);
+      if (section) {
+        const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+        const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+      toggleMobileMenu(false);
+    });
+  });
+
+  // Desktop/Sync menu
+  window.setActiveCategory = function (cat, isMobile) {
+    document.querySelectorAll('.classic-menu-item').forEach(li => li.classList.remove('active'));
+    document.querySelector(`.classic-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+    document.querySelectorAll('.mobile-menu-item').forEach(li => li.classList.remove('active'));
+    document.querySelector(`.mobile-menu-item[data-cat="${cat}"]`)?.classList.add('active');
+    const section = document.getElementById(cat);
+    if (section) {
+      const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hero-h')) || 0;
+      const top = section.getBoundingClientRect().top + window.scrollY - offset - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    if (isMobile) toggleMobileMenu(false);
+  };
+
+  window.setActiveCategory('tacos', false);
 });
 
 // Re-render sur modification du panier dans d'autres onglets/tabs
 window.addEventListener('cartUpdated', () => {
   renderAllProducts();
   handleProductCardEvents();
+  if (window.cartSystem && typeof window.cartSystem.updateCartDisplay === "function") {
+    window.cartSystem.updateCartDisplay();
+  }
 });
-  </script>
-
-  <!-- Panier flottant, parfaitement centré en bas -->
-<div id="cart-fab"
-     class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
-     style="bottom:10px; transform:translateX(-50%);">
-  <!-- SVG Panier amélioré -->
-  <svg width="70" height="70" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="24" fill="#F18701"/>
-    <path d="M14 14h2l4 16h12l4-10H20" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <circle cx="20" cy="36" r="2" fill="#fff"/>
-    <circle cx="32" cy="36" r="2" fill="#fff"/>
-  </svg>
-  <span class="cart-badge" id="cart-fab-price">5,50€</span>
-</div>
+</script>
 
 
 </body>
