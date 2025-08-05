@@ -271,7 +271,7 @@ const products = [
   id: 301,
   name: "Menu Smash Burger",
   slug: "menu-smash-burger",
-  category: "menus",
+  category: "menus-burgers",
   description: "Smash burger au choix, frites, boisson, sauces",
   price: 0, // <-- prix géré dynamiquement
   image: "img/menu-smash.jpg",
@@ -290,7 +290,7 @@ const products = [
   id: 302,
   name: "Menu Signature Burger",
   slug: "menu-signature-burger",
-  category: "menus",
+  category: "menus-burgers",
   description: "Burger signature au choix, frites, boisson, sauces",
   price: 0, // <-- prix géré dynamiquement
   image: "img/menu-signature.jpg",
@@ -309,7 +309,7 @@ const products = [
   id: 303,
   name: "Menu Combo",
   slug: "menu-combo",
-  category: "menus",
+  category: "menus-burgers",
   description: "Burger au choix, frites, boisson, sauces, petit creux",
   price: 0, // <-- prix géré dynamiquement
   image: "img/menu-combo.jpg",
