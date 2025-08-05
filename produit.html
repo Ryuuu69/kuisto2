@@ -1517,6 +1517,11 @@ updateDisplay() {
             }
         } else {
             card.classList.remove('selected');
+           document.querySelectorAll('.size-radio').forEach((radio, index) => {
+        const card = radio.closest('.bigsmash-option-card');
+        if (card) {
+            if (radio.checked) card.classList.add('selected');
+            else card.classList.remove('selected');
         }
     });
 
