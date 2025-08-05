@@ -273,7 +273,7 @@ const products = [
   slug: "menu-smash-burger",
   category: "menus-burgers",
   description: "Smash burger au choix, frites, boisson, sauces",
-  price: 0, // <-- prix géré dynamiquement
+  price: 8.50, // <-- prix géré dynamiquement
   image: "img/menu-smash.jpg",
   options: {
     burgerSelect: smashBurgersMenuChoices,
