@@ -946,15 +946,13 @@ function updateCartFabPrice() {
 function showOrHideCartFab(menuOpen) {
   const cartFab = document.getElementById('cart-fab');
   if (!cartFab) return;
-  // Sur mobile, cacher le panier si le menu mobile est ouvert, sinon toujours visible
+  // Sur mobile, cacher le panier si le menu mobile est ouvert
   if (window.innerWidth < 768 && menuOpen) {
     cartFab.style.display = 'none';
   } else {
     cartFab.style.display = '';
   }
 }
-
-// GÉNÈRE UNE CARTE PRODUIT À PARTIR DES DONNÉES
 function createProductCard(product) {
   const slug = product.slug;
   const cart = getCart();
@@ -1047,11 +1045,7 @@ function handleProductCardEvents() {
   });
 }
 
-// AJOUTER au panier depuis la fiche produit (OU tu peux gérer ailleurs)
-// Si tu veux gérer un bouton "ajouter" dans la fiche produit.html :
-// window.addProductToCart = function(slug) { ... }
-
-// --------------- MENU MOBILE ----------------
+/* ---------------------- MENU MOBILE -------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderAllProducts();
   handleProductCardEvents();
@@ -1132,6 +1126,7 @@ window.addEventListener('storage', () => {
   showOrHideCartFab(false);
 });
 </script>
+
   <!-- Panier flottant, parfaitement centré en bas -->
 <div id="cart-fab"
      class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
