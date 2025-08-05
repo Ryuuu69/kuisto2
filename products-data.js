@@ -127,6 +127,26 @@ const products = [
     }
   },
   {
+  id: 15,
+  name: "BABY SMASH CHEESE",
+  slug: "cheese-burger",
+  category: "sides",
+  description: "Portion de fromage.",
+  price: 2.90,
+  image: "img/cheese.jpg",
+  options: {}
+},
+{
+  id: 16,
+  name: "BABAY SMASH DOUBLE CHEESE",
+  slug: "double-cheese-burger",
+  category: "sides",
+  description: "Double portion de fromage.",
+  price: 3.90,
+  image: "img/cheese.jpg",
+  options: {}
+},
+  {
     id: 106,
     name: "Chèvre Miel",
     slug: "smash-chevre-miel",
@@ -247,61 +267,7 @@ const products = [
     ]
   }
 },
-{
-  id: 10,
-  name: "MENU GOLDEN",
-  slug: "golden-menu",
-  category: "menus-burgers",
-  description: "Golden burger avec frites, boisson, supplément possible.",
-  price: 11.50,
-  image: "img/golden-burger.jpg",
-  options: {
-    supplements: [
-      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-      { name: "Œuf", price: 1.00, image: "img/egg.jpg" }
-    ],
-    remove: [
-      { name: "Sans cornichons", price: 0 },
-      { name: "Sans salade", price: 0 }
-    ],
-    side: [
-      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
-      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
-    ],
-    drinks: [
-      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
-      { name: "Sprite", price: 0, image: "img/sprite.jpg" }
-    ]
-  }
-},
-   {
-  id: 11,
-  name: "MENU SIGNATURE BURGER",
-  slug: "signature-burger",
-  category: "menus-burgers",
-  description: "Burger smash avec frites, boisson au choix et suppléments possibles.",
-  price: 9.90,
-  image: "img/smash-burger.jpg",
-  options: {
-    supplements: [
-      { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-      { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
-    ],
-    remove: [
-      { name: "Sans oignons", price: 0 },
-      { name: "Sans sauce", price: 0 }
-    ],
-    side: [
-      { name: "Frites classiques", price: 0, image: "img/frites.jpg" },
-      { name: "Potatoes", price: 0.50, image: "img/potatoes.jpg" }
-    ],
-    drinks: [
-      { name: "Coca-Cola", price: 0, image: "img/coca.jpg" },
-      { name: "Ice Tea", price: 0, image: "img/icetea.jpg" },
-      { name: "Eau", price: 0, image: "img/eau.jpg" }
-    ]
-  }
-},
+
   {
   id: 12,
   name: "CHICKEN POP",
@@ -350,26 +316,7 @@ const products = [
     ]
   }
 },
-{
-  id: 15,
-  name: "CHEESE",
-  slug: "cheese-side",
-  category: "sides",
-  description: "Portion de fromage.",
-  price: 2.90,
-  image: "img/cheese.jpg",
-  options: {}
-},
-{
-  id: 16,
-  name: "DOUBLE CHEESE",
-  slug: "double-cheese-side",
-  category: "sides",
-  description: "Double portion de fromage.",
-  price: 3.90,
-  image: "img/cheese.jpg",
-  options: {}
-},
+
 {
   id: 17,
   name: "FRITES MAISON",
@@ -380,26 +327,6 @@ const products = [
   image: "img/frites.jpg",
   options: {}
 },
-  {
-    id: 18,
-    name: "SMASH BURGER",
-    slug: "smash-burger-simple",
-    category: "burgers",
-    description: "Burger smash classique avec steak, cheddar, salade, sauce au choix.",
-    price: 6.50,
-    image: "img/smash-burger.jpg",
-    options: {
-      supplements: [
-        { name: "Cheddar supplémentaire", price: 1.00, image: "img/cheddar.jpg" },
-        { name: "Bacon", price: 1.50, image: "img/bacon.jpg" }
-      ],
-      remove: [
-        { name: "Sans oignons", price: 0, image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?w=100&h=100&fit=crop" },
-
-        { name: "Sans sauce", price: 0 }
-      ]
-    }
-  },
   
   {
   id: 21,
@@ -435,7 +362,7 @@ const products = [
   id: 23,
   name: "Tarte au daim",
   slug: "tarte",
-  category: "desserts",
+  category: "boissons-desserts",
   description: "Tarte au Daim : base sablée, crème caramel, éclats de Daim et nappage chocolat. Dessert gourmand et croquant à partager.",
   price: 3.50,
   image: "img/cheese.jpg",
@@ -445,7 +372,7 @@ const products = [
   id: 24,
   name: "Tiramisu",
   slug: "tiramisu",
-  category: "desserts",
+  category: "boissons-desserts",
   description: "Mascarpone crémeux, Nutella, spéculoos croquant et éclats d’Orio — le tiramisu qui fait fondre.",
   price: 3.50,
   image: "img/cheese.jpg",
@@ -455,7 +382,7 @@ const products = [
   id: 25,
   name: "Boisson 33 CL",
   slug: "boisson-33cl",
-  category: "boissons",
+  category: "boissons-desserts",
   description: "Canette de 33 cl au choix (Coca-Cola, Sprite, Fanta, etc.).",
   price: 2.00,
   image: "img/boisson-33cl.jpg",
@@ -465,7 +392,7 @@ const products = [
   id: 26,
   name: "Boisson 1,5 L",
   slug: "boisson-1-5l",
-  category: "boissons",
+  category: "boissons-desserts",
   description: "Bouteille de 1,5 litre au choix.",
   price: 3.50,
   image: "img/boisson-1-5l.jpg",
