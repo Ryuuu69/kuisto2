@@ -1548,12 +1548,12 @@ document.querySelectorAll('.size-radio').forEach((radio, index) => {
     }
 
     // 2️⃣ Menu burgers : prix dynamique selon le burger choisi
-    if (this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burger) {
-        let prixMenu = this.product.price;
-        let prixBurger = this.selectedOptions.burger.price;
-        let minPrix = this.product.options.burgerSelect[0].price;
-        basePrice = prixMenu + (prixBurger - minPrix);
-    }
+if (this.product.options?.burgerSelect?.length > 0 && this.selectedOptions.burger) {
+    let prixBurger = this.selectedOptions.burger.price;
+    let supplementMenu = 2.5;
+    if (this.product.slug === "menu-combo") supplementMenu = 5.0;
+    basePrice = prixBurger + supplementMenu;
+}
 
     // 3️⃣ Tacos : prix dynamique selon meatCount sélectionné
     if (this.product.options?.meatCounts?.length > 0 && this.selectedOptions.meatCount) {
