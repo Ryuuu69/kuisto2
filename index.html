@@ -44,6 +44,18 @@
             transition: background .3s ease, transform .3s ease;
             text-decoration: none;
         }
+       /* Toujours EN DEHORS du media query : la bannière mobile est cachée par défaut */
+.banner-mobile { display: none; }
+
+@media (max-width: 700px) {
+  html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    background: #f7f7f7;
+    box-sizing: border-box;
+  }
 
         .card-arrow .icon {
             width: 20px; 
