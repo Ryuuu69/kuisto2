@@ -109,6 +109,20 @@
 
 /* Petit filet de sécurité contre un éventuel scroll horizontal */
 html, body { overflow-x: hidden; }
+    /* N’afficher qu’UNE bannière à la fois + donner la bonne hauteur */
+.banner-desktop { display: none; }
+.banner-mobile  { display: block; width:100%; height:110px; object-fit:cover; }
+
+@media (min-width:768px){
+  .banner-desktop { display:block; width:100%; height:219px; object-fit:cover; }
+  .banner-mobile  { display:none; }
+}
+
+/* Spacer = hauteur de la bannière, pour éviter que le contenu passe dessous
+   -> ne change PAS ton écart de 40px : il reste géré par .checkout-container */
+.kuisto-header-spacer { height:219px; }
+@media (max-width:767.98px){ .kuisto-header-spacer { height:110px; } }
+
    
 
 
