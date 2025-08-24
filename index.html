@@ -62,21 +62,25 @@
         .store-card:hover .card-arrow .icon { 
             transform: translateX(4px); 
         }
-      /* === BANNIÈRE === */
-.banner-desktop { display: none !important; }
-
-.banner-mobile {
-  display: block !important;
-  width: 100%;
-  height: 110px; /* mobile = 110px (aligné avec le HTML) */
-  object-fit: cover;
-  border-bottom-left-radius: var(--bigsmash-radius-small);
-  border-bottom-right-radius: var(--bigsmash-radius-small);
+     /* === BANNIÈRE === */
+  .banner-desktop { display: none !important; }
+  .banner-mobile {
+    display: block !important;
+    width: 100%;
+    height: 120px; /* adapte la hauteur pour mobile */
+    object-fit: cover;
+    border-bottom-left-radius: var(--bigsmash-radius-small);
+    border-bottom-right-radius: var(--bigsmash-radius-small);
+  }
 }
-
-/* Si tu utilises un wrapper de page (ex: .bigsmash-page-container) */
-.bigsmash-page-container { margin-top: 219px; }          /* desktop */
-@media (max-width: 700px) { .bigsmash-page-container { margin-top: 110px; } } /* mobile */
+      .bigsmash-page-container {
+  margin-top: 219px; /* Desktop : hauteur de la bannière */
+}
+@media (max-width: 700px) {
+  .bigsmash-page-container {
+    margin-top: 120px; /* Mobile : hauteur de la bannière mobile */
+  }
+}
 
     </style>
 </head>
