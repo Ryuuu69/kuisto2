@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuisto - Confirmation de commande</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- préchargement des bannières -->
+<link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
+<link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
+
+  <style>
+    body { background: #f5f6f7; font-family: 'Montserrat', sans-serif; margin: 0; }
+    header { background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    .banner { height: 219px; display: flex; align-items: center; justify-content: center; }
+    .checkout-container { min-height: 80vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 12px; }
+    .checkout-card { background: #fff; border-radius: 32px; box-shadow: 0 6px 36px rgba(0,0,0,0.10); padding: 42px 38px 36px 38px; width: 500px; max-width: 100vw; display: flex; flex-direction: column; align-items: center; position: relative; }
+    .checkout-title { font-size: 2rem; font-weight: 700; margin-bottom: 10px; text-align: center; }
+    .back-btn { position: absolute; top: 0; right: 0; background: #F18701; color: #fff; border-radius: 0 32px 0 32px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; text-decoration: none; box-shadow: 0 3px 14px rgba(0,0,0,0.06); transition: background 0.2s; z-index: 2; }
+    .back-btn:hover { background: #e07600; }
+
+    .big-btn { background: #F18701; color: #fff; border: none; border-radius: 32px; font-size: 1.18rem; font-weight: 600; padding: 16px 24px; box-shadow: 0 4px 24px rgba(234,61,47,0.12); transition: background 0.2s; letter-spacing: .02em; cursor: pointer; margin-top: 18px; text-align: center; text-decoration: none; display: inline-block; }
+    .big-btn:hover { background: #e07600; }
+
+    .status-icon { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); font-size: 1.6rem; }
+    .status-success { background: #e7f7ec; color: #1b5e20; }
+    .status-error { background: #fde8e8; color: #b91c1c; }
+    .status-info { background: #eef2f7; color: #334155; }
+
+    .confirmation-text { font-size: 1.05rem; color: #4b5563; text-align: center; margin: 0 0 6px 0; }
+    .order-ref { font-weight: 700; color: #111827; }
+    .muted { color: #9ca3af; font-size: .95rem; }
+    .divider { width: 100%; height: 2px; background: #f0f0f0; margin: 16px 0 8px 0; border-radius: 2px; }
+
+    .btn-row { width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; transform: translateX(10px); }
+
+    @media (max-width: 640px) {
+      .checkout-card { padding: 20px 8px 24px 8px; border-radius: 18px; }
+      .banner { height: 90px; }
+      .back-btn { width: 38px; height: 38px; font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="banner">
+      <img src="/images/banner.svg" alt="Kuisto Banner" style="max-height: 100%; width:auto;">
+    </div>
+  </header>
+
+  <main class="checkout-container">
+    <section class="checkout-card" aria-live="polite" aria-atomic="true">
+      <a class="back-btn" href="index.html" aria-label="Retour à l'accueil">←</a>
+
+      <div id="statusBadge" class="status-icon status-info" aria-hidden="true">⌛</div>
+      <h1 id="confirmation-title" class="checkout-title">Chargement…</h1>
+      <p id="confirmation-text" class="confirmation-text">Merci de patienter, nous récupérons les informations de votre commande.</p>
+      <div class="divider"></div>
+
+      <div id="confirmation-details" class="confirmation-text muted"></div>
+
+      <div class="btn-row"><a id="confirmation-cta" href="index.html" class="big-btn">Retour à l'accueil</a></div>
+    </section>
+  </main>
