@@ -18,7 +18,16 @@
     /* ====== tes styles existants ====== */
     header { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); }
     .banner { height:180px; display:flex; align-items:center; justify-content:center; }
-    .checkout-container { min-height:80vh; display:flex; justify-content:center; align-items:flex-start; padding:24px 12px; } /* ⇠ etait 40px, on rapproche comme panier */
+
+    /* 👇 Espace voulu entre bannière et carte : 50px */
+    .checkout-container {
+      min-height:80vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:50px 12px 24px; /* top=50px, côtés=12px, bas=24px */
+    }
+
     .checkout-card { background:#fff; border-radius:32px; box-shadow:0 6px 36px rgba(0,0,0,0.10); padding:42px 38px 36px 38px; width:500px; max-width:100vw; display:flex; flex-direction:column; align-items:center; position:relative; }
     .checkout-title { font-size:2rem; font-weight:700; margin-bottom:14px; text-align:center; }
     .back-btn { position:absolute; top:0; right:0; background:#F18701; color:#fff; border-radius:0 32px 0 32px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; font-size:2rem; text-decoration:none; box-shadow:0 3px 14px rgba(0,0,0,0.06); transition:background .2s; z-index:2; }
@@ -48,7 +57,12 @@
     .custom-radio:checked + .radio-custom-icon { background:#F18701; border-color:#F18701; }
     .radio-custom-icon::after { content:''; display:block; width:14px; height:14px; border-radius:50%; background:transparent; transition:background .18s; }
     .custom-radio:checked + .radio-custom-icon::after { background:#F18701; width:14px; height:14px; }
-    @media (max-width:640px){ .checkout-card { padding:20px 8px 24px 8px; border-radius:18px; } .banner { height:90px; } .back-btn { width:38px; height:38px; font-size:1.2rem; } }
+
+    @media (max-width:640px){
+      .checkout-card { padding:20px 8px 24px 8px; border-radius:18px; }
+      .banner { height:90px; }
+      .back-btn { width:38px; height:38px; font-size:1.2rem; }
+    }
 
     /* Réglages champs (tes règles existantes) */
     #checkout-form input[type="text"],
@@ -119,7 +133,7 @@
       .banner-mobile  { display: none; }
     }
 
-    /* Espace sous header fixe : on garde contenu proche (comme panier) */
+    /* Espace sous header fixe = hauteur de la bannière */
     .kuisto-header-spacer { height: 219px; }
     @media (max-width: 767.98px) { .kuisto-header-spacer { height: 110px; } }
   </style>
