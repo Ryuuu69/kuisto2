@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
       <style>
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .bg-kuistoOrange { background-color: #ffffff; }
+        .bg-kuistoOrange { background-color: #F18701; }
         
         /* ———————————————————————————
            VARIABLES GÉNÉRALES
@@ -376,8 +376,8 @@
 }
 .cart-quantity-bar button,
 .cart-quantity-bar a {
-  width: 36px;
-  height: 36px;
+  width: 20px;
+  height: 20px;
   background: transparent;
   border: none;
   color: #fff;
@@ -460,7 +460,7 @@
 #cart-fab .cart-badge {
   position: absolute;
   right: -50px;
-  top: -20px;
+  top: -15px;
   background: #191919;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
@@ -717,7 +717,7 @@ body.mobile-menu-active #cart-fab {
       style="box-shadow: 0 2px 6px rgba(0,0,0,.08);"
     >
       <img
-        src="images/banner.svg"
+        src="/images/banner.svg"
         alt="Kuisto Banner"
         class="w-full h-full object-cover"
       />
@@ -728,7 +728,7 @@ body.mobile-menu-active #cart-fab {
       style="box-shadow: 0 2px 6px rgba(0,0,0,.08); border-bottom-left-radius:1rem; border-bottom-right-radius:1rem;"
     >
       <img
-        src="images/banner mobile.svg"
+        src="/images/banner mobile.svg"
         alt="Kuisto Banner mobile"
         class="w-full h-full object-cover"
       />
@@ -897,10 +897,9 @@ body.mobile-menu-active #cart-fab {
     </div>
 
 <!-- Inclure d'abord les données produit (à mettre dans le <head> ou tout en haut du <body>) -->
-<script src="products-data.js"></script>
-<script src="cart-system.js"></script>
+<script src="/products-data.js"></script>
+<script src="/cart-system.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 
 <script>
 // ========================
@@ -969,8 +968,15 @@ function getCategorySectionId(category) {
 
 function renderAllProducts() {
   const containers = [
-    'tacos-products', 'burgers-products', 'menus-burgers-products',
-    'buckets-products', 'sides-products', 'boissons-products', 'desserts-products', 'hot-dogs-products', 'menus-bambino-products'
+    'tacos-products', 
+    'smash-burgers-products',
+    'burgers-signature-products',
+    'menus-burgers-products',
+    'buckets-products', 
+    'menus-bambino-products',
+    'sides-products',
+    'salades-products',
+    'boissons-desserts-products'
   ];
   containers.forEach(containerId => {
     const container = document.getElementById(containerId);
@@ -989,6 +995,7 @@ function renderAllProducts() {
 function handleProductCardEvents() {
   document.querySelectorAll('.product-card').forEach(card => {
     const slug = card.dataset.productId;
+
     // Bouton supprimer/diminuer
     const removeBtn = card.querySelector('.cart-remove-btn');
     if (removeBtn) {
@@ -996,16 +1003,22 @@ function handleProductCardEvents() {
         e.preventDefault();
         if (window.cartSystem) {
           window.cartSystem.removeLastVariantOfProduct(slug);
+
+          // 💡 1. On rerender TOUT tout de suite (aucune carte individuelle à supprimer manuellement)
           renderAllProducts();
           handleProductCardEvents();
-          if (typeof window.cartSystem.updateCartDisplay === "function") window.cartSystem.updateCartDisplay();
-          if (typeof updateCartFabPrice === "function") updateCartFabPrice();
+
+          // 💡 2. On update le panier si besoin
+          if (typeof window.cartSystem.updateCartDisplay === "function") {
+            window.cartSystem.updateCartDisplay();
+          }
         }
-      }
+      };
     }
     // Le "+" renvoie toujours vers produit.html (aucune action JS ici)
   });
 }
+
 
 // ========================
 // 4. Gestion du bouton panier flottant
@@ -1116,6 +1129,8 @@ window.addEventListener('storage', () => {
   updateCartFabPrice();
 });
 </script>
+
+
 <div id="cart-fab"
      class="fixed left-1/2 z-[10000] flex items-center justify-center w-20 h-20 bg-[#F18701] text-white rounded-full shadow-2xl cursor-pointer transition-transform duration-200"
      style="bottom:10px; transform:translateX(-50%);">
