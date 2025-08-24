@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kuisto - Validation de la commande</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!-- Préchargement des bannières -->
-  <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
-
   <style>
     body { background:#f5f6f7; font-family:'Montserrat',sans-serif; margin:0; }
     header { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); }
@@ -109,52 +105,20 @@
     margin-right: 0;
     box-sizing: border-box;
   }
-
-    
+}
 
 /* Petit filet de sécurité contre un éventuel scroll horizontal */
 html, body { overflow-x: hidden; }
-     /* ====== BANNIÈRE fixe (identique produit.html) ====== */
-    /* Mobile par défaut */
-    .banner-desktop { display: none; }
-    .banner-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
-    /* Desktop (>=768px) */
-    @media (min-width: 768px) {
-      .banner-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
-      .banner-mobile  { display: none; }
-    }
-
-    /* === Espace sous header fixe ===
-       -> on veut 50px entre la bannière et la carte, sans changer la hauteur de la bannière
-       -> on augmente la hauteur du spacer de +50px et on remet le padding-top du conteneur à 0
-    */
-    .kuisto-header-spacer { height: calc(219px + 50px); }           /* desktop: 219 + 50 */
-    @media (max-width: 767.98px) { .kuisto-header-spacer { height: calc(110px + 50px); } }  /* mobile: 110 + 50 */
-
-    /* Empêche tout double écart éventuel */
-    .checkout-container { padding-top: 0 !important; }
 
 
   </style>
 </head>
 <body>
- <!-- Header fixe -->
-  <header class="fixed left-0 top-0 w-full z-40" style="background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);">
-    <!-- Desktop -->
-    <img
-      src="/images/banner.svg"
-      alt="Banner Kuisto"
-      class="banner-desktop"
-      decoding="async"
-    />
-    <!-- Mobile -->
-    <img
-      src="/images/banner mobile.svg"
-      alt="Banner Kuisto Mobile"
-      class="banner-mobile"
-      decoding="async"
-    />
-  </header>
+<header>
+  <div class="banner">
+    <img src="/images/banner.svg" alt="Kuisto Banner" style="max-height:100%; width:auto;">
+  </div>
+</header>
 <!-- Espace pour compenser le header fixe -->
 <div class="kuisto-header-spacer"></div>
 
