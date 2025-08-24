@@ -74,14 +74,6 @@
     border-bottom-right-radius: var(--bigsmash-radius-small);
   }
 }
-      .bigsmash-page-container {
-  margin-top: 219px; /* Desktop : hauteur de la bannière */
-}
-@media (max-width: 700px) {
-  .bigsmash-page-container {
-    margin-top: 120px; /* Mobile : hauteur de la bannière mobile */
-  }
-}
        /* Toujours EN DEHORS du media query : la bannière mobile est cachée par défaut */
 .banner-mobile { display: none; }
 
@@ -94,6 +86,15 @@
     background: #f7f7f7;
     box-sizing: border-box;
   }
+      .bigsmash-page-container {
+  margin-top: 219px; /* Desktop : hauteur de la bannière */
+}
+@media (max-width: 700px) {
+  .bigsmash-page-container {
+    margin-top: 120px; /* Mobile : hauteur de la bannière mobile */
+  }
+}
+      
 
     </style>
 </head>
