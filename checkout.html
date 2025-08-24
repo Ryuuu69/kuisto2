@@ -57,6 +57,17 @@
     .custom-radio:checked + .radio-custom-icon { background:#F18701; border-color:#F18701; }
     .radio-custom-icon::after { content:''; display:block; width:14px; height:14px; border-radius:50%; background:transparent; transition:background .18s; }
     .custom-radio:checked + .radio-custom-icon::after { background:#F18701; width:14px; height:14px; }
+    /* Force exactement 50px entre la bannière fixe et la carte */
+.kuisto-header-spacer + .checkout-container { 
+  padding-top: 50px !important; 
+}
+
+/* Pas de marge fantôme en haut */
+.checkout-container, 
+.checkout-card { 
+  margin-top: 0 !important; 
+}
+
 
     @media (max-width:640px){
       .checkout-card { padding:20px 8px 24px 8px; border-radius:18px; }
