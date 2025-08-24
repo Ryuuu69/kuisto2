@@ -109,7 +109,19 @@
     margin-right: 0;
     box-sizing: border-box;
   }
+}/* No spacer used */
+.kuisto-header-spacer { display: none; }
+
+/* Put the distance directly on the container */
+.checkout-container {
+  padding-top: calc(219px + 50px) !important;   /* desktop: banner + gap */
 }
+@media (max-width: 767.98px) {
+  .checkout-container {
+    padding-top: calc(110px + 50px) !important; /* mobile: banner + gap */
+}
+
+    
 
 /* Petit filet de sécurité contre un éventuel scroll horizontal */
 html, body { overflow-x: hidden; }
