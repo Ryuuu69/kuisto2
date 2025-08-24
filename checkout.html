@@ -4,15 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kuisto - Validation de la commande</title>
+
+  <!-- Police -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Préchargement des bannières (plus rapide) -->
   <link rel="preload" as="image" href="/images/banner.svg" imagesrcset="/images/banner.svg" fetchpriority="high">
-<link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/banner mobile.svg" imagesrcset="/images/banner mobile.svg" fetchpriority="high">
 
   <style>
     body { background:#f5f6f7; font-family:'Montserrat',sans-serif; margin:0; }
+
+    /* ====== tes styles existants ====== */
     header { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); }
     .banner { height:180px; display:flex; align-items:center; justify-content:center; }
-    .checkout-container { min-height:80vh; display:flex; justify-content:center; align-items:flex-start; padding:40px 12px; }
+    .checkout-container { min-height:80vh; display:flex; justify-content:center; align-items:flex-start; padding:24px 12px; } /* ⇠ etait 40px, on rapproche comme panier */
     .checkout-card { background:#fff; border-radius:32px; box-shadow:0 6px 36px rgba(0,0,0,0.10); padding:42px 38px 36px 38px; width:500px; max-width:100vw; display:flex; flex-direction:column; align-items:center; position:relative; }
     .checkout-title { font-size:2rem; font-weight:700; margin-bottom:14px; text-align:center; }
     .back-btn { position:absolute; top:0; right:0; background:#F18701; color:#fff; border-radius:0 32px 0 32px; width:48px; height:48px; display:flex; align-items:center; justify-content:center; font-size:2rem; text-decoration:none; box-shadow:0 3px 14px rgba(0,0,0,0.06); transition:background .2s; z-index:2; }
@@ -43,112 +49,100 @@
     .radio-custom-icon::after { content:''; display:block; width:14px; height:14px; border-radius:50%; background:transparent; transition:background .18s; }
     .custom-radio:checked + .radio-custom-icon::after { background:#F18701; width:14px; height:14px; }
     @media (max-width:640px){ .checkout-card { padding:20px 8px 24px 8px; border-radius:18px; } .banner { height:90px; } .back-btn { width:38px; height:38px; font-size:1.2rem; } }
-    /* Réduit la largeur visuelle des champs du formulaire (desktop) */
-#checkout-form input[type="text"],
-#checkout-form input[type="tel"],
-#checkout-form input[type="email"],
-#checkout-form input[type="number"],
-#checkout-form textarea,
-#checkout-form select {
-  width: 100%;          /* reste fluide */
-  max-width: 420px;     /* ⇠ ajuste la “longueur” ici (ex: 460px, 500px…) */
-  margin-left: auto;    /* centre le champ dans la carte */
-  margin-right: auto;
-  box-sizing: border-box;
-}
 
-/* Option : réduit un peu la hauteur si tu veux */
-#checkout-form input[type="text"],
-#checkout-form input[type="tel"],
-#checkout-form input[type="email"],
-#checkout-form input[type="number"],
-#checkout-form select {
-  height: 44px;         /* ex: 40–48px */
-  padding: 10px 14px;
-}
+    /* Réglages champs (tes règles existantes) */
+    #checkout-form input[type="text"],
+    #checkout-form input[type="tel"],
+    #checkout-form input[type="email"],
+    #checkout-form input[type="number"],
+    #checkout-form textarea,
+    #checkout-form select {
+      width: 100%;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+    }
+    #checkout-form input[type="text"],
+    #checkout-form input[type="tel"],
+    #checkout-form input[type="email"],
+    #checkout-form input[type="number"],
+    #checkout-form select {
+      height: 44px;
+      padding: 10px 14px;
+    }
+    @media (max-width: 640px) {
+      #checkout-form input[type="text"],
+      #checkout-form input[type="tel"],
+      #checkout-form input[type="email"],
+      #checkout-form input[type="number"],
+      #checkout-form textarea,
+      #checkout-form select {
+        max-width: 100%;
+      }
+    }
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+    @media (max-width: 640px) {
+      .checkout-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 12px 24px;
+      }
+      #checkout-items-container,
+      #checkout-form { width: 100%; max-width: 100%; }
+      #checkout-form input[type="text"],
+      #checkout-form input[type="tel"],
+      #checkout-form input[type="email"],
+      #checkout-form input[type="number"],
+      #checkout-form textarea,
+      #checkout-form select {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+      }
+    }
+    html, body { overflow-x: hidden; }
 
-/* Mobile : on laisse la pleine largeur */
-@media (max-width: 640px) {
-  #checkout-form input[type="text"],
-  #checkout-form input[type="tel"],
-  #checkout-form input[type="email"],
-  #checkout-form input[type="number"],
-  #checkout-form textarea,
-  #checkout-form select {
-    max-width: 100%;
-  }
-}
-/* --- Fix overflow mobile pour la carte + champs --- */
-*,
-*::before,
-*::after { box-sizing: border-box; } /* évite les dépassements liés aux bordures/paddings */
+    /* ====== BANNIÈRE fixe (identique produit.html) ====== */
 
-@media (max-width: 640px) {
-  /* La carte ne doit jamais dépasser le conteneur */
-  .checkout-card {
-    width: 100%;
-    max-width: 100%;                 /* au lieu de 100vw */
-    padding: 20px 12px 24px;         /* garde un peu d'air sans forcer un débordement */
-  }
+    /* Mobile par défaut */
+    .banner-desktop { display: none; }
+    .banner-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
 
-  /* Les blocs internes restent dans la carte */
-  #checkout-items-container,
-  #checkout-form { width: 100%; max-width: 100%; }
+    /* Desktop (>=768px) */
+    @media (min-width: 768px) {
+      .banner-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
+      .banner-mobile  { display: none; }
+    }
 
-  /* Les champs ne dépassent jamais */
-  #checkout-form input[type="text"],
-  #checkout-form input[type="tel"],
-  #checkout-form input[type="email"],
-  #checkout-form input[type="number"],
-  #checkout-form textarea,
-  #checkout-form select {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    box-sizing: border-box;
-  }
-}
-
-/* Petit filet de sécurité contre un éventuel scroll horizontal */
-html, body { overflow-x: hidden; }
-/* === Bannière checkout : identique à produit.html === */
-
-/* Par défaut (mobile) */
-.banner-desktop { display: none; }
-.banner-mobile  { display: block; width: 100%; height: 110px; object-fit: cover; }
-
-/* Desktop (>=768px) */
-@media (min-width: 768px) {
-  .banner-desktop { display: block; width: 100%; height: 219px; object-fit: cover; }
-  .banner-mobile  { display: none; }
-}
-
-/* Espace sous header fixe pour ne pas recouvrir le contenu */
-.kuisto-header-spacer { height: 219px; }
-@media (max-width: 767.98px) { .kuisto-header-spacer { height: 110px; } }
-
-
+    /* Espace sous header fixe : on garde contenu proche (comme panier) */
+    .kuisto-header-spacer { height: 219px; }
+    @media (max-width: 767.98px) { .kuisto-header-spacer { height: 110px; } }
   </style>
 </head>
+
 <body>
-<!-- Header fixe (comme produit.html) -->
-<header class="fixed left-0 top-0 w-full z-40" style="background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);">
-  <!-- Desktop -->
-  <img
-    src="/images/banner.svg"
-    alt="Banner Kuisto"
-    class="banner-desktop"
-    decoding="async"
-  />
-  <!-- Mobile -->
-  <img
-    src="/images/banner mobile.svg"
-    alt="Banner Kuisto Mobile"
-    class="banner-mobile"
-    decoding="async"
-  />
-</header>
+  <!-- Header fixe (comme produit.html) -->
+  <header class="fixed left-0 top-0 w-full z-40" style="background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08);">
+    <!-- Desktop -->
+    <img
+      src="/images/banner.svg"
+      alt="Banner Kuisto"
+      class="banner-desktop"
+      decoding="async"
+    />
+    <!-- Mobile -->
+    <img
+      src="/images/banner mobile.svg"
+      alt="Banner Kuisto Mobile"
+      class="banner-mobile"
+      decoding="async"
+    />
+  </header>
 
 <!-- Espace pour compenser le header fixe -->
 <div class="kuisto-header-spacer"></div>
